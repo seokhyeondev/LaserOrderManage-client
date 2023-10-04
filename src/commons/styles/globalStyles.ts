@@ -1,6 +1,12 @@
 import { css } from "@emotion/react";
 
 export const globalStyles = css`
+  :root {
+    --color-primary: #ea5455;
+    --color-white: #ffffff;
+
+    --border-radius: 10px;
+  }
   * {
     margin: 0px;
     padding: 0px;
