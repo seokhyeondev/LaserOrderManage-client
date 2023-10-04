@@ -37,5 +37,4 @@ export const HeaderButton = styled.button`
   border-radius: var(--border-radius);
   background-color: var(--color-primary);
   color: var(--color-white);
-  cursor: pointer;
 `;
