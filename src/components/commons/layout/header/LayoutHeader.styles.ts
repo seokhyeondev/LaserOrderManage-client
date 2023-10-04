@@ -15,6 +15,10 @@ export const InnerWrapper = styled.div`
   flex-direction: row;
 `;
 
+export const LogoWrapper = styled.a`
+  cursor: pointer;
+`;
+
 export const MenuWrapper = styled.div`
   display: flex;
   flex-direction: row;
