@@ -24,11 +24,13 @@ export default function LayoutHeader() {
         />
         <MenuWrapper>
           {NAVIGATION_MENU.map((el) => (
-            <MenuItem key={el.page}>{el.name}</MenuItem>
+            <MenuItem className="medium20" key={el.page}>
+              {el.name}
+            </MenuItem>
           ))}
         </MenuWrapper>
       </InnerWrapper>
-      <HeaderButton>로그인</HeaderButton>
+      <HeaderButton className="bold16">로그인</HeaderButton>
     </Wrapper>
   );
 }
