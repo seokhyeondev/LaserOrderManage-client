@@ -39,6 +39,7 @@ export const ErrorMessage = styled.p`
   height: 14px;
   color: var(--color-alert);
   margin-bottom: 15px;
+  padding-left: 5px;
 `;
 
 export const LoginButton = styled.button`
