@@ -10,7 +10,8 @@ export const LabelWrapper = styled.div`
 `;
 
 export const Label = styled.p`
-  color: var(--color-normalGray);
+  color: ${(props: IProgressProps) =>
+    props.isActive ? "var(--color-primary)" : "var(--color-normalGray)"};
   width: 100px;
   text-align: center;
 
@@ -43,11 +44,12 @@ export const Bar = styled.div`
 `;
 
 export const ActiveBar = styled.div`
-  width: 74.5%;
+  width: ${(props: IActiveBarProps) => props.percentage};
   height: 16px;
   position: absolute;
   background-color: var(--color-primary);
-  border-radius: 8px 0 0 8px;
+  border-radius: ${(props: IActiveBarProps) =>
+    props.percentage === "100%" ? "8px" : "8px 0 0 8px"};
 `;
 
 export const CircleWrapper = styled.div`
@@ -56,9 +58,11 @@ export const CircleWrapper = styled.div`
 `;
 
 export const Circle = styled.div`
-  width: 16px;
-  height: 16px;
+  width: ${(props: IProgressProps) => (props.isActive ? "22px" : "16px")};
+  height: ${(props: IProgressProps) => (props.isActive ? "22px" : "16px")};
   border-radius: 16px;
   background-color: var(--color-white);
-  border: 1px solid var(--color-mediumGray);
+  border: 1px solid
+    ${(props: IProgressProps) =>
+      props.isActive ? "var(--color-primary)" : "var(--color-mediumGray)"};
 `;

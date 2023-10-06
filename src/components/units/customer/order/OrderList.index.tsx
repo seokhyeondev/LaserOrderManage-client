@@ -38,7 +38,7 @@ export default function OrderList() {
         onFilterClick={onFilterClick}
         filterMap={filterMap}
       />
-      <OrderProgressbar />
+      <OrderProgressbar stage={"shipping"} />
     </BodyWrapper>
   );
 }
