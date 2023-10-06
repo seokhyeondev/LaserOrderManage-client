@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { IFilterProps } from "./OrderFilterTypes";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -28,4 +29,6 @@ export const FilterLabel = styled.p`
 
 export const Filter = styled.a`
   margin-right: 30px;
+  color: ${(props: IFilterProps) =>
+    props.isSelect ? "var(--color-primary)" : "var(--color-mediumGray)"};
 `;

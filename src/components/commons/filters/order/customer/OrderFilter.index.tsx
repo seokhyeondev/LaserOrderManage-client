@@ -8,13 +8,14 @@ import {
 } from "../OrderFilter.styles";
 import Image from "next/image";
 import { MANUFACTURING, STAGE } from "../OrderFilterQueries";
+import { ICustomerOrderFilterProps } from "./OrderFilter.types";
 
 const FILTERS = [
   { index: 0, content: STAGE },
   { index: 1, content: MANUFACTURING },
 ];
 
-export default function OrderFilter() {
+export default function OrderFilter(props: ICustomerOrderFilterProps) {
   return (
     <Wrapper>
       <HeaderWrapper className="flex-row-between">
@@ -28,14 +29,25 @@ export default function OrderFilter() {
               alt="초기화 아이콘"
             />
           </RedoIconWrapper>
-          <p className="medium16">필터 초기화</p>
+          <p className="medium16" onClick={() => props.onResetFilter()}>
+            필터 초기화
+          </p>
         </a>
       </HeaderWrapper>
       {FILTERS.map((el) => (
         <FilterWrapper className="flex-row" key={el.index}>
           <FilterLabel className="medium16">{el.content.title}</FilterLabel>
           {el.content.filters.map((filter) => (
-            <Filter className="medium16">{filter.name}</Filter>
+            <Filter
+              className="medium16"
+              key={filter.value}
+              isSelect={
+                props.filterMap.get(el.index)?.includes(filter.value) ?? false
+              }
+              onClick={() => props.onFilterClick(el.index, filter.value)}
+            >
+              {filter.name}
+            </Filter>
           ))}
         </FilterWrapper>
       ))}
