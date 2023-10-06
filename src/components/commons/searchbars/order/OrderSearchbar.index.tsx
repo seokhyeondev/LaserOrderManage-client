@@ -1,4 +1,4 @@
-import { IOrderSearchbarProps } from "./OrderSearchBar.types";
+import { IOrderSearchbarProps } from "./OrderSearchbar.types";
 import {
   IconWrapper,
   Searchbar,
