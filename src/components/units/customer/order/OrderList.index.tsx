@@ -1,4 +1,5 @@
 import OrderFilter from "@/src/components/commons/filters/order/customer/OrderFilter.index";
+import OrderProgressbar from "@/src/components/commons/progressbar/order/OrderProgressbar.index";
 import OrderSearchbar from "@/src/components/commons/searchbars/order/OrderSearchbar.index";
 import { BodyWrapper } from "@/src/components/commons/wrapper/BodyWrapper.styles";
 import { ChangeEvent, useState } from "react";
@@ -37,6 +38,7 @@ export default function OrderList() {
         onFilterClick={onFilterClick}
         filterMap={filterMap}
       />
+      <OrderProgressbar />
     </BodyWrapper>
   );
 }

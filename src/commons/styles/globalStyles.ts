@@ -107,11 +107,17 @@ export const globalStyles = css`
   .flex-column {
     display: flex;
     flex-direction: column;
+    justify-content: center;
   }
   .flex-column-center {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  .flex-column-between {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .flex-row {
     display: flex;
