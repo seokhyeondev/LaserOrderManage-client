@@ -4,6 +4,7 @@ import { BodyWrapper } from "@/src/components/commons/wrapper/BodyWrapper.styles
 import { ChangeEvent, useState } from "react";
 import CustomerOrderList from "./List/OrderList.index";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
+import { useModal } from "@/src/components/commons/hooks/customs/useModal";
 
 const mockData = {
   id: 0,
@@ -14,11 +15,13 @@ const mockData = {
   createdAt: "2023-10-15",
   deliveryAt: "2023-10-30",
   cost: 10000000,
-  request: "adsfjklhaklsdf",
+  request: "배송시 부품을 조심히 다뤄주세요.",
 };
 
 export default function Order() {
   const [filterMap, setFilterMap] = useState(new Map<number, Array<string>>());
+  const [isOpen, onOpenModal, onCloseModal] = useModal();
+  const [modalContent, setModalContent] = useState<Array<string>>();
 
   const onChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {};
 
@@ -39,6 +42,11 @@ export default function Order() {
     setFilterMap(new Map(updatedMap));
   };
 
+  const onOpenModalWithContent = (name: string, request: string) => {
+    setModalContent([name, request]);
+    onOpenModal();
+  };
+
   return (
     <>
       <BodyWrapper className="flex-column-center">
@@ -52,9 +60,16 @@ export default function Order() {
           onFilterClick={onFilterClick}
           filterMap={filterMap}
         />
-        <CustomerOrderList data={mockData} />
+        <CustomerOrderList
+          data={mockData}
+          onOpenModal={onOpenModalWithContent}
+        />
       </BodyWrapper>
-      <OrderModal />
+      <OrderModal
+        isOpen={isOpen}
+        content={modalContent!!}
+        onCloseModal={onCloseModal}
+      />
     </>
   );
 }

@@ -15,7 +15,6 @@ export default function CustomerOrderList(props: IOrderListProps) {
             height={200}
             src="/images/netflix.webp"
             alt="리스트 이미지"
-            objectFit="cover"
           />
         </S.ImageWrapper>
         <S.InfoWrapper className="flex-column-between">
@@ -30,7 +29,16 @@ export default function CustomerOrderList(props: IOrderListProps) {
             <S.HeaderWrapper className="flex-row-between-center">
               <div className="flex-row-bottom">
                 <S.OrderName className="bold20">{props.data.name}</S.OrderName>
-                <S.OrderRequest className="regular14">요청사항</S.OrderRequest>
+                {typeof props.data.request !== "undefined" && (
+                  <S.OrderRequest
+                    className="regular14"
+                    onClick={() =>
+                      props.onOpenModal(props.data.name, props.data.request!!)
+                    }
+                  >
+                    요청사항
+                  </S.OrderRequest>
+                )}
               </div>
               {typeof props.data.cost !== "undefined" && (
                 <p className="bold24">{getCost(props.data.cost)}</p>

@@ -12,4 +12,5 @@ type IOrderList = {
 
 export interface IOrderListProps {
   data: IOrderList;
+  onOpenModal: (name: string, request: string) => void;
 }
