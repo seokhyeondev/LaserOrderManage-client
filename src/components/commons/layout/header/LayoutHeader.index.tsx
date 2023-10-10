@@ -1,25 +1,19 @@
-import {
-  HeaderButton,
-  InnerWrapper,
-  LogoWrapper,
-  MenuItem,
-  MenuWrapper,
-  Wrapper,
-} from "./LayoutHeader.styles";
+import * as S from "./LayoutHeader.styles";
 import { useMoveToPage } from "../../hooks/customs/useMoveToPage";
 import Image from "next/image";
 
 const NAVIGATION_MENU = [
   { name: "견적 요청하기", page: "/" },
   { name: "거래 목록", page: "/customer/order" },
+  { name: "신규 거래 목록", page: "/factory/order/newissue" },
 ];
 
 export default function LayoutHeader() {
   const { onClickMoveToPage } = useMoveToPage();
   return (
-    <Wrapper>
-      <InnerWrapper>
-        <LogoWrapper>
+    <S.Wrapper>
+      <S.InnerWrapper>
+        <S.LogoWrapper>
           <Image
             width={180}
             height={33}
@@ -27,22 +21,22 @@ export default function LayoutHeader() {
             alt="메인 로고"
             onClick={onClickMoveToPage("/")}
           />
-        </LogoWrapper>
-        <MenuWrapper>
+        </S.LogoWrapper>
+        <S.MenuWrapper>
           {NAVIGATION_MENU.map((el) => (
-            <MenuItem
+            <S.MenuItem
               key={el.page}
               className="medium20"
               onClick={onClickMoveToPage(el.page)}
             >
               {el.name}
-            </MenuItem>
+            </S.MenuItem>
           ))}
-        </MenuWrapper>
-      </InnerWrapper>
-      <HeaderButton className="bold16" onClick={onClickMoveToPage("/login")}>
+        </S.MenuWrapper>
+      </S.InnerWrapper>
+      <S.HeaderButton className="bold16" onClick={onClickMoveToPage("/login")}>
         로그인
-      </HeaderButton>
-    </Wrapper>
+      </S.HeaderButton>
+    </S.Wrapper>
   );
 }
