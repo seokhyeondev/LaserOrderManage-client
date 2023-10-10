@@ -3,7 +3,19 @@ import OrderProgressbar from "@/src/components/commons/progressbar/order/OrderPr
 import OrderSearchbar from "@/src/components/commons/searchbars/order/OrderSearchbar.index";
 import { BodyWrapper } from "@/src/components/commons/wrapper/BodyWrapper.styles";
 import { ChangeEvent, useState } from "react";
-import CustomerOrderList from "./List/OrderList";
+import CustomerOrderList from "./List/OrderList.index";
+
+const mockData = {
+  id: 0,
+  name: "실리콘 부품 제작 프로젝트",
+  imgUrl: "asdf",
+  stage: "shipping",
+  manufacturing: "laser-cutting",
+  createdAt: "2023-10-15",
+  deliveryAt: "2023-10-30",
+  cost: 10000000,
+  request: "adsfjklhaklsdf",
+};
 
 export default function Order() {
   const [filterMap, setFilterMap] = useState(new Map<number, Array<string>>());
@@ -39,7 +51,7 @@ export default function Order() {
         onFilterClick={onFilterClick}
         filterMap={filterMap}
       />
-      <CustomerOrderList />
+      <CustomerOrderList data={mockData} />
     </BodyWrapper>
   );
 }
