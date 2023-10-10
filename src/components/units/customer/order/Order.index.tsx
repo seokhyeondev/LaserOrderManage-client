@@ -11,7 +11,7 @@ const mockData = {
   name: "실리콘 부품 제작 프로젝트",
   imgUrl: "asdf",
   stage: "shipping",
-  manufacturing: "laser-cutting",
+  manufacturing: "laser-cutting,bending",
   createdAt: "2023-10-15",
   deliveryAt: "2023-10-30",
   cost: 10000000,

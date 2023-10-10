@@ -17,3 +17,17 @@ export const MANUFACTURING = {
     { name: "용접", value: "welding-fabrication" },
   ],
 };
+
+export const getManufacturings = (value: string): string => {
+  const values = value.split(",");
+  const manufacturings: string[] = [];
+
+  values.forEach((v) => {
+    const filter = MANUFACTURING.filters.find((f) => f.value === v);
+    if (filter) {
+      manufacturings.push(filter.name);
+    }
+  });
+
+  return manufacturings.join(", ");
+};

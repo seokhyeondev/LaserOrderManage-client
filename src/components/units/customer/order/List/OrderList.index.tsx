@@ -2,7 +2,10 @@ import OrderProgressbar from "@/src/components/commons/progressbar/order/OrderPr
 import * as S from "./OrderList.styles";
 import Image from "next/image";
 import { IOrderListProps } from "./OrderList.types";
-import { STAGE } from "@/src/components/commons/filters/order/OrderFilterQueries";
+import {
+  STAGE,
+  getManufacturings,
+} from "@/src/components/commons/filters/order/OrderFilterQueries";
 import { getDate, getCost } from "@/src/commons/libraries/utils";
 
 export default function CustomerOrderList(props: IOrderListProps) {
@@ -46,7 +49,9 @@ export default function CustomerOrderList(props: IOrderListProps) {
             </S.HeaderWrapper>
             <S.ManufacturingWrapper className="flex-row">
               <S.InfoLabel className="regular16">작업 범위</S.InfoLabel>
-              <p className="regular16">레이저 가공, 절곡</p>
+              <p className="regular16">
+                {getManufacturings(props.data.manufacturing)}
+              </p>
             </S.ManufacturingWrapper>
             <div className="flex-row">
               <S.DateWrapper className="flex-row">
