@@ -1,5 +1,5 @@
-import OrderList from "@/src/components/units/customer/order/OrderList.index";
+import Order from "@/src/components/units/customer/order/Order.index";
 
 export default function CustomerOrdersPage() {
-  return <OrderList />;
+  return <Order />;
 }

@@ -128,7 +128,17 @@ export const globalStyles = css`
     flex-direction: row;
     justify-content: center;
   }
+  .flex-row-bottom {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+  }
   .flex-row-between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .flex-row-between-center {
     display: flex;
     flex-direction: row;
     justify-content: space-between;

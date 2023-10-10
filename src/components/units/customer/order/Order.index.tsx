@@ -3,8 +3,9 @@ import OrderProgressbar from "@/src/components/commons/progressbar/order/OrderPr
 import OrderSearchbar from "@/src/components/commons/searchbars/order/OrderSearchbar.index";
 import { BodyWrapper } from "@/src/components/commons/wrapper/BodyWrapper.styles";
 import { ChangeEvent, useState } from "react";
+import CustomerOrderList from "./List/OrderList";
 
-export default function OrderList() {
+export default function Order() {
   const [filterMap, setFilterMap] = useState(new Map<number, Array<string>>());
 
   const onChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {};
@@ -38,7 +39,7 @@ export default function OrderList() {
         onFilterClick={onFilterClick}
         filterMap={filterMap}
       />
-      <OrderProgressbar stage={"shipping"} />
+      <CustomerOrderList />
     </BodyWrapper>
   );
 }

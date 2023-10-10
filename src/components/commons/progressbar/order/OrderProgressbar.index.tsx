@@ -13,7 +13,7 @@ import { STAGE } from "../../filters/order/OrderFilterQueries";
 export default function OrderProgressbar(props: IOrderProgressbarProps) {
   return (
     <Wrapper>
-      <LabelWrapper className="flex-row-between">
+      <LabelWrapper className="flex-row-between-center">
         {STAGE.filters.map((el) => (
           <Label
             key={el.value}
@@ -32,7 +32,7 @@ export default function OrderProgressbar(props: IOrderProgressbarProps) {
               ?.percentage ?? "0"
           }
         />
-        <CircleWrapper className="flex-row-between">
+        <CircleWrapper className="flex-row-between-center">
           {STAGE.filters.map((el) => (
             <Circle key={el.value} isActive={props.stage === el.value} />
           ))}
