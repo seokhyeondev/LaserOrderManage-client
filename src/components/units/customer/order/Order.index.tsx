@@ -1,9 +1,9 @@
 import OrderFilter from "@/src/components/commons/filters/order/customer/OrderFilter.index";
-import OrderProgressbar from "@/src/components/commons/progressbar/order/OrderProgressbar.index";
 import OrderSearchbar from "@/src/components/commons/searchbars/order/OrderSearchbar.index";
 import { BodyWrapper } from "@/src/components/commons/wrapper/BodyWrapper.styles";
 import { ChangeEvent, useState } from "react";
 import CustomerOrderList from "./List/OrderList.index";
+import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
 
 const mockData = {
   id: 0,
@@ -40,18 +40,21 @@ export default function Order() {
   };
 
   return (
-    <BodyWrapper className="flex-column-center">
-      <p className="page-title">거래 목록</p>
-      <OrderSearchbar
-        placeholder="거래 이름으로 검색하기"
-        onChangeSearchBar={onChangeKeyword}
-      />
-      <OrderFilter
-        onResetFilter={onResetFilter}
-        onFilterClick={onFilterClick}
-        filterMap={filterMap}
-      />
-      <CustomerOrderList data={mockData} />
-    </BodyWrapper>
+    <>
+      <BodyWrapper className="flex-column-center">
+        <p className="page-title">거래 목록</p>
+        <OrderSearchbar
+          placeholder="거래 이름으로 검색하기"
+          onChangeSearchBar={onChangeKeyword}
+        />
+        <OrderFilter
+          onResetFilter={onResetFilter}
+          onFilterClick={onFilterClick}
+          filterMap={filterMap}
+        />
+        <CustomerOrderList data={mockData} />
+      </BodyWrapper>
+      <OrderModal />
+    </>
   );
 }
