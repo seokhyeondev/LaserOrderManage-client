@@ -1,39 +1,15 @@
 import * as S from "./OrderModal.styles";
 import Image from "next/image";
 import { IOrderModalProps } from "./OrderModal.types";
-import { useRef, MouseEvent, useEffect } from "react";
+import Modal from "../Modal.index";
 
 export default function OrderModal(props: IOrderModalProps) {
-  const modalRef = useRef(null);
-
-  const handleOutsideClick = (event: MouseEvent<HTMLElement>) => {
-    if (modalRef.current === event.target) {
-      props.onCloseModal();
-    }
-  };
-
-  useEffect(() => {
-    if (props.isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [props.isOpen]);
-
-  if (!props.isOpen) {
-    return null;
-  }
-
   return (
-    <S.ModalOverlay
-      className="flex-center"
-      onClick={handleOutsideClick}
-      ref={modalRef}
-    >
+    <Modal isOpen={props.isOpen} onClose={props.onClose}>
       <S.ModalWrapper>
         <S.ModalHeader className="flex-row-between">
           <p className="bold28">요청사항</p>
-          <S.ModalCloseIcon onClick={props.onCloseModal}>
+          <S.ModalCloseIcon onClick={props.onClose}>
             <Image
               src="/images/multiply.svg"
               width={20}
@@ -43,12 +19,12 @@ export default function OrderModal(props: IOrderModalProps) {
           </S.ModalCloseIcon>
         </S.ModalHeader>
         <S.ModalProjectName className="medium20">
-          {props.content[0]}
+          {props.content.name}
         </S.ModalProjectName>
         <S.ModalContent>
-          <p className="medium20">{props.content[1]}</p>
+          <p className="medium20">{props.content.request}</p>
         </S.ModalContent>
       </S.ModalWrapper>
-    </S.ModalOverlay>
+    </Modal>
   );
 }

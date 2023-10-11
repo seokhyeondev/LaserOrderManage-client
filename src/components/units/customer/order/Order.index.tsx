@@ -72,8 +72,8 @@ export default function Order() {
       </BodyWrapper>
       <OrderModal
         isOpen={isOpen}
-        content={modalContent!!}
-        onCloseModal={onCloseModal}
+        content={{ name: "프로젝트", request: "adf" }}
+        onClose={onCloseModal}
       />
     </>
   );
