@@ -1,7 +1,7 @@
 import OrderFilter from "@/src/components/commons/filters/order/OrderFilter.index";
 import OrderSearchbar from "@/src/components/commons/searchbars/order/OrderSearchbar.index";
 import { BodyWrapper } from "@/src/components/commons/wrapper/BodyWrapper.styles";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import CustomerOrderList from "./List/OrderList.index";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
 import { useOrderModal } from "@/src/components/commons/hooks/customs/useModal";
@@ -9,6 +9,7 @@ import {
   MANUFACTURING,
   STAGE,
 } from "@/src/components/commons/filters/order/OrderFilterQueries";
+import { useOrderFilter } from "@/src/components/commons/hooks/customs/useFilter";
 
 const mockData = {
   id: 0,
@@ -23,27 +24,10 @@ const mockData = {
 };
 
 export default function Order() {
-  const [filterMap, setFilterMap] = useState(new Map<number, Array<string>>());
+  const { filterMap, onResetFilter, onFilterClick } = useOrderFilter();
   const { isOpen, content, onOpenWithContent, onClose } = useOrderModal();
 
   const onChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {};
-
-  const onResetFilter = () => {
-    setFilterMap(new Map<number, Array<string>>());
-  };
-
-  const onFilterClick = (index: number, value: string) => {
-    const filteredList = filterMap.get(index) ?? [];
-    const isSelected = filteredList.includes(value);
-    if (isSelected) {
-      const selectedIndex = filteredList.indexOf(value);
-      filteredList.splice(selectedIndex, 1);
-    } else {
-      filteredList.push(value);
-    }
-    const updatedMap = filterMap.set(index, filteredList);
-    setFilterMap(new Map(updatedMap));
-  };
 
   return (
     <>

@@ -7,6 +7,7 @@ import { IOrderTab } from "@/src/components/commons/tabs/order/OrderTab.types";
 import NewFactoryOrderList from "./List/OrderList.index";
 import { useOrderModal } from "@/src/components/commons/hooks/customs/useModal";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
+import { useOrderFilter } from "@/src/components/commons/hooks/customs/useFilter";
 
 const mockData = {
   id: 0,
@@ -27,28 +28,11 @@ const mockData = {
 
 export default function Order() {
   const [tab, setTab] = useState(NEW_ORDER_TAB[0]);
-  const [filterMap, setFilterMap] = useState(new Map<number, Array<string>>());
+  const { filterMap, onResetFilter, onFilterClick } = useOrderFilter();
   const { isOpen, content, onOpenWithContent, onClose } = useOrderModal();
 
   const onTabClick = (tabItem: IOrderTab) => {
     setTab(tabItem);
-  };
-
-  const onResetFilter = () => {
-    setFilterMap(new Map<number, Array<string>>());
-  };
-
-  const onFilterClick = (index: number, value: string) => {
-    const filteredList = filterMap.get(index) ?? [];
-    const isSelected = filteredList.includes(value);
-    if (isSelected) {
-      const selectedIndex = filteredList.indexOf(value);
-      filteredList.splice(selectedIndex, 1);
-    } else {
-      filteredList.push(value);
-    }
-    const updatedMap = filterMap.set(index, filteredList);
-    setFilterMap(new Map(updatedMap));
   };
 
   return (
