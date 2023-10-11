@@ -9,6 +9,7 @@ import {
   QUOTATION,
 } from "@/src/components/commons/filters/order/OrderFilterQueries";
 import { IOrderTab } from "@/src/components/commons/tabs/order/OrderTab.types";
+import NewFactoryOrderList from "./List/OrderList.index";
 
 export default function Order() {
   const [tab, setTab] = useState(NEW_ISSUE_TAB[0]);
@@ -56,6 +57,7 @@ export default function Order() {
           onResetFilter={onResetFilter}
           onFilterClick={onFilterClick}
         />
+        <NewFactoryOrderList />
       </BodyWrapper>
     </>
   );

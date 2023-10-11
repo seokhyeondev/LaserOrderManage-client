@@ -19,18 +19,24 @@ export const InfoWrapper = styled.div`
   padding-top: 12px;
 `;
 
-export const StageLabel = styled.p`
-  color: var(--color-darkGray);
+export const QuotationLabel = styled.div`
+  color: var(--color-blue);
   margin-bottom: 10px;
 `;
 
 export const HeaderWrapper = styled.div`
   width: 100%;
-  margin-bottom: 21px;
+  margin-bottom: 18px;
 `;
 
 export const OrderName = styled.p`
   margin-right: 7px;
+`;
+
+export const OrderUrgent = styled.p`
+  color: var(--color-primary);
+  margin-right: 6px;
+  padding-bottom: 3px;
 `;
 
 export const OrderRequest = styled.a`

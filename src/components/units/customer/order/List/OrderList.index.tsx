@@ -47,22 +47,22 @@ export default function CustomerOrderList(props: IOrderListProps) {
                 <p className="bold24">{getCost(props.data.cost)}</p>
               )}
             </S.HeaderWrapper>
-            <S.ManufacturingWrapper className="flex-row">
+            <S.InfoContentWrapper className="flex-row">
               <S.InfoLabel className="regular16">작업 범위</S.InfoLabel>
               <p className="regular16">
                 {getManufacturings(props.data.manufacturing)}
               </p>
-            </S.ManufacturingWrapper>
+            </S.InfoContentWrapper>
             <div className="flex-row">
-              <S.DateWrapper className="flex-row">
+              <S.InfoContentWrapper className="flex-row">
                 <S.InfoLabel className="regular16">거래 생성일</S.InfoLabel>
                 <p className="regular16">{getDate(props.data.createdAt)}</p>
-              </S.DateWrapper>
+              </S.InfoContentWrapper>
               {typeof props.data.deliveryAt !== "undefined" && (
-                <S.DateWrapper className="flex-row">
+                <S.InfoContentWrapper className="flex-row">
                   <S.InfoLabel className="regular16">납기일</S.InfoLabel>
                   <p className="regular16">{getDate(props.data.deliveryAt)}</p>
-                </S.DateWrapper>
+                </S.InfoContentWrapper>
               )}
             </div>
           </div>

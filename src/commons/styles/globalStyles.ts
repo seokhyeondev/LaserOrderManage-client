@@ -11,6 +11,8 @@ export const globalStyles = css`
     --color-normalGray: #999999;
     --color-darkGray: #545454;
 
+    --color-blue: #1e56a0;
+
     --color-alert: #d72323;
 
     --border-radius: 10px;
