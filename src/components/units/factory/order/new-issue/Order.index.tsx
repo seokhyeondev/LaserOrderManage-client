@@ -5,6 +5,8 @@ import { useState } from "react";
 import OrderFilter from "@/src/components/commons/filters/order/OrderFilter.index";
 import { IOrderTab } from "@/src/components/commons/tabs/order/OrderTab.types";
 import NewFactoryOrderList from "./List/OrderList.index";
+import { useOrderModal } from "@/src/components/commons/hooks/customs/useModal";
+import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
 
 const mockData = {
   id: 0,
@@ -26,6 +28,7 @@ const mockData = {
 export default function Order() {
   const [tab, setTab] = useState(NEW_ORDER_TAB[0]);
   const [filterMap, setFilterMap] = useState(new Map<number, Array<string>>());
+  const { isOpen, content, onOpenWithContent, onClose } = useOrderModal();
 
   const onTabClick = (tabItem: IOrderTab) => {
     setTab(tabItem);
@@ -63,8 +66,9 @@ export default function Order() {
           onResetFilter={onResetFilter}
           onFilterClick={onFilterClick}
         />
-        <NewFactoryOrderList data={mockData} />
+        <NewFactoryOrderList data={mockData} onOpenModal={onOpenWithContent} />
       </BodyWrapper>
+      <OrderModal isOpen={isOpen} content={content} onClose={onClose} />
     </>
   );
 }

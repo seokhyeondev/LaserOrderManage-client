@@ -37,7 +37,17 @@ export default function NewFactoryOrderList(props: IOrderListProps) {
                 <S.OrderUrgent className="bold14">긴급</S.OrderUrgent>
               ) : null}
               {typeof props.data.request !== "undefined" && (
-                <S.OrderRequest className="regular14">요청사항</S.OrderRequest>
+                <S.OrderRequest
+                  className="regular14"
+                  onClick={() =>
+                    props.onOpenModal({
+                      name: props.data.name,
+                      request: props.data.request!,
+                    })
+                  }
+                >
+                  요청사항
+                </S.OrderRequest>
               )}
             </div>
             {typeof props.data.cost !== "undefined" && (
