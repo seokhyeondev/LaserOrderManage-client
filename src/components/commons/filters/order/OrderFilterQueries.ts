@@ -57,3 +57,8 @@ export const getManufacturings = (value: string): string => {
 
   return manufacturings.join(", ");
 };
+
+export const getQuotationName = (value: string): string => {
+  const name = QUOTATION.filters.find((f) => f.value == value)?.name;
+  return `견적서 ${name}`;
+};

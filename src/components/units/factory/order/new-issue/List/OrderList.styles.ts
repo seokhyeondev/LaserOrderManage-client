@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { IQuotationLabelProps } from "./OrderList.types";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -20,7 +21,8 @@ export const InfoWrapper = styled.div`
 `;
 
 export const QuotationLabel = styled.div`
-  color: var(--color-blue);
+  color: ${(props: IQuotationLabelProps) =>
+    props.isComplete ? "var(--color-blue)" : "var(--color-alert)"};
   margin-bottom: 10px;
 `;
 
