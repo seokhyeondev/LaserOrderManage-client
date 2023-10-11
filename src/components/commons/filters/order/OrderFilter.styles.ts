@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { IFilterProps } from "./OrderFilterTypes";
+import { IFilterProps } from "./OrderFilter.types";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -24,7 +24,7 @@ export const FilterWrapper = styled.div`
 `;
 
 export const FilterLabel = styled.p`
-  margin-right: 40px;
+  width: 110px;
 `;
 
 export const Filter = styled.a`

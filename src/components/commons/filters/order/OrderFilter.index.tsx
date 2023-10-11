@@ -1,6 +1,6 @@
 import * as S from "./OrderFilter.styles";
 import Image from "next/image";
-import { IOrderFilterProps } from "./OrderFilterTypes";
+import { IOrderFilterProps } from "./OrderFilter.types";
 
 export default function OrderFilter(props: IOrderFilterProps) {
   return (

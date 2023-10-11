@@ -8,8 +8,8 @@ export default function OrderTab(props: IOrderTabProps) {
         <S.TabItem
           className="bold20"
           key={el.value}
-          isSelect={el.value === props.selectedTab}
-          onClick={() => props.onTabClick(el.value)}
+          isSelect={el === props.selectedTab}
+          onClick={() => props.onTabClick(el)}
         >
           {el.name}
         </S.TabItem>

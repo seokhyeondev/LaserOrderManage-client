@@ -1,7 +1,7 @@
 export interface IOrderTabProps {
   tabs: IOrderTab[];
-  selectedTab: string;
-  onTabClick: (value: string) => void;
+  selectedTab: IOrderTab;
+  onTabClick: (value: IOrderTab) => void;
 }
 
 export interface IOrderTab {

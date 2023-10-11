@@ -1,4 +1,4 @@
-import { IFilterGroup } from "./OrderFilterTypes";
+import { IFilterGroup } from "./OrderFilter.types";
 
 export const STAGE: IFilterGroup = {
   title: "거래 단계",
@@ -17,6 +17,30 @@ export const MANUFACTURING: IFilterGroup = {
     { name: "레이저 가공", value: "laser-cutting" },
     { name: "절곡", value: "bending" },
     { name: "용접", value: "welding-fabrication" },
+  ],
+};
+
+export const QUOTATION: IFilterGroup = {
+  title: "견적서 작성",
+  filters: [
+    { name: "작성 필요", value: "require" },
+    { name: "작성 완료", value: "complete" },
+  ],
+};
+
+export const CUSTOMER: IFilterGroup = {
+  title: "고객 유형",
+  filters: [
+    { name: "신규 고객", value: "existing" },
+    { name: "기존 고객", value: "new" },
+  ],
+};
+
+export const ORDER_TYPE: IFilterGroup = {
+  title: "거래 유형",
+  filters: [
+    { name: "일반 거래", value: "general" },
+    { name: "긴급 거래", value: "urgent" },
   ],
 };
 
