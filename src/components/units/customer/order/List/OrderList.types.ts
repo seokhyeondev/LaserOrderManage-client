@@ -1,3 +1,5 @@
+import { IOrderModalContent } from "@/src/components/commons/modal/order/OrderModal.types";
+
 type IOrderList = {
   id: number;
   name: string;
@@ -12,5 +14,5 @@ type IOrderList = {
 
 export interface IOrderListProps {
   data: IOrderList;
-  onOpenModal: (name: string, request: string) => void;
+  onOpenModal: (content: IOrderModalContent) => void;
 }

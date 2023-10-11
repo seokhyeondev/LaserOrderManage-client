@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { IOrderModalContent } from "../../modal/order/OrderModal.types";
 
-export const useModal = (): [boolean, () => void, () => void] => {
+const useModal = (): [boolean, () => void, () => void] => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onOpenModal = () => {
@@ -12,4 +13,19 @@ export const useModal = (): [boolean, () => void, () => void] => {
   };
 
   return [isOpen, onOpenModal, onCloseModal];
+};
+
+export const useOrderModal = () => {
+  const [isOpen, onOpen, onClose] = useModal();
+  const [content, setContent] = useState<IOrderModalContent>({
+    name: "",
+    request: "",
+  });
+
+  const onOpenWithContent = (content: IOrderModalContent) => {
+    setContent(content);
+    onOpen();
+  };
+
+  return { isOpen, content, onOpenWithContent, onClose };
 };

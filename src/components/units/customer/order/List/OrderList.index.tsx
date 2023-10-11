@@ -36,7 +36,10 @@ export default function CustomerOrderList(props: IOrderListProps) {
                   <S.OrderRequest
                     className="regular14"
                     onClick={() =>
-                      props.onOpenModal(props.data.name, props.data.request!!)
+                      props.onOpenModal({
+                        name: props.data.name,
+                        request: props.data.request!!,
+                      })
                     }
                   >
                     요청사항
