@@ -1,10 +1,10 @@
 import { NEW_ISSUE_TAB } from "@/src/components/commons/tabs/order/OrderTabQueries";
-import OrderTab from "@/src/components/commons/tabs/order/Ordertab.index";
+import OrderTab from "@/src/components/commons/tabs/order/OrderTab.index";
 import { BodyWrapper } from "@/src/components/commons/wrapper/BodyWrapper.styles";
 import { useState } from "react";
 
 export default function Order() {
-  const [tab, setTab] = useState("re");
+  const [tab, setTab] = useState(NEW_ISSUE_TAB[0].value);
 
   const onTabClick = (tabValue: string) => {
     setTab(tabValue);

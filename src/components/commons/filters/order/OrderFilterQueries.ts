@@ -1,4 +1,6 @@
-export const STAGE = {
+import { IFilterGroup } from "./OrderFilterTypes";
+
+export const STAGE: IFilterGroup = {
   title: "거래 단계",
   filters: [
     { name: "견적 대기", value: "new", percentage: "0%" },
@@ -9,7 +11,7 @@ export const STAGE = {
   ],
 };
 
-export const MANUFACTURING = {
+export const MANUFACTURING: IFilterGroup = {
   title: "작업 범위",
   filters: [
     { name: "레이저 가공", value: "laser-cutting" },

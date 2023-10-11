@@ -1,10 +1,14 @@
-import OrderFilter from "@/src/components/commons/filters/order/customer/OrderFilter.index";
+import OrderFilter from "@/src/components/commons/filters/order/OrderFilter.index";
 import OrderSearchbar from "@/src/components/commons/searchbars/order/OrderSearchbar.index";
 import { BodyWrapper } from "@/src/components/commons/wrapper/BodyWrapper.styles";
 import { ChangeEvent, useState } from "react";
 import CustomerOrderList from "./List/OrderList.index";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
 import { useModal } from "@/src/components/commons/hooks/customs/useModal";
+import {
+  MANUFACTURING,
+  STAGE,
+} from "@/src/components/commons/filters/order/OrderFilterQueries";
 
 const mockData = {
   id: 0,
@@ -56,9 +60,10 @@ export default function Order() {
           onChangeSearchBar={onChangeKeyword}
         />
         <OrderFilter
+          filterMap={filterMap}
+          filterGroups={[STAGE, MANUFACTURING]}
           onResetFilter={onResetFilter}
           onFilterClick={onFilterClick}
-          filterMap={filterMap}
         />
         <CustomerOrderList
           data={mockData}
