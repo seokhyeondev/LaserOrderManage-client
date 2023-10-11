@@ -1,13 +1,12 @@
 import { NEW_ORDER_TAB } from "@/src/components/commons/tabs/order/OrderTabQueries";
 import OrderTab from "@/src/components/commons/tabs/order/OrderTab.index";
 import { BodyWrapper } from "@/src/components/commons/wrapper/BodyWrapper.styles";
-import { useState } from "react";
 import OrderFilter from "@/src/components/commons/filters/order/OrderFilter.index";
-import { IOrderTab } from "@/src/components/commons/tabs/order/OrderTab.types";
 import NewFactoryOrderList from "./List/OrderList.index";
 import { useOrderModal } from "@/src/components/commons/hooks/customs/useModal";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
 import { useOrderFilter } from "@/src/components/commons/hooks/customs/useFilter";
+import { useOrderTab } from "@/src/components/commons/hooks/customs/useTab";
 
 const mockData = {
   id: 0,
@@ -27,13 +26,9 @@ const mockData = {
 };
 
 export default function Order() {
-  const [tab, setTab] = useState(NEW_ORDER_TAB[0]);
+  const [tab, onTabClick] = useOrderTab(NEW_ORDER_TAB[0]);
   const { filterMap, onResetFilter, onFilterClick } = useOrderFilter();
   const { isOpen, content, onOpenWithContent, onClose } = useOrderModal();
-
-  const onTabClick = (tabItem: IOrderTab) => {
-    setTab(tabItem);
-  };
 
   return (
     <>
