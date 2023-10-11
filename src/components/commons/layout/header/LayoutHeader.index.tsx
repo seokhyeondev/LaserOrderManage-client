@@ -5,7 +5,7 @@ import Image from "next/image";
 const NAVIGATION_MENU = [
   { name: "견적 요청하기", page: "/" },
   { name: "거래 목록", page: "/customer/order" },
-  { name: "신규 거래 목록", page: "/factory/order/new-issue" },
+  { name: "신규 거래 목록", page: "/factory/order/new" },
 ];
 
 export default function LayoutHeader() {
