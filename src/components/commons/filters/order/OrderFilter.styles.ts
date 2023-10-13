@@ -31,4 +31,28 @@ export const Filter = styled.a`
   margin-right: 30px;
   color: ${(props: IFilterProps) =>
     props.isSelect ? "var(--color-primary)" : "var(--color-mediumGray)"};
+
+  &:last-of-type {
+    margin: 0;
+  }
+`;
+
+export const FilterSmall = styled.a`
+  margin-right: 13px;
+  color: ${(props: IFilterProps) =>
+    props.isSelect ? "var(--color-primary)" : "var(--color-mediumGray)"};
+
+  &:last-of-type {
+    margin: 0;
+  }
+`;
+
+export const DateInputWrapper = styled.div`
+  margin-top: 10px;
+`;
+
+export const DateInputDivier = styled.p`
+  color: var(--color-normalGray);
+  margin-left: 6px;
+  margin-right: 6px;
 `;

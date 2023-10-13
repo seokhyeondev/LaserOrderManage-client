@@ -84,6 +84,10 @@ export const globalStyles = css`
     font-size: 16px;
     font-weight: 500;
   }
+  .medium12 {
+    font-size: 12px;
+    font-weight: 500;
+  }
   .regular16 {
     font-size: 16px;
     font-weight: 400;

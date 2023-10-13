@@ -10,6 +10,7 @@ import FactoryOrderList from "./List/OrderList.index";
 import { useOrderModal } from "@/src/components/commons/hooks/customs/useModal";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
 import OrderDateInput from "@/src/components/commons/inputs/order/OrderDateInput.index";
+import OrderFilterWithDate from "@/src/components/commons/filters/order/OrderFilterWithDate.index";
 
 const mockData = {
   id: 0,
@@ -29,7 +30,6 @@ const mockData = {
 
 export default function Order() {
   const [tab, onTabClick] = useOrderTab(ORDER_TAB[0]);
-  const { filterMap, onResetFilter, onFilterClick } = useOrderFilter();
   const { isOpen, content, onOpenWithContent, onClose } = useOrderModal();
 
   const onChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {};
@@ -43,12 +43,7 @@ export default function Order() {
           placeholder="업체, 담당자, 거래 이름으로 검색하기"
           onChangeSearchBar={onChangeKeyword}
         />
-        <OrderFilter
-          filterMap={filterMap}
-          filterGroups={tab.filterGroups}
-          onResetFilter={onResetFilter}
-          onFilterClick={onFilterClick}
-        />
+        <OrderFilterWithDate />
         <FactoryOrderList data={mockData} onOpenModal={onOpenWithContent} />
         <OrderDateInput />
       </BodyWrapper>
