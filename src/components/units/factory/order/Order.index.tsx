@@ -6,6 +6,7 @@ import OrderTab from "@/src/components/commons/tabs/order/OrderTab.index";
 import { ORDER_TAB } from "@/src/components/commons/tabs/order/OrderTabQueries";
 import { BodyWrapper } from "@/src/components/commons/wrapper/BodyWrapper.styles";
 import { ChangeEvent } from "react";
+import FactoryOrderList from "./List/OrderList.index";
 
 export default function Order() {
   const [tab, onTabClick] = useOrderTab(ORDER_TAB[0]);
@@ -28,6 +29,7 @@ export default function Order() {
           onResetFilter={onResetFilter}
           onFilterClick={onFilterClick}
         />
+        <FactoryOrderList />
       </BodyWrapper>
     </>
   );
