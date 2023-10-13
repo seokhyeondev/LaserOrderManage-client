@@ -9,6 +9,7 @@ import { ChangeEvent } from "react";
 import FactoryOrderList from "./List/OrderList.index";
 import { useOrderModal } from "@/src/components/commons/hooks/customs/useModal";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
+import OrderDateInput from "@/src/components/commons/inputs/order/OrderDateInput.index";
 
 const mockData = {
   id: 0,
@@ -49,6 +50,7 @@ export default function Order() {
           onFilterClick={onFilterClick}
         />
         <FactoryOrderList data={mockData} onOpenModal={onOpenWithContent} />
+        <OrderDateInput />
       </BodyWrapper>
       <OrderModal isOpen={isOpen} content={content} onClose={onClose} />
     </>

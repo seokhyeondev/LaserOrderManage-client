@@ -3,7 +3,7 @@ export interface IFilterProps {
 }
 
 export interface IOrderFilterProps {
-  filterMap: Map<number, Array<string>>;
+  filterMap: Map<number, string[]>;
   filterGroups: IFilterGroup[];
   onResetFilter: () => void;
   onFilterClick: (index: number, value: string) => void;
