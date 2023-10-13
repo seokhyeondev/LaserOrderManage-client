@@ -44,6 +44,10 @@ export const ORDER_TYPE: IFilterGroup = {
   ],
 };
 
+export const getStageName = (value: string): string => {
+  return STAGE.filters.find((f) => f.value == value)?.name ?? "";
+};
+
 export const getManufacturings = (value: string): string => {
   const values = value.split(",");
   const manufacturings: string[] = [];

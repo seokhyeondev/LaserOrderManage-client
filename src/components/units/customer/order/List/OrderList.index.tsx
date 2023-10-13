@@ -5,6 +5,7 @@ import { IOrderListProps } from "./OrderList.types";
 import {
   STAGE,
   getManufacturings,
+  getStageName,
 } from "@/src/components/commons/filters/order/OrderFilterQueries";
 import { getDate, getCost } from "@/src/commons/libraries/utils";
 
@@ -22,11 +23,7 @@ export default function CustomerOrderList(props: IOrderListProps) {
         <S.InfoWrapper className="flex-column-between">
           <div>
             <S.StageLabel className="medium16">
-              {
-                STAGE.filters.find(
-                  (filter) => filter.value === props.data.stage,
-                )?.name
-              }
+              {getStageName(props.data.stage)}
             </S.StageLabel>
             <S.HeaderWrapper className="flex-row-between-center">
               <div className="flex-row-bottom">

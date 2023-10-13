@@ -7,10 +7,29 @@ import { ORDER_TAB } from "@/src/components/commons/tabs/order/OrderTabQueries";
 import { BodyWrapper } from "@/src/components/commons/wrapper/BodyWrapper.styles";
 import { ChangeEvent } from "react";
 import FactoryOrderList from "./List/OrderList.index";
+import { useOrderModal } from "@/src/components/commons/hooks/customs/useModal";
+import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
+
+const mockData = {
+  id: 0,
+  name: "실리콘 부품 제작 프로젝트",
+  customer: "박이박",
+  company: "네스로지텍(주)",
+  quotation: "complete",
+  imgUrl: "asdf",
+  isUrgent: true,
+  stage: "shipping",
+  manufacturing: "laser-cutting,bending",
+  createdAt: "2023-10-15",
+  deliveryAt: "2023-10-30",
+  cost: 10000000,
+  request: "배송시 부품을 조심히 다뤄주세요.",
+};
 
 export default function Order() {
   const [tab, onTabClick] = useOrderTab(ORDER_TAB[0]);
   const { filterMap, onResetFilter, onFilterClick } = useOrderFilter();
+  const { isOpen, content, onOpenWithContent, onClose } = useOrderModal();
 
   const onChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {};
 
@@ -29,8 +48,9 @@ export default function Order() {
           onResetFilter={onResetFilter}
           onFilterClick={onFilterClick}
         />
-        <FactoryOrderList />
+        <FactoryOrderList data={mockData} onOpenModal={onOpenWithContent} />
       </BodyWrapper>
+      <OrderModal isOpen={isOpen} content={content} onClose={onClose} />
     </>
   );
 }
