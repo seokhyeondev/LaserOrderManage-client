@@ -6,6 +6,7 @@ const NAVIGATION_MENU = [
   { name: "견적 요청하기", page: "/" },
   { name: "거래 목록", page: "/customer/order" },
   { name: "신규 거래 목록", page: "/factory/order/new" },
+  { name: "거래 목록", page: "/factory/order" },
 ];
 
 export default function LayoutHeader() {
