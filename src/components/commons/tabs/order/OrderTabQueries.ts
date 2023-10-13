@@ -14,4 +14,15 @@ export const NEW_ORDER_TAB: IOrderTab[] = [
   { name: "재발행", value: "re-issue", filterGroups: [QUOTATION, ORDER_TYPE] },
 ];
 
-export const RE_ISSUE_TAB: IOrderTab[] = [];
+export const ORDER_TAB: IOrderTab[] = [
+  {
+    name: "진행중",
+    value: "proceeding",
+    filterGroups: [ORDER_TYPE],
+  },
+  {
+    name: "완료",
+    value: "complete",
+    filterGroups: [ORDER_TYPE],
+  },
+];
