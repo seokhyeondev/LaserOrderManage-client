@@ -6,17 +6,14 @@ export const Wrapper = styled.div`
   cursor: pointer;
 `;
 
-export const ImageWrapper = styled.div`
-  width: 200px;
-  height: 200px;
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  margin-right: 36px;
-`;
+export const ImageWrapper = {
+  borderRadius: "10px",
+  marginRight: "36px",
+};
 
 export const InfoWrapper = styled.div`
   width: 100%;
-  padding-top: 12px;
+  padding-top: 10px;
 `;
 
 export const StageLabel = styled.p`
@@ -26,7 +23,7 @@ export const StageLabel = styled.p`
 
 export const HeaderWrapper = styled.div`
   width: 100%;
-  margin-bottom: 21px;
+  margin-bottom: 18px;
 `;
 
 export const OrderName = styled.p`
@@ -40,7 +37,7 @@ export const OrderRequest = styled.a`
 
 export const InfoContentWrapper = styled.div`
   flex: 1;
-  margin-bottom: 18px;
+  margin-bottom: 17px;
 
   &:last-of-type {
     margin: 0;

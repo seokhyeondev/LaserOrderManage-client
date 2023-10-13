@@ -12,14 +12,13 @@ export default function CustomerOrderList(props: IOrderListProps) {
   return (
     <>
       <S.Wrapper className="flex-row">
-        <S.ImageWrapper>
-          <Image
-            width={200}
-            height={200}
-            src="/images/netflix.webp"
-            alt="리스트 이미지"
-          />
-        </S.ImageWrapper>
+        <Image
+          width={200}
+          height={200}
+          src="/images/netflix.webp"
+          alt="리스트 이미지"
+          style={S.ImageWrapper}
+        />
         <S.InfoWrapper className="flex-column-between">
           <div>
             <S.StageLabel className="medium16">

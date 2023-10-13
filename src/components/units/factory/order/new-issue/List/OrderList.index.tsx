@@ -15,14 +15,13 @@ export default function NewFactoryOrderList(props: IOrderListProps) {
   return (
     <>
       <S.Wrapper className="flex-row">
-        <S.ImageWrapper>
-          <Image
-            width={200}
-            height={200}
-            src="/images/netflix.webp"
-            alt="리스트 이미지"
-          />
-        </S.ImageWrapper>
+        <Image
+          width={200}
+          height={200}
+          src="/images/netflix.webp"
+          alt="리스트 이미지"
+          style={S.ImageWrapper}
+        />
         <S.InfoWrapper>
           <S.QuotationLabel
             className="medium16"
