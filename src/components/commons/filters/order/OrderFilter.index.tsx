@@ -21,7 +21,7 @@ export default function OrderFilter(props: IOrderFilterProps) {
           </p>
         </a>
       </S.HeaderWrapper>
-      {props.filterGroups.map((el, index) => (
+      {props.filterGroups.map((el) => (
         <S.FilterWrapper className="flex-row" key={el.title}>
           <S.FilterLabel className="medium16">{el.title}</S.FilterLabel>
           {el.filters.map((filter) => (
@@ -29,9 +29,10 @@ export default function OrderFilter(props: IOrderFilterProps) {
               className="medium16"
               key={filter.value}
               isSelect={
-                props.filterMap.get(index)?.includes(filter.value) ?? false
+                props.filterMap.get(filter.value)?.includes(filter.value) ??
+                false
               }
-              onClick={() => props.onFilterClick(index, filter.value)}
+              onClick={() => props.onFilterClick(filter.value)}
             >
               {filter.name}
             </S.Filter>

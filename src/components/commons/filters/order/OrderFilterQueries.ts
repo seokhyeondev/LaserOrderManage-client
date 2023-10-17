@@ -44,6 +44,14 @@ export const ORDER_TYPE: IFilterGroup = {
   ],
 };
 
+export const DATE_FILTER: IFilterGroup = {
+  title: "거래 날짜",
+  filters: [
+    { name: "거래 생성일 기준", value: "create" },
+    { name: "납기일 기준", value: "end" },
+  ],
+};
+
 export const getStageName = (value: string): string => {
   return STAGE.filters.find((f) => f.value == value)?.name ?? "";
 };

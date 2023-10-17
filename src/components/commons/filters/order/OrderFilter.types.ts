@@ -3,13 +3,13 @@ export interface IFilterProps {
 }
 
 export interface IOrderFilterProps {
-  filterMap: Map<number, string[]>;
+  filterMap: Map<string, string[]>;
   filterGroups: IFilterGroup[];
   onResetFilter: () => void;
-  onFilterClick: (index: number, value: string) => void;
+  onFilterClick: (value: string) => void;
 }
 
-interface IFilterItem {
+export interface IFilterItem {
   name: string;
   value: string;
   percentage?: string;

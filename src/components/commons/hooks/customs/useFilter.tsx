@@ -1,14 +1,14 @@
 import { useState } from "react";
 
 export const useOrderFilter = () => {
-  const [filterMap, setFilterMap] = useState(new Map<number, string[]>());
+  const [filterMap, setFilterMap] = useState(new Map<string, string[]>());
 
   const onResetFilter = () => {
-    setFilterMap(new Map<number, string[]>());
+    setFilterMap(new Map<string, string[]>());
   };
 
-  const onFilterClick = (index: number, value: string) => {
-    const filteredList = filterMap.get(index) ?? [];
+  const onFilterClick = (value: string) => {
+    const filteredList = filterMap.get(value) ?? [];
     const isSelected = filteredList.includes(value);
     if (isSelected) {
       const selectedIndex = filteredList.indexOf(value);
@@ -16,7 +16,7 @@ export const useOrderFilter = () => {
     } else {
       filteredList.push(value);
     }
-    const updatedMap = filterMap.set(index, filteredList);
+    const updatedMap = filterMap.set(value, filteredList);
     setFilterMap(new Map(updatedMap));
   };
 

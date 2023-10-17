@@ -1,6 +1,7 @@
 import OrderDateInput from "../../inputs/order/OrderDateInput.index";
 import * as S from "./OrderFilter.styles";
 import Image from "next/image";
+import { DATE_FILTER, ORDER_TYPE } from "./OrderFilterQueries";
 
 export default function OrderFilterWithDate() {
   return (
@@ -22,24 +23,22 @@ export default function OrderFilterWithDate() {
         </a>
       </S.HeaderWrapper>
       <S.FilterWrapper className="flex-row">
-        <S.FilterLabel className="medium16">거래 유형</S.FilterLabel>
-        <S.Filter className="medium16" isSelect={true}>
-          일반 거래
-        </S.Filter>
-        <S.Filter className="medium16" isSelect={true}>
-          긴급 거래
-        </S.Filter>
+        <S.FilterLabel className="medium16">{ORDER_TYPE.title}</S.FilterLabel>
+        {ORDER_TYPE.filters.map((el) => (
+          <S.Filter className="medium16" isSelect={true} key={el.value}>
+            {el.name}
+          </S.Filter>
+        ))}
       </S.FilterWrapper>
       <S.FilterWrapper className="flex-row">
-        <S.FilterLabel className="medium16">거래 날짜</S.FilterLabel>
+        <S.FilterLabel className="medium16">{DATE_FILTER.title}</S.FilterLabel>
         <div>
           <div className="flex-row">
-            <S.FilterSmall className="medium12" isSelect={true}>
-              거래 생성일 기준
-            </S.FilterSmall>
-            <S.FilterSmall className="medium12" isSelect={true}>
-              납기일 기준
-            </S.FilterSmall>
+            {DATE_FILTER.filters.map((el) => (
+              <S.FilterSmall className="medium12" isSelect={true}>
+                {el.name}
+              </S.FilterSmall>
+            ))}
           </div>
           <S.DateInputWrapper className="flex-row-center">
             <OrderDateInput />
