@@ -10,6 +10,7 @@ import {
   STAGE,
 } from "@/src/components/commons/filters/order/OrderFilterQueries";
 import { useOrderFilter } from "@/src/components/commons/hooks/customs/useFilter";
+import OrderPagination from "@/src/components/commons/paginations/order/OrderPagination.index";
 
 const mockData = {
   id: 0,
@@ -44,6 +45,7 @@ export default function Order() {
           onFilterClick={onFilterClick}
         />
         <CustomerOrderList data={mockData} onOpenModal={onOpenWithContent} />
+        <OrderPagination />
       </BodyWrapper>
       <OrderModal isOpen={isOpen} content={content} onClose={onClose} />
     </>
