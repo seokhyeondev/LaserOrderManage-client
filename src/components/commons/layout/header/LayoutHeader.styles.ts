@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
+  min-width: 1400px;
   height: 80px;
   background-color: var(--color-white);
   display: flex;
@@ -8,6 +9,7 @@ export const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 80px;
+  margin: 0 auto;
 `;
 
 export const InnerWrapper = styled.div`
@@ -29,6 +31,10 @@ export const MenuWrapper = styled.div`
 export const MenuItem = styled.div`
   margin: 0 60px 0 0;
   cursor: pointer;
+
+  &:last-of-type {
+    margin: 0;
+  }
 `;
 
 export const HeaderButton = styled.button`

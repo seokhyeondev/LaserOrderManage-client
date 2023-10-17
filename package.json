@@ -14,8 +14,10 @@
     "@emotion/styled": "^11.11.0",
     "apollo-upload-client": "^17.0.0",
     "graphql": "^16.8.1",
+    "moment": "^2.29.4",
     "next": "^13.5.3",
     "react": "^18.2.0",
+    "react-calendar": "^4.6.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
