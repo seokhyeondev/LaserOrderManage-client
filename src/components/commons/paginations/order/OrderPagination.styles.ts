@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { IPageProps } from "../Pagination.types";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -10,9 +11,12 @@ export const Page = styled.span`
   height: 40px;
   margin-right: 10px;
   border-radius: 40px;
-  background-color: var(--color-primary);
-  color: var(--color-white);
-  cursor: pointer;
+  background-color: ${(props: IPageProps) =>
+    props.isActive ? "var(--color-primary)" : "var(--color-white)"};
+  color: ${(props: IPageProps) =>
+    props.isActive ? "var(--color-white)" : "var(--color-darkGray)"};
+  cursor: ${(props: IPageProps) => (props.isActive ? "default" : "pointer")};
+  transition: all 0.2s ease;
 
   &:last-of-type {
     margin: 0;

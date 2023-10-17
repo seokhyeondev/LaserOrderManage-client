@@ -11,6 +11,7 @@ import {
 } from "@/src/components/commons/filters/order/OrderFilterQueries";
 import { useOrderFilter } from "@/src/components/commons/hooks/customs/useFilter";
 import OrderPagination from "@/src/components/commons/paginations/order/OrderPagination.index";
+import { usePagination } from "@/src/components/commons/hooks/customs/usePagination";
 
 const mockData = {
   id: 0,
@@ -27,6 +28,7 @@ const mockData = {
 export default function Order() {
   const { filterMap, onResetFilter, onFilterClick } = useOrderFilter();
   const { isOpen, content, onOpenWithContent, onClose } = useOrderModal();
+  const paginationArgs = usePagination({ count: 4 });
 
   const onChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {};
 
@@ -45,7 +47,7 @@ export default function Order() {
           onFilterClick={onFilterClick}
         />
         <CustomerOrderList data={mockData} onOpenModal={onOpenWithContent} />
-        <OrderPagination />
+        <OrderPagination {...paginationArgs} />
       </BodyWrapper>
       <OrderModal isOpen={isOpen} content={content} onClose={onClose} />
     </>
