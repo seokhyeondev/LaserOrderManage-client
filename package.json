@@ -9,12 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@apollo/client": "^3.8.4",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "apollo-upload-client": "^17.0.0",
     "axios": "^1.5.1",
-    "graphql": "^16.8.1",
     "moment": "^2.29.4",
     "next": "^13.5.3",
     "react": "^18.2.0",
@@ -38,15 +35,5 @@
     "lint-staged": "^14.0.1",
     "prettier": "3.0.3",
     "typescript": "*"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "**/*.{ts,tsx}": [
-      "npx eslint ."
-    ]
   }
 }
