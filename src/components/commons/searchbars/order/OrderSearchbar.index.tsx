@@ -13,6 +13,8 @@ export default function OrderSearchbar(props: IOrderSearchbarProps) {
         className="medium16"
         placeholder={props.placeholder}
         onChange={props.onChangeSearchBar}
+        onKeyDown={props.onActiveEnter}
+        value={props.keyword}
       />
       <IconWrapper>
         <Image

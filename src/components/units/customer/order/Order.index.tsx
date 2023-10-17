@@ -12,6 +12,7 @@ import {
 import { useOrderFilter } from "@/src/components/commons/hooks/customs/useFilter";
 import OrderPagination from "@/src/components/commons/paginations/order/OrderPagination.index";
 import { usePagination } from "@/src/components/commons/hooks/customs/usePagination";
+import { useSearchbar } from "@/src/components/commons/hooks/customs/useSearchBar";
 
 const mockData = {
   id: 0,
@@ -26,11 +27,10 @@ const mockData = {
 };
 
 export default function Order() {
+  const searchBarArgs = useSearchbar();
   const { filterMap, onResetFilter, onFilterClick } = useOrderFilter();
   const { isOpen, content, onOpenWithContent, onClose } = useOrderModal();
   const paginationArgs = usePagination({ count: 4 });
-
-  const onChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {};
 
   return (
     <>
@@ -38,7 +38,7 @@ export default function Order() {
         <p className="page-title">거래 목록</p>
         <OrderSearchbar
           placeholder="거래 이름으로 검색하기"
-          onChangeSearchBar={onChangeKeyword}
+          {...searchBarArgs}
         />
         <OrderFilter
           filterMap={filterMap}
