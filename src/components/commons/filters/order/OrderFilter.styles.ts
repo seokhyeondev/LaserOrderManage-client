@@ -38,7 +38,7 @@ export const Filter = styled.a`
 `;
 
 export const FilterSmall = styled.a`
-  margin-right: 13px;
+  margin-right: 16px;
   color: ${(props: IFilterProps) =>
     props.isSelect ? "var(--color-primary)" : "var(--color-mediumGray)"};
 

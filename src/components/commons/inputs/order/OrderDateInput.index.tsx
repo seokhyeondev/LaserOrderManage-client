@@ -4,13 +4,9 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useState } from "react";
 import moment from "moment";
+import { IOrderDateInputProps, Value } from "./OrderDateInput.types";
 
-type ValuePiece = Date | null;
-
-type Value = ValuePiece | [ValuePiece, ValuePiece];
-
-export default function OrderDateInput() {
-  const [date, setDate] = useState("");
+export default function OrderDateInput(props: IOrderDateInputProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleCalender = () => {
@@ -18,7 +14,7 @@ export default function OrderDateInput() {
   };
 
   const handleDateChange = (selectedDate: Value) => {
-    setDate(moment(selectedDate?.toString()).format("YY. MM. DD"));
+    props.setDate(moment(selectedDate?.toString()).format("YY. MM. DD"));
     setIsOpen(false);
   };
 
@@ -31,7 +27,7 @@ export default function OrderDateInput() {
         <S.DateInput
           className="regular14"
           placeholder="연도. 월. 일"
-          value={date}
+          value={props.date}
         />
         <Image width={18} height={18} src="/images/calender.svg" alt="달력" />
       </S.InputWrapper>

@@ -9,6 +9,7 @@ import { useOrderModal } from "@/src/components/commons/hooks/customs/useModal";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
 import OrderFilterWithDate from "@/src/components/commons/filters/order/OrderFilterWithDate.index";
 import { IFilterItem } from "@/src/components/commons/filters/order/OrderFilter.types";
+import { useOrderFilter } from "@/src/components/commons/hooks/customs/useFilter";
 
 const mockData = {
   id: 0,
@@ -28,12 +29,32 @@ const mockData = {
 
 export default function Order() {
   const [tab, onTabClick] = useOrderTab(ORDER_TAB[0]);
-  const [orderType, setOrderType] = useState<IFilterItem[]>([]);
+  const { filterMap, onResetFilter, onFilterClick } = useOrderFilter();
   const [dateFilter, setDateFilter] = useState<IFilterItem>();
   const { isOpen, content, onOpenWithContent, onClose } = useOrderModal();
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   const onChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {};
-  const onOrderType = (type: IFilterItem) => {};
+
+  const onResetFilterWithDate = () => {
+    onResetFilter();
+    setDateFilter(undefined);
+    setStartDate("");
+    setEndDate("");
+  };
+
+  const onDateFilter = (filterItem: IFilterItem) => {
+    setDateFilter(filterItem);
+  };
+
+  const onStartDate = (date: string) => {
+    setStartDate(date);
+  };
+
+  const onEndDate = (date: string) => {
+    setEndDate(date);
+  };
 
   return (
     <>
@@ -44,7 +65,18 @@ export default function Order() {
           placeholder="업체, 담당자, 거래 이름으로 검색하기"
           onChangeSearchBar={onChangeKeyword}
         />
-        <OrderFilterWithDate />
+        <OrderFilterWithDate
+          filterMap={filterMap}
+          filterGroups={tab.filterGroups}
+          onResetFilter={onResetFilterWithDate}
+          onFilterClick={onFilterClick}
+          selectedDateFilter={dateFilter}
+          startDate={startDate}
+          endDate={endDate}
+          onDateFilter={onDateFilter}
+          onStartDate={onStartDate}
+          onEndDate={onEndDate}
+        />
         <FactoryOrderList data={mockData} onOpenModal={onOpenWithContent} />
       </BodyWrapper>
       <OrderModal isOpen={isOpen} content={content} onClose={onClose} />
