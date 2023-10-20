@@ -5,7 +5,7 @@ import OrderFilter from "@/src/components/commons/filters/order/OrderFilter.inde
 import NewFactoryOrderList from "./List/OrderList.index";
 import { useOrderModal } from "@/src/components/commons/hooks/customs/useModal";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
-import { useOrderFilter } from "@/src/components/commons/hooks/customs/useFilter";
+import { useOrderFilter } from "@/src/lib/hooks/useFilter";
 import { useOrderTab } from "@/src/components/commons/hooks/customs/useTab";
 
 const mockData = {

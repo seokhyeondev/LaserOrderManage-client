@@ -6,11 +6,7 @@ import {
   getManufacturings,
   getStageName,
 } from "@/src/components/commons/filters/order/OrderFilterQueries";
-import {
-  getCost,
-  getCustomerInfo,
-  getDate,
-} from "@/src/commons/libraries/utils";
+import { getCost, getCustomerInfo, getDate } from "@/src/lib/utils/utils";
 
 export default function FactoryOrderList(props: IOrderListProps) {
   return (

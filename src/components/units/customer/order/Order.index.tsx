@@ -9,7 +9,7 @@ import {
   MANUFACTURING,
   STAGE,
 } from "@/src/components/commons/filters/order/OrderFilterQueries";
-import { useOrderFilter } from "@/src/components/commons/hooks/customs/useFilter";
+import { useOrderFilter } from "@/src/lib/hooks/useFilter";
 import OrderPagination from "@/src/components/commons/paginations/order/OrderPagination.index";
 import { usePagination } from "@/src/components/commons/hooks/customs/usePagination";
 import { useSearchbar } from "@/src/components/commons/hooks/customs/useSearchBar";

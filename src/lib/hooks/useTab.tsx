@@ -1,5 +1,5 @@
+import { IOrderTab } from "@/src/components/commons/tabs/order/OrderTab.types";
 import { useState } from "react";
-import { IOrderTab } from "../../tabs/order/OrderTab.types";
 
 export const useOrderTab = (
   defaultTab: IOrderTab,

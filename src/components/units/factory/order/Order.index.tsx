@@ -9,7 +9,7 @@ import { useOrderModal } from "@/src/components/commons/hooks/customs/useModal";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
 import OrderFilterWithDate from "@/src/components/commons/filters/order/OrderFilterWithDate.index";
 import { IFilterItem } from "@/src/components/commons/filters/order/OrderFilter.types";
-import { useOrderFilter } from "@/src/components/commons/hooks/customs/useFilter";
+import { useOrderFilter } from "@/src/lib/hooks/useFilter";
 import { useSearchbar } from "@/src/components/commons/hooks/customs/useSearchBar";
 
 const mockData = {
