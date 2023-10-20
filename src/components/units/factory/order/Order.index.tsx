@@ -1,16 +1,16 @@
-import { useOrderTab } from "@/src/components/commons/hooks/customs/useTab";
 import OrderSearchbar from "@/src/components/commons/searchbars/order/OrderSearchbar.index";
 import OrderTab from "@/src/components/commons/tabs/order/OrderTab.index";
 import { ORDER_TAB } from "@/src/components/commons/tabs/order/OrderTabQueries";
 import { BodyWrapper } from "@/src/components/commons/wrapper/BodyWrapper.styles";
 import { useState } from "react";
 import FactoryOrderList from "./List/OrderList.index";
-import { useOrderModal } from "@/src/components/commons/hooks/customs/useModal";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
 import OrderFilterWithDate from "@/src/components/commons/filters/order/OrderFilterWithDate.index";
 import { IFilterItem } from "@/src/components/commons/filters/order/OrderFilter.types";
 import { useOrderFilter } from "@/src/lib/hooks/useFilter";
-import { useSearchbar } from "@/src/components/commons/hooks/customs/useSearchBar";
+import { useOrderTab } from "@/src/lib/hooks/useTab";
+import { useSearchbar } from "@/src/lib/hooks/useSearchBar";
+import { useOrderModal } from "@/src/lib/hooks/useModal";
 
 const mockData = {
   id: 0,

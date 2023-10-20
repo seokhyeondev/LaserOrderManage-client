@@ -1,7 +1,7 @@
-import * as S from "./LoginForm.styles";
+import * as S from "./Login.styles";
 import { ChangeEvent, useState } from "react";
 
-export default function LoginForm() {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");

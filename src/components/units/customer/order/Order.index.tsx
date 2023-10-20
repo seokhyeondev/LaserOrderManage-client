@@ -1,18 +1,17 @@
 import OrderFilter from "@/src/components/commons/filters/order/OrderFilter.index";
 import OrderSearchbar from "@/src/components/commons/searchbars/order/OrderSearchbar.index";
 import { BodyWrapper } from "@/src/components/commons/wrapper/BodyWrapper.styles";
-import { ChangeEvent } from "react";
 import CustomerOrderList from "./List/OrderList.index";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
-import { useOrderModal } from "@/src/components/commons/hooks/customs/useModal";
 import {
   MANUFACTURING,
   STAGE,
 } from "@/src/components/commons/filters/order/OrderFilterQueries";
 import { useOrderFilter } from "@/src/lib/hooks/useFilter";
 import OrderPagination from "@/src/components/commons/paginations/order/OrderPagination.index";
-import { usePagination } from "@/src/components/commons/hooks/customs/usePagination";
-import { useSearchbar } from "@/src/components/commons/hooks/customs/useSearchBar";
+import { useSearchbar } from "@/src/lib/hooks/useSearchBar";
+import { useOrderModal } from "@/src/lib/hooks/useModal";
+import { usePagination } from "@/src/lib/hooks/usePagination";
 
 const mockData = {
   id: 0,
