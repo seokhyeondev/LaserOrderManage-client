@@ -8,10 +8,10 @@ export const UserApi = {
   },
   REISSUE: async (): Promise<IToken> => {
     const response = await axiosPrivate.post("/user/re-issue");
-    return response.data.data;
+    return response.data;
   },
-  LOGOUT: async (): Promise<boolean> => {
+  LOGOUT: async (): Promise<null> => {
     const response = await axiosPrivate.post("user/logout");
-    return response.status === 200;
+    return response.data;
   },
 };
