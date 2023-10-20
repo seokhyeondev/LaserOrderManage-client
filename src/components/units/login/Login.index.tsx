@@ -4,22 +4,30 @@ import { useMutation } from "@tanstack/react-query";
 import { UserApi } from "@/src/lib/apis/user/UserApi";
 import { AxiosError } from "axios";
 import { IHttpStatus } from "@/src/lib/apis/axios";
+import { useSetRecoilState } from "recoil";
+import { authState } from "@/src/store/auth";
+import { setCredentials } from "@/src/lib/utils/setCredentials";
+import { useRouter } from "next/router";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const setAuth = useSetRecoilState(authState);
+  const router = useRouter();
 
   const { mutate } = useMutation({
     mutationFn: UserApi.LOGIN,
+    onSuccess: (data) => {
+      setCredentials(data);
+      setAuth({ isAuthenticated: true, ...data });
+      router.replace("/");
+    },
     onError: (error: AxiosError) => {
       if (error.response) {
         const status = error.response.data as IHttpStatus;
         setErrorMsg(status.message);
       }
-    },
-    onSuccess: (data) => {
-      console.log("login success:", data);
     },
   });
 

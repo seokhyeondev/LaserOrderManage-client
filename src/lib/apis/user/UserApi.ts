@@ -1,9 +1,9 @@
-import { axiosPrivate } from "../axios";
+import { axiosPrivate, axiosPublic } from "../axios";
 import { ILoginRequest, IToken } from "./User.types";
 
 export const UserApi = {
   LOGIN: async (payload: ILoginRequest): Promise<IToken> => {
-    const response = await axiosPrivate.post("/user/login", payload);
+    const response = await axiosPublic.post("/user/login", payload);
     return response.data;
   },
   REISSUE: async (): Promise<IToken> => {
