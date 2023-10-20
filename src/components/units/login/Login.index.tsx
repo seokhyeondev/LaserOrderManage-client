@@ -1,10 +1,27 @@
 import * as S from "./Login.styles";
 import { ChangeEvent, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { UserApi } from "@/src/lib/apis/user/UserApi";
+import { AxiosError } from "axios";
+import { IHttpStatus } from "@/src/lib/apis/axios";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+
+  const { mutate } = useMutation({
+    mutationFn: UserApi.LOGIN,
+    onError: (error: AxiosError) => {
+      if (error.response) {
+        const status = error.response.data as IHttpStatus;
+        setErrorMsg(status.message);
+      }
+    },
+    onSuccess: (data) => {
+      console.log("login success:", data);
+    },
+  });
 
   const onChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -31,6 +48,7 @@ export default function Login() {
       setErrorMsg("비밀번호를 입력해주세요.");
       return;
     }
+    mutate({ email, password });
   };
 
   return (

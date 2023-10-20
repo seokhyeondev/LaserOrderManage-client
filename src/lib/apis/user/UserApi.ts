@@ -4,7 +4,7 @@ import { ILoginRequest, IToken } from "./User.types";
 export const UserApi = {
   LOGIN: async (payload: ILoginRequest): Promise<IToken> => {
     const response = await axiosPrivate.post("/user/login", payload);
-    return response.data.data;
+    return response.data;
   },
   REISSUE: async (): Promise<IToken> => {
     const response = await axiosPrivate.post("/user/re-issue");

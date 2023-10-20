@@ -17,3 +17,9 @@ axiosPrivate.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
+export interface IHttpStatus {
+  errorCode: string;
+  httpStatus: string;
+  message: string;
+}
