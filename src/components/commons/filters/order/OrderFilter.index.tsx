@@ -29,8 +29,7 @@ export default function OrderFilter(props: IOrderFilterProps) {
               className="medium16"
               key={filter.value}
               isSelect={
-                props.filterMap.get(filter.value)?.includes(filter.value) ??
-                false
+                props.filterMap.get(el.key)?.includes(filter.value) ?? false
               }
               onClick={() => props.onFilterClick(el.key, filter.value)}
             >

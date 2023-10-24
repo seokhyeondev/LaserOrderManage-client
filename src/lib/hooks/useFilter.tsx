@@ -8,7 +8,7 @@ export const useOrderFilter = () => {
   };
 
   const onFilterClick = (key: string, value: string) => {
-    const filteredList = filterMap.get(value) ?? [];
+    const filteredList = filterMap.get(key) ?? [];
     const isSelected = filteredList.includes(value);
     if (isSelected) {
       const selectedIndex = filteredList.indexOf(value);
@@ -16,7 +16,7 @@ export const useOrderFilter = () => {
     } else {
       filteredList.push(value);
     }
-    const updatedMap = filterMap.set(value, filteredList);
+    const updatedMap = filterMap.set(key, filteredList);
     setFilterMap(new Map(updatedMap));
   };
 

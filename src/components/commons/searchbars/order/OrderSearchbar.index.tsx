@@ -16,7 +16,7 @@ export default function OrderSearchbar(props: IOrderSearchbarProps) {
         onKeyDown={props.onActiveEnter}
         value={props.keyword}
       />
-      <IconWrapper>
+      <IconWrapper onClick={props.onSearchKeyword}>
         <Image
           src="/images/search.svg"
           width={24}

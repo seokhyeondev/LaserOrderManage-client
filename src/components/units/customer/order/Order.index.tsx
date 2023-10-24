@@ -16,14 +16,14 @@ import { useQuery } from "@tanstack/react-query";
 import { OrderApi } from "@/src/lib/apis/order/OrderApi";
 
 export default function Order() {
-  const searchBarArgs = useSearchbar();
+  const searchBarArgs = useSearchbar(() => refetch());
   const { filterMap, onResetFilter, onFilterClick } = useOrderFilter();
   const { isOpen, content, onOpenWithContent, onClose } = useOrderModal();
   const paginationArgs = usePagination({ count: 4 });
 
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["customerOrder"],
-    queryFn: () => OrderApi.GET_CUSTOMER_ORDER(),
+    queryFn: () => OrderApi.GET_CUSTOMER_ORDER(searchBarArgs.keyword),
   });
 
   return (
