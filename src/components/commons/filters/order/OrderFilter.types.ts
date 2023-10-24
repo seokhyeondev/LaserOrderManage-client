@@ -6,7 +6,7 @@ export interface IOrderFilterProps {
   filterMap: Map<string, string[]>;
   filterGroups: IFilterGroup[];
   onResetFilter: () => void;
-  onFilterClick: (value: string) => void;
+  onFilterClick: (key: string, value: string) => void;
 }
 
 export interface IOrderFilterWithDateProps extends IOrderFilterProps {
@@ -26,5 +26,6 @@ export interface IFilterItem {
 
 export interface IFilterGroup {
   title: string;
+  key: string;
   filters: IFilterItem[];
 }

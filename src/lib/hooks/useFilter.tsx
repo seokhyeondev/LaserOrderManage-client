@@ -7,7 +7,7 @@ export const useOrderFilter = () => {
     setFilterMap(new Map<string, string[]>());
   };
 
-  const onFilterClick = (value: string) => {
+  const onFilterClick = (key: string, value: string) => {
     const filteredList = filterMap.get(value) ?? [];
     const isSelected = filteredList.includes(value);
     if (isSelected) {

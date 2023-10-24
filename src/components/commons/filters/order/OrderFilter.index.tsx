@@ -32,7 +32,7 @@ export default function OrderFilter(props: IOrderFilterProps) {
                 props.filterMap.get(filter.value)?.includes(filter.value) ??
                 false
               }
-              onClick={() => props.onFilterClick(filter.value)}
+              onClick={() => props.onFilterClick(el.key, filter.value)}
             >
               {filter.name}
             </S.Filter>
