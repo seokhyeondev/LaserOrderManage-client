@@ -1,10 +1,13 @@
 import { useState } from "react";
 
-export const useOrderFilter = () => {
+export const useOrderFilter = (refetch: () => void) => {
   const [filterMap, setFilterMap] = useState(new Map<string, string[]>());
 
   const onResetFilter = () => {
-    setFilterMap(new Map<string, string[]>());
+    const updatedMap = filterMap;
+    updatedMap.forEach((_, key) => filterMap.set(key, []));
+    setFilterMap(updatedMap);
+    refetch();
   };
 
   const onFilterClick = (key: string, value: string) => {
@@ -18,6 +21,7 @@ export const useOrderFilter = () => {
     }
     const updatedMap = filterMap.set(key, filteredList);
     setFilterMap(new Map(updatedMap));
+    refetch();
   };
 
   return { filterMap, onResetFilter, onFilterClick };

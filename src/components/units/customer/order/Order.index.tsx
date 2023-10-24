@@ -17,13 +17,20 @@ import { OrderApi } from "@/src/lib/apis/order/OrderApi";
 
 export default function Order() {
   const searchBarArgs = useSearchbar(() => refetch());
-  const { filterMap, onResetFilter, onFilterClick } = useOrderFilter();
+  const filterArgs = useOrderFilter(() => refetch());
   const { isOpen, content, onOpenWithContent, onClose } = useOrderModal();
   const paginationArgs = usePagination({ count: 4 });
 
   const { data, refetch } = useQuery({
     queryKey: ["customerOrder"],
-    queryFn: () => OrderApi.GET_CUSTOMER_ORDER(searchBarArgs.keyword),
+    queryFn: () =>
+      OrderApi.GET_CUSTOMER_ORDER(
+        1,
+        10,
+        filterArgs.filterMap.get("stage")?.join(",") ?? "",
+        filterArgs.filterMap.get("manufacturing")?.join(",") ?? "",
+        searchBarArgs.keyword,
+      ),
   });
 
   return (
@@ -34,12 +41,7 @@ export default function Order() {
           placeholder="거래 이름으로 검색하기"
           {...searchBarArgs}
         />
-        <OrderFilter
-          filterMap={filterMap}
-          filterGroups={[STAGE, MANUFACTURING]}
-          onResetFilter={onResetFilter}
-          onFilterClick={onFilterClick}
-        />
+        <OrderFilter filterGroups={[STAGE, MANUFACTURING]} {...filterArgs} />
         {data && (
           <CustomerOrderList data={data} onOpenModal={onOpenWithContent} />
         )}
