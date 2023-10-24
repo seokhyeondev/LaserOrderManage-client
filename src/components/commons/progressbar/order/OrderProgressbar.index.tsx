@@ -9,6 +9,7 @@ import {
   Wrapper,
 } from "./OrderProgressbar.styles";
 import { STAGE } from "../../filters/order/OrderFilterQueries";
+import { IOrderProgressbarProps } from "./OrderProgressbar.types";
 
 export default function OrderProgressbar(props: IOrderProgressbarProps) {
   return (

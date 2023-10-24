@@ -12,24 +12,19 @@ import OrderPagination from "@/src/components/commons/paginations/order/OrderPag
 import { useSearchbar } from "@/src/lib/hooks/useSearchBar";
 import { useOrderModal } from "@/src/lib/hooks/useModal";
 import { usePagination } from "@/src/lib/hooks/usePagination";
-
-const mockData = {
-  id: 0,
-  name: "실리콘 부품 제작 프로젝트",
-  imgUrl: "asdf",
-  stage: "shipping",
-  manufacturing: "laser-cutting,bending",
-  createdAt: "2023-10-15",
-  deliveryAt: "2023-10-30",
-  cost: 10000000,
-  request: "배송시 부품을 조심히 다뤄주세요.",
-};
+import { useQuery } from "@tanstack/react-query";
+import { OrderApi } from "@/src/lib/apis/order/OrderApi";
 
 export default function Order() {
   const searchBarArgs = useSearchbar();
   const { filterMap, onResetFilter, onFilterClick } = useOrderFilter();
   const { isOpen, content, onOpenWithContent, onClose } = useOrderModal();
   const paginationArgs = usePagination({ count: 4 });
+
+  const { data } = useQuery({
+    queryKey: ["customerOrder"],
+    queryFn: () => OrderApi.GET_CUSTOMER_ORDER(),
+  });
 
   return (
     <>
@@ -45,7 +40,10 @@ export default function Order() {
           onResetFilter={onResetFilter}
           onFilterClick={onFilterClick}
         />
-        <CustomerOrderList data={mockData} onOpenModal={onOpenWithContent} />
+        {data && (
+          <CustomerOrderList data={data} onOpenModal={onOpenWithContent} />
+        )}
+
         <OrderPagination {...paginationArgs} />
       </BodyWrapper>
       <OrderModal isOpen={isOpen} content={content} onClose={onClose} />

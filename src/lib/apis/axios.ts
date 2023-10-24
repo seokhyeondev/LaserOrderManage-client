@@ -15,6 +15,7 @@ export const axiosPublic = axios.create({
 export const axiosPrivate = axios.create({
   baseURL: "http://13.209.132.215:8080",
   headers: { "Content-Type": "application/json" },
+  withCredentials: true,
 });
 
 axiosPrivate.interceptors.response.use(

@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { IProgressProps, IActiveBarProps } from "./OrderProgressbar.types";
 
 export const Wrapper = styled.div`
   width: 100%;
