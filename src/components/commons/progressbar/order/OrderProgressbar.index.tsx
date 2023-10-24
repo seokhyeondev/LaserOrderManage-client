@@ -19,7 +19,7 @@ export default function OrderProgressbar(props: IOrderProgressbarProps) {
           <Label
             key={el.value}
             className="regular10"
-            isActive={props.stage === el.value}
+            isActive={props.stage === el.name}
           >
             {el.name}
           </Label>
@@ -29,13 +29,13 @@ export default function OrderProgressbar(props: IOrderProgressbarProps) {
         <Bar />
         <ActiveBar
           percentage={
-            STAGE.filters.find((filter) => filter.value === props.stage)
+            STAGE.filters.find((filter) => filter.name === props.stage)
               ?.percentage ?? "0"
           }
         />
         <CircleWrapper className="flex-row-between-center">
           {STAGE.filters.map((el) => (
-            <Circle key={el.value} isActive={props.stage === el.value} />
+            <Circle key={el.value} isActive={props.stage === el.name} />
           ))}
         </CircleWrapper>
       </BarWrapper>

@@ -20,9 +20,7 @@ export default function CustomerOrderItem(props: IOrderItemProps) {
       />
       <S.InfoWrapper className="flex-column-between">
         <div>
-          <S.StageLabel className="medium16">
-            {getStageName(props.data.stage)}
-          </S.StageLabel>
+          <S.StageLabel className="medium16">{props.data.stage}</S.StageLabel>
           <S.HeaderWrapper className="flex-row-between-center">
             <div className="flex-row-bottom">
               <S.OrderName className="bold20">{props.data.name}</S.OrderName>
@@ -46,9 +44,7 @@ export default function CustomerOrderItem(props: IOrderItemProps) {
           </S.HeaderWrapper>
           <S.InfoContentWrapper className="flex-row">
             <S.InfoLabel className="regular16">작업 범위</S.InfoLabel>
-            <p className="regular16">
-              {getManufacturings(props.data.manufacturing[0])}
-            </p>
+            <p className="regular16">{props.data.manufacturing.join(", ")}</p>
           </S.InfoContentWrapper>
           <div className="flex-row">
             <S.InfoContentWrapper className="flex-row">

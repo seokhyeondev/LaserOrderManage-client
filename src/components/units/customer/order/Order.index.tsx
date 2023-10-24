@@ -43,7 +43,6 @@ export default function Order() {
         {data && (
           <CustomerOrderList data={data} onOpenModal={onOpenWithContent} />
         )}
-
         <OrderPagination {...paginationArgs} />
       </BodyWrapper>
       <OrderModal isOpen={isOpen} content={content} onClose={onClose} />
