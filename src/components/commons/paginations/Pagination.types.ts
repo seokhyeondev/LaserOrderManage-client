@@ -6,7 +6,7 @@ export interface IPageProps {
 
 export interface IPaginationProps {
   startPage: number;
-  lastPage: number;
   activedPage: number;
+  lastPage: number;
   onClickPage: (event: MouseEvent<HTMLSpanElement>) => void;
 }

@@ -1,18 +1,27 @@
-import { useState, MouseEvent } from "react";
+import { useState, MouseEvent, useEffect } from "react";
 
 interface IUsePaginationArgs {
-  count: number | undefined;
+  currentPage: number | undefined;
+  totalPage: number | undefined;
+  refetch: () => void;
 }
 
 export const usePagination = (args: IUsePaginationArgs) => {
   const [startPage, setStartPage] = useState(1);
   const [activedPage, setActivedPage] = useState(1);
-  const lastPage = args.count != null ? Math.ceil(args.count / 10) : 0;
+  const lastPage = args.totalPage ?? startPage;
 
   const onClickPage = (event: MouseEvent<HTMLSpanElement>) => {
-    const activedPage = Number(event.currentTarget.id);
-    setActivedPage(activedPage);
+    const clickedPage = Number(event.currentTarget.id);
+    if (clickedPage === activedPage) {
+      return;
+    }
+    setActivedPage(clickedPage);
   };
+
+  useEffect(() => {
+    args.refetch();
+  }, [activedPage]);
 
   return {
     startPage,

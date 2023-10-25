@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IOrderModalContent } from "../../modal/order/OrderModal.types";
+import { IOrderModalContent } from "@/src/components/commons/modal/order/OrderModal.types";
 
 const useModal = (): [boolean, () => void, () => void] => {
   const [isOpen, setIsOpen] = useState(false);

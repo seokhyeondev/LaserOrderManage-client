@@ -16,21 +16,25 @@ import { useQuery } from "@tanstack/react-query";
 import { OrderApi } from "@/src/lib/apis/order/OrderApi";
 
 export default function Order() {
-  const searchBarArgs = useSearchbar(() => refetch());
-  const filterArgs = useOrderFilter(() => refetch());
-  const { isOpen, content, onOpenWithContent, onClose } = useOrderModal();
-  const paginationArgs = usePagination({ count: 4 });
-
   const { data, refetch } = useQuery({
     queryKey: ["customerOrder"],
     queryFn: () =>
       OrderApi.GET_CUSTOMER_ORDER(
-        1,
-        10,
+        paginationArgs.activedPage,
+        5,
         filterArgs.filterMap.get("stage")?.join(",") ?? "",
         filterArgs.filterMap.get("manufacturing")?.join(",") ?? "",
         searchBarArgs.keyword,
       ),
+  });
+
+  const searchBarArgs = useSearchbar(() => refetch());
+  const filterArgs = useOrderFilter(() => refetch());
+  const orderModalArgs = useOrderModal();
+  const paginationArgs = usePagination({
+    currentPage: data?.page,
+    totalPage: data?.totalPages,
+    refetch: () => refetch(),
   });
 
   return (
@@ -43,11 +47,14 @@ export default function Order() {
         />
         <OrderFilter filterGroups={[STAGE, MANUFACTURING]} {...filterArgs} />
         {data && (
-          <CustomerOrderList data={data} onOpenModal={onOpenWithContent} />
+          <CustomerOrderList
+            data={data}
+            onOpenModal={orderModalArgs.onOpenWithContent}
+          />
         )}
         <OrderPagination {...paginationArgs} />
       </BodyWrapper>
-      <OrderModal isOpen={isOpen} content={content} onClose={onClose} />
+      <OrderModal {...orderModalArgs} />
     </>
   );
 }
