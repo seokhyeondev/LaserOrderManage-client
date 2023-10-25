@@ -4,22 +4,38 @@ export const useOrderFilter = (refetch: () => void) => {
   const [filterMap, setFilterMap] = useState(new Map<string, string[]>());
 
   const onResetFilter = () => {
-    const updatedMap = filterMap;
-    updatedMap.forEach((_, key) => filterMap.set(key, []));
-    setFilterMap(updatedMap);
+    filterMap.forEach((_, key) => filterMap.set(key, []));
+    setFilterMap(filterMap);
     refetch();
   };
 
   const onFilterClick = (key: string, value: string) => {
     const filteredList = filterMap.get(key) ?? [];
-    const isSelected = filteredList.includes(value);
-    if (isSelected) {
-      const selectedIndex = filteredList.indexOf(value);
-      filteredList.splice(selectedIndex, 1);
-    } else {
-      filteredList.push(value);
-    }
-    const updatedMap = filterMap.set(key, filteredList);
+    const updatedList = filteredList.includes(value)
+      ? filteredList.filter((f) => f !== value)
+      : [...filteredList, value];
+    const updatedMap = filterMap.set(key, updatedList);
+    setFilterMap(new Map(updatedMap));
+    refetch();
+  };
+
+  return { filterMap, onResetFilter, onFilterClick };
+};
+
+export const useOrderSelectFilter = (refetch: () => void) => {
+  const [filterMap, setFilterMap] = useState(new Map<string, string[]>());
+
+  const onResetFilter = () => {
+    filterMap.forEach((_, key) => filterMap.set(key, []));
+    setFilterMap(filterMap);
+    refetch();
+  };
+
+  const onFilterClick = (key: string, value: string) => {
+    const filteredList = filterMap.get(key) ?? [];
+    const updatedList =
+      filteredList.length === 0 || !filteredList.includes(value) ? [value] : [];
+    const updatedMap = filterMap.set(key, updatedList);
     setFilterMap(new Map(updatedMap));
     refetch();
   };

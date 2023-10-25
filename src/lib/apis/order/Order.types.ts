@@ -36,7 +36,7 @@ export interface IFactoryNewOrder {
   name: string;
   customer: string;
   company: string | null;
-  isNewCustomer: boolean | null;
+  isNewCustomer: boolean | undefined;
   hasQuotation: boolean;
   imgUrl: string;
   isUrgent: boolean;

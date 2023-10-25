@@ -26,8 +26,8 @@ export const QUOTATION: IFilterGroup = {
   title: "견적서 작성",
   key: "quoation",
   filters: [
-    { name: "작성 필요", value: "require" },
-    { name: "작성 완료", value: "complete" },
+    { name: "작성 필요", value: "false" },
+    { name: "작성 완료", value: "true" },
   ],
 };
 
@@ -35,8 +35,8 @@ export const CUSTOMER: IFilterGroup = {
   title: "고객 유형",
   key: "customer",
   filters: [
-    { name: "신규 고객", value: "existing" },
-    { name: "기존 고객", value: "new" },
+    { name: "신규 고객", value: "true" },
+    { name: "기존 고객", value: "false" },
   ],
 };
 
@@ -44,8 +44,8 @@ export const ORDER_TYPE: IFilterGroup = {
   title: "거래 유형",
   key: "orderType",
   filters: [
-    { name: "일반 거래", value: "general" },
-    { name: "긴급 거래", value: "urgent" },
+    { name: "일반 거래", value: "false" },
+    { name: "긴급 거래", value: "true" },
   ],
 };
 

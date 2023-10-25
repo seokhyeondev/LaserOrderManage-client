@@ -34,7 +34,7 @@ export default function OrderFilterWithDate(props: IOrderFilterWithDateProps) {
                 false
               }
               key={filter.value}
-              onClick={() => props.onFilterClick(filter.value)}
+              onClick={() => props.onFilterClick(el.key, filter.value)}
             >
               {filter.name}
             </S.Filter>
