@@ -14,6 +14,8 @@ import {
   ORDER_TYPE,
   QUOTATION,
 } from "@/src/components/commons/filters/order/OrderFilterQueries";
+import { usePagination } from "@/src/lib/hooks/usePagination";
+import OrderPagination from "@/src/components/commons/paginations/order/OrderPagination.index";
 
 export default function Order() {
   const [tab, onTabClick] = useOrderTab(NEW_ORDER_TAB[0]);
@@ -26,15 +28,23 @@ export default function Order() {
       tab === NEW_ORDER_TAB[0]
         ? () =>
             OrderApi.GET_FACTORY_NEWISSUE_ORDER(
+              paginationArgs.activedPage,
+              2,
               filterArgs.filterMap.get(QUOTATION.key)?.at(0) ?? "",
               filterArgs.filterMap.get(CUSTOMER.key)?.at(0) ?? "",
               filterArgs.filterMap.get(ORDER_TYPE.key)?.at(0) ?? "",
             )
         : () =>
             OrderApi.GET_FACTORY_REISSUE_ORDER(
+              paginationArgs.activedPage,
+              2,
               filterArgs.filterMap.get(QUOTATION.key)?.at(0) ?? "",
               filterArgs.filterMap.get(ORDER_TYPE.key)?.at(0) ?? "",
             ),
+  });
+  const paginationArgs = usePagination({
+    totalPage: data?.totalPages,
+    refetch: () => refetch(),
   });
 
   return (
@@ -53,6 +63,7 @@ export default function Order() {
             onOpenModal={modalArgs.onOpenWithContent}
           />
         )}
+        <OrderPagination {...paginationArgs} />
       </BodyWrapper>
       <OrderModal {...modalArgs} />
     </>

@@ -16,8 +16,12 @@ import { useQuery } from "@tanstack/react-query";
 import { OrderApi } from "@/src/lib/apis/order/OrderApi";
 
 export default function Order() {
+  const searchBarArgs = useSearchbar(() => refetch());
+  const filterArgs = useOrderFilter(() => refetch());
+  const orderModalArgs = useOrderModal();
+
   const { data, refetch } = useQuery({
-    queryKey: ["customerOrder"],
+    queryKey: ["customerOrder", filterArgs.filterMap],
     queryFn: () =>
       OrderApi.GET_CUSTOMER_ORDER(
         paginationArgs.activedPage,
@@ -27,12 +31,7 @@ export default function Order() {
         searchBarArgs.keyword,
       ),
   });
-
-  const searchBarArgs = useSearchbar(() => refetch());
-  const filterArgs = useOrderFilter(() => refetch());
-  const orderModalArgs = useOrderModal();
   const paginationArgs = usePagination({
-    currentPage: data?.page,
     totalPage: data?.totalPages,
     refetch: () => refetch(),
   });

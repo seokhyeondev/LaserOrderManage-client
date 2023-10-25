@@ -18,21 +18,25 @@ export const OrderApi = {
     return response.data;
   },
   GET_FACTORY_REISSUE_ORDER: async (
+    page: number,
+    size: number,
     hasQuotation: string,
     isUrgent: string,
   ): Promise<IFactoryNewOrderResponse> => {
     const response = await axiosPrivate.get(
-      `/factory/order/new/re-issue?has-quotation=${hasQuotation}&is-urgent=${isUrgent}`,
+      `/factory/order/new/re-issue?page=${page}&size=${size}&has-quotation=${hasQuotation}&is-urgent=${isUrgent}`,
     );
     return response.data;
   },
   GET_FACTORY_NEWISSUE_ORDER: async (
+    page: number,
+    size: number,
     hasQuotation: string,
     isNew: string,
     isUrgent: string,
   ): Promise<IFactoryNewOrderResponse> => {
     const response = await axiosPrivate.get(
-      `/factory/order/new/new-issue?has-quotation=${hasQuotation}&is-new-customer=${isNew}&is-urgent=${isUrgent}`,
+      `/factory/order/new/new-issue?page=${page}&size=${size}&has-quotation=${hasQuotation}&is-new-customer=${isNew}&is-urgent=${isUrgent}`,
     );
     return response.data;
   },

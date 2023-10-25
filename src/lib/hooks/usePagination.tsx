@@ -1,7 +1,6 @@
 import { useState, MouseEvent, useEffect } from "react";
 
 interface IUsePaginationArgs {
-  currentPage: number | undefined;
   totalPage: number | undefined;
   refetch: () => void;
 }
