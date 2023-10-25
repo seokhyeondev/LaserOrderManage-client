@@ -1,7 +1,6 @@
 import {
   ICustomerOrderResponse,
-  IFactoryNewIssueOrderResponse,
-  IFactoryReissueOrderResponse,
+  IFactoryNewOrderResponse,
 } from "./Order.types";
 import { axiosPrivate } from "../axios";
 
@@ -18,14 +17,12 @@ export const OrderApi = {
     );
     return response.data;
   },
-  GET_FACTORY_REISSUE_ORDER:
-    async (): Promise<IFactoryReissueOrderResponse> => {
-      const response = await axiosPrivate.get(`/factory/order/new/re-issue`);
-      return response.data;
-    },
-  GET_FACTORY_NEWISSUE_ORDER:
-    async (): Promise<IFactoryNewIssueOrderResponse> => {
-      const response = await axiosPrivate.get(`/factory/order/new/new-issue`);
-      return response.data;
-    },
+  GET_FACTORY_REISSUE_ORDER: async (): Promise<IFactoryNewOrderResponse> => {
+    const response = await axiosPrivate.get(`/factory/order/new/re-issue`);
+    return response.data;
+  },
+  GET_FACTORY_NEWISSUE_ORDER: async (): Promise<IFactoryNewOrderResponse> => {
+    const response = await axiosPrivate.get(`/factory/order/new/new-issue`);
+    return response.data;
+  },
 };

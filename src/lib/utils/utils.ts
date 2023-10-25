@@ -20,16 +20,16 @@ const getAnonymousName = (value: string): string => {
 
 export const getCustomerInfo = (
   name: string,
-  company?: string,
-  type?: string,
+  company: string | null,
+  isNew: boolean | null,
 ): string => {
   const infos: string[] = [];
   infos.push(getAnonymousName(name));
   if (company) {
     infos.push(company);
   }
-  if (type) {
-    if (type === "new") {
+  if (isNew !== null) {
+    if (isNew) {
       infos.push("신규 고객");
     } else {
       infos.push("기존 고객");

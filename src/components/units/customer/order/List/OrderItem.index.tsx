@@ -2,10 +2,6 @@ import { IOrderItemProps } from "./OrderList.types";
 import OrderProgressbar from "@/src/components/commons/progressbar/order/OrderProgressbar.index";
 import * as S from "./OrderList.styles";
 import Image from "next/image";
-import {
-  getManufacturings,
-  getStageName,
-} from "@/src/components/commons/filters/order/OrderFilterQueries";
 import { getDate, getCost } from "@/src/lib/utils/utils";
 
 export default function CustomerOrderItem(props: IOrderItemProps) {
