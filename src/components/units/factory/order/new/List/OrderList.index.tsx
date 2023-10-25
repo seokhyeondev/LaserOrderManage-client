@@ -4,7 +4,7 @@ import { IOrderListProps } from "./OrderList.types";
 export default function FactoryNewOrderList(prop: IOrderListProps) {
   return (
     <>
-      {prop.data.orderList.map((el) => (
+      {prop.data.contents.map((el) => (
         <FactoryNewOrderItem
           data={el}
           onOpenModal={prop.onOpenModal}

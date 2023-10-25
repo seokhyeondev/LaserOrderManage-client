@@ -22,27 +22,14 @@ export interface ICustomerOrder {
 }
 
 export interface IFactoryNewOrderResponse {
-  orderList: IFactoryNewOrder[];
+  contents: IFactoryNewOrder[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  first: boolean;
+  last: boolean;
 }
-
-// export interface IFactoryReissueOrder {
-//   id: number;
-//   name: string;
-//   customer: string;
-//   company: string | null;
-//   hasQuotation: boolean;
-//   imgUrl: string;
-//   isUrgent: boolean;
-//   manufacturing: string[];
-//   createdAt: any;
-//   deliveryAt: any | null;
-//   cost: number | null;
-//   request: string | null;
-// }
-
-// export interface IFactoryNewIssueOrderResponse {
-//   orderList: IFactoryNewOrder[];
-// }
 
 export interface IFactoryNewOrder {
   id: number;

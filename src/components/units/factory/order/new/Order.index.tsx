@@ -7,15 +7,21 @@ import { useOrderFilter } from "@/src/lib/hooks/useFilter";
 import { useOrderTab } from "@/src/lib/hooks/useTab";
 import { useOrderModal } from "@/src/lib/hooks/useModal";
 import FactoryNewOrderList from "./List/OrderList.index";
-
-const mockData = {
-  orderList: [],
-};
+import { useQuery } from "@tanstack/react-query";
+import { OrderApi } from "@/src/lib/apis/order/OrderApi";
 
 export default function Order() {
-  const [tab, onTabClick] = useOrderTab(NEW_ORDER_TAB[0]);
+  const [tab, onTabClick] = useOrderTab(NEW_ORDER_TAB[0], () => refetch());
   const filterArgs = useOrderFilter(() => {});
   const modalArgs = useOrderModal();
+
+  const { data, refetch } = useQuery({
+    queryKey: ["factoryNewOrder", tab],
+    queryFn:
+      tab === NEW_ORDER_TAB[0]
+        ? () => OrderApi.GET_FACTORY_NEWISSUE_ORDER()
+        : () => OrderApi.GET_FACTORY_REISSUE_ORDER(),
+  });
 
   return (
     <>
@@ -27,10 +33,12 @@ export default function Order() {
           onTabClick={onTabClick}
         />
         <OrderFilter filterGroups={tab.filterGroups} {...filterArgs} />
-        <FactoryNewOrderList
-          data={mockData}
-          onOpenModal={modalArgs.onOpenWithContent}
-        />
+        {data && (
+          <FactoryNewOrderList
+            data={data}
+            onOpenModal={modalArgs.onOpenWithContent}
+          />
+        )}
       </BodyWrapper>
       <OrderModal {...modalArgs} />
     </>
