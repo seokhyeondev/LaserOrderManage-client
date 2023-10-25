@@ -22,8 +22,8 @@ export default function Order() {
       OrderApi.GET_CUSTOMER_ORDER(
         paginationArgs.activedPage,
         5,
-        filterArgs.filterMap.get("stage")?.join(",") ?? "",
-        filterArgs.filterMap.get("manufacturing")?.join(",") ?? "",
+        filterArgs.filterMap.get(STAGE.key)?.join(",") ?? "",
+        filterArgs.filterMap.get(MANUFACTURING.key)?.join(",") ?? "",
         searchBarArgs.keyword,
       ),
   });
