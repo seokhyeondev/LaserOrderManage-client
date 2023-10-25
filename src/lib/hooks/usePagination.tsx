@@ -22,6 +22,12 @@ export const usePagination = (args: IUsePaginationArgs) => {
     args.refetch();
   }, [activedPage]);
 
+  useEffect(() => {
+    if (args.totalPage && args.totalPage < activedPage) {
+      setActivedPage(1);
+    }
+  }, [args.totalPage, activedPage]);
+
   return {
     startPage,
     activedPage,
