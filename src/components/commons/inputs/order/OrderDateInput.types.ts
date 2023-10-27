@@ -8,5 +8,5 @@ export interface ICalenderProps {
 
 export interface IOrderDateInputProps {
   date: string;
-  setDate: (date: string) => void;
+  setDate: (date: Value) => void;
 }

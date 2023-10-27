@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { IOrderTab } from "../../tabs/order/OrderTab.types";
+import { IOrderTab } from "@/src/components/commons/tabs/order/OrderTab.types";
+import { useEffect, useState } from "react";
 
 export const useOrderTab = (
   defaultTab: IOrderTab,
@@ -7,7 +7,9 @@ export const useOrderTab = (
   const [tab, setTab] = useState(defaultTab);
 
   const onTabClick = (tabItem: IOrderTab) => {
-    setTab(tabItem);
+    if (tab !== tabItem) {
+      setTab(tabItem);
+    }
   };
 
   return [tab, onTabClick];

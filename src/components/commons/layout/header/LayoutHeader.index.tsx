@@ -1,5 +1,5 @@
+import { useMoveToPage } from "@/src/lib/hooks/useMoveToPage";
 import * as S from "./LayoutHeader.styles";
-import { useMoveToPage } from "../../hooks/customs/useMoveToPage";
 import Image from "next/image";
 
 const NAVIGATION_MENU = [

@@ -6,30 +6,31 @@ export const getDate = (value: any) => {
   return `${yyyy}.${mm}.${dd}`;
 };
 
+export const getParamDate = (value: string): string => {
+  if (value === "") {
+    return "";
+  }
+  const [yy, mm, dd] = value.split(".").map((part) => part.trim());
+  return `20${yy}-${mm}-${dd}`;
+};
+
 export const getCost = (value: number) => {
   const cost = value.toLocaleString("ko-KR");
   return `${cost}원`;
 };
 
-const getAnonymousName = (value: string): string => {
-  return value.replace(
-    /.(.+)/,
-    (match, group) => match[0] + "*".repeat(group.length),
-  );
-};
-
 export const getCustomerInfo = (
   name: string,
-  company?: string,
-  type?: string,
+  company: string | null,
+  isNew?: boolean | undefined,
 ): string => {
   const infos: string[] = [];
-  infos.push(getAnonymousName(name));
+  infos.push(name);
   if (company) {
     infos.push(company);
   }
-  if (type) {
-    if (type === "new") {
+  if (isNew !== undefined) {
+    if (isNew) {
       infos.push("신규 고객");
     } else {
       infos.push("기존 고객");

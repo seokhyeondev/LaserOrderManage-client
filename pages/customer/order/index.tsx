@@ -1,5 +1,1 @@
-import Order from "@/src/components/units/customer/order/Order.index";
-
-export default function CustomerOrdersPage() {
-  return <Order />;
-}
+export { default } from "@/src/components/units/customer/order/Order.index";

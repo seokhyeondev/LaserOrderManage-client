@@ -17,12 +17,12 @@ export const NEW_ORDER_TAB: IOrderTab[] = [
 export const ORDER_TAB: IOrderTab[] = [
   {
     name: "진행중",
-    value: "proceeding",
+    value: "false",
     filterGroups: [ORDER_TYPE],
   },
   {
     name: "완료",
-    value: "complete",
+    value: "true",
     filterGroups: [ORDER_TYPE],
   },
 ];

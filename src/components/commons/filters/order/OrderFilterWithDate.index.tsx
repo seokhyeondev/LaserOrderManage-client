@@ -24,17 +24,16 @@ export default function OrderFilterWithDate(props: IOrderFilterWithDateProps) {
         </a>
       </S.HeaderWrapper>
       {props.filterGroups.map((el) => (
-        <S.FilterWrapper className="flex-row">
+        <S.FilterWrapper className="flex-row" key={el.key}>
           <S.FilterLabel className="medium16">{el.title}</S.FilterLabel>
           {el.filters.map((filter) => (
             <S.Filter
               className="medium16"
               isSelect={
-                props.filterMap.get(filter.value)?.includes(filter.value) ??
-                false
+                props.filterMap.get(el.key)?.includes(filter.value) ?? false
               }
               key={filter.value}
-              onClick={() => props.onFilterClick(filter.value)}
+              onClick={() => props.onFilterClick(el.key, filter.value)}
             >
               {filter.name}
             </S.Filter>
@@ -49,7 +48,7 @@ export default function OrderFilterWithDate(props: IOrderFilterWithDateProps) {
             {DATE_FILTER.filters.map((el) => (
               <S.FilterSmall
                 className="medium14"
-                isSelect={props.selectedDateFilter === el}
+                isSelect={props.dateFilter === el}
                 onClick={() => props.onDateFilter(el)}
               >
                 {el.name}

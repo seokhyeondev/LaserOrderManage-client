@@ -1,60 +1,55 @@
-import { useOrderTab } from "@/src/components/commons/hooks/customs/useTab";
 import OrderSearchbar from "@/src/components/commons/searchbars/order/OrderSearchbar.index";
 import OrderTab from "@/src/components/commons/tabs/order/OrderTab.index";
 import { ORDER_TAB } from "@/src/components/commons/tabs/order/OrderTabQueries";
 import { BodyWrapper } from "@/src/components/commons/wrapper/BodyWrapper.styles";
-import { useState } from "react";
 import FactoryOrderList from "./List/OrderList.index";
-import { useOrderModal } from "@/src/components/commons/hooks/customs/useModal";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
 import OrderFilterWithDate from "@/src/components/commons/filters/order/OrderFilterWithDate.index";
-import { IFilterItem } from "@/src/components/commons/filters/order/OrderFilter.types";
-import { useOrderFilter } from "@/src/components/commons/hooks/customs/useFilter";
-import { useSearchbar } from "@/src/components/commons/hooks/customs/useSearchBar";
-
-const mockData = {
-  id: 0,
-  name: "실리콘 부품 제작 프로젝트",
-  customer: "박이박",
-  company: "네스로지텍(주)",
-  quotation: "complete",
-  imgUrl: "asdf",
-  isUrgent: true,
-  stage: "shipping",
-  manufacturing: "laser-cutting,bending",
-  createdAt: "2023-10-15",
-  deliveryAt: "2023-10-30",
-  cost: 10000000,
-  request: "배송시 부품을 조심히 다뤄주세요.",
-};
+import { useOrderSelectFilter } from "@/src/lib/hooks/useFilter";
+import { useOrderTab } from "@/src/lib/hooks/useTab";
+import { useSearchbar } from "@/src/lib/hooks/useSearchBar";
+import { useOrderModal } from "@/src/lib/hooks/useModal";
+import { useQuery } from "@tanstack/react-query";
+import { OrderApi } from "@/src/lib/apis/order/OrderApi";
+import { ORDER_TYPE } from "@/src/components/commons/filters/order/OrderFilterQueries";
+import { useOrderDate } from "@/src/lib/hooks/useDate";
+import { getParamDate } from "@/src/lib/utils/utils";
+import { usePagination } from "@/src/lib/hooks/usePagination";
+import OrderPagination from "@/src/components/commons/paginations/order/OrderPagination.index";
 
 export default function Order() {
   const [tab, onTabClick] = useOrderTab(ORDER_TAB[0]);
-  const searchBarArgs = useSearchbar();
-  const { filterMap, onResetFilter, onFilterClick } = useOrderFilter();
-  const [dateFilter, setDateFilter] = useState<IFilterItem>();
-  const { isOpen, content, onOpenWithContent, onClose } = useOrderModal();
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const searchBarArgs = useSearchbar(() => refetch());
+  const filterArgs = useOrderSelectFilter(() => refetch());
+  const dateArgs = useOrderDate(filterArgs.onResetFilter);
+  const modalArgs = useOrderModal();
 
-  const onResetFilterWithDate = () => {
-    onResetFilter();
-    setDateFilter(undefined);
-    setStartDate("");
-    setEndDate("");
-  };
-
-  const onDateFilter = (filterItem: IFilterItem) => {
-    setDateFilter(filterItem);
-  };
-
-  const onStartDate = (date: string) => {
-    setStartDate(date);
-  };
-
-  const onEndDate = (date: string) => {
-    setEndDate(date);
-  };
+  const { data, refetch } = useQuery({
+    queryKey: [
+      "factoryOrder",
+      tab,
+      {
+        dateFilter: dateArgs.dateFilter,
+        startDate: dateArgs.startDate,
+        endDate: dateArgs.endDate,
+      },
+    ],
+    queryFn: () =>
+      OrderApi.GET_FACTORY_ORDER(
+        paginationArgs.activedPage,
+        5,
+        tab.value,
+        filterArgs.filterMap.get(ORDER_TYPE.key)?.at(0) ?? "",
+        dateArgs.dateFilter?.value ?? "",
+        getParamDate(dateArgs.startDate),
+        getParamDate(dateArgs.endDate),
+        searchBarArgs.keyword,
+      ),
+  });
+  const paginationArgs = usePagination({
+    totalPage: data?.totalPages,
+    refetch: () => refetch(),
+  });
 
   return (
     <>
@@ -66,20 +61,20 @@ export default function Order() {
           {...searchBarArgs}
         />
         <OrderFilterWithDate
-          filterMap={filterMap}
+          {...filterArgs}
+          {...dateArgs}
           filterGroups={tab.filterGroups}
-          onResetFilter={onResetFilterWithDate}
-          onFilterClick={onFilterClick}
-          selectedDateFilter={dateFilter}
-          startDate={startDate}
-          endDate={endDate}
-          onDateFilter={onDateFilter}
-          onStartDate={onStartDate}
-          onEndDate={onEndDate}
+          onResetFilter={dateArgs.onResetFilterWithDate}
         />
-        <FactoryOrderList data={mockData} onOpenModal={onOpenWithContent} />
+        {data && (
+          <FactoryOrderList
+            data={data}
+            onOpenModal={modalArgs.onOpenWithContent}
+          />
+        )}
+        <OrderPagination {...paginationArgs} />
       </BodyWrapper>
-      <OrderModal isOpen={isOpen} content={content} onClose={onClose} />
+      <OrderModal {...modalArgs} />
     </>
   );
 }

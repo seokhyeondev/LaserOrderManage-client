@@ -1,11 +1,11 @@
-interface IOrderProgressbarProps {
+export interface IOrderProgressbarProps {
   stage: string;
 }
 
-interface IProgressProps {
+export interface IProgressProps {
   isActive: boolean;
 }
 
-interface IActiveBarProps {
+export interface IActiveBarProps {
   percentage: string;
 }

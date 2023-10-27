@@ -14,9 +14,8 @@ export default function OrderSearchbar(props: IOrderSearchbarProps) {
         placeholder={props.placeholder}
         onChange={props.onChangeSearchBar}
         onKeyDown={props.onActiveEnter}
-        value={props.keyword}
       />
-      <IconWrapper>
+      <IconWrapper onClick={props.onSearchKeyword}>
         <Image
           src="/images/search.svg"
           width={24}

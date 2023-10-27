@@ -1,6 +1,6 @@
 import { ChangeEvent, KeyboardEvent, useState } from "react";
 
-export const useSearchbar = () => {
+export const useSearchbar = (refetch: () => void) => {
   const [keyword, setKeyword] = useState("");
 
   const onChangeSearchBar = (event: ChangeEvent<HTMLInputElement>) => {
@@ -9,13 +9,18 @@ export const useSearchbar = () => {
 
   const onActiveEnter = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      alert(keyword);
+      refetch();
     }
+  };
+
+  const onSearchKeyword = () => {
+    refetch();
   };
 
   return {
     keyword,
     onChangeSearchBar,
     onActiveEnter,
+    onSearchKeyword,
   };
 };
