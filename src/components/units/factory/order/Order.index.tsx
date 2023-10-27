@@ -11,31 +11,22 @@ import { useOrderFilter } from "@/src/lib/hooks/useFilter";
 import { useOrderTab } from "@/src/lib/hooks/useTab";
 import { useSearchbar } from "@/src/lib/hooks/useSearchBar";
 import { useOrderModal } from "@/src/lib/hooks/useModal";
-
-const mockData = {
-  id: 0,
-  name: "실리콘 부품 제작 프로젝트",
-  customer: "박이박",
-  company: "네스로지텍(주)",
-  quotation: "complete",
-  imgUrl: "asdf",
-  isUrgent: true,
-  stage: "shipping",
-  manufacturing: "laser-cutting,bending",
-  createdAt: "2023-10-15",
-  deliveryAt: "2023-10-30",
-  cost: 10000000,
-  request: "배송시 부품을 조심히 다뤄주세요.",
-};
+import { useQuery } from "@tanstack/react-query";
+import { OrderApi } from "@/src/lib/apis/order/OrderApi";
 
 export default function Order() {
   const [tab, onTabClick] = useOrderTab(ORDER_TAB[0]);
-  const searchBarArgs = useSearchbar();
-  const { filterMap, onResetFilter, onFilterClick } = useOrderFilter();
+  const searchBarArgs = useSearchbar(() => {});
+  const { filterMap, onResetFilter, onFilterClick } = useOrderFilter(() => {});
   const [dateFilter, setDateFilter] = useState<IFilterItem>();
   const { isOpen, content, onOpenWithContent, onClose } = useOrderModal();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+
+  const { data, refetch } = useQuery({
+    queryKey: ["factoryOrder"],
+    queryFn: () => OrderApi.GET_FACTORY_ORDER(),
+  });
 
   const onResetFilterWithDate = () => {
     onResetFilter();
@@ -77,7 +68,9 @@ export default function Order() {
           onStartDate={onStartDate}
           onEndDate={onEndDate}
         />
-        <FactoryOrderList data={mockData} onOpenModal={onOpenWithContent} />
+        {data && (
+          <FactoryOrderList data={data} onOpenModal={onOpenWithContent} />
+        )}
       </BodyWrapper>
       <OrderModal isOpen={isOpen} content={content} onClose={onClose} />
     </>

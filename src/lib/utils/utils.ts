@@ -21,7 +21,7 @@ const getAnonymousName = (value: string): string => {
 export const getCustomerInfo = (
   name: string,
   company: string | null,
-  isNew: boolean | undefined,
+  isNew?: boolean | undefined,
 ): string => {
   const infos: string[] = [];
   infos.push(getAnonymousName(name));

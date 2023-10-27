@@ -1,21 +1,15 @@
 import { IOrderModalContent } from "@/src/components/commons/modal/order/OrderModal.types";
-
-type IOrderList = {
-  id: number;
-  name: string;
-  customer: string;
-  company?: string;
-  imgUrl: string;
-  stage: string;
-  isUrgent: boolean;
-  manufacturing: string;
-  createdAt: any;
-  deliveryAt?: any;
-  cost?: number;
-  request?: string;
-};
+import {
+  IFactoryOrder,
+  IFactoryOrderResponse,
+} from "@/src/lib/apis/order/Order.types";
 
 export interface IOrderListProps {
-  data: IOrderList;
+  data: IFactoryOrderResponse;
+  onOpenModal: (content: IOrderModalContent) => void;
+}
+
+export interface IOrderItemProps {
+  data: IFactoryOrder;
   onOpenModal: (content: IOrderModalContent) => void;
 }
