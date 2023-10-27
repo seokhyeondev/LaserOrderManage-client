@@ -18,6 +18,14 @@ export const axiosPrivate = axios.create({
   withCredentials: true,
 });
 
+axiosPrivate.interceptors.request.use((config) => {
+  const accessToken = localStorage.getItem("accessToken");
+  if (accessToken) {
+    config.headers["Authorization"] = `Bearer ${accessToken}`;
+  }
+  return config;
+});
+
 axiosPrivate.interceptors.response.use(
   (response) => {
     return response;

@@ -2,7 +2,7 @@ import { useMoveToPage } from "@/src/lib/hooks/useMoveToPage";
 import * as S from "./LayoutHeader.styles";
 import Image from "next/image";
 import { useRecoilValue } from "recoil";
-import { authState, UserType } from "@/src/store/auth";
+import { authState } from "@/src/store/auth";
 
 const NAVIGATION_MENU_DEFAULT = [
   { name: "견적 요청하기", page: "/" },

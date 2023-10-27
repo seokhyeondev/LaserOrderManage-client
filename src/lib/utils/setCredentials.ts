@@ -5,6 +5,7 @@ export const setCredentials = (token: IToken) => {
   axiosPrivate.defaults.headers.common[
     "Authorization"
   ] = `${token.grantType} ${token.accessToken}`;
+  localStorage.setItem("accessToken", token.accessToken);
 };
 
 export const resetCredentials = () => {
