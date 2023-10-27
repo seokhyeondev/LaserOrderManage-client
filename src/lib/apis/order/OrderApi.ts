@@ -41,8 +41,12 @@ export const OrderApi = {
     );
     return response.data;
   },
-  GET_FACTORY_ORDER: async (): Promise<IFactoryOrderResponse> => {
-    const response = await axiosPrivate.get(`/factory/order`);
+  GET_FACTORY_ORDER: async (
+    isCompleted: string,
+  ): Promise<IFactoryOrderResponse> => {
+    const response = await axiosPrivate.get(
+      `/factory/order?is-completed=${isCompleted}`,
+    );
     return response.data;
   },
 };

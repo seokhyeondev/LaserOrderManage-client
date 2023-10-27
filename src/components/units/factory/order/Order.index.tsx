@@ -24,8 +24,8 @@ export default function Order() {
   const [endDate, setEndDate] = useState("");
 
   const { data, refetch } = useQuery({
-    queryKey: ["factoryOrder"],
-    queryFn: () => OrderApi.GET_FACTORY_ORDER(),
+    queryKey: ["factoryOrder", tab],
+    queryFn: () => OrderApi.GET_FACTORY_ORDER(tab.value),
   });
 
   const onResetFilterWithDate = () => {
