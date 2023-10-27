@@ -29,7 +29,7 @@ export default function Order() {
         ? () =>
             OrderApi.GET_FACTORY_NEWISSUE_ORDER(
               paginationArgs.activedPage,
-              2,
+              5,
               filterArgs.filterMap.get(QUOTATION.key)?.at(0) ?? "",
               filterArgs.filterMap.get(CUSTOMER.key)?.at(0) ?? "",
               filterArgs.filterMap.get(ORDER_TYPE.key)?.at(0) ?? "",
@@ -37,7 +37,7 @@ export default function Order() {
         : () =>
             OrderApi.GET_FACTORY_REISSUE_ORDER(
               paginationArgs.activedPage,
-              2,
+              5,
               filterArgs.filterMap.get(QUOTATION.key)?.at(0) ?? "",
               filterArgs.filterMap.get(ORDER_TYPE.key)?.at(0) ?? "",
             ),
