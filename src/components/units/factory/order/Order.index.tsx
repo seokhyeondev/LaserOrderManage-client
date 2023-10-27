@@ -14,15 +14,14 @@ import { useOrderModal } from "@/src/lib/hooks/useModal";
 import { useQuery } from "@tanstack/react-query";
 import { OrderApi } from "@/src/lib/apis/order/OrderApi";
 import { ORDER_TYPE } from "@/src/components/commons/filters/order/OrderFilterQueries";
+import { useOrderDate } from "@/src/lib/hooks/useDate";
 
 export default function Order() {
   const [tab, onTabClick] = useOrderTab(ORDER_TAB[0]);
   const searchBarArgs = useSearchbar(() => refetch());
   const filterArgs = useOrderSelectFilter(() => refetch());
-  const [dateFilter, setDateFilter] = useState<IFilterItem>();
-  const { isOpen, content, onOpenWithContent, onClose } = useOrderModal();
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const dateArgs = useOrderDate(filterArgs.onResetFilter);
+  const modalArgs = useOrderModal();
 
   const { data, refetch } = useQuery({
     queryKey: ["factoryOrder", tab, filterArgs.filterMap],
@@ -33,25 +32,6 @@ export default function Order() {
         searchBarArgs.keyword,
       ),
   });
-
-  const onResetFilterWithDate = () => {
-    filterArgs.onResetFilter();
-    setDateFilter(undefined);
-    setStartDate("");
-    setEndDate("");
-  };
-
-  const onDateFilter = (filterItem: IFilterItem) => {
-    setDateFilter(filterItem);
-  };
-
-  const onStartDate = (date: string) => {
-    setStartDate(date);
-  };
-
-  const onEndDate = (date: string) => {
-    setEndDate(date);
-  };
 
   return (
     <>
@@ -64,20 +44,18 @@ export default function Order() {
         />
         <OrderFilterWithDate
           {...filterArgs}
+          {...dateArgs}
           filterGroups={tab.filterGroups}
-          onResetFilter={onResetFilterWithDate}
-          selectedDateFilter={dateFilter}
-          startDate={startDate}
-          endDate={endDate}
-          onDateFilter={onDateFilter}
-          onStartDate={onStartDate}
-          onEndDate={onEndDate}
+          onResetFilter={dateArgs.onResetFilterWithDate}
         />
         {data && (
-          <FactoryOrderList data={data} onOpenModal={onOpenWithContent} />
+          <FactoryOrderList
+            data={data}
+            onOpenModal={modalArgs.onOpenWithContent}
+          />
         )}
       </BodyWrapper>
-      <OrderModal isOpen={isOpen} content={content} onClose={onClose} />
+      <OrderModal {...modalArgs} />
     </>
   );
 }

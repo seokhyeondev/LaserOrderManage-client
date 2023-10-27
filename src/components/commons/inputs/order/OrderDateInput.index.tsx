@@ -14,7 +14,7 @@ export default function OrderDateInput(props: IOrderDateInputProps) {
   };
 
   const handleDateChange = (selectedDate: Value) => {
-    props.setDate(moment(selectedDate?.toString()).format("YY. MM. DD"));
+    props.setDate(selectedDate);
     setIsOpen(false);
   };
 

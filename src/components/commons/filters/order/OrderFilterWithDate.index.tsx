@@ -48,7 +48,7 @@ export default function OrderFilterWithDate(props: IOrderFilterWithDateProps) {
             {DATE_FILTER.filters.map((el) => (
               <S.FilterSmall
                 className="medium14"
-                isSelect={props.selectedDateFilter === el}
+                isSelect={props.dateFilter === el}
                 onClick={() => props.onDateFilter(el)}
               >
                 {el.name}
