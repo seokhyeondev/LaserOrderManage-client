@@ -46,3 +46,28 @@ export interface IFactoryNewOrder {
   cost: number | null;
   request: string | null;
 }
+
+export interface IFactoryOrderResponse {
+  contents: IFactoryOrder[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  first: boolean;
+  last: boolean;
+}
+
+export interface IFactoryOrder {
+  id: number;
+  name: string;
+  customer: string;
+  company: string | null;
+  imgUrl: string;
+  stage: string;
+  isUrgent: string;
+  manufacturing: string[];
+  createdAt: any;
+  deliveryAt: any | null;
+  cost: number | null;
+  request: string | null;
+}

@@ -1,6 +1,7 @@
 import {
   ICustomerOrderResponse,
   IFactoryNewOrderResponse,
+  IFactoryOrder,
 } from "./Order.types";
 import { axiosPrivate } from "../axios";
 
@@ -38,6 +39,10 @@ export const OrderApi = {
     const response = await axiosPrivate.get(
       `/factory/order/new/new-issue?page=${page}&size=${size}&has-quotation=${hasQuotation}&is-new-customer=${isNew}&is-urgent=${isUrgent}`,
     );
+    return response.data;
+  },
+  GET_FACTORY_ORDER: async (): Promise<IFactoryOrder> => {
+    const response = await axiosPrivate.get(`/factory/order`);
     return response.data;
   },
 };
