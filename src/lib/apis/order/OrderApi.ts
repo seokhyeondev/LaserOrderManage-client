@@ -42,6 +42,8 @@ export const OrderApi = {
     return response.data;
   },
   GET_FACTORY_ORDER: async (
+    page: number,
+    size: number,
     isCompleted: string,
     isUrgent: string,
     dateCriterion: string,
@@ -50,7 +52,7 @@ export const OrderApi = {
     keyword: string,
   ): Promise<IFactoryOrderResponse> => {
     const response = await axiosPrivate.get(
-      `/factory/order?is-completed=${isCompleted}&is-urgent=${isUrgent}&date-criterion=${dateCriterion}&start-date=${startDate}&end-date=${endDate}&query=${keyword}`,
+      `/factory/order?page=${page}&size=${size}&is-completed=${isCompleted}&is-urgent=${isUrgent}&date-criterion=${dateCriterion}&start-date=${startDate}&end-date=${endDate}&query=${keyword}`,
     );
     return response.data;
   },
