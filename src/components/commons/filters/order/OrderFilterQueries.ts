@@ -54,6 +54,6 @@ export const DATE_FILTER: IFilterGroup = {
   key: "dateFilter",
   filters: [
     { name: "거래 생성일 기준", value: "create" },
-    { name: "납기일 기준", value: "end" },
+    { name: "납기일 기준", value: "delivery" },
   ],
 };

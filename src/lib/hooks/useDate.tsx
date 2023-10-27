@@ -1,18 +1,18 @@
 import { IFilterItem } from "@/src/components/commons/filters/order/OrderFilter.types";
 import { Value } from "@/src/components/commons/inputs/order/OrderDateInput.types";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const useOrderDate = (resetFilter: () => void) => {
+export const useOrderDate = (resetFilter: () => void, refetch: () => void) => {
   const [dateFilter, setDateFilter] = useState<IFilterItem>();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
   const onResetFilterWithDate = () => {
-    resetFilter();
     setDateFilter(undefined);
     setStartDate("");
     setEndDate("");
+    resetFilter();
   };
 
   const onDateFilter = (filterItem: IFilterItem) => {

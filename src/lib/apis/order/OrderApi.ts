@@ -44,10 +44,13 @@ export const OrderApi = {
   GET_FACTORY_ORDER: async (
     isCompleted: string,
     isUrgent: string,
+    dateCriterion: string,
+    startDate: string,
+    endDate: string,
     keyword: string,
   ): Promise<IFactoryOrderResponse> => {
     const response = await axiosPrivate.get(
-      `/factory/order?is-completed=${isCompleted}&is-urgent=${isUrgent}&query=${keyword}`,
+      `/factory/order?is-completed=${isCompleted}&is-urgent=${isUrgent}&date-criterion=${dateCriterion}&start-date=${startDate}&end-date=${endDate}&query=${keyword}`,
     );
     return response.data;
   },

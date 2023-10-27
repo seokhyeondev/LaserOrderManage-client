@@ -6,6 +6,14 @@ export const getDate = (value: any) => {
   return `${yyyy}.${mm}.${dd}`;
 };
 
+export const getParamDate = (value: string): string => {
+  if (value === "") {
+    return "";
+  }
+  const [yy, mm, dd] = value.split(".").map((part) => part.trim());
+  return `20${yy}-${mm}-${dd}`;
+};
+
 export const getCost = (value: number) => {
   const cost = value.toLocaleString("ko-KR");
   return `${cost}원`;
