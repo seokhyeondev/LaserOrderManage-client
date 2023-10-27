@@ -57,21 +57,3 @@ export const DATE_FILTER: IFilterGroup = {
     { name: "납기일 기준", value: "end" },
   ],
 };
-
-export const getStageName = (value: string): string => {
-  return STAGE.filters.find((f) => f.value == value)?.name ?? "";
-};
-
-export const getManufacturings = (value: string): string => {
-  const values = value.split(",");
-  const manufacturings: string[] = [];
-
-  values.forEach((v) => {
-    const filter = MANUFACTURING.filters.find((f) => f.value === v);
-    if (filter) {
-      manufacturings.push(filter.name);
-    }
-  });
-
-  return manufacturings.join(", ");
-};

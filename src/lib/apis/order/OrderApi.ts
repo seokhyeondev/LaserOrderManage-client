@@ -43,10 +43,11 @@ export const OrderApi = {
   },
   GET_FACTORY_ORDER: async (
     isCompleted: string,
+    isUrgent: string,
     keyword: string,
   ): Promise<IFactoryOrderResponse> => {
     const response = await axiosPrivate.get(
-      `/factory/order?is-completed=${isCompleted}&query=${keyword}`,
+      `/factory/order?is-completed=${isCompleted}&is-urgent=${isUrgent}&query=${keyword}`,
     );
     return response.data;
   },
