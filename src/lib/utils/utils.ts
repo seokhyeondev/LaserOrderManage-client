@@ -11,20 +11,13 @@ export const getCost = (value: number) => {
   return `${cost}원`;
 };
 
-const getAnonymousName = (value: string): string => {
-  return value.replace(
-    /.(.+)/,
-    (match, group) => match[0] + "*".repeat(group.length),
-  );
-};
-
 export const getCustomerInfo = (
   name: string,
   company: string | null,
   isNew?: boolean | undefined,
 ): string => {
   const infos: string[] = [];
-  infos.push(getAnonymousName(name));
+  infos.push(name);
   if (company) {
     infos.push(company);
   }

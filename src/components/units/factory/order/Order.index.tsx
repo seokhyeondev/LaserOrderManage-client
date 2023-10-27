@@ -16,7 +16,7 @@ import { OrderApi } from "@/src/lib/apis/order/OrderApi";
 
 export default function Order() {
   const [tab, onTabClick] = useOrderTab(ORDER_TAB[0]);
-  const searchBarArgs = useSearchbar(() => {});
+  const searchBarArgs = useSearchbar(() => refetch());
   const { filterMap, onResetFilter, onFilterClick } = useOrderFilter(() => {});
   const [dateFilter, setDateFilter] = useState<IFilterItem>();
   const { isOpen, content, onOpenWithContent, onClose } = useOrderModal();
@@ -25,7 +25,7 @@ export default function Order() {
 
   const { data, refetch } = useQuery({
     queryKey: ["factoryOrder", tab],
-    queryFn: () => OrderApi.GET_FACTORY_ORDER(tab.value),
+    queryFn: () => OrderApi.GET_FACTORY_ORDER(tab.value, searchBarArgs.keyword),
   });
 
   const onResetFilterWithDate = () => {
