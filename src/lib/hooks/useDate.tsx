@@ -3,7 +3,7 @@ import { Value } from "@/src/components/commons/inputs/order/OrderDateInput.type
 import moment from "moment";
 import { useEffect, useState } from "react";
 
-export const useOrderDate = (resetFilter: () => void, refetch: () => void) => {
+export const useOrderDate = (resetFilter: () => void) => {
   const [dateFilter, setDateFilter] = useState<IFilterItem>();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
