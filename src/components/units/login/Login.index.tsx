@@ -1,5 +1,5 @@
 import * as S from "./Login.styles";
-import { ChangeEvent, useState } from "react";
+import { useState, KeyboardEvent } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { UserApi } from "@/src/lib/apis/user/UserApi";
 import { AxiosError } from "axios";
@@ -8,10 +8,12 @@ import { useSetRecoilState } from "recoil";
 import { authState } from "@/src/store/auth";
 import { setCredentials } from "@/src/lib/utils/setCredentials";
 import { useRouter } from "next/router";
+import { useInput } from "@/src/lib/hooks/useInput";
+import { emailRegex, passwordRegex } from "@/src/lib/constants/regex";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, onChangeEmail] = useInput();
+  const [password, onChangePassword] = useInput();
   const [errorMsg, setErrorMsg] = useState("");
   const setAuth = useSetRecoilState(authState);
   const router = useRouter();
@@ -31,18 +33,6 @@ export default function Login() {
     },
   });
 
-  const onChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-
-  const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
-  const emailRegex = new RegExp(
-    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-  );
-
   const onClickLogin = () => {
     if (email === "") {
       setErrorMsg("이메일을 입력해주세요.");
@@ -56,7 +46,17 @@ export default function Login() {
       setErrorMsg("비밀번호를 입력해주세요.");
       return;
     }
+    if (!passwordRegex.test(password)) {
+      setErrorMsg("비밀번호는 8자리 이상 영문, 숫자, 특수문자를 사용하세요.");
+      return;
+    }
     mutate({ email, password });
+  };
+
+  const onActiveEnter = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      onClickLogin();
+    }
   };
 
   return (
@@ -68,12 +68,14 @@ export default function Login() {
           placeholder="이메일"
           type="text"
           onChange={onChangeEmail}
+          onKeyDown={onActiveEnter}
         />
         <S.LoginInput
           className="medium18"
           placeholder="비밀번호"
           type="password"
           onChange={onChangePassword}
+          onKeyDown={onActiveEnter}
         />
         <S.ErrorMessage className="regular14">{errorMsg}</S.ErrorMessage>
         <S.LoginButton className="bold18" onClick={onClickLogin}>
