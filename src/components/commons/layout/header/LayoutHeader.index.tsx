@@ -3,10 +3,15 @@ import * as S from "./LayoutHeader.styles";
 import Image from "next/image";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/src/store/auth";
+import { useMutation } from "@tanstack/react-query";
+import { UserApi } from "@/src/lib/apis/user/UserApi";
+import { AxiosError } from "axios";
 
 const NAVIGATION_MENU_DEFAULT = [
   { name: "견적 요청하기", page: "/" },
   { name: "거래 목록", page: "/customer/order" },
+  { name: "신규 거래 목록", page: "/factory/order/new" },
+  { name: "거래 내역", page: "/factory/order" },
 ];
 
 const NAVIGATION_MENU_FACTORY = [
@@ -17,6 +22,16 @@ const NAVIGATION_MENU_FACTORY = [
 export default function LayoutHeader() {
   const auth = useRecoilValue(authState);
   const { onClickMoveToPage, onClickMoveWithAuth } = useMoveToPage();
+
+  const { mutate } = useMutation({
+    mutationFn: UserApi.REISSUE,
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error: AxiosError) => {
+      console.log(error);
+    },
+  });
 
   return (
     <S.Wrapper>
@@ -52,6 +67,7 @@ export default function LayoutHeader() {
               ))}
         </S.MenuWrapper>
       </S.InnerWrapper>
+      <button onClick={() => mutate()}>테스트 버튼</button>
       <S.HeaderButton
         className="bold16"
         onClick={
