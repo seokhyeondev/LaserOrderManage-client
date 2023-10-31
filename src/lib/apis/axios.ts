@@ -38,7 +38,7 @@ axiosPrivate.interceptors.response.use(
     const status = Number(error.response?.status);
     const origin = error.config as AxiosRequestConfig;
 
-    if (status === 401 || status === 403) {
+    if (status === 401) {
       const newToken = await UserApi.REISSUE();
 
       setCredentials(newToken);
