@@ -15,8 +15,8 @@ const NAVIGATION_MENU_FACTORY = [
 ];
 
 export default function LayoutHeader() {
-  const { onClickMoveToPage } = useMoveToPage();
   const auth = useRecoilValue(authState);
+  const { onClickMoveToPage, onClickMoveWithAuth } = useMoveToPage();
 
   return (
     <S.Wrapper>
@@ -36,7 +36,7 @@ export default function LayoutHeader() {
                 <S.MenuItem
                   key={el.page}
                   className="medium20"
-                  onClick={onClickMoveToPage(el.page)}
+                  onClick={onClickMoveWithAuth(el.page, auth)}
                 >
                   {el.name}
                 </S.MenuItem>
@@ -45,7 +45,7 @@ export default function LayoutHeader() {
                 <S.MenuItem
                   key={el.page}
                   className="medium20"
-                  onClick={onClickMoveToPage(el.page)}
+                  onClick={onClickMoveWithAuth(el.page, auth)}
                 >
                   {el.name}
                 </S.MenuItem>
