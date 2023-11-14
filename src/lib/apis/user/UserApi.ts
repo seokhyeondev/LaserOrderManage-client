@@ -7,7 +7,9 @@ export const UserApi = {
     return response.data;
   },
   REISSUE: async (): Promise<IToken> => {
-    const response = await axiosPrivate.post("/user/re-issue");
+    const response = await axiosPrivate.post("/user/re-issue", {
+      withCredentials: true,
+    });
     return response.data;
   },
   LOGOUT: async (): Promise<null> => {

@@ -50,6 +50,7 @@ export default function OrderFilterWithDate(props: IOrderFilterWithDateProps) {
                 className="medium14"
                 isSelect={props.dateFilter === el}
                 onClick={() => props.onDateFilter(el)}
+                key={el.value}
               >
                 {el.name}
               </S.FilterSmall>
