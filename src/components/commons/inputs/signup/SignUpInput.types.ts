@@ -4,6 +4,7 @@ export interface ISignUpInputProps {
   placeHolder: string;
   isError?: boolean;
   errorMessage?: string;
+  needDefaultSpace: boolean;
   editable: boolean;
   focusable: boolean;
   tailButtonTitle?: string;

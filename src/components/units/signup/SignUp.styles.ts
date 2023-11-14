@@ -2,12 +2,12 @@ import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
   width: 100%;
-  height: calc(100vh - 80px);
+  padding: 40px 0;
   background-color: var(--color-lightGray);
 `;
 
 export const FormWrapper = styled.div`
-  padding: 70px 57px 80px 57px;
+  padding: 70px 57px 40px 57px;
   background-color: var(--color-white);
   border: 1px solid var(--color-mediumGray);
   border-radius: var(--border-radius);
