@@ -16,6 +16,7 @@ import {
   KeyboardEvent,
 } from "react";
 import { Address, useDaumPostcodePopup } from "react-daum-postcode";
+import { useRouter } from "next/router";
 
 export default function SignUp() {
   const [email, onChangeEmail] = useInput();
@@ -47,6 +48,7 @@ export default function SignUp() {
   const [detailAddress, onChangeDetailAddress] = useInput();
 
   const openPostPopup = useDaumPostcodePopup();
+  const router = useRouter();
 
   const sendCodeToEmail = () => {
     if (!emailRegex.test(email) || codeChecked) {
@@ -124,34 +126,34 @@ export default function SignUp() {
     });
   };
 
-  const checkError = (
+  const passError = (
     state: boolean,
     setError: Dispatch<SetStateAction<boolean>>,
   ): boolean => {
     if (!state) {
       setError(true);
-      return true;
+      return false;
     }
-    return false;
+    return true;
   };
 
   const joinAccount = () => {
-    const checkEmailError = checkError(
+    const checkEmailError = passError(
       sendCode && emailRegex.test(email),
       setEmailError,
     );
-    const checkCodeError = checkError(sendCode && codeChecked, setCodeError);
-    const checkPasswordError = checkError(
+    const checkCodeError = passError(sendCode && codeChecked, setCodeError);
+    const checkPasswordError = passError(
       passwordRegex.test(password),
       setPasswordError,
     );
-    const checkRePasswordError = checkError(
+    const checkRePasswordError = passError(
       rePassword === password && rePassword !== "",
       setRePasswordError,
     );
-    const checkNameError = checkError(name.length > 1, setNameError);
-    const checkPhoneError = checkError(phoneRegex.test(phone), setPhoneError);
-    const checkAddressError = checkError(address !== "", setAddressError);
+    const checkNameError = passError(name.length > 1, setNameError);
+    const checkPhoneError = passError(phoneRegex.test(phone), setPhoneError);
+    const checkAddressError = passError(address !== "", setAddressError);
     if (
       !(
         checkEmailError &&
@@ -165,6 +167,7 @@ export default function SignUp() {
     ) {
       return;
     }
+    router.replace("/");
   };
 
   return (
