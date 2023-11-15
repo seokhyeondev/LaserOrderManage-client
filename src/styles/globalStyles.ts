@@ -137,6 +137,11 @@ export const globalStyles = css`
     display: flex;
     flex-direction: row;
   }
+  .flex-row-align-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
   .flex-row-center {
     display: flex;
     flex-direction: row;
