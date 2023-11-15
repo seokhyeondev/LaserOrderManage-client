@@ -2,6 +2,8 @@ import { ChangeEvent } from "react";
 
 export interface ISignUpInputProps {
   placeHolder: string;
+  value?: string;
+  hideInput?: boolean;
   isError?: boolean;
   errorMessage?: string;
   needDefaultSpace: boolean;

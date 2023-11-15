@@ -18,11 +18,13 @@ export default function SignUpInput(props: ISignUpInputProps) {
         <S.Input
           className="medium18"
           placeholder={props.placeHolder}
+          value={props.value}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           disabled={!props.editable}
           focusable={props.focusable}
           onChange={props.onChange}
+          type={props.hideInput ? "password" : "text"}
         />
         {props.tailButtonTitle && (
           <S.TailButton

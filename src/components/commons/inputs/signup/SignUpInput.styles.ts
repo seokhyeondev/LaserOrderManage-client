@@ -11,10 +11,10 @@ export const InputWrapper = styled.div<IInputWrapperProps>`
   padding: 0 ${(props) => (props.hasTail ? "11px" : "25px")} 0 25px;
   border: 1px solid
     ${(props) =>
-      props.isFocus
-        ? "var(--color-darkGray)"
-        : props.isError
+      props.isError
         ? "var(--color-alert)"
+        : props.isFocus
+        ? "var(--color-darkGray)"
         : "var(--color-mediumGray)"};
   border-radius: var(--border-radius);
   cursor: ${(props) => (props.focusable ? "pointer" : "default")};
@@ -25,6 +25,9 @@ export const Input = styled.input<IInputProps>`
   cursor: ${(props) => (props.focusable ? "pointer" : "text")};
   ::placeholder {
     color: var(--color-normalGray);
+  }
+  :disabled {
+    background-color: var(--color-white);
   }
 `;
 
