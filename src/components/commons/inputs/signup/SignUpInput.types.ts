@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, KeyboardEvent } from "react";
 
 export interface ISignUpInputProps {
   placeHolder: string;
@@ -12,6 +12,7 @@ export interface ISignUpInputProps {
   tailButtonTitle?: string;
   tailButtonValidate?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
   onClickInput?: () => void;
   onClickTailButton?: () => void;
 }

@@ -24,6 +24,7 @@ export default function SignUpInput(props: ISignUpInputProps) {
           disabled={!props.editable}
           focusable={props.focusable}
           onChange={props.onChange}
+          onKeyDown={props.onKeyDown}
           type={props.hideInput ? "password" : "text"}
         />
         {props.tailButtonTitle && (
