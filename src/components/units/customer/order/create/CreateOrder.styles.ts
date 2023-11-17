@@ -70,7 +70,20 @@ export const FormInput = styled.input`
 export const FormInputLength = styled.p`
   width: 100%;
   color: var(--color-darkGray);
-  padding-left: 6px;
+  padding-right: 6px;
+`;
+
+export const FormTextArea = styled.textarea`
+  width: 100%;
+  height: 300px;
+  line-height: 24px;
+  padding: 20px 16px;
+  border: 1px solid var(--color-mediumGray);
+  border-radius: var(--border-radius);
+  resize: none;
+  ::placeholder {
+    color: var(--color-normalGray);
+  }
 `;
 
 export const FormSelect = styled.p<IFormSelectProps>`
@@ -106,4 +119,14 @@ export const NextButton = styled.button<INextButtonProps>`
     props.enabled ? "var(--color-primary)" : "var(--color-mediumGray)"};
   border-radius: var(--border-radius);
   transition: all ease 0.3s;
+`;
+
+export const BackButton = styled.button`
+  width: 140px;
+  height: 60px;
+  color: var(--color-darkGray);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-normalGray);
+  border-radius: var(--border-radius);
+  margin-right: 18px;
 `;
