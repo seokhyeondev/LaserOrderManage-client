@@ -128,6 +128,12 @@ export const globalStyles = css`
     flex-direction: column;
     align-items: center;
   }
+  .flex-column-end {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: center;
+  }
   .flex-column-between {
     display: flex;
     flex-direction: column;
