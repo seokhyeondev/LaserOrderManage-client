@@ -8,10 +8,11 @@ import {
 } from "@/src/components/commons/menu/create/CreateOrderMenu.types";
 import BasicInfo from "./pages/BasicInfo.index";
 import { useState } from "react";
-import Request from "./pages/RequestInfo.index";
+import RequestInfo from "./pages/RequestInfo.index";
+import DeliveryInfo from "./pages/DeliveryInfo.index";
 
 export default function CreateOrder() {
-  const [currentPage, setCurrentPage] = useState(2);
+  const [currentPage, setCurrentPage] = useState(3);
   return (
     <S.Wrapper>
       <S.BodyWrapper className="flex-row">
@@ -33,7 +34,8 @@ export default function CreateOrder() {
             </>
           )}
           {currentPage === 0 && <BasicInfo />}
-          {currentPage === 2 && <Request />}
+          {currentPage === 2 && <RequestInfo />}
+          {currentPage === 3 && <DeliveryInfo />}
         </S.MainWrapper>
       </S.BodyWrapper>
     </S.Wrapper>
