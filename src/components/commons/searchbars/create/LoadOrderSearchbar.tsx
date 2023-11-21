@@ -1,25 +1,25 @@
 import { ISearchbarProps } from "../Searchbar.types";
-import { IconWrapper, Searchbar, SearchbarInput } from "../Searchbar.styles";
+import * as S from "../Searchbar.styles";
 import Image from "next/image";
 
-export default function OrderSearchbar(props: ISearchbarProps) {
+export default function LoadOrderSearchbar(props: ISearchbarProps) {
   return (
-    <Searchbar className="flex-row-center">
-      <SearchbarInput
+    <S.Searchbar className="flex-row-center">
+      <S.SearchbarInput
         className="medium16"
-        width="400px"
+        width="100%"
         placeholder={props.placeholder}
         onChange={props.onChangeSearchBar}
         onKeyDown={props.onActiveEnter}
       />
-      <IconWrapper onClick={props.onSearchKeyword}>
+      <S.IconWrapper onClick={props.onSearchKeyword}>
         <Image
           src="/images/search.svg"
           width={24}
           height={24}
           alt="검색 아이콘"
         />
-      </IconWrapper>
-    </Searchbar>
+      </S.IconWrapper>
+    </S.Searchbar>
   );
 }

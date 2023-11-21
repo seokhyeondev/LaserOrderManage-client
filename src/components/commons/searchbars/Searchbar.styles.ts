@@ -4,8 +4,12 @@ export const Searchbar = styled.div`
   position: relative;
 `;
 
-export const SearchbarInput = styled.input`
-  width: 400px;
+interface ISearchbarInputProps {
+  width: string;
+}
+
+export const SearchbarInput = styled.input<ISearchbarInputProps>`
+  width: ${(props) => props.width};
   height: 50px;
   border: 1px solid var(--color-mediumGray);
   border-radius: var(--border-radius);
