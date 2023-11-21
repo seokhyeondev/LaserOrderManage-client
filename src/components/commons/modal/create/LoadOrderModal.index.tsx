@@ -41,12 +41,12 @@ export default function LoadOrderModal(props: ILoadOrderModalProps) {
           </S.LoadOrderItem>
         </S.ModalContentWrapper>
         <div className="flex-row">
-          <S.CancelButton className="bold24" onClick={props.onClose}>
+          <S.CancelButton className="bold20" onClick={props.onClose}>
             취소
           </S.CancelButton>
           <Spacer width="15px" height="100%" />
           <S.LoadButton
-            className="bold24"
+            className="bold20"
             isActive={true}
             onClick={props.callback}
           >

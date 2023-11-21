@@ -57,7 +57,7 @@ interface ILoadButtonProps {
 
 export const LoadButton = styled.button<ILoadButtonProps>`
   width: 100%;
-  height: 70px;
+  height: 60px;
   color: var(--color-white);
   background-color: ${(props) =>
     props.isActive ? "var(--color-primary)" : "var(--color-mediumGray)"};
@@ -66,7 +66,7 @@ export const LoadButton = styled.button<ILoadButtonProps>`
 
 export const CancelButton = styled.button`
   width: 144px;
-  height: 70px;
+  height: 60px;
   color: var(--color-darkGray);
   background-color: var(--color-lightGray);
   border-radius: var(--border-radius);
