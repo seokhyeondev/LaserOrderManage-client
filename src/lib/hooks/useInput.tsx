@@ -26,7 +26,9 @@ export const useInputWithRegex = (
 export const useInputWithMaxLength = (maxLength: number) => {
   const [value, setValue] = useState("");
 
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const input = event.target.value;
     if (input.length <= maxLength) {
       setValue(input);
