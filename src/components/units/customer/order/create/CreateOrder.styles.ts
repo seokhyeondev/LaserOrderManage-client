@@ -90,7 +90,7 @@ export const FormSelect = styled.p<IFormSelectProps>`
   width: 140px;
   height: 40px;
   color: ${(props) =>
-    props.isSelect ? "var(--color-primary)" : "var(--color-black)"};
+    props.isSelect ? "var(--color-primary)" : "var(--color-darkGray)"};
   font-weight: ${(props) => (props.isSelect ? "700" : "500")};
   border: 1px solid
     ${(props) =>

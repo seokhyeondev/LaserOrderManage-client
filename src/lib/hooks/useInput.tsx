@@ -22,3 +22,16 @@ export const useInputWithRegex = (
 
   return [value, onChange] as const;
 };
+
+export const useInputWithMaxLength = (maxLength: number) => {
+  const [value, setValue] = useState("");
+
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const input = event.target.value;
+    if (input.length <= maxLength) {
+      setValue(input);
+    }
+  };
+
+  return [value, onChange] as const;
+};

@@ -1,3 +1,8 @@
+export interface ICreateOrderPageProps {
+  onNext: () => void;
+  onBefore?: () => void;
+}
+
 export interface IFormSelectProps {
   isSelect: boolean;
 }

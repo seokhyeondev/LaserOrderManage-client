@@ -1,16 +1,35 @@
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "../CreateOrder.styles";
-import { AFTER_SERVICES, MANUFACTURE_SERVICES } from "../CreateOrder.types";
+import {
+  AFTER_SERVICES,
+  ICreateOrderPageProps,
+  MANUFACTURE_SERVICES,
+} from "../CreateOrder.types";
 import { useState } from "react";
 import LoadOrderModal from "@/src/components/commons/modal/create/LoadOrderModal.index";
+import { useInputWithMaxLength } from "@/src/lib/hooks/useInput";
+import { useSelect } from "@/src/lib/hooks/useSelect";
 
-export default function BasicInfo() {
+export default function BasicInfo(props: ICreateOrderPageProps) {
   const [editMode, setEditMode] = useState(false);
   const [loadModalOpen, setLoadModalOpen] = useState(false);
+  const [name, onChangeName] = useInputWithMaxLength(30);
+  const [selectedManufacture, onSelectManufacture] = useSelect();
+  const [selectedAfterService, onSelectAfterService] = useSelect();
+  const nextStepAvaliable =
+    name.length !== 0 &&
+    selectedManufacture.length !== 0 &&
+    selectedAfterService.length !== 0;
 
   const loadOrder = () => {
     setEditMode(true);
     setLoadModalOpen(false);
+  };
+
+  const onNext = () => {
+    if (nextStepAvaliable) {
+      props.onNext();
+    }
   };
 
   return (
@@ -46,10 +65,13 @@ export default function BasicInfo() {
           <S.FormInput
             className="medium18"
             placeholder="예) 부품 제작 프로젝트"
+            value={name}
+            maxLength={30}
+            onChange={onChangeName}
           />
           <Spacer width="100%" height="8px" />
           <S.FormInputLength className="regular14 flex-column-end">
-            0/30
+            {`${name.length}/30`}
           </S.FormInputLength>
           <Spacer width="100%" height="40px" />
           <div className="flex-row">
@@ -61,8 +83,9 @@ export default function BasicInfo() {
             {MANUFACTURE_SERVICES.map((el) => (
               <S.FormSelect
                 className="flex-center bold16"
-                isSelect={true}
+                isSelect={selectedManufacture.includes(el.key)}
                 key={el.key}
+                onClick={() => onSelectManufacture(el.key)}
               >
                 {el.name}
               </S.FormSelect>
@@ -78,8 +101,9 @@ export default function BasicInfo() {
             {AFTER_SERVICES.map((el) => (
               <S.FormSelect
                 className="flex-center bold16"
-                isSelect={true}
+                isSelect={selectedAfterService.includes(el.key)}
                 key={el.key}
+                onClick={() => onSelectAfterService(el.key)}
               >
                 {el.name}
               </S.FormSelect>
@@ -87,7 +111,11 @@ export default function BasicInfo() {
           </div>
         </S.FormBodyWrapper>
         <S.FormButtonWrapper className="flex-column-end">
-          <S.NextButton className="bold20" enabled={true}>
+          <S.NextButton
+            className="bold20"
+            enabled={nextStepAvaliable}
+            onClick={onNext}
+          >
             다음
           </S.NextButton>
         </S.FormButtonWrapper>
