@@ -105,6 +105,28 @@ export const FormSelect = styled.p<IFormSelectProps>`
   }
 `;
 
+export const UploadAnnounce = styled.p`
+  color: var(--color-normalGray);
+  margin-top: 10px;
+`;
+
+export const UploadArea = styled.div`
+  width: 100%;
+  height: 180px;
+  border: 1px dotted var(--color-normalGray);
+  border-radius: var(--border-radius);
+  transition: all ease 0.3s;
+  cursor: pointer;
+
+  :hover {
+    background-color: var(--color-lightGray);
+  }
+`;
+
+export const UploadInput = styled.input`
+  display: none;
+`;
+
 export const AddressItem = styled.div<IFormSelectProps>`
   width: 100%;
   height: 90px;

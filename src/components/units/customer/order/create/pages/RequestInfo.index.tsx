@@ -1,7 +1,7 @@
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "../CreateOrder.styles";
 
-export default function Request() {
+export default function RequestInfo() {
   return (
     <S.FormWrapper className="flex-column">
       <S.FormBodyWrapper>
