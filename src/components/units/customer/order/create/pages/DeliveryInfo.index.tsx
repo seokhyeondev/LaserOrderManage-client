@@ -3,9 +3,10 @@ import * as S from "../CreateOrder.styles";
 import AddressItem from "./items/AddressItem.index";
 import AddressModal from "@/src/components/commons/modal/address/AddressModal.index";
 import { useState } from "react";
+import { ICreateOrderPageProps } from "../CreateOrder.types";
 
-export default function DeliveryInfo() {
-  const [addressModalOpen, setAddressModalOpen] = useState(true);
+export default function DeliveryInfo(props: ICreateOrderPageProps) {
+  const [addressModalOpen, setAddressModalOpen] = useState(false);
   return (
     <>
       <S.FormWrapper className="flex-column">
@@ -32,7 +33,9 @@ export default function DeliveryInfo() {
         </S.FormBodyWrapper>
         <S.FormButtonWrapper className="flex-column-end">
           <div className="flex-row">
-            <S.BackButton className="bold20">이전</S.BackButton>
+            <S.BackButton className="bold20" onClick={props.onBefore}>
+              이전
+            </S.BackButton>
             <S.NextButton className="bold20" enabled={true}>
               견적 요청하기
             </S.NextButton>

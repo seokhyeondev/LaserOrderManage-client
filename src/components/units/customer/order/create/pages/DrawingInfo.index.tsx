@@ -3,8 +3,9 @@ import * as S from "../CreateOrder.styles";
 import Image from "next/image";
 import { ChangeEvent, useRef } from "react";
 import DrawingItem from "./items/DrawingItem.index";
+import { ICreateOrderPageProps } from "../CreateOrder.types";
 
-export default function DrawingInfo() {
+export default function DrawingInfo(props: ICreateOrderPageProps) {
   const hiddenFileInput = useRef<HTMLInputElement>(null);
 
   const onUpload = () => {
@@ -54,8 +55,14 @@ export default function DrawingInfo() {
       </S.FormBodyWrapper>
       <S.FormButtonWrapper className="flex-column-end">
         <div className="flex-row">
-          <S.BackButton className="bold20">이전</S.BackButton>
-          <S.NextButton className="bold20" enabled={true}>
+          <S.BackButton className="bold20" onClick={props.onBefore}>
+            이전
+          </S.BackButton>
+          <S.NextButton
+            className="bold20"
+            enabled={true}
+            onClick={props.onNext}
+          >
             다음
           </S.NextButton>
         </div>

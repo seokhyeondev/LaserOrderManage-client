@@ -13,11 +13,17 @@ import DeliveryInfo from "./pages/DeliveryInfo.index";
 import DrawingInfo from "./pages/DrawingInfo.index";
 
 export default function CreateOrder() {
-  const [currentPage, setCurrentPage] = useState(2);
+  const [currentPage, setCurrentPage] = useState(0);
 
-  const movePage = (page: number) => {
-    if (page !== currentPage) {
-      setCurrentPage(page);
+  const moveNextPage = () => {
+    if (currentPage < 3) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const moveBeforePage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
     }
   };
 
@@ -27,15 +33,14 @@ export default function CreateOrder() {
         <CreateOrderMenu menus={[BASIC_INFO, DETAIL_INFO, DILIVER_INFO]} />
         <Spacer width="15px" height="100%" />
         <S.MainWrapper className="flex-column">
-          {currentPage === 0 && <BasicInfo onNext={() => movePage(1)} />}
-          {currentPage === 1 && <DrawingInfo />}
-          {currentPage === 2 && (
-            <RequestInfo
-              onNext={() => movePage(3)}
-              onBefore={() => movePage(1)}
-            />
+          {currentPage === 0 && <BasicInfo onNext={moveNextPage} />}
+          {currentPage === 1 && (
+            <DrawingInfo onNext={moveNextPage} onBefore={moveBeforePage} />
           )}
-          {currentPage === 3 && <DeliveryInfo />}
+          {currentPage === 2 && (
+            <RequestInfo onNext={moveNextPage} onBefore={moveBeforePage} />
+          )}
+          {currentPage === 3 && <DeliveryInfo onBefore={moveBeforePage} />}
         </S.MainWrapper>
       </S.BodyWrapper>
     </S.Wrapper>

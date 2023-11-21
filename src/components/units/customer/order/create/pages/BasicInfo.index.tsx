@@ -26,12 +26,6 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
     setLoadModalOpen(false);
   };
 
-  const onNext = () => {
-    if (nextStepAvaliable) {
-      props.onNext();
-    }
-  };
-
   return (
     <>
       {!editMode && (
@@ -114,7 +108,8 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
           <S.NextButton
             className="bold20"
             enabled={nextStepAvaliable}
-            onClick={onNext}
+            onClick={props.onNext}
+            disabled={!nextStepAvaliable}
           >
             다음
           </S.NextButton>

@@ -1,5 +1,5 @@
 export interface ICreateOrderPageProps {
-  onNext: () => void;
+  onNext?: () => void;
   onBefore?: () => void;
 }
 
