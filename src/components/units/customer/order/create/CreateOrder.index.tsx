@@ -13,7 +13,7 @@ import DeliveryInfo from "./pages/DeliveryInfo.index";
 import DrawingInfo from "./pages/DrawingInfo.index";
 
 export default function CreateOrder() {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(3);
 
   return (
     <S.Wrapper>
