@@ -7,7 +7,7 @@ export interface ICreateOrderState {
     postProcessing: string[];
     drawingList: IDrawing[];
     request: string;
-    deliveryAddressId: number;
+    deliveryAddressId: number | undefined;
     isNewIssue: boolean;
 }
 
@@ -17,7 +17,7 @@ const initialState: ICreateOrderState = {
     postProcessing: [],
     drawingList: [],
     request: "",
-    deliveryAddressId: -1,
+    deliveryAddressId: undefined,
     isNewIssue: false,
 }
 

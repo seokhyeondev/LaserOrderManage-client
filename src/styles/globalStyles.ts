@@ -72,6 +72,10 @@ export const globalStyles = css`
     font-size: 14px;
     font-weight: 700;
   }
+  .bold10 {
+    font-size: 10px;
+    font-weight: 700;
+  }
   .medium24 {
     font-size: 24px;
     font-weight: 500;

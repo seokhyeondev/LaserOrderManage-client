@@ -25,7 +25,7 @@ export const AddressUserInfo = styled.p`
 export const BasicAddressLabel = styled.span`
   width: 70px;
   height: 24px;
-  background-color: var(--color-primary);
+  border: 1px solid var(--color-primary);
   border-radius: var(--border-radius);
-  color: var(--color-white);
+  color: var(--color-primary);
 `;

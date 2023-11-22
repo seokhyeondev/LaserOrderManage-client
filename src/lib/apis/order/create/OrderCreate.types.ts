@@ -1,4 +1,5 @@
 import { IBaseListResponse } from "@/src/lib/apis/base/base.types"
+import { IDeliveryAddress } from "@/src/lib/apis/user/customer/Customer.types"
 
 export interface IOrderCreateRequest {
     name: string;
@@ -18,19 +19,6 @@ export interface IDrawing {
     fileUrl: string;
     count: number;
     ingredient: string;
-}
-
-export interface IDeliveryAddress {
-    id: number;
-    name: string;
-    zipCode: string;
-    address: string;
-    detailAddress: string;
-    receiver: string;
-    phone1: string;
-    phone2: string | null;
-    isDefault: boolean;
-    isDeleted: boolean;
 }
 
 export interface IOrderHistoryResponse {

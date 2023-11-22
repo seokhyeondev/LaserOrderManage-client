@@ -38,3 +38,14 @@ export const getCustomerInfo = (
   }
   return infos.join(" · ");
 };
+
+export const getAddress = (address: string, detailAddress: string | null): string => {
+  if(detailAddress) {
+    return `(${address}, ${detailAddress})`;
+  }
+  else return `(${address})`
+}
+
+export const getPhoneNumber = (phone: string): string => {
+  return phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+}

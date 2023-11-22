@@ -24,7 +24,7 @@ export default function LoadOrderModal(props: ILoadOrderModalProps) {
   ];
 
   const onLoad = () => {
-    props.callback({id: 0, name: "실리콘 부품 제작 프로젝트", manufacturingList: [], postProcessingList: null, drawingList: [], request: null, deliveryAddress: {id: 0, name:"집", zipCode: "1234", address: "주소", detailAddress: "상세 주소", receiver:"나", phone1: "010", phone2: null, isDefault: true, isDeleted: false}});
+    props.callback({id: 0, name: "실리콘 부품 제작 프로젝트", manufacturingList: [], postProcessingList: null, drawingList: [], request: null, deliveryAddress: {id: 0, name:"집", zipCode: "1234", address: "주소", detailAddress: "상세 주소", receiver:"나", phone1: "010", phone2: null, isDefault: true}});
     props.onClose();
   }
 
