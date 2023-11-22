@@ -25,6 +25,7 @@ export const LoadOrderItem = styled.div<ILoadOrderItemProps>`
   height: 120px;
   padding: 20px 10px;
   margin-bottom: 15px;
+  transition: all ease 0.3s;
   border: 1px solid
     ${(props) =>
       props.isSelect ? "var(--color-primary)" : "var(--color-mediumGray)"};
@@ -45,6 +46,7 @@ export const LoadOrderItemTitle = styled.p<ILoadOrderItemProps>`
   color: ${(props) =>
     props.isSelect ? "var(--color-primary)" : "var(--color-black)"};
   margin-bottom: 10px;
+  transition: all ease 0.3s;
 `;
 
 export const LoadOrderItemDate = styled.p`

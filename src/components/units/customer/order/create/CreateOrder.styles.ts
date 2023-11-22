@@ -20,6 +20,7 @@ export const LoadWrapper = styled.div`
   background-color: var(--color-white);
   border: 2px solid var(--color-mediumGray);
   border-radius: var(--border-radius);
+  transition: all ease 0.3s;
 `;
 
 export const LoadInfoWrapper = styled.div`

@@ -20,7 +20,30 @@ export interface IDrawing {
     ingredient: string;
 }
 
-export interface IOrderHistoryResponse extends IBaseListResponse<IOrderHistory> {}
+export interface IDeliveryAddress {
+    id: number;
+    name: string;
+    zipCode: string;
+    address: string;
+    detailAddress: string;
+    receiver: string;
+    phone1: string;
+    phone2: string | null;
+    isDefault: boolean;
+    isDeleted: boolean;
+}
+
+export interface IOrderHistoryResponse {
+    id: number;
+    name: string;
+    manufacturingList: string[];
+    postProcessingList: string[] | null;
+    drawingList: IDrawing[];
+    request: string | null;
+    deliveryAddress: IDeliveryAddress
+}
+
+export interface IOrderHistoryListResponse extends IBaseListResponse<IOrderHistory> {}
 
 export interface IOrderHistory {
     id: number;

@@ -11,6 +11,7 @@ import { useInputWithMaxLength } from "@/src/lib/hooks/useInput";
 import { useSelect } from "@/src/lib/hooks/useSelect";
 import { useRecoilState } from "recoil";
 import { createOrderState } from "@/src/store/createOrder"
+import { IOrderHistoryResponse } from "@/src/lib/apis/order/create/OrderCreate.types";
 
 export default function BasicInfo(props: ICreateOrderPageProps) {
   const [editMode, setEditMode] = useState(false);
@@ -18,25 +19,29 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
   const nameArgs = useInputWithMaxLength(30);
   const manufacturingArgs = useSelect();
   const postProcessingArgs = useSelect();
-  const nextStepAvailable =
-    nameArgs.value.length !== 0 &&
-    manufacturingArgs.selected.length !== 0 &&
-    postProcessingArgs.selected.length !== 0;
+  const nextStepAvailable = nameArgs.value.length !== 0 && manufacturingArgs.selected.length !== 0 
   const [orderState, setOrderState] = useRecoilState(createOrderState);
 
   useEffect(() => {
-    setCreateOrderState();
-  }, [])
-
-  const setCreateOrderState = () => {
     nameArgs.setValue(orderState.name);
     manufacturingArgs.setSelected(orderState.manufacturing);
     postProcessingArgs.setSelected(orderState.postProcessing);
-  }
+  }, []);
   
-  const loadOrder = () => {
+  const loadOrder = (callback: IOrderHistoryResponse) => {
+    setOrderState({
+      name: callback.name,
+      manufacturing: callback.manufacturingList,
+      postProcessing: callback.postProcessingList ?? [],
+      drawingList: callback.drawingList,
+      request: callback.request ?? "",
+      deliveryAddressId: callback.deliveryAddress.id,
+      isNewIssue: true
+    });
+    nameArgs.setValue(callback.name);
+    manufacturingArgs.setSelected(callback.manufacturingList);
+    postProcessingArgs.setSelected(callback.postProcessingList ?? []);
     setEditMode(true);
-    setLoadModalOpen(false);
   };
 
   const onNext = () => {
@@ -143,7 +148,7 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
       </S.FormWrapper>
       <LoadOrderModal
         isOpen={loadModalOpen}
-        callback={() => loadOrder()}
+        callback={loadOrder}
         onClose={() => setLoadModalOpen(false)}
       />
     </>
