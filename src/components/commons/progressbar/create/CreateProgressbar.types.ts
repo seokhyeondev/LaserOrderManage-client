@@ -1,20 +1,22 @@
-type MenuStatus = "DONE" | "PROGRESS" | "PENDING";
+export type MenuStatus = "DONE" | "PROGRESS" | "PENDING";
 
 export interface IMenuProp {
   status: MenuStatus;
 }
 
-export interface ICreateProgressbarProps {
-  data: ICreateProgressbar;
+export interface ICreateProgressBarProps {
+  data: ICreateProgressBar;
+  currentPageId: number;
+  currentSubPageId: number;
 }
 
-export interface ICreateProgressbar {
+export interface ICreateProgressBar {
   id: number;
   title: string;
-  subMenus?: ISubCreateProgressbar[];
+  subMenus?: ISubCreateProgressBar[];
 }
 
-export interface ISubCreateProgressbar {
+export interface ISubCreateProgressBar {
   id: number;
   title: string;
 }

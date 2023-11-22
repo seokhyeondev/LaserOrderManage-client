@@ -48,7 +48,7 @@ export default function AddressModal(props: IAddressModalProps) {
         <S.Input placeholder="휴대폰 번호 (숫자만)" />
         <Spacer width="100%" height="24px" />
         <S.CheckArea className="flex-row-align-center">
-          <CheckIcon isChecked={true} size={24} />
+          <CheckIcon isChecked={true} size={24} defaultColor="var(--color-normalGray)"/>
           <p className="regular14">기본 배송지로 설정</p>
         </S.CheckArea>
         <Spacer width="100%" height="30px" />

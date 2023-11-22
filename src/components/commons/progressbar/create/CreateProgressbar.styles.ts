@@ -15,6 +15,7 @@ export const ProgressCircle = styled.div<IMenuProp>`
   width: 30px;
   height: 30px;
   border-radius: 30px;
+  transition: all ease 0.3s;
   background-color: ${(prop) =>
     prop.status === "DONE"
       ? "var(--color-darkGray)"
@@ -28,6 +29,7 @@ export const ProgressNumber = styled.p`
 `;
 
 export const MenuTitle = styled.p<IMenuProp>`
+  transition: all ease 0.3s;
   color: ${(prop) =>
     prop.status === "DONE"
       ? "var(--color-darkGray)"
@@ -39,6 +41,7 @@ export const MenuTitle = styled.p<IMenuProp>`
 export const SubMenuTitle = styled.p<IMenuProp>`
   padding-left: 42px;
   margin-top: 24px;
+  transition: all ease 0.3s;
   color: ${(prop) =>
     prop.status === "DONE"
       ? "var(--color-darkGray)"

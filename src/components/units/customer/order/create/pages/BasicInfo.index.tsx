@@ -16,7 +16,7 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
   const [name, onChangeName] = useInputWithMaxLength(30);
   const [selectedManufacture, onSelectManufacture] = useSelect();
   const [selectedAfterService, onSelectAfterService] = useSelect();
-  const nextStepAvaliable =
+  const nextStepAvailable =
     name.length !== 0 &&
     selectedManufacture.length !== 0 &&
     selectedAfterService.length !== 0;
@@ -44,7 +44,7 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
               불러오기
             </S.LoadButton>
           </S.LoadWrapper>
-          <Spacer width="100%" height="15px" />
+          <Spacer width="100%" height="10px" />
         </>
       )}
       <S.FormWrapper className="flex-column">
@@ -76,7 +76,7 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
           <div className="flex-row">
             {MANUFACTURE_SERVICES.map((el) => (
               <S.FormSelect
-                className="flex-center bold16"
+                className="flex-center medium16"
                 isSelect={selectedManufacture.includes(el.key)}
                 key={el.key}
                 onClick={() => onSelectManufacture(el.key)}
@@ -94,7 +94,7 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
           <div className="flex-row">
             {AFTER_SERVICES.map((el) => (
               <S.FormSelect
-                className="flex-center bold16"
+                className="flex-center medium16"
                 isSelect={selectedAfterService.includes(el.key)}
                 key={el.key}
                 onClick={() => onSelectAfterService(el.key)}
@@ -107,9 +107,9 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
         <S.FormButtonWrapper className="flex-column-end">
           <S.NextButton
             className="bold20"
-            enabled={nextStepAvaliable}
+            enabled={true}
             onClick={props.onNext}
-            disabled={!nextStepAvaliable}
+            disabled={false}
           >
             다음
           </S.NextButton>
