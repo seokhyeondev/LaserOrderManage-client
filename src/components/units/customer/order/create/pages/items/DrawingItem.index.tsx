@@ -1,7 +1,9 @@
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "./DrawingItem.styles";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
+import { IDrawing } from "@/src/lib/apis/order/create/OrderCreate.types";
+import { getFileSize } from "@/src/lib/utils/utils";
 
 interface IIngredient {
   key: string;
@@ -13,24 +15,32 @@ const INGREDIENTS: IIngredient[] = [
   { key: "연철", name: "연철" },
 ];
 
-export default function DrawingItem() {
+interface IDrawingItemProps {
+  data: IDrawing;
+  id: number;
+  onChangeCount: (id: number, event: ChangeEvent<HTMLInputElement>) => void;
+  onChangeIngredient: (id: number, event: ChangeEvent<HTMLSelectElement>) => void;
+  onDelete: (id: number) => void;
+}
+
+export default function DrawingItem(props: IDrawingItemProps) {
   const [inputFocus, setInputFocus] = useState(false);
   return (
     <S.Wrapper className="flex-row-between">
       <S.InfoWrapper className="flex-row">
         <Image
-          src="/images/netflix.webp"
+          src={props.data.thumbnailImgUrl}
           width={120}
           height={120}
           style={S.Thumbnail}
-          alt=""
+          alt={props.data.thumbnailImgUrl}
         />
         <Spacer width="24px" height="100%" />
         <S.DetailWrapper className="flex-column-between">
           <div>
-            <p className="bold18">휠기능.dwg</p>
+            <p className="bold18">{props.data.fileName}</p>
             <Spacer width="100%" height="4px" />
-            <S.FileSize className="regular14">199.5kb</S.FileSize>
+            <S.FileSize className="regular14">{getFileSize(props.data.fileSize)}</S.FileSize>
           </div>
           <div className="flex-row">
             <div>
@@ -45,11 +55,15 @@ export default function DrawingItem() {
               >
                 <S.Input
                   placeholder="수량 입력"
+                  value={props.data.count}
+                  onChange={(event) => props.onChangeCount(props.id, event)}
                   maxLength={10}
                   onFocus={() => setInputFocus(true)}
                   onBlur={() => setInputFocus(false)}
                 />
-                <p className="regular14">개</p>
+                {props.data.count !== "" && 
+                  (<p className="regular14">개</p>)
+                }
               </S.InputWrapper>
             </div>
             <Spacer width="48px" height="100%" />
@@ -60,8 +74,8 @@ export default function DrawingItem() {
               </div>
               <Spacer width="100%" height="8px" />
               <S.SelectWrapper>
-                <S.Select>
-                  <S.Option selected hidden>
+                <S.Select value={props.data.ingredient} onChange={(event) => props.onChangeIngredient(props.id, event)}>
+                  <S.Option value={""} disabled hidden>
                     재료를 선택해주세요
                   </S.Option>
                   {INGREDIENTS.map((el) => (
@@ -81,7 +95,8 @@ export default function DrawingItem() {
         height={20}
         alt=""
         style={S.DeleteIcon}
-      />
+        onClick={() => props.onDelete(props.id)}
+      /> 
     </S.Wrapper>
   );
 }

@@ -1,16 +1,45 @@
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "../CreateOrder.styles";
 import Image from "next/image";
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, useRef, useState, useEffect } from "react";
 import DrawingItem from "./items/DrawingItem.index";
 import { ICreateOrderPageProps } from "../CreateOrder.types";
+import { useRecoilState } from "recoil";
+import { createOrderState } from "@/src/store/createOrder"
+import { IDrawing, IDrawingRequest } from "@/src/lib/apis/order/create/OrderCreate.types";
+import { AVAILABLE_FILE_TYPE } from "@/src/lib/constants/constant"
+import { numberRegex } from "@/src/lib/constants/regex";
 
 export default function DrawingInfo(props: ICreateOrderPageProps) {
   const hiddenFileInput = useRef<HTMLInputElement>(null);
+  const [orderState, setOrderState] = useRecoilState(createOrderState);
+  const [drawings, setDrawings] = useState<IDrawing[]>([]);
+  const fileReader = new FileReader();
+
+  useEffect(() => {
+    setDrawings(orderState.drawingList);
+  }, []);
 
   const onUpload = () => {
     hiddenFileInput?.current?.click();
   };
+
+  const onChangeDrawingCount = (id: number, event: ChangeEvent<HTMLInputElement>) => {
+    const updatedDrawings = drawings.map((el, index) => index === id ? {...el, count: event.target.value.replace(numberRegex, "")} : el);
+    setDrawings(updatedDrawings);
+  };
+
+  const onChangeDrawingIngredient = (id: number, event: ChangeEvent<HTMLSelectElement>) => {
+    const updatedDrawings = drawings.map((el, index) => index === id ? {...el, ingredient: event.target.value} : el);
+    setDrawings(updatedDrawings);
+  };
+
+  const onDeleteDrawing = (id: number) => {
+    const updatedDrawings = drawings.filter((_, index) => index !== id);
+    setDrawings(updatedDrawings);
+  };
+
+  const nextStepAvailable = drawings.length !== 0 && drawings.every(drawing => drawing.count !== "" && Number(drawing.count) > 0 && drawing.ingredient !== "");
 
   const onUploadCallback = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -19,11 +48,55 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
       const fileExtension = fileName.slice(fileName.lastIndexOf(".") + 1);
       const fileSize = file.size;
 
-      console.log(
-        `파일 이름: ${fileName} 확장자: ${fileExtension} 크기: ${fileSize}`,
-      );
+      if(fileSize/(1024*1024) > 100) {
+        alert("도면 최대 용량은 100MB까지 가능합니다");
+        return;
+      }
+
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        console.log(fileReader.result);
+        const newDrawing: IDrawing = {
+          thumbnailImgUrl: typeof(fileReader.result) === "string" ? fileReader.result : "",
+          fileName: fileName,
+          fileSize: fileSize,
+          fileType: fileExtension,
+          fileUrl: "",
+          count: "",
+          ingredient: ""
+        }
+        setDrawings([...drawings, newDrawing]);
+      }
+
+      const formData = new FormData();
+      formData.append("file", file);
+      const payload: IDrawingRequest = {
+        file: formData,
+        fileName: fileName,
+        fileSize: String(fileSize)
+      };
+    } else {
+      alert("도면 파일을 찾을 수 없습니다");
     }
   };
+
+  const setCreateOrderState = () => {
+    setOrderState({
+      ...orderState,
+      drawingList: drawings
+    });
+  }
+
+  const onNext = () => {
+    setCreateOrderState();
+    if(props.onNext) props.onNext();
+  }
+
+  const onBefore = () => {
+    setCreateOrderState();
+    if(props.onBefore) props.onBefore();
+  }
+
   return (
     <S.FormWrapper className="flex-column">
       <S.FormBodyWrapper>
@@ -39,7 +112,7 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
         <Spacer width="100%" height="25px" />
         <S.UploadInput
           type="file"
-          accept=".dwg, .dxf, .pdf, .png, .jpg, .jpeg"
+          accept={AVAILABLE_FILE_TYPE.join(",")}
           ref={hiddenFileInput}
           onChange={onUploadCallback}
         />
@@ -51,17 +124,29 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
           </div>
         </S.UploadArea>
         <Spacer width="100%" height="20px" />
-        <DrawingItem />
+        <div>
+          {drawings.map((el, index) => (
+            <DrawingItem
+              key={index} 
+              data={el} 
+              id={index} 
+              onChangeCount={onChangeDrawingCount} 
+              onChangeIngredient={onChangeDrawingIngredient} 
+              onDelete={onDeleteDrawing}
+            />
+          ))}
+        </div>
       </S.FormBodyWrapper>
       <S.FormButtonWrapper className="flex-column-end">
         <div className="flex-row">
-          <S.BackButton className="bold20" onClick={props.onBefore}>
+          <S.BackButton className="bold20" onClick={onBefore}>
             이전
           </S.BackButton>
           <S.NextButton
             className="bold20"
-            enabled={true}
-            onClick={props.onNext}
+            enabled={nextStepAvailable}
+            onClick={onNext}
+            disabled={!nextStepAvailable}
           >
             다음
           </S.NextButton>

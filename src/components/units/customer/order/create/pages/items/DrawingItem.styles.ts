@@ -6,7 +6,6 @@ export const Wrapper = styled.div`
   border: 1px solid var(--color-mediumGray);
   border-radius: var(--border-radius);
   margin-bottom: 15px;
-
   &:last-of-type {
     margin-bottom: 0;
   }

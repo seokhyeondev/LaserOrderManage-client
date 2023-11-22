@@ -14,11 +14,25 @@ export interface IOrderCreateRequest {
 export interface IDrawing {
     thumbnailImgUrl: string;
     fileName: string;
-    fileSize: string;
+    fileSize: number;
     fileType: string;
     fileUrl: string;
-    count: number;
+    count: string;
     ingredient: string;
+}
+
+export interface IDrawingRequest {
+    file: FormData;
+    fileName: string;
+    fileSize: string;
+}
+
+export interface IDrawingResponse {
+    thumbnailImgUrl: string;
+    fileName: string;
+    fileSize: number;
+    fileType: string;
+    fileUrl: string;
 }
 
 export interface IOrderHistoryResponse {
