@@ -57,6 +57,14 @@ export const CheckArea = styled.div`
   cursor: pointer;
 `;
 
+interface ICheckLabelProps {
+  isChecked: boolean;
+}
+
+export const CheckLabel = styled.p<ICheckLabelProps>`
+  color: ${(props) => props.isChecked ? "var(--color-primary)" : "var(--color-normalGray)"};
+`
+
 interface ISubmitButtonProps {
   isActive: boolean;
 }
