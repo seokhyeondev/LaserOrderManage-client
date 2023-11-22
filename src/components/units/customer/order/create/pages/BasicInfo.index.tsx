@@ -1,30 +1,56 @@
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "../CreateOrder.styles";
 import {
-  AFTER_SERVICES,
+  POST_PROCESSING,
   ICreateOrderPageProps,
   MANUFACTURE_SERVICES,
 } from "../CreateOrder.types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoadOrderModal from "@/src/components/commons/modal/create/LoadOrderModal.index";
 import { useInputWithMaxLength } from "@/src/lib/hooks/useInput";
 import { useSelect } from "@/src/lib/hooks/useSelect";
+import { useRecoilState } from "recoil";
+import { createOrderState } from "@/src/store/createOrder"
 
 export default function BasicInfo(props: ICreateOrderPageProps) {
   const [editMode, setEditMode] = useState(false);
   const [loadModalOpen, setLoadModalOpen] = useState(false);
-  const [name, onChangeName] = useInputWithMaxLength(30);
-  const [selectedManufacture, onSelectManufacture] = useSelect();
-  const [selectedAfterService, onSelectAfterService] = useSelect();
+  const nameArgs = useInputWithMaxLength(30);
+  const manufacturingArgs = useSelect();
+  const postProcessingArgs = useSelect();
   const nextStepAvailable =
-    name.length !== 0 &&
-    selectedManufacture.length !== 0 &&
-    selectedAfterService.length !== 0;
+    nameArgs.value.length !== 0 &&
+    manufacturingArgs.selected.length !== 0 &&
+    postProcessingArgs.selected.length !== 0;
+  const [orderState, setOrderState] = useRecoilState(createOrderState);
 
+  useEffect(() => {
+    setCreateOrderState();
+  }, [])
+
+  const setCreateOrderState = () => {
+    nameArgs.setValue(orderState.name);
+    manufacturingArgs.setSelected(orderState.manufacturing);
+    postProcessingArgs.setSelected(orderState.postProcessing);
+  }
+  
   const loadOrder = () => {
     setEditMode(true);
     setLoadModalOpen(false);
   };
+
+  const onNext = () => {
+    setOrderState({
+      ...orderState, 
+      name: nameArgs.value, 
+      manufacturing: manufacturingArgs.selected, 
+      postProcessing: postProcessingArgs.selected,
+      isNewIssue: !editMode
+    });
+    if(props.onNext) props.onNext();
+  }
+
+
 
   return (
     <>
@@ -59,13 +85,13 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
           <S.FormInput
             className="medium18"
             placeholder="예) 부품 제작 프로젝트"
-            value={name}
+            value={nameArgs.value}
             maxLength={30}
-            onChange={onChangeName}
+            onChange={nameArgs.onChange}
           />
           <Spacer width="100%" height="8px" />
           <S.FormInputLength className="regular14 flex-column-end">
-            {`${name.length}/30`}
+            {`${nameArgs.value.length}/30`}
           </S.FormInputLength>
           <Spacer width="100%" height="40px" />
           <div className="flex-row">
@@ -77,9 +103,9 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
             {MANUFACTURE_SERVICES.map((el) => (
               <S.FormSelect
                 className="flex-center medium16"
-                isSelect={selectedManufacture.includes(el.key)}
+                isSelect={manufacturingArgs.selected.includes(el.key)}
                 key={el.key}
-                onClick={() => onSelectManufacture(el.key)}
+                onClick={() => manufacturingArgs.onSelect(el.key)}
               >
                 {el.name}
               </S.FormSelect>
@@ -92,12 +118,12 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
           </div>
           <Spacer width="100%" height="20px" />
           <div className="flex-row">
-            {AFTER_SERVICES.map((el) => (
+            {POST_PROCESSING.map((el) => (
               <S.FormSelect
                 className="flex-center medium16"
-                isSelect={selectedAfterService.includes(el.key)}
+                isSelect={postProcessingArgs.selected.includes(el.key)}
                 key={el.key}
-                onClick={() => onSelectAfterService(el.key)}
+                onClick={() => postProcessingArgs.onSelect(el.key)}
               >
                 {el.name}
               </S.FormSelect>
@@ -107,9 +133,9 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
         <S.FormButtonWrapper className="flex-column-end">
           <S.NextButton
             className="bold20"
-            enabled={true}
-            onClick={props.onNext}
-            disabled={false}
+            enabled={nextStepAvailable}
+            onClick={onNext}
+            disabled={!nextStepAvailable}
           >
             다음
           </S.NextButton>

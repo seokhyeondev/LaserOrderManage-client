@@ -35,5 +35,5 @@ export const useInputWithMaxLength = (maxLength: number) => {
     }
   };
 
-  return [value, onChange] as const;
+  return {value, setValue, onChange} as const;
 };

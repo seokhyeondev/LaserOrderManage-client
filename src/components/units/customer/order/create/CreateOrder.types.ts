@@ -22,7 +22,7 @@ export const MANUFACTURE_SERVICES: IFormSelect[] = [
   { name: "용접 및 제작", key: "make" },
 ];
 
-export const AFTER_SERVICES: IFormSelect[] = [
+export const POST_PROCESSING: IFormSelect[] = [
   { name: "도색", key: "도색" },
   { name: "도금", key: "도금" },
 ];

@@ -13,5 +13,5 @@ export const useSelect = () => {
       }
     });
   };
-  return [selected, onSelect] as const;
+  return {selected, setSelected, onSelect} as const;
 };

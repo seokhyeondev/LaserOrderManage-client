@@ -62,14 +62,14 @@ export default function CreateOrder() {
         <CreateOrderMenu pages={CREATE_ORDER_PAGES} currentPageId={currentPage.id} currentSubPageId={currentSubPage.id}/>
         <Spacer width="15px" height="100%" />
         <S.MainWrapper className="flex-column">
-          {currentPage === BASIC_INFO && <BasicInfo onNext={moveNextPage} />}
+          {currentPage === BASIC_INFO && <BasicInfo onNext={moveNextPage}/>}
           {currentPage ===  DETAIL_INFO && currentSubPage === DRAWING_INFO && (
-            <DrawingInfo onNext={moveNextPage} onBefore={moveBeforePage} />
+            <DrawingInfo onNext={moveNextPage} onBefore={moveBeforePage}/>
           )}
           {currentPage === DETAIL_INFO && currentSubPage === REQUEST_INFO && (
-            <RequestInfo onNext={moveNextPage} onBefore={moveBeforePage} />
+            <RequestInfo onNext={moveNextPage} onBefore={moveBeforePage}/>
           )}
-          {currentPage === DELIVER_INFO && <DeliveryInfo onBefore={moveBeforePage} />}
+          {currentPage === DELIVER_INFO && <DeliveryInfo onBefore={moveBeforePage}/>}
         </S.MainWrapper>
       </S.BodyWrapper>
     </S.Wrapper>
