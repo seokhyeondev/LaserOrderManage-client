@@ -15,6 +15,7 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
   const [orderState, setOrderState] = useRecoilState(createOrderState);
   const [drawings, setDrawings] = useState<IDrawing[]>([]);
   const fileReader = new FileReader();
+  const nextStepAvailable = drawings.length !== 0 && drawings.every(drawing => drawing.count !== "" && Number(drawing.count) > 0 && drawing.ingredient !== "");
 
   useEffect(() => {
     setDrawings(orderState.drawingList);
@@ -39,42 +40,42 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
     setDrawings(updatedDrawings);
   };
 
-  const nextStepAvailable = drawings.length !== 0 && drawings.every(drawing => drawing.count !== "" && Number(drawing.count) > 0 && drawing.ingredient !== "");
+  const addDrawingClient = (file: File) => {
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      console.log(fileReader.result);
+      const newDrawing: IDrawing = {
+        thumbnailImgUrl: typeof(fileReader.result) === "string" ? fileReader.result : "",
+        fileName: file.name,
+        fileSize: file.size,
+        fileType: file.name.slice(file.name.lastIndexOf(".") + 1),
+        fileUrl: "",
+        count: "",
+        ingredient: ""
+      }
+      setDrawings([...drawings, newDrawing]);
+    }
+  }
+
+  const postDrawingServer = (file: File) => {
+    const formData = new FormData();
+      formData.append("file", file);
+      const payload: IDrawingRequest = {
+        file: formData,
+        fileName: file.name,
+        fileSize: String(file.size)
+      };
+  }
 
   const onUploadCallback = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const fileName = file.name;
-      const fileExtension = fileName.slice(fileName.lastIndexOf(".") + 1);
-      const fileSize = file.size;
-
-      if(fileSize/(1024*1024) > 100) {
+      if(file.size > 100 * 1024 * 1024) {
         alert("도면 최대 용량은 100MB까지 가능합니다");
         return;
       }
-
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        console.log(fileReader.result);
-        const newDrawing: IDrawing = {
-          thumbnailImgUrl: typeof(fileReader.result) === "string" ? fileReader.result : "",
-          fileName: fileName,
-          fileSize: fileSize,
-          fileType: fileExtension,
-          fileUrl: "",
-          count: "",
-          ingredient: ""
-        }
-        setDrawings([...drawings, newDrawing]);
-      }
-
-      const formData = new FormData();
-      formData.append("file", file);
-      const payload: IDrawingRequest = {
-        file: formData,
-        fileName: fileName,
-        fileSize: String(fileSize)
-      };
+      postDrawingServer(file);
+      addDrawingClient(file);
     } else {
       alert("도면 파일을 찾을 수 없습니다");
     }
