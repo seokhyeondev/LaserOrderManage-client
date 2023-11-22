@@ -108,7 +108,7 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
           <S.RequiredLabel className="medium20">*</S.RequiredLabel>
         </div>
         <S.UploadAnnounce className="regular16">
-          (.dwg, .dxf, .pdf, .png, .jpg, .jpeg, 최대용량 100MB)
+          (`${AVAILABLE_FILE_TYPE.join(", ")}, 최대용량 100MB`)
         </S.UploadAnnounce>
         <Spacer width="100%" height="25px" />
         <S.UploadInput

@@ -18,7 +18,7 @@ const initialState: ICreateOrderState = {
     drawingList: [],
     request: "",
     deliveryAddressId: undefined,
-    isNewIssue: false,
+    isNewIssue: true,
 }
 
 export const createOrderState = atom<ICreateOrderState>({

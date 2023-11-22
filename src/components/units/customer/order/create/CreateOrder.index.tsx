@@ -14,6 +14,7 @@ import RequestInfo from "./pages/RequestInfo.index";
 import DeliveryInfo from "./pages/DeliveryInfo.index";
 import DrawingInfo from "./pages/DrawingInfo.index";
 import { ICreateProgressBar, ISubCreateProgressBar } from "@/src/components/commons/progressbar/create/CreateProgressbar.types";
+import { first, last } from "@/src/lib/utils/extensions";
 
 const CREATE_ORDER_PAGES = [BASIC_INFO, DETAIL_INFO, DELIVER_INFO];
 
@@ -24,14 +25,14 @@ export default function CreateOrder() {
   const moveNextPage = () => {
     const currentPageId = currentPage.id;
 
-    if(currentPage.subMenus && currentSubPage.id < currentPage.subMenus.length -1) {
+    if(currentPage.subMenus && currentSubPage.id < last(currentPage.subMenus)!!.id) {
         setCurrentSubPage(currentPage.subMenus[currentSubPage.id + 1]);
         return;
     }
-    if(currentPageId < CREATE_ORDER_PAGES.length - 1) {
+    if(currentPageId < last(CREATE_ORDER_PAGES)!!.id) {
       if(!currentPage.subMenus && CREATE_ORDER_PAGES[currentPageId + 1].subMenus) {
         setCurrentPage(CREATE_ORDER_PAGES[currentPageId + 1]);
-        setCurrentSubPage(CREATE_ORDER_PAGES[currentPageId + 1].subMenus!![0]);
+        setCurrentSubPage(first(CREATE_ORDER_PAGES[currentPageId + 1].subMenus!!)!!);
       } else {
         setCurrentPage(CREATE_ORDER_PAGES[currentPageId + 1]);
       }
@@ -39,17 +40,16 @@ export default function CreateOrder() {
   }
 
   const moveBeforePage = () => {
-    if(currentPage.subMenus && currentSubPage.id > currentPage.subMenus[0].id) {
+    if(currentPage.subMenus && currentSubPage.id > first(currentPage.subMenus)!!.id) {
       setCurrentSubPage(currentPage.subMenus[currentSubPage.id - 1]);
       return;
     }
 
     const currentPageId = currentPage.id;
-    if(currentPageId > CREATE_ORDER_PAGES[0].id) {
+    if(currentPageId > first(CREATE_ORDER_PAGES)!!.id) {
       if(!currentPage.subMenus && CREATE_ORDER_PAGES[currentPageId - 1].subMenus) {
-        const beforePageSubMenuLastIndex = CREATE_ORDER_PAGES[currentPageId - 1].subMenus!!.length - 1;
         setCurrentPage(CREATE_ORDER_PAGES[currentPageId - 1]);
-        setCurrentSubPage(CREATE_ORDER_PAGES[currentPageId - 1].subMenus!![beforePageSubMenuLastIndex]);
+        setCurrentSubPage(last(CREATE_ORDER_PAGES[currentPageId - 1].subMenus!!)!!);
       } else {
         setCurrentPage(CREATE_ORDER_PAGES[currentPageId - 1]);
       }

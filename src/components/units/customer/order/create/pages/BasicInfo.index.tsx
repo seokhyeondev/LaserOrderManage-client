@@ -26,6 +26,7 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
     nameArgs.setValue(orderState.name);
     manufacturingArgs.setSelected(orderState.manufacturing);
     postProcessingArgs.setSelected(orderState.postProcessing);
+    setEditMode(!orderState.isNewIssue);
   }, []);
   
   const loadOrder = (callback: IOrderHistoryResponse) => {
@@ -117,10 +118,7 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
             ))}
           </div>
           <Spacer width="100%" height="40px" />
-          <div className="flex-row">
-            <S.FormLabel className="medium20">후처리 서비스</S.FormLabel>
-            <S.RequiredLabel className="medium20">*</S.RequiredLabel>
-          </div>
+          <S.FormLabel className="medium20">후처리 서비스</S.FormLabel>
           <Spacer width="100%" height="20px" />
           <div className="flex-row">
             {POST_PROCESSING.map((el) => (
