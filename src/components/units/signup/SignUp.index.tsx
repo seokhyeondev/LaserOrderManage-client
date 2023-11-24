@@ -17,6 +17,7 @@ import { UserApi } from "@/src/lib/apis/user/UserApi";
 import { AxiosError } from "axios";
 import { IHttpStatus } from "@/src/lib/apis/axios";
 import { useToastify } from "@/src/lib/hooks/useToastify";
+import { IJoinRequest } from "@/src/lib/apis/user/User.types";
 
 export default function SignUp() {
   
@@ -128,6 +129,22 @@ export default function SignUp() {
     }
   });
 
+  const joinMutate = useMutation({
+    mutationFn: UserApi.JOIN,
+    onSuccess: (data) => {
+      if(data.status === "003") {
+        setToast({comment: "회원가입을 완료했어요"});
+        router.push("/login");
+      }
+    },
+    onError: (error: AxiosError) => {
+      if(error.response) {
+        const status = error.response.data as IHttpStatus;
+        if(status.errorCode === "-005") {} // 각종 실패
+      }
+    }
+  })
+
   const sendCodeToEmail = () => {
     if (!emailInputArgs.isCorrect) {
       emailInputArgs.setError(true);
@@ -159,7 +176,17 @@ export default function SignUp() {
       ) {
       return;
     }
-    router.replace("/");
+    const payload: IJoinRequest = {
+      email: emailInputArgs.value,
+      password: passwordInputArgs.value,
+      name: nameInputArgs.value,
+      companyName: company !== "" ? company : null,
+      phone: phoneInputArgs.value,
+      zipCode: zoneCode,
+      address: addressInputArgs.value,
+      detailAddress: detailAddress !== "" ? detailAddress : null
+    }
+    joinMutate.mutate(payload);
   };
 
   return (

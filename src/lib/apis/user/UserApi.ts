@@ -1,5 +1,5 @@
 import { axiosPrivate, axiosPublic } from "../axios";
-import { IJoinRequest, ILoginRequest, IRequestVerifyResponse, IToken, IVerifyEmailRequest, IVerifyEmailResponse } from "./User.types";
+import { IJoinRequest, IJoinResponse, ILoginRequest, IRequestVerifyResponse, IToken, IVerifyEmailRequest, IVerifyEmailResponse } from "./User.types";
 
 export const UserApi = {
   LOGIN: async (payload: ILoginRequest): Promise<IToken> => {
@@ -22,7 +22,7 @@ export const UserApi = {
     const response = await axiosPublic.post("/user/verify-email", payload);
     return response.data;
   },
-  JOIN: async (payload: IJoinRequest): Promise<IJoinRequest> => {
+  JOIN: async (payload: IJoinRequest): Promise<IJoinResponse> => {
     const response = await axiosPublic.post("/user/join/customer", payload);
     return response.data;
   }
