@@ -38,3 +38,22 @@ export const getCustomerInfo = (
   }
   return infos.join(" · ");
 };
+
+export const getAddress = (address: string, detailAddress: string | null): string => {
+  if(detailAddress) {
+    return `(${address}, ${detailAddress})`;
+  }
+  else return `(${address})`
+}
+
+export const getPhoneNumber = (phone: string): string => {
+  return phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+}
+
+export const getFileSize = (fileSize: number): string => {
+  if(fileSize < 1024) {
+    return `${fileSize.toFixed(2)} B`;
+  } else if (fileSize < 1024 * 1024) {
+    return `${(fileSize/1024).toFixed(2)} KB`;
+  } else return `${(fileSize/(1024*1024)).toFixed(2)} MB`;
+}

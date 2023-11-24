@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 import { authState } from "@/src/store/auth";
 
 const NAVIGATION_MENU_DEFAULT = [
-  { name: "견적 요청하기", page: "/" },
+  { name: "견적 요청하기", page: "/customer/order/create" },
   { name: "거래 목록", page: "/customer/order" },
 ];
 

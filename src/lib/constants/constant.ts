@@ -1,0 +1,1 @@
+export const AVAILABLE_FILE_TYPE = [".dwg", ".dxf", ".pdf", ".png", ".jpg", ".jpeg"];

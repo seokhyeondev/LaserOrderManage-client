@@ -5,3 +5,7 @@ export const emailRegex = new RegExp(
 export const passwordRegex = new RegExp(
   /^(?=.*[a-zA-Z])(?=.*[~`!@#$%^&*()-])(?=.*[0-9]).{8,}$/,
 );
+
+export const numberRegex = new RegExp(/\D/g);
+
+export const phoneRegex = new RegExp(/^010\d{8}$/);

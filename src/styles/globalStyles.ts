@@ -72,6 +72,14 @@ export const globalStyles = css`
     font-size: 14px;
     font-weight: 700;
   }
+  .bold10 {
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .medium24 {
+    font-size: 24px;
+    font-weight: 500;
+  }
   .medium20 {
     font-size: 20px;
     font-weight: 500;
@@ -128,6 +136,12 @@ export const globalStyles = css`
     flex-direction: column;
     align-items: center;
   }
+  .flex-column-end {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: center;
+  }
   .flex-column-between {
     display: flex;
     flex-direction: column;
@@ -136,6 +150,11 @@ export const globalStyles = css`
   .flex-row {
     display: flex;
     flex-direction: row;
+  }
+  .flex-row-align-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
   .flex-row-center {
     display: flex;

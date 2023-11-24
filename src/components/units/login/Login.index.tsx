@@ -86,7 +86,7 @@ export default function Login() {
           <S.MenuDivider>|</S.MenuDivider>
           <a>비밀번호 찾기</a>
           <S.MenuDivider>|</S.MenuDivider>
-          <a>회원가입</a>
+          <a onClick={() => router.push("/signup")}>회원가입</a>
         </S.MenuWrapper>
       </S.FormWrapper>
     </S.Wrapper>
