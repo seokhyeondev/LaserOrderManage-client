@@ -20,7 +20,11 @@ export default function AddressModal(props: IAddressModalProps) {
   const [phone1, onChangePhone1] = useInputWithRegex(numberRegex, "");
   const [phone2, onChangePhone2] = useInputWithRegex(numberRegex, "");
   const [defaultCheck, setDefaultCheck] = useState(false);
-  const submitAvailable = zoneCode.length === 5 && receiverArgs.value.length !== 0 && address.length !== 0 && phoneRegex.test(phone1);
+  const submitAvailable = 
+    zoneCode.length === 5 && 
+    receiverArgs.value.length !== 0 && 
+    address.length !== 0 && phoneRegex.test(phone1) && 
+    (phone2 !== "" ? phoneRegex.test(phone2) : true);
 
   const addressCallback = (data: Address) => {
     setZoneCode(data.zonecode);
