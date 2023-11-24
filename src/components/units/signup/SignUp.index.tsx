@@ -99,10 +99,10 @@ export default function SignUp() {
       setCodeSending(false);
       if(error.response) {
         const status = error.response.data as IHttpStatus;
-        if(status.errorCode === "-005") {//이메일 형식에 맞지 않을 때,
+        if(status.errorCode === "-005") {//이메일 형식에 맞지 않을 때
           emailInputArgs.showError(status.message);
         } 
-        if(status.errorCode === "-502") { //이메일에 전송이 불가능할 때,
+        if(status.errorCode === "-502") { //이메일에 전송이 불가능할 때
           emailInputArgs.showError("해당 메일로 전송이 불가능해요");
         }
       }
