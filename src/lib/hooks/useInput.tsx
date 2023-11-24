@@ -65,8 +65,17 @@ export const useInputWithError = (
     return true;
   };
 
+  const showError = (msg?: string) => {
+    setErrorMessage(msg ?? defErrorMessage);
+    setError(true);
+  }
+
+  const hideError = () => {
+    setError(false);
+  }
+
   const isCorrect = correct(value);
   const errorWithEmpty = value !== "" && !correct(value);
 
-  return {value, setValue, onChange, isCorrect, error, errorWithEmpty, setError, errorMessage, setErrorMessage, passError} as const;
+  return {value, setValue, onChange, isCorrect, error, errorWithEmpty, showError, hideError, errorMessage, setErrorMessage, passError} as const;
 };

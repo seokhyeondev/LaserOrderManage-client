@@ -25,6 +25,7 @@ export default function SignUpInput(props: ISignUpInputProps) {
           onKeyDown={props.onKeyDown}
           type={props.hideInput ? "password" : "text"}
           readOnly={props.readonly}
+          maxLength={props.maxLength}
         />
         {props.tailButtonTitle && (
           <S.TailButton

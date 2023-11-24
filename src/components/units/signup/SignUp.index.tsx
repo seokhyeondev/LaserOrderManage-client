@@ -1,4 +1,4 @@
-import { useInput, useInputWithError } from "@/src/lib/hooks/useInput";
+import { useInput, useInputWithError, useInputWithMaxLength } from "@/src/lib/hooks/useInput";
 import SignUpInput from "../../commons/inputs/signup/SingUpInput.index";
 import Spacer from "../../commons/spacer/Spacer.index";
 import * as S from "./SignUp.styles";
@@ -8,7 +8,7 @@ import {
   passwordRegex,
   phoneRegex,
 } from "@/src/lib/constants/regex";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Address } from "react-daum-postcode";
 import { useRouter } from "next/router";
 import { useDaumPostPopup } from "@/src/lib/hooks/useDaumPostPopup";
@@ -50,7 +50,7 @@ export default function SignUp() {
   const nameInputArgs = useInputWithError(
     "이름을 입력해주세요.",
     (value: string) => value.length > 1,
-    (value: string) => value.length > 1
+    (value: string) => value.length > 1,
   );
 
   const phoneInputArgs = useInputWithError(
@@ -60,7 +60,7 @@ export default function SignUp() {
     numberRegex,
   );
 
-  const [company, onChangeCompany] = useInput();
+  const companyInputArgs = useInputWithMaxLength(10);
 
   const [zoneCode, setZoneCode] = useState("");
   const addressInputArgs = useInputWithError(
@@ -72,7 +72,7 @@ export default function SignUp() {
   const addressCallback = (data: Address) => {
     setZoneCode(data.zonecode);
     addressInputArgs.setValue(data.address);
-    addressInputArgs.setError(false);
+    addressInputArgs.hideError();
   };
   const openPostPopup = useDaumPostPopup(addressCallback);
   const { setToast } = useToastify();
@@ -84,25 +84,26 @@ export default function SignUp() {
       setCodeSending(false);
       if(data.status === "001" && data.email) {
         //이메일 중복인 경우 => 이미 회원인 경우
-        emailInputArgs.setErrorMessage("이미 존재하는 회원입니다.");
-        emailInputArgs.setError(true);
+        emailInputArgs.showError("이미 존재하는 회원입니다.");
         return;
       }
       if(data.status === "002") {
         setToast({comment: "메일로 인증 코드를 전송했어요"});
         setSendCode(true);
-        emailInputArgs.setError(false);
-        codeInputArgs.setError(false);
+        emailInputArgs.hideError();
+        codeInputArgs.hideError();
       }
     },
     onError: (error: AxiosError) => {
       setCodeSending(false);
       if(error.response) {
         const status = error.response.data as IHttpStatus;
-        if(status.errorCode === "-005") {} //이메일 형식에 맞지 않을 때,
-        if(status.errorCode === "-502") {} //이메일에 전송이 불가능할 때,
-        emailInputArgs.setErrorMessage(status.message);
-        emailInputArgs.setError(true);
+        if(status.errorCode === "-005") {//이메일 형식에 맞지 않을 때,
+          emailInputArgs.showError(status.message);
+        } 
+        if(status.errorCode === "-502") { //이메일에 전송이 불가능할 때,
+          emailInputArgs.showError("해당 메일로 전송이 불가능해요");
+        }
       }
     }
   });
@@ -113,18 +114,20 @@ export default function SignUp() {
       if(data.status === "002") {
         setToast({comment: "메일 인증을 성공했어요"});
         setCodeChecked(true);
-        codeInputArgs.setError(false);
+        codeInputArgs.hideError();
       }
     },
     onError: (error: AxiosError) => {
       if(error.response) {
         const status = error.response.data as IHttpStatus;
-        if(status.errorCode === "-107") {
-          codeInputArgs.setError(true);
-          return;
+        if(status.errorCode === "-107") {// 코드가 잘못됐을 때,
+          codeInputArgs.showError();
         }
-        if(status.errorCode === "-401") {} //이메일에 해당하는 인증 코드가 없을때
-        if(status.errorCode === "-005") {} //이메일이나 인증코드 형식이 맞지 않을 때,
+        if(status.errorCode === "-401") {//이메일에 해당하는 인증 코드가 없을때
+          codeInputArgs.showError();
+        } 
+        if(status.errorCode === "-005") {//이메일이나 인증코드 형식이 맞지 않을 때,
+        }
       }
     }
   });
@@ -147,7 +150,7 @@ export default function SignUp() {
 
   const sendCodeToEmail = () => {
     if (!emailInputArgs.isCorrect) {
-      emailInputArgs.setError(true);
+      emailInputArgs.showError();
       return;
     }
     if(!codeSending) {
@@ -157,9 +160,9 @@ export default function SignUp() {
     }
   };
 
-  const checkEmailCode = () => {
+  const checkEmailCode = (email: string) => {
     if (codeInputArgs.isCorrect) {
-      verifyEmailMutate.mutate({email: emailInputArgs.value, code: codeInputArgs.value});
+      verifyEmailMutate.mutate({email: email, code: codeInputArgs.value});
     }
   };
 
@@ -180,7 +183,7 @@ export default function SignUp() {
       email: emailInputArgs.value,
       password: passwordInputArgs.value,
       name: nameInputArgs.value,
-      companyName: company !== "" ? company : null,
+      companyName: companyInputArgs.value !== "" ? companyInputArgs.value : null,
       phone: phoneInputArgs.value,
       zipCode: zoneCode,
       address: addressInputArgs.value,
@@ -216,8 +219,8 @@ export default function SignUp() {
             tailButtonTitle="확인"
             tailButtonValidate={codeInputArgs.isCorrect}
             onChange={codeInputArgs.onChange}
-            onKeyDown={(e) => {if(e.key === "Enter") checkEmailCode()}}
-            onClickTailButton={checkEmailCode}
+            onKeyDown={(e) => {if(e.key === "Enter") checkEmailCode(emailInputArgs.value)}}
+            onClickTailButton={() => checkEmailCode(emailInputArgs.value)}
           />
         ) : (
           <Spacer width="100%" height="24px" />
@@ -246,9 +249,11 @@ export default function SignUp() {
         <SignUpInput
           placeHolder="이름"
           editable={true}
+          value={nameInputArgs.value}
           isError={nameInputArgs.error}
-          errorMessage={nameInputArgs.errorMessage}
+          errorMessage="이름을 입력해주세요."
           needDefaultSpace={true}
+          maxLength={10}
           onChange={nameInputArgs.onChange}
         />
         <SignUpInput
@@ -262,9 +267,11 @@ export default function SignUp() {
         />
         <SignUpInput
           placeHolder="업체명 (선택)"
+          value={companyInputArgs.value}
           editable={true}
           needDefaultSpace={true}
-          onChange={onChangeCompany}
+          maxLength={20}
+          onChange={companyInputArgs.onChange}
         />
         <SignUpInput
           placeHolder="주소 (배송지)"
