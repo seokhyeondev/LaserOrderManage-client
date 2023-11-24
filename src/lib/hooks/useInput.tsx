@@ -37,3 +37,35 @@ export const useInputWithMaxLength = (maxLength: number) => {
 
   return {value, setValue, onChange} as const;
 };
+
+export const useInputWithError = (
+  defErrorMessage: string,
+  correct: (value: string) => boolean,
+  passCondition: (value: string) => boolean,
+  regex?: string | RegExp,
+  ) => {
+  const [value, setValue] = useState("");
+  const [error , setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(defErrorMessage);
+
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const input = regex ? event.target.value.replace(regex, "") : event.target.value;
+    setValue(input);
+    if(correct(input)) {
+      setError(false);
+    }
+  };
+
+  const passError = (): boolean => {
+    if(!passCondition(value)) {
+      setError(true);
+      return false;
+    }
+    return true;
+  };
+
+  const isCorrect = correct(value);
+  const errorWithEmpty = value !== "" && !correct(value);
+
+  return {value, setValue, onChange, isCorrect, error, errorWithEmpty, setError, errorMessage, setErrorMessage, passError} as const;
+};

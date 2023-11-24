@@ -12,7 +12,6 @@ export default function SignUpInput(props: ISignUpInputProps) {
         isFocus={isFocused}
         hasTail={props.tailButtonTitle !== null}
         isError={props.isError ?? false}
-        focusable={props.focusable}
         onClick={props.onClickInput}
       >
         <S.Input
@@ -22,7 +21,6 @@ export default function SignUpInput(props: ISignUpInputProps) {
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           disabled={!props.editable}
-          focusable={props.focusable}
           onChange={props.onChange}
           onKeyDown={props.onKeyDown}
           type={props.hideInput ? "password" : "text"}
