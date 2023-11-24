@@ -8,7 +8,7 @@ import {
   passwordRegex,
   phoneRegex,
 } from "@/src/lib/constants/regex";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Address } from "react-daum-postcode";
 import { useRouter } from "next/router";
 import { useDaumPostPopup } from "@/src/lib/hooks/useDaumPostPopup";
@@ -16,10 +16,12 @@ import { useMutation } from "@tanstack/react-query";
 import { UserApi } from "@/src/lib/apis/user/UserApi";
 import { AxiosError } from "axios";
 import { IHttpStatus } from "@/src/lib/apis/axios";
+import { useToastify } from "@/src/lib/hooks/useToastify";
 
 export default function SignUp() {
   
   const [sendCode, setSendCode] = useState(false);
+  const [codeSending, setCodeSending] = useState(false);
   const emailInputArgs = useInputWithError(
     "이메일을 인증해주세요.", 
     (value: string) => emailRegex.test(value), 
@@ -46,8 +48,8 @@ export default function SignUp() {
 
   const nameInputArgs = useInputWithError(
     "이름을 입력해주세요.",
-    (value: string) => value.length > 1,
-    (value: string) => value.length > 1
+    (value: string) => value.length === 6,
+    (value: string) => value.length === 6
   );
 
   const phoneInputArgs = useInputWithError(
@@ -72,11 +74,13 @@ export default function SignUp() {
     addressInputArgs.setError(false);
   };
   const openPostPopup = useDaumPostPopup(addressCallback);
+  const { setToast } = useToastify();
   const router = useRouter();
 
   const requestVerifyMutate = useMutation({
     mutationFn: UserApi.REQUEST_VERIFY,
     onSuccess: (data) => {
+      setCodeSending(false);
       if(data.status === "001" && data.email) {
         //이메일 중복인 경우 => 이미 회원인 경우
         emailInputArgs.setErrorMessage("이미 존재하는 회원입니다.");
@@ -84,12 +88,14 @@ export default function SignUp() {
         return;
       }
       if(data.status === "002") {
+        setToast({comment: "메일로 인증 코드를 전송했어요"});
         setSendCode(true);
         emailInputArgs.setError(false);
         codeInputArgs.setError(false);
       }
     },
     onError: (error: AxiosError) => {
+      setCodeSending(false);
       if(error.response) {
         const status = error.response.data as IHttpStatus;
         if(status.errorCode === "-005") {} //이메일 형식에 맞지 않을 때,
@@ -98,14 +104,22 @@ export default function SignUp() {
         emailInputArgs.setError(true);
       }
     }
-  })
+  });
+
+  const verifyEmailMutate = useMutation({
+
+  });
 
   const sendCodeToEmail = () => {
-    if (!emailInputArgs.isCorrect || codeChecked) {
+    if (!emailInputArgs.isCorrect) {
       emailInputArgs.setError(true);
       return;
     }
-    requestVerifyMutate.mutate(emailInputArgs.value);
+    if(!codeSending) {
+      setCodeSending(true);
+      setToast({comment: "인증 코드 전송중..."});
+      requestVerifyMutate.mutate(emailInputArgs.value);
+    }
   };
 
   const checkEmailCode = () => {
@@ -137,7 +151,7 @@ export default function SignUp() {
         <S.Header className="bold28">회원가입</S.Header>
         <SignUpInput
           placeHolder="이메일"
-          editable={!codeChecked}
+          editable={!codeChecked || !codeSending}
           isError={emailInputArgs.error}
           needDefaultSpace={false}
           errorMessage={emailInputArgs.errorMessage}
@@ -152,7 +166,6 @@ export default function SignUp() {
             placeHolder="이메일 인증 코드"
             hideInput={true}
             editable={!codeChecked}
-
             isError={codeInputArgs.error}
             needDefaultSpace={true}
             errorMessage={codeInputArgs.errorMessage}
