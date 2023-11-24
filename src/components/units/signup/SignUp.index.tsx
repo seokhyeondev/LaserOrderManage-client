@@ -23,6 +23,7 @@ export default function SignUp() {
   
   const [sendCode, setSendCode] = useState(false);
   const [codeSending, setCodeSending] = useState(false);
+  const [sendedEmail, setSendedEmail] = useState("");
   const emailInputArgs = useInputWithError(
     "이메일을 인증해주세요.", 
     (value: string) => emailRegex.test(value), 
@@ -113,6 +114,7 @@ export default function SignUp() {
     onSuccess: (data) => {
       if(data.status === "002") {
         setToast({comment: "메일 인증을 성공했어요"});
+        emailInputArgs.setValue(sendedEmail);
         setCodeChecked(true);
         codeInputArgs.hideError();
       }
@@ -124,7 +126,7 @@ export default function SignUp() {
           codeInputArgs.showError();
         }
         if(status.errorCode === "-401") {//이메일에 해당하는 인증 코드가 없을때
-          codeInputArgs.showError();
+          codeInputArgs.showError("인증 코드를 재전송해주세요.");
         } 
         if(status.errorCode === "-005") {//이메일이나 인증코드 형식이 맞지 않을 때,
         }
@@ -155,14 +157,15 @@ export default function SignUp() {
     }
     if(!codeSending) {
       setCodeSending(true);
+      setSendedEmail(emailInputArgs.value);
       setToast({comment: "인증 코드 전송중..."});
       requestVerifyMutate.mutate(emailInputArgs.value);
     }
   };
 
-  const checkEmailCode = (email: string) => {
+  const checkEmailCode = () => {
     if (codeInputArgs.isCorrect) {
-      verifyEmailMutate.mutate({email: email, code: codeInputArgs.value});
+      verifyEmailMutate.mutate({email: sendedEmail, code: codeInputArgs.value});
     }
   };
 
@@ -219,8 +222,8 @@ export default function SignUp() {
             tailButtonTitle="확인"
             tailButtonValidate={codeInputArgs.isCorrect}
             onChange={codeInputArgs.onChange}
-            onKeyDown={(e) => {if(e.key === "Enter") checkEmailCode(emailInputArgs.value)}}
-            onClickTailButton={() => checkEmailCode(emailInputArgs.value)}
+            onKeyDown={(e) => {if(e.key === "Enter") checkEmailCode()}}
+            onClickTailButton={checkEmailCode}
           />
         ) : (
           <Spacer width="100%" height="24px" />
