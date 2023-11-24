@@ -23,7 +23,7 @@ export default function SignUp() {
   
   const [sendCode, setSendCode] = useState(false);
   const [codeSending, setCodeSending] = useState(false);
-  const [sendedEmail, setSendedEmail] = useState("");
+  const [sentEmail, setSentEmail] = useState("");
   const emailInputArgs = useInputWithError(
     "이메일을 인증해주세요.", 
     (value: string) => emailRegex.test(value), 
@@ -114,7 +114,7 @@ export default function SignUp() {
     onSuccess: (data) => {
       if(data.status === "002") {
         setToast({comment: "메일 인증을 성공했어요"});
-        emailInputArgs.setValue(sendedEmail);
+        emailInputArgs.setValue(sentEmail);
         setCodeChecked(true);
         codeInputArgs.hideError();
       }
@@ -157,7 +157,7 @@ export default function SignUp() {
     }
     if(!codeSending) {
       setCodeSending(true);
-      setSendedEmail(emailInputArgs.value);
+      setSentEmail(emailInputArgs.value);
       setToast({comment: "인증 코드 전송중..."});
       requestVerifyMutate.mutate(emailInputArgs.value);
     }
@@ -165,7 +165,7 @@ export default function SignUp() {
 
   const checkEmailCode = () => {
     if (codeInputArgs.isCorrect) {
-      verifyEmailMutate.mutate({email: sendedEmail, code: codeInputArgs.value});
+      verifyEmailMutate.mutate({email: sentEmail, code: codeInputArgs.value});
     }
   };
 
