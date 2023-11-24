@@ -31,8 +31,8 @@ export default function SignUp() {
   const [codeChecked, setCodeChecked] = useState(false);
   const codeInputArgs = useInputWithError(
     "인증 코드를 다시 확인해주세요.",
-    (value: string) => value !== "",
-    (value: string) => sendCode && codeChecked && value !== ""
+    (value: string) => value.length === 6,
+    (value: string) => sendCode && codeChecked && value.length === 6
   );
 
   const passwordInputArgs = useInputWithError(
@@ -48,8 +48,8 @@ export default function SignUp() {
 
   const nameInputArgs = useInputWithError(
     "이름을 입력해주세요.",
-    (value: string) => value.length === 6,
-    (value: string) => value.length === 6
+    (value: string) => value.length > 1,
+    (value: string) => value.length > 1
   );
 
   const phoneInputArgs = useInputWithError(
@@ -107,7 +107,25 @@ export default function SignUp() {
   });
 
   const verifyEmailMutate = useMutation({
-
+    mutationFn: UserApi.VERIFY_EMAIL,
+    onSuccess: (data) => {
+      if(data.status === "002") {
+        setToast({comment: "메일 인증을 성공했어요"});
+        setCodeChecked(true);
+        codeInputArgs.setError(false);
+      }
+    },
+    onError: (error: AxiosError) => {
+      if(error.response) {
+        const status = error.response.data as IHttpStatus;
+        if(status.errorCode === "-107") {
+          codeInputArgs.setError(true);
+          return;
+        }
+        if(status.errorCode === "-401") {} //이메일에 해당하는 인증 코드가 없을때
+        if(status.errorCode === "-005") {} //이메일이나 인증코드 형식이 맞지 않을 때,
+      }
+    }
   });
 
   const sendCodeToEmail = () => {
@@ -124,8 +142,7 @@ export default function SignUp() {
 
   const checkEmailCode = () => {
     if (codeInputArgs.isCorrect) {
-      setCodeChecked(true);
-      codeInputArgs.setError(false);
+      verifyEmailMutate.mutate({email: emailInputArgs.value, code: codeInputArgs.value});
     }
   };
 
