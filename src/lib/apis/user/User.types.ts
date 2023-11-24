@@ -12,10 +12,6 @@ export interface IToken {
   accessTokenExpirationTime: string;
 }
 
-export interface IRequestVerifyRequest {
-  email: string;
-}
-
 export interface IRequestVerifyResponse {
   email: string | null;
   name: string | null;

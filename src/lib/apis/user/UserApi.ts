@@ -1,5 +1,5 @@
 import { axiosPrivate, axiosPublic } from "../axios";
-import { IJoinRequest, ILoginRequest, IRequestVerifyRequest, IRequestVerifyResponse, IToken, IVerifyEmailRequest, IVerifyEmailResponse } from "./User.types";
+import { IJoinRequest, ILoginRequest, IRequestVerifyResponse, IToken, IVerifyEmailRequest, IVerifyEmailResponse } from "./User.types";
 
 export const UserApi = {
   LOGIN: async (payload: ILoginRequest): Promise<IToken> => {
@@ -14,16 +14,16 @@ export const UserApi = {
     const response = await axiosPrivate.post("/user/logout");
     return response.data;
   },
-  REQUEST_VERIFY: async (payload: IRequestVerifyRequest): Promise<IRequestVerifyResponse> => {
-    const response = await axiosPrivate.post("/user/request-verify", payload);
+  REQUEST_VERIFY: async (email: string): Promise<IRequestVerifyResponse> => {
+    const response = await axiosPublic.post(`/user/request-verify?email=${email}`);
     return response.data;
   },
   VERIFY_EMAIL: async (payload: IVerifyEmailRequest): Promise<IVerifyEmailResponse> => {
-    const response = await axiosPrivate.post("/user/verify-email", payload);
+    const response = await axiosPublic.post("/user/verify-email", payload);
     return response.data;
   },
   JOIN: async (payload: IJoinRequest): Promise<IJoinRequest> => {
-    const response = await axiosPrivate.post("/user/join/customer", payload);
+    const response = await axiosPublic.post("/user/join/customer", payload);
     return response.data;
   }
 };

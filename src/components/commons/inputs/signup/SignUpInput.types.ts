@@ -8,6 +8,7 @@ export interface ISignUpInputProps {
   errorMessage?: string;
   needDefaultSpace: boolean;
   editable: boolean;
+  readonly?: boolean;
   tailButtonTitle?: string;
   tailButtonValidate?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;

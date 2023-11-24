@@ -12,6 +12,10 @@ import { useState } from "react";
 import { Address } from "react-daum-postcode";
 import { useRouter } from "next/router";
 import { useDaumPostPopup } from "@/src/lib/hooks/useDaumPostPopup";
+import { useMutation } from "@tanstack/react-query";
+import { UserApi } from "@/src/lib/apis/user/UserApi";
+import { AxiosError } from "axios";
+import { IHttpStatus } from "@/src/lib/apis/axios";
 
 export default function SignUp() {
   
@@ -26,7 +30,7 @@ export default function SignUp() {
   const codeInputArgs = useInputWithError(
     "인증 코드를 다시 확인해주세요.",
     (value: string) => value !== "",
-    (value: string) => sendCode && codeChecked
+    (value: string) => sendCode && codeChecked && value !== ""
   );
 
   const passwordInputArgs = useInputWithError(
@@ -68,21 +72,44 @@ export default function SignUp() {
     addressInputArgs.setError(false);
   };
   const openPostPopup = useDaumPostPopup(addressCallback);
-
   const router = useRouter();
 
+  const requestVerifyMutate = useMutation({
+    mutationFn: UserApi.REQUEST_VERIFY,
+    onSuccess: (data) => {
+      if(data.status === "001" && data.email) {
+        //이메일 중복인 경우 => 이미 회원인 경우
+        emailInputArgs.setErrorMessage("이미 존재하는 회원입니다.");
+        emailInputArgs.setError(true);
+        return;
+      }
+      if(data.status === "002") {
+        setSendCode(true);
+        emailInputArgs.setError(false);
+        codeInputArgs.setError(false);
+      }
+    },
+    onError: (error: AxiosError) => {
+      if(error.response) {
+        const status = error.response.data as IHttpStatus;
+        if(status.errorCode === "-005") {} //이메일 형식에 맞지 않을 때,
+        if(status.errorCode === "-502") {} //이메일에 전송이 불가능할 때,
+        emailInputArgs.setErrorMessage(status.message);
+        emailInputArgs.setError(true);
+      }
+    }
+  })
+
   const sendCodeToEmail = () => {
-    if (!emailRegex.test(emailInputArgs.value) || codeChecked) {
+    if (!emailInputArgs.isCorrect || codeChecked) {
       emailInputArgs.setError(true);
       return;
     }
-    setSendCode(true);
-    emailInputArgs.setError(false);
-    codeInputArgs.setError(false);
+    requestVerifyMutate.mutate(emailInputArgs.value);
   };
 
   const checkEmailCode = () => {
-    if (codeInputArgs.value.length === 4) {
+    if (codeInputArgs.isCorrect) {
       setCodeChecked(true);
       codeInputArgs.setError(false);
     }
@@ -186,6 +213,7 @@ export default function SignUp() {
           placeHolder="주소 (배송지)"
           value={addressInputArgs.value}
           editable={true}
+          readonly={true}
           tailButtonTitle="검색하기"
           isError={addressInputArgs.error}
           errorMessage={addressInputArgs.errorMessage}

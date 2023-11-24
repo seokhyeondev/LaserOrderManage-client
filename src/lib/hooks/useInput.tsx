@@ -58,6 +58,7 @@ export const useInputWithError = (
 
   const passError = (): boolean => {
     if(!passCondition(value)) {
+      setErrorMessage(defErrorMessage);
       setError(true);
       return false;
     }

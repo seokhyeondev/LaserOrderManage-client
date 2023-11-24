@@ -57,5 +57,6 @@ axiosPrivate.interceptors.response.use(
 export interface IHttpStatus {
   errorCode: string;
   httpStatus: string;
+  status: number;
   message: string;
 }
