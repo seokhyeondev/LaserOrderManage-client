@@ -35,3 +35,26 @@ export const usePagination = (args: IUsePaginationArgs) => {
     onClickPage,
   };
 };
+
+export const useSimplePagination = (args: IUsePaginationArgs) => {
+  const [activedPage, setActivedPage] = useState(1);
+  const hasBefore = activedPage > 1;
+  const hasNext = args.totalPage ? activedPage < args.totalPage : false;
+  const onClickBefore = () => {
+    if (hasBefore) {
+      setActivedPage(activedPage - 1);
+    }
+  };
+  const onClickNext = () => {
+    if (hasNext) {
+      setActivedPage(activedPage + 1);
+    }
+  };
+  return {
+    activedPage,
+    hasBefore,
+    hasNext,
+    onClickBefore,
+    onClickNext,
+  } as const;
+};

@@ -10,6 +10,8 @@ import { IOrderHistoryResponse } from "@/src/lib/apis/order/create/OrderCreate.t
 import { getDate } from "@/src/lib/utils/utils";
 import { useQuery } from "@tanstack/react-query";
 import { OrderCreateApi } from "@/src/lib/apis/order/create/OrderCreateApi";
+import { useSimplePagination } from "@/src/lib/hooks/usePagination";
+import HistoryPagination from "../../paginations/create/HistoryPagination.index";
 
 interface ILoadOrderModalProps extends IModalProps {
   callback: (response: IOrderHistoryResponse) => void;
@@ -22,7 +24,16 @@ export default function LoadOrderModal(props: ILoadOrderModalProps) {
   const { data, refetch } = useQuery({
     queryKey: ["orderHistoryList"],
     queryFn: () =>
-      OrderCreateApi.GET_ORDER_HISTORY_LIST(1, 5, searchBarArgs.keyword),
+      OrderCreateApi.GET_ORDER_HISTORY_LIST(
+        paginationArgs.activedPage,
+        4,
+        searchBarArgs.keyword,
+      ),
+    enabled: props.isOpen,
+  });
+  const paginationArgs = useSimplePagination({
+    totalPage: data?.totalPages,
+    refetch: () => refetch(),
   });
 
   const onLoad = () => {
@@ -89,6 +100,8 @@ export default function LoadOrderModal(props: ILoadOrderModalProps) {
               </S.LoadOrderItem>
             ))}
         </S.ModalContentWrapper>
+        <HistoryPagination totalPage={data?.totalPages} {...paginationArgs} />
+        <Spacer width="100%" height="16px" />
         <div className="flex-row">
           <S.CancelButton className="bold20" onClick={props.onClose}>
             취소
