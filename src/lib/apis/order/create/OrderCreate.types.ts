@@ -14,13 +14,14 @@ export interface IOrderCreateRequest {
 export interface IOrderCreateResponse {}
 
 export interface IDrawing {
-  thumbnailImgUrl: string;
+  thumbnailUrl: string;
   fileName: string;
   fileSize: number;
   fileType: string;
   fileUrl: string;
   count: string;
   ingredient: string;
+  thickness: string;
 }
 
 export interface IDrawingRequest {
