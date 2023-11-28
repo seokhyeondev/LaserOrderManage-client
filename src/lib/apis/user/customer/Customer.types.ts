@@ -1,5 +1,5 @@
 export interface IDeliveryAddressListResponse {
-  content: IDeliveryAddress[];
+  contents: IDeliveryAddress[];
   totalElements: number;
 }
 

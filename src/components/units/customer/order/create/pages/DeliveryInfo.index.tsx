@@ -1,24 +1,24 @@
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "../CreateOrder.styles";
-import { useEffect } from "react"
+import { useEffect } from "react";
 import AddressItem from "./items/AddressItem.index";
 import AddressModal from "@/src/components/commons/modal/address/AddressModal.index";
 import { useState } from "react";
 import { ICreateOrderPageProps } from "../CreateOrder.types";
-import { IDeliveryAddress } from "@/src/lib/apis/user/customer/Customer.types";
 import { useRecoilState } from "recoil";
-import { createOrderState } from "@/src/store/createOrder"
+import { createOrderState } from "@/src/store/createOrder";
+import { useQuery } from "@tanstack/react-query";
+import { CustomerApi } from "@/src/lib/apis/user/customer/CustomerApi";
 
 export default function DeliveryInfo(props: ICreateOrderPageProps) {
   const [addressModalOpen, setAddressModalOpen] = useState(false);
   const [selectedAddressId, setSelectedAddressId] = useState<number>();
   const [orderState, setOrderState] = useRecoilState(createOrderState);
-  const data: IDeliveryAddress[] = [
-    {id: 0, name: "회원 주소", zipCode: "1234", address: "서울 마포구 성미산로 160", detailAddress: "휴먼빌", receiver: "안승우", phone1: "01001234000", phone2: null, isDefault: true},
-    {id: 1, name: "회원 주소2", zipCode: "1234", address: "서울 마포구 성미산로 160", detailAddress: "휴먼빌", receiver: "안승우", phone1: "01000000000", phone2: null, isDefault: false},
-    {id: 2, name: "회원 주소3", zipCode: "1234", address: "서울 마포구 성미산로 160", detailAddress: "휴먼빌", receiver: "안승우", phone1: "01000000000", phone2: null, isDefault: false}
-  ];
-  
+  const { data } = useQuery({
+    queryKey: ["deliveryAddress"],
+    queryFn: () => CustomerApi.GET_DELIVERY_ADDRESS(),
+  });
+
   useEffect(() => {
     setSelectedAddressId(orderState.deliveryAddressId);
   }, []);
@@ -26,10 +26,10 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
   const onBefore = () => {
     setOrderState({
       ...orderState,
-      deliveryAddressId: selectedAddressId
+      deliveryAddressId: selectedAddressId,
     });
-    if(props.onBefore) props.onBefore();
-  }
+    if (props.onBefore) props.onBefore();
+  };
 
   return (
     <>
@@ -45,12 +45,13 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
           </div>
           <Spacer width="100%" height="30px" />
           <div>
-            {data.map((el) => (
-              <AddressItem 
-                key={el.id} 
-                data={el} 
-                selectedId={selectedAddressId} 
-                onSelect={(id: number) => setSelectedAddressId(id)}/>
+            {data?.contents.map((el) => (
+              <AddressItem
+                key={el.id}
+                data={el}
+                selectedId={selectedAddressId}
+                onSelect={(id: number) => setSelectedAddressId(id)}
+              />
             ))}
           </div>
           <Spacer width="100%" height="24px" />
@@ -66,9 +67,9 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
             <S.BackButton className="bold20" onClick={onBefore}>
               이전
             </S.BackButton>
-            <S.NextButton 
-              className="bold20" 
-              enabled={selectedAddressId !== undefined} 
+            <S.NextButton
+              className="bold20"
+              enabled={selectedAddressId !== undefined}
               disabled={selectedAddressId === undefined}
             >
               견적 요청하기
