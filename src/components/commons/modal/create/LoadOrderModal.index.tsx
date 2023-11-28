@@ -8,10 +8,11 @@ import LoadOrderSearchbar from "../../searchbars/create/LoadOrderSearchbar";
 import { useSearchbar } from "@/src/lib/hooks/useSearchBar";
 import { IOrderHistoryResponse } from "@/src/lib/apis/order/create/OrderCreate.types";
 import { getDate } from "@/src/lib/utils/utils";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { OrderCreateApi } from "@/src/lib/apis/order/create/OrderCreateApi";
 import { useSimplePagination } from "@/src/lib/hooks/usePagination";
 import HistoryPagination from "../../paginations/create/HistoryPagination.index";
+import { useToastify } from "@/src/lib/hooks/useToastify";
 
 interface ILoadOrderModalProps extends IModalProps {
   callback: (response: IOrderHistoryResponse) => void;
@@ -20,6 +21,8 @@ interface ILoadOrderModalProps extends IModalProps {
 export default function LoadOrderModal(props: ILoadOrderModalProps) {
   const searchBarArgs = useSearchbar(() => refetch());
   const [selectedId, setSelectedId] = useState<number>();
+  const queryClient = useQueryClient();
+  const { setToast } = useToastify();
 
   const { data, refetch } = useQuery({
     queryKey: ["orderHistoryList"],
@@ -37,26 +40,19 @@ export default function LoadOrderModal(props: ILoadOrderModalProps) {
   });
 
   const onLoad = () => {
-    props.callback({
-      id: 0,
-      name: "실리콘 부품 제작 프로젝트",
-      manufacturingList: [],
-      postProcessingList: null,
-      drawingList: [],
-      request: null,
-      deliveryAddress: {
-        id: 0,
-        name: "집",
-        zipCode: "1234",
-        address: "주소",
-        detailAddress: "상세 주소",
-        receiver: "나",
-        phone1: "010",
-        phone2: null,
-        isDefault: true,
-      },
-    });
-    props.onClose();
+    queryClient
+      .fetchQuery({
+        queryKey: ["orderHistory"],
+        queryFn: () => OrderCreateApi.GET_ORDER_HISTORY(selectedId!!),
+      })
+      .then((response) => {
+        props.callback(response);
+        setToast({ comment: "이전 거래를 불러왔습니다" });
+        props.onClose();
+      })
+      .catch((err) => {
+        setToast({ comment: "다시 시도해주세요" });
+      });
   };
 
   return (
@@ -110,6 +106,7 @@ export default function LoadOrderModal(props: ILoadOrderModalProps) {
           <S.LoadButton
             className="bold20"
             isActive={selectedId !== undefined}
+            disabled={selectedId === undefined}
             onClick={onLoad}
           >
             불러오기
