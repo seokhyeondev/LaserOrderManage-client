@@ -14,7 +14,7 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
   const [addressModalOpen, setAddressModalOpen] = useState(false);
   const [selectedAddressId, setSelectedAddressId] = useState<number>();
   const [orderState, setOrderState] = useRecoilState(createOrderState);
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["deliveryAddress"],
     queryFn: () => CustomerApi.GET_DELIVERY_ADDRESS(),
   });
@@ -80,6 +80,7 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
       <AddressModal
         isOpen={addressModalOpen}
         onClose={() => setAddressModalOpen(false)}
+        refetch={refetch}
       />
     </>
   );
