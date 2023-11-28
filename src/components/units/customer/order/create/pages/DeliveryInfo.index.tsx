@@ -77,11 +77,13 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
           </div>
         </S.FormButtonWrapper>
       </S.FormWrapper>
-      <AddressModal
-        isOpen={addressModalOpen}
-        onClose={() => setAddressModalOpen(false)}
-        refetch={refetch}
-      />
+      {addressModalOpen && (
+        <AddressModal
+          isOpen={addressModalOpen}
+          onClose={() => setAddressModalOpen(false)}
+          refetch={refetch}
+        />
+      )}
     </>
   );
 }
