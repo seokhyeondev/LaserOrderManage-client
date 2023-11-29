@@ -8,7 +8,8 @@ export interface ISignUpInputProps {
   errorMessage?: string;
   needDefaultSpace: boolean;
   editable: boolean;
-  focusable: boolean;
+  readonly?: boolean;
+  maxLength?: number;
   tailButtonTitle?: string;
   tailButtonValidate?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -21,11 +22,6 @@ export interface IInputWrapperProps {
   isFocus: boolean;
   hasTail: boolean;
   isError: boolean;
-  focusable: boolean;
-}
-
-export interface IInputProps {
-  focusable: boolean;
 }
 
 export interface ITailButtonProps {

@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import {
-  IInputProps,
   IInputWrapperProps,
   ITailButtonProps,
 } from "./SignUpInput.types";
@@ -17,12 +16,10 @@ export const InputWrapper = styled.div<IInputWrapperProps>`
         ? "var(--color-darkGray)"
         : "var(--color-mediumGray)"};
   border-radius: var(--border-radius);
-  cursor: ${(props) => (props.focusable ? "pointer" : "default")};
 `;
 
-export const Input = styled.input<IInputProps>`
+export const Input = styled.input`
   width: 100%;
-  cursor: ${(props) => (props.focusable ? "pointer" : "text")};
   ::placeholder {
     color: var(--color-normalGray);
   }

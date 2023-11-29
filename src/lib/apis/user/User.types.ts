@@ -11,3 +11,41 @@ export interface IToken {
   accessToken: string;
   accessTokenExpirationTime: string;
 }
+
+export interface IRequestVerifyResponse {
+  email: string | null;
+  name: string | null;
+  createdAt: any | null;
+  status: string;
+}
+
+export interface IVerifyEmailRequest {
+  email: string;
+  code: string;
+}
+
+export interface IVerifyEmailResponse {
+  email: string | null;
+  name: string | null;
+  createdAt: any | null;
+  status: string;
+}
+
+export interface IJoinRequest {
+  email: string;
+  password: string;
+  name: string;
+  companyName: string | null;
+  phone: string;
+  zipCode: string;
+  address: string;
+  detailAddress: string | null;
+}
+
+export interface IJoinResponse {
+  email: string;
+  name: string;
+  createdAt: any;
+  status: string;
+}
+

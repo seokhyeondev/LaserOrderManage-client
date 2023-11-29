@@ -3,7 +3,6 @@ import { IFormSelectProps, INextButtonProps } from "./CreateOrder.types";
 
 export const Wrapper = styled.div`
   width: 100%;
-  min-height: calc(100vh - 80px);
   padding: 42px 80px;
   background-color: var(--color-lightGray);
 `;
@@ -20,7 +19,6 @@ export const LoadWrapper = styled.div`
   background-color: var(--color-white);
   border: 2px solid var(--color-mediumGray);
   border-radius: var(--border-radius);
-  transition: all ease 0.3s;
 `;
 
 export const LoadInfoWrapper = styled.div`
