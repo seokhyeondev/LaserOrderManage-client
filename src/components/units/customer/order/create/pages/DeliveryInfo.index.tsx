@@ -6,9 +6,15 @@ import AddressModal from "@/src/components/commons/modal/address/AddressModal.in
 import { useState } from "react";
 import { ICreateOrderPageProps } from "../CreateOrder.types";
 import { useRecoilState } from "recoil";
-import { createOrderState } from "@/src/store/createOrder";
-import { useQuery } from "@tanstack/react-query";
+import { createOrderState, initialState } from "@/src/store/createOrder";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { CustomerApi } from "@/src/lib/apis/user/customer/CustomerApi";
+import { OrderCreateApi } from "@/src/lib/apis/order/create/OrderCreateApi";
+import { AxiosError } from "axios";
+import { IHttpStatus } from "@/src/lib/apis/axios";
+import { IOrderCreateRequest } from "@/src/lib/apis/order/create/OrderCreate.types";
+import { useRouter } from "next/router";
+import { useToastify } from "@/src/lib/hooks/useToastify";
 
 export default function DeliveryInfo(props: ICreateOrderPageProps) {
   const [addressModalOpen, setAddressModalOpen] = useState(false);
@@ -17,6 +23,28 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
   const { data, refetch } = useQuery({
     queryKey: ["deliveryAddress"],
     queryFn: () => CustomerApi.GET_DELIVERY_ADDRESS(),
+  });
+  const { setToast } = useToastify();
+  const router = useRouter();
+
+  const { mutate } = useMutation({
+    mutationFn: OrderCreateApi.ORDER_CREATE,
+    onSuccess: () => {
+      setToast({ comment: "새 거래를 생성했어요" });
+      router.replace("/customer/order");
+      setOrderState(initialState);
+    },
+    onError: (error: AxiosError) => {
+      if (error.response) {
+        const status = error.response.data as IHttpStatus;
+        if (status.errorCode === "-009") {
+          //지원하지 않는 파일 형식
+        }
+        if (status.errorCode === "-010") {
+          //지원하지 않는 재료
+        }
+      }
+    },
   });
 
   useEffect(() => {
@@ -29,6 +57,14 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
       deliveryAddressId: selectedAddressId,
     });
     if (props.onBefore) props.onBefore();
+  };
+
+  const onSubmit = () => {
+    const payload: IOrderCreateRequest = {
+      ...orderState,
+      deliveryAddressId: selectedAddressId!!,
+    };
+    mutate(payload);
   };
 
   return (
@@ -71,6 +107,7 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
               className="bold20"
               enabled={selectedAddressId !== undefined}
               disabled={selectedAddressId === undefined}
+              onClick={onSubmit}
             >
               견적 요청하기
             </S.NextButton>

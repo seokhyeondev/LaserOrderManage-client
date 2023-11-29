@@ -19,19 +19,13 @@ export interface IDrawing {
   fileSize: number;
   fileType: string;
   fileUrl: string;
-  count: string;
+  count: number;
   ingredient: string;
-  thickness: string;
-}
-
-export interface IDrawingRequest {
-  file: FormData;
-  fileName: string;
-  fileSize: string;
+  thickness: number;
 }
 
 export interface IDrawingResponse {
-  thumbnailImgUrl: string;
+  thumbnailUrl: string;
   fileName: string;
   fileSize: number;
   fileType: string;

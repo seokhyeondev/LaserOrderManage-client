@@ -42,7 +42,15 @@ const INGREDIENTS: IIngredient[] = [
   { key: "TI" },
 ];
 
-export interface IDrawingItem extends IDrawing {
+export interface IDrawingItem {
+  thumbnailUrl: string;
+  fileName: string;
+  fileSize: number;
+  fileType: string;
+  fileUrl: string;
+  count: string;
+  ingredient: string;
+  thickness: string;
   isLoading: boolean;
 }
 

@@ -6,10 +6,7 @@ import DrawingItem, { IDrawingItem } from "./items/DrawingItem.index";
 import { ICreateOrderPageProps } from "../CreateOrder.types";
 import { useRecoilState } from "recoil";
 import { createOrderState } from "@/src/store/createOrder";
-import {
-  IDrawing,
-  IDrawingRequest,
-} from "@/src/lib/apis/order/create/OrderCreate.types";
+import { IDrawing } from "@/src/lib/apis/order/create/OrderCreate.types";
 import { AVAILABLE_FILE_TYPE } from "@/src/lib/constants/constant";
 import { numberRegex } from "@/src/lib/constants/regex";
 import { OrderCreateApi } from "@/src/lib/apis/order/create/OrderCreateApi";
@@ -36,7 +33,12 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
 
   useEffect(() => {
     setDrawings(
-      orderState.drawingList.map((el) => ({ ...el, isLoading: false })),
+      orderState.drawingList.map((el) => ({
+        ...el,
+        isLoading: false,
+        count: el.count !== 0 ? String(el.count) : "",
+        thickness: el.thickness !== 0 ? String(el.thickness) : "",
+      })),
     );
   }, []);
 
@@ -89,7 +91,7 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
       const updatedDrawing = {
         ...drawings[index],
         isLoading: false,
-        thumbnailUrl: data.thumbnailImgUrl,
+        thumbnailUrl: data.thumbnailUrl,
         fileUrl: data.fileUrl,
       };
       const updatedDrawings = [
@@ -99,18 +101,7 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
       ];
       setDrawings(updatedDrawings);
     },
-    onError: (error: AxiosError) => {
-      if (error.response) {
-        const status = error.response.data as IHttpStatus;
-        if (status.errorCode === "-009") {
-          // 지원하지 않는 파일 형식
-        }
-        if (status.errorCode === "-503") {
-          // 파일 업로드가 불가능
-        }
-        //썸네일 추출이 불가능
-      }
-    },
+    onError: (error: AxiosError) => {},
   });
 
   const addDrawingClient = (file: File) => {
@@ -133,7 +124,26 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
     payload.append("file", file);
     payload.append("fileName", file.name);
     payload.append("fileSize", String(file.size));
-    mutate(payload);
+    mutate(payload, {
+      onError: (error: AxiosError) => {
+        if (error.response) {
+          onDeleteDrawing(file.name);
+          const status = error.response.data as IHttpStatus;
+          if (status.errorCode === "-009") {
+            // 지원하지 않는 파일 형식
+            setToast({ comment: "지원하지 않는 파일 형식입니다" });
+            return;
+          }
+          if (status.errorCode === "-503") {
+            // 파일 업로드가 불가능
+            setToast({ comment: "업로드를 할 수 없어요" });
+            return;
+          }
+          //썸네일 추출이 불가능
+          setToast({ comment: "업로드에 실패했어요" });
+        }
+      },
+    });
   };
 
   const onUploadCallback = (event: ChangeEvent<HTMLInputElement>) => {
@@ -155,10 +165,15 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
     }
   };
 
+  const convertToIDrawing = (item: IDrawingItem): IDrawing => {
+    const { isLoading, count, thickness, ...drawing } = item;
+    return { ...drawing, count: Number(count), thickness: Number(thickness) };
+  };
+
   const setCreateOrderState = () => {
     setOrderState({
       ...orderState,
-      drawingList: drawings as IDrawing[],
+      drawingList: drawings.map((el) => convertToIDrawing(el)),
     });
   };
 

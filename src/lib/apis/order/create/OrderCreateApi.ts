@@ -1,7 +1,6 @@
 import {
   IOrderHistoryListResponse,
   IOrderHistoryResponse,
-  IDrawingRequest,
   IDrawingResponse,
   IOrderCreateRequest,
   IOrderCreateResponse,
