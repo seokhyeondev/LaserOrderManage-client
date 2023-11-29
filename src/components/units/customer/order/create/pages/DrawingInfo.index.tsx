@@ -2,7 +2,7 @@ import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "../CreateOrder.styles";
 import Image from "next/image";
 import { ChangeEvent, useRef, useState, useEffect } from "react";
-import DrawingItem from "./items/DrawingItem.index";
+import DrawingItem, { IDrawingItem } from "./items/DrawingItem.index";
 import { ICreateOrderPageProps } from "../CreateOrder.types";
 import { useRecoilState } from "recoil";
 import { createOrderState } from "@/src/store/createOrder";
@@ -12,12 +12,16 @@ import {
 } from "@/src/lib/apis/order/create/OrderCreate.types";
 import { AVAILABLE_FILE_TYPE } from "@/src/lib/constants/constant";
 import { numberRegex } from "@/src/lib/constants/regex";
+import { OrderCreateApi } from "@/src/lib/apis/order/create/OrderCreateApi";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { IHttpStatus } from "@/src/lib/apis/axios";
+import { useToastify } from "@/src/lib/hooks/useToastify";
 
 export default function DrawingInfo(props: ICreateOrderPageProps) {
   const hiddenFileInput = useRef<HTMLInputElement>(null);
   const [orderState, setOrderState] = useRecoilState(createOrderState);
-  const [drawings, setDrawings] = useState<IDrawing[]>([]);
-  const fileReader = new FileReader();
+  const [drawings, setDrawings] = useState<IDrawingItem[]>([]);
   const nextStepAvailable =
     drawings.length !== 0 &&
     drawings.every(
@@ -25,11 +29,15 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
         drawing.count !== "" &&
         Number(drawing.count) > 0 &&
         drawing.ingredient !== "" &&
-        drawing.thickness !== "",
+        drawing.thickness !== "" &&
+        drawing.isLoading === false,
     );
+  const { setToast } = useToastify();
 
   useEffect(() => {
-    setDrawings(orderState.drawingList);
+    setDrawings(
+      orderState.drawingList.map((el) => ({ ...el, isLoading: false })),
+    );
   }, []);
 
   const onUpload = () => {
@@ -37,11 +45,11 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
   };
 
   const onChangeDrawingCount = (
-    id: number,
+    name: string,
     event: ChangeEvent<HTMLInputElement>,
   ) => {
-    const updatedDrawings = drawings.map((el, index) =>
-      index === id
+    const updatedDrawings = drawings.map((el) =>
+      el.fileName === name
         ? { ...el, count: event.target.value.replace(numberRegex, "") }
         : el,
     );
@@ -49,77 +57,108 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
   };
 
   const onChangeDrawingIngredient = (
-    id: number,
+    name: string,
     event: ChangeEvent<HTMLSelectElement>,
   ) => {
-    const updatedDrawings = drawings.map((el, index) =>
-      index === id ? { ...el, ingredient: event.target.value } : el,
+    const updatedDrawings = drawings.map((el) =>
+      el.fileName === name ? { ...el, ingredient: event.target.value } : el,
     );
-    setDrawings(updatedDrawings);
-  };
-
-  const onDeleteDrawing = (id: number) => {
-    const updatedDrawings = drawings.filter((_, index) => index !== id);
     setDrawings(updatedDrawings);
   };
 
   const onChangeThickness = (
-    id: number,
+    name: string,
     event: ChangeEvent<HTMLSelectElement>,
   ) => {
-    const updatedDrawing = drawings.map((el, index) =>
-      index === id ? { ...el, thickness: event.target.value } : el,
+    const updatedDrawing = drawings.map((el) =>
+      el.fileName === name ? { ...el, thickness: event.target.value } : el,
     );
     setDrawings(updatedDrawing);
   };
 
-  const addDrawingClient = (file: File) => {
-    fileReader.readAsDataURL(file);
-    fileReader.onload = () => {
-      console.log(fileReader.result);
-      const newDrawing: IDrawing = {
-        thumbnailUrl:
-          typeof fileReader.result === "string" ? fileReader.result : "",
-        fileName: file.name,
-        fileSize: file.size,
-        fileType: file.name.slice(file.name.lastIndexOf(".") + 1),
-        fileUrl: "",
-        count: "",
-        ingredient: "",
-        thickness: "",
+  const onDeleteDrawing = (name: string) => {
+    const updatedDrawings = drawings.filter((el) => el.fileName !== name);
+    setDrawings(updatedDrawings);
+  };
+
+  const { mutate } = useMutation({
+    mutationFn: OrderCreateApi.UPLOAD_DRAWING,
+    onSuccess: (data) => {
+      const index = drawings.findIndex((el) => el.fileName === data.fileName);
+      if (index === -1) return;
+      const updatedDrawing = {
+        ...drawings[index],
+        isLoading: false,
+        thumbnailUrl: data.thumbnailImgUrl,
+        fileUrl: data.fileUrl,
       };
-      setDrawings([...drawings, newDrawing]);
+      const updatedDrawings = [
+        ...drawings.slice(0, index),
+        updatedDrawing,
+        ...drawings.slice(index + 1),
+      ];
+      setDrawings(updatedDrawings);
+    },
+    onError: (error: AxiosError) => {
+      if (error.response) {
+        const status = error.response.data as IHttpStatus;
+        if (status.errorCode === "-009") {
+          // 지원하지 않는 파일 형식
+        }
+        if (status.errorCode === "-503") {
+          // 파일 업로드가 불가능
+        }
+        //썸네일 추출이 불가능
+      }
+    },
+  });
+
+  const addDrawingClient = (file: File) => {
+    const newDrawing: IDrawingItem = {
+      thumbnailUrl: "",
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.name.slice(file.name.lastIndexOf(".") + 1),
+      fileUrl: "",
+      count: "",
+      ingredient: "",
+      thickness: "",
+      isLoading: true,
     };
+    setDrawings([...drawings, newDrawing]);
   };
 
   const postDrawingServer = (file: File) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    const payload: IDrawingRequest = {
-      file: formData,
-      fileName: file.name,
-      fileSize: String(file.size),
-    };
+    const payload = new FormData();
+    payload.append("file", file);
+    payload.append("fileName", file.name);
+    payload.append("fileSize", String(file.size));
+    mutate(payload);
   };
 
   const onUploadCallback = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       if (file.size > 100 * 1024 * 1024) {
-        alert("도면 최대 용량은 100MB까지 가능합니다");
+        setToast({ comment: "도면 최대 용량은 100MB까지 가능합니다" });
         return;
       }
-      postDrawingServer(file);
+      const containsDrawings = drawings.some((el) => el.fileName === file.name);
+      if (containsDrawings) {
+        setToast({ comment: "같은 이름의 파일은 추가할 수 없습니다" });
+        return;
+      }
       addDrawingClient(file);
+      postDrawingServer(file);
     } else {
-      alert("도면 파일을 찾을 수 없습니다");
+      setToast({ comment: "도면 파일을 찾을 수 없습니다" });
     }
   };
 
   const setCreateOrderState = () => {
     setOrderState({
       ...orderState,
-      drawingList: drawings,
+      drawingList: drawings as IDrawing[],
     });
   };
 
@@ -129,6 +168,7 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
   };
 
   const onBefore = () => {
+    if (!drawings.every((el) => el.isLoading === false)) return;
     setCreateOrderState();
     if (props.onBefore) props.onBefore();
   };
@@ -161,11 +201,10 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
         </S.UploadArea>
         <Spacer width="100%" height="20px" />
         <div>
-          {drawings.map((el, index) => (
+          {drawings.map((el) => (
             <DrawingItem
-              key={index}
+              key={el.fileName}
               data={el}
-              id={index}
               onChangeCount={onChangeDrawingCount}
               onChangeIngredient={onChangeDrawingIngredient}
               onChangeThickness={onChangeThickness}

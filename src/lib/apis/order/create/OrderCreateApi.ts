@@ -27,10 +27,10 @@ export const OrderCreateApi = {
     );
     return response.data;
   },
-  UPLOAD_DRAWING: async (
-    payload: IDrawingRequest,
-  ): Promise<IDrawingResponse> => {
-    const response = await axiosPrivate.post("/drawing", payload);
+  UPLOAD_DRAWING: async (payload: FormData): Promise<IDrawingResponse> => {
+    const response = await axiosPrivate.post("/drawing", payload, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     return response.data;
   },
   ORDER_CREATE: async (

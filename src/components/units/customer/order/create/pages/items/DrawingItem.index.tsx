@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, ChangeEvent } from "react";
 import { IDrawing } from "@/src/lib/apis/order/create/OrderCreate.types";
 import { getFileSize } from "@/src/lib/utils/utils";
+import LoadingBox from "@/src/components/commons/loading/LoadingBox.index";
 
 interface IIngredient {
   key: string;
@@ -41,19 +42,22 @@ const INGREDIENTS: IIngredient[] = [
   { key: "TI" },
 ];
 
+export interface IDrawingItem extends IDrawing {
+  isLoading: boolean;
+}
+
 interface IDrawingItemProps {
-  data: IDrawing;
-  id: number;
-  onChangeCount: (id: number, event: ChangeEvent<HTMLInputElement>) => void;
+  data: IDrawingItem;
+  onChangeCount: (name: string, event: ChangeEvent<HTMLInputElement>) => void;
   onChangeIngredient: (
-    id: number,
+    name: string,
     event: ChangeEvent<HTMLSelectElement>,
   ) => void;
   onChangeThickness: (
-    id: number,
+    name: string,
     event: ChangeEvent<HTMLSelectElement>,
   ) => void;
-  onDelete: (id: number) => void;
+  onDelete: (name: string) => void;
 }
 
 export default function DrawingItem(props: IDrawingItemProps) {
@@ -61,13 +65,17 @@ export default function DrawingItem(props: IDrawingItemProps) {
   return (
     <S.Wrapper className="flex-row-between">
       <S.InfoWrapper className="flex-row">
-        <Image
-          src={props.data.thumbnailUrl}
-          width={120}
-          height={120}
-          style={S.Thumbnail}
-          alt={props.data.thumbnailUrl}
-        />
+        {props.data.isLoading ? (
+          <LoadingBox />
+        ) : (
+          <Image
+            src={props.data.thumbnailUrl}
+            width={120}
+            height={120}
+            style={S.Thumbnail}
+            alt={props.data.thumbnailUrl}
+          />
+        )}
         <Spacer width="24px" height="100%" />
         <S.DetailWrapper className="flex-column-between">
           <div>
@@ -91,7 +99,9 @@ export default function DrawingItem(props: IDrawingItemProps) {
                 <S.Input
                   placeholder="수량 입력"
                   value={props.data.count}
-                  onChange={(event) => props.onChangeCount(props.id, event)}
+                  onChange={(event) =>
+                    props.onChangeCount(props.data.fileName, event)
+                  }
                   maxLength={10}
                   onFocus={() => setCountFocus(true)}
                   onBlur={() => setCountFocus(false)}
@@ -110,7 +120,7 @@ export default function DrawingItem(props: IDrawingItemProps) {
                 <S.Select
                   value={props.data.ingredient}
                   onChange={(event) =>
-                    props.onChangeIngredient(props.id, event)
+                    props.onChangeIngredient(props.data.fileName, event)
                   }
                 >
                   <S.Option value={""} disabled hidden>
@@ -134,7 +144,9 @@ export default function DrawingItem(props: IDrawingItemProps) {
               <S.SelectWrapper>
                 <S.Select
                   value={props.data.thickness}
-                  onChange={(event) => props.onChangeThickness(props.id, event)}
+                  onChange={(event) =>
+                    props.onChangeThickness(props.data.fileName, event)
+                  }
                 >
                   <S.Option value={""} disabled hidden>
                     두께를 선택해주세요
@@ -156,7 +168,7 @@ export default function DrawingItem(props: IDrawingItemProps) {
         height={20}
         alt=""
         style={S.DeleteIcon}
-        onClick={() => props.onDelete(props.id)}
+        onClick={() => props.onDelete(props.data.fileName)}
       />
     </S.Wrapper>
   );
