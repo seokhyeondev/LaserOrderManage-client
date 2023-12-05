@@ -4,6 +4,7 @@ import Spacer from "../../commons/spacer/Spacer.index";
 import * as S from "./OrderDetail.styles";
 import CustomerInfoSection from "./section/CustomerInfoSection.index";
 import DeliveryInfoSection from "./section/DeliveryInfoSection.index";
+import DrawingInfoSection from "./section/DrawingInfoSection.index";
 import OrderInfoSection from "./section/OrderInfoSection.index";
 import UrgentSection from "./section/UrgentSection.index";
 
@@ -18,6 +19,8 @@ export default function OrderDetail() {
         <CustomerInfoSection />
         <Spacer width="100%" height="60px" />
         <DeliveryInfoSection />
+        <Spacer width="100%" height="60px" />
+        <DrawingInfoSection />
       </S.BodyWrapper>
       <S.MenuWrapper>
         <OrderDetailMenu />
