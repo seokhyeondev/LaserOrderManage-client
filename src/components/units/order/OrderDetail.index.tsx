@@ -13,6 +13,8 @@ import QuotationInfoSection from "./section/QuotationInfoSection.index";
 import UrgentSection from "./section/UrgentSection.index";
 import { IDetailOrder } from "@/src/lib/apis/order/detail/OrderDetail.types";
 import { IDeliveryAddress } from "@/src/lib/apis/user/customer/Customer.types";
+import { useRecoilValue } from "recoil";
+import { authState } from "@/src/store/auth";
 
 export type FocusableSection = "OrderInfo" | "DrawingInfo" | "QuotationInfo";
 const focusOffset = 30;
@@ -43,6 +45,7 @@ const detailOrder: IDetailOrder = {
 };
 
 export default function OrderDetail() {
+  const auth = useRecoilValue(authState);
   const [focusedSection, setFocusedSection] =
     useState<FocusableSection>("OrderInfo");
   const orderInfoRef = useRef<HTMLDivElement>(null);
@@ -93,8 +96,12 @@ export default function OrderDetail() {
     <S.Wrapper className="flex-row">
       <S.BodyWrapper>
         <OrderInfoSection sectionRef={orderInfoRef} data={detailOrder} />
-        <Spacer width="100%" height="48px" />
-        <UrgentSection />
+        {auth.role === "ROLE_FACTORY" && (
+          <>
+            <Spacer width="100%" height="48px" />
+            <UrgentSection isUrgent={detailOrder.isUrgent} />
+          </>
+        )}
         <Spacer width="100%" height="60px" />
         <CustomerInfoSection />
         <Spacer width="100%" height="60px" />

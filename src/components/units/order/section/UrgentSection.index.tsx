@@ -1,6 +1,45 @@
+import { useState } from "react";
 import * as S from "./OrderDetailSection.styles";
-
 import styled from "@emotion/styled";
+
+const URGENT_SELECT = [
+  { status: false, name: "일반 거래" },
+  { status: true, name: "긴급 거래" },
+];
+
+interface IUrgentSectionProps {
+  isUrgent: boolean;
+}
+
+export default function UrgentSection({ isUrgent }: IUrgentSectionProps) {
+  const [selectStatus, setSelectStatus] = useState(isUrgent);
+
+  const onSelect = (status: boolean) => {
+    if (status !== selectStatus) {
+      setSelectStatus(status);
+    }
+  };
+
+  return (
+    <S.Wrapper>
+      <S.TitleWrapper>
+        <S.Title className="bold18">긴급 거래 설정</S.Title>
+      </S.TitleWrapper>
+      <div className="flex-row">
+        {URGENT_SELECT.map((el) => (
+          <UrgentSelect
+            className="medium16 flex-center"
+            isSelect={el.status === selectStatus}
+            key={el.name}
+            onClick={() => onSelect(el.status)}
+          >
+            {el.name}
+          </UrgentSelect>
+        ))}
+      </div>
+    </S.Wrapper>
+  );
+}
 
 interface IUrgentSelectProps {
   isSelect: boolean;
@@ -23,29 +62,3 @@ const UrgentSelect = styled.p<IUrgentSelectProps>`
     margin-right: 0;
   }
 `;
-
-const URGENT_SELECT = [
-  { key: "general", name: "일반 거래" },
-  { key: "urgent", name: "긴급 거래" },
-];
-
-export default function UrgentSection() {
-  return (
-    <S.Wrapper>
-      <S.TitleWrapper>
-        <S.Title className="bold18">긴급 거래 설정</S.Title>
-      </S.TitleWrapper>
-      <div className="flex-row">
-        {URGENT_SELECT.map((el) => (
-          <UrgentSelect
-            className="medium16 flex-center"
-            isSelect={true}
-            key={el.key}
-          >
-            {el.name}
-          </UrgentSelect>
-        ))}
-      </div>
-    </S.Wrapper>
-  );
-}
