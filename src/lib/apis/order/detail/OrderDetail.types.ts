@@ -1,13 +1,13 @@
 import { IDeliveryAddress } from "../../user/customer/Customer.types";
 
 export interface IOrderDetailResponse {
-  customer: ICustomer;
+  customer: IDetailCustomer;
   order: IDetailOrder;
   quotation: IDetailQuotation;
   purchaseOrder: IDetailPurchaseOrder;
 }
 
-export interface ICustomer {
+export interface IDetailCustomer {
   id: number;
   name: string;
   company: string | null;

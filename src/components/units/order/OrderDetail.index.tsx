@@ -11,7 +11,10 @@ import OrderInfoSection from "./section/OrderInfoSection.index";
 import PurchaseOrderInfoSection from "./section/PurchaseOrderInfoSection.index";
 import QuotationInfoSection from "./section/QuotationInfoSection.index";
 import UrgentSection from "./section/UrgentSection.index";
-import { IDetailOrder } from "@/src/lib/apis/order/detail/OrderDetail.types";
+import {
+  IDetailCustomer,
+  IDetailOrder,
+} from "@/src/lib/apis/order/detail/OrderDetail.types";
 import { IDeliveryAddress } from "@/src/lib/apis/user/customer/Customer.types";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/src/store/auth";
@@ -42,6 +45,14 @@ const detailOrder: IDetailOrder = {
   createdAt: "2023. 12. 25",
 };
 
+const customer: IDetailCustomer = {
+  id: 0,
+  name: "김우리",
+  company: "우리 기술",
+  phone: "010-0000-0000",
+  email: "wuri001@gmail.com",
+};
+
 export default function OrderDetail() {
   const auth = useRecoilValue(authState);
   const scrollArgs = useOrderDetailScroll();
@@ -67,7 +78,7 @@ export default function OrderDetail() {
           </>
         )}
         <Spacer width="100%" height="60px" />
-        <CustomerInfoSection />
+        <CustomerInfoSection data={customer} />
         <Spacer width="100%" height="60px" />
         <DeliveryInfoSection />
         <Spacer width="100%" height="60px" />
