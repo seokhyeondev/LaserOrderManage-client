@@ -2,6 +2,7 @@ import OrderCommentMenu from "../../commons/menu/detail/OrderCommentMenu.index";
 import OrderDetailMenu from "../../commons/menu/detail/OrderDetailMenu.index";
 import Spacer from "../../commons/spacer/Spacer.index";
 import * as S from "./OrderDetail.styles";
+import OrderDetailBottombar from "./bottombar/OrderDetailBottombar.index";
 import CustomerInfoSection from "./section/CustomerInfoSection.index";
 import DeliveryInfoSection from "./section/DeliveryInfoSection.index";
 import DrawingInfoSection from "./section/DrawingInfoSection.index";
@@ -33,7 +34,7 @@ export default function OrderDetail() {
         <Spacer width="100%" height="10px" />
         <OrderCommentMenu />
       </S.MenuWrapper>
-      <S.BottomBarWrapper></S.BottomBarWrapper>
+      <OrderDetailBottombar />
     </S.Wrapper>
   );
 }
