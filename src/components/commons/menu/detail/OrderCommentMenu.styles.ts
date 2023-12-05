@@ -19,10 +19,16 @@ export const CommentsWrapper = styled.div`
   overflow-y: auto;
 `;
 
-export const InputWrapper = styled.div`
+interface IInputWrapperProps {
+  isFocus: boolean;
+}
+
+export const InputWrapper = styled.div<IInputWrapperProps>`
   width: 100%;
-  padding: 18px 15px 10px 15px;
-  border: 2px solid var(--color-mediumGray);
+  padding: 12px 15px;
+  border: 2px solid
+    ${(props) =>
+      props.isFocus ? "var(--color-normalGray)" : "var(--color-mediumGray)"};
   border-radius: var(--border-radius);
   background-color: var(--color-white);
 `;

@@ -71,3 +71,15 @@ export interface IFactoryOrder {
   cost: number | null;
   request: string | null;
 }
+
+export interface IOrderCommentsResponse {
+  contents: IOrderComment[];
+  totalElements: number;
+}
+
+export interface IOrderComment {
+  id: number;
+  authorName: string;
+  content: string;
+  createdAt: any;
+}
