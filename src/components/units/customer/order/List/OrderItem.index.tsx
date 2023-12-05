@@ -4,8 +4,15 @@ import * as S from "./OrderList.styles";
 import Image from "next/image";
 import { getDate, getCost } from "@/src/lib/utils/utils";
 import { MANUFACTURING } from "@/src/components/commons/filters/order/OrderFilterQueries";
+import { useRouter } from "next/router";
 
 export default function CustomerOrderItem(props: IOrderItemProps) {
+  const router = useRouter();
+
+  const onItem = (id: number) => {
+    router.push(`/order/${id}`);
+  };
+
   const getManufacturings = (manufacturings: string[]) => {
     const changed = manufacturings.map(
       (el) => MANUFACTURING.filters.find((f) => f.value === el)?.name,
@@ -14,7 +21,7 @@ export default function CustomerOrderItem(props: IOrderItemProps) {
   };
 
   return (
-    <S.Wrapper className="flex-row">
+    <S.Wrapper className="flex-row" onClick={() => onItem(props.data.id)}>
       <Image
         width={200}
         height={200}
