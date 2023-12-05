@@ -2,9 +2,11 @@ import styled from "@emotion/styled";
 
 export const Wrapper = styled.div``;
 
-export const Title = styled.p`
+export const TitleWrapper = styled.div`
   margin-bottom: 20px;
 `;
+
+export const Title = styled.p``;
 
 export const Section = styled.div`
   border-top: 2px solid var(--color-black);

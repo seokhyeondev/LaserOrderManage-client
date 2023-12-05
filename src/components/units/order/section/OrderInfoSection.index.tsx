@@ -6,9 +6,11 @@ export default function OrderInfoSection() {
     <S.Wrapper>
       <p className="medium20">견적 대기</p>
       <Spacer width="100%" height="10px" />
-      <S.Title className="bold28">기계 시스템 제작 프로젝트</S.Title>
+      <S.TitleWrapper>
+        <S.Title className="bold28">기계 시스템 제작 프로젝트</S.Title>
+      </S.TitleWrapper>
       <S.Section>
-        <Spacer width="100%" height="14px" />
+        <Spacer width="100%" height="20px" />
         <S.InfoWrapper className="flex-row">
           <S.Label className="regular16">작업 범위</S.Label>
           <S.Content className="regular16">레이저 가공</S.Content>
