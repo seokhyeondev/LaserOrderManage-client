@@ -7,6 +7,7 @@ export const Wrapper = styled.div`
 export const BodyWrapper = styled.div`
   flex-grow: 1;
   padding: 48px;
+  height: 200vh;
 `;
 
 export const BottomBarWrapper = styled.div`

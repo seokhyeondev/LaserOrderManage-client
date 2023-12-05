@@ -108,6 +108,10 @@ export const globalStyles = css`
     font-size: 14px;
     font-weight: 400;
   }
+  .regular12 {
+    font-size: 12px;
+    font-weight: 400;
+  }
   .regular10 {
     font-size: 10px;
     font-weight: 400;
@@ -135,6 +139,11 @@ export const globalStyles = css`
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  .flex-column-start {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
   }
   .flex-column-end {
     display: flex;
