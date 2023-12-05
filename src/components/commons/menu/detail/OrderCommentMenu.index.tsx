@@ -1,10 +1,9 @@
 import * as S from "./OrderCommentMenu.styles";
-import styled from "@emotion/styled";
 import SendIcon from "../../icons/SendIcon.index";
 import {
   IOrderComment,
   IOrderCommentsResponse,
-} from "@/src/lib/apis/order/Order.types";
+} from "@/src/lib/apis/order/detail/OrderDetail.types";
 import { useState } from "react";
 import { useInputWithMaxLength } from "@/src/lib/hooks/useInput";
 
@@ -42,9 +41,9 @@ export default function OrderCommentMenu() {
       <S.Label className="bold20">댓글</S.Label>
       <S.CommentsWrapper>
         {comments.totalElements == 0 && (
-          <EmptyComment className="flex-center regular14">
+          <S.EmptyComment className="flex-center regular14">
             아직 댓글이 없습니다
-          </EmptyComment>
+          </S.EmptyComment>
         )}
         {comments.totalElements !== 0 &&
           comments.contents.map((el) => (
@@ -84,8 +83,3 @@ function OrderCommentItem({ data }: IOrderCommentItemProps) {
     </S.CommentItemWrapper>
   );
 }
-
-const EmptyComment = styled.p`
-  width: 100%;
-  height: 100%;
-`;

@@ -66,3 +66,8 @@ export const CommentDate = styled.p`
   text-align: end;
   color: var(--color-darkGray);
 `;
+
+export const EmptyComment = styled.p`
+  width: 100%;
+  height: 100%;
+`;
