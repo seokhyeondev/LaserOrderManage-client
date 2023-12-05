@@ -6,6 +6,7 @@ import CustomerInfoSection from "./section/CustomerInfoSection.index";
 import DeliveryInfoSection from "./section/DeliveryInfoSection.index";
 import DrawingInfoSection from "./section/DrawingInfoSection.index";
 import OrderInfoSection from "./section/OrderInfoSection.index";
+import QuotationInfoSection from "./section/QuotationInfoSection.index";
 import UrgentSection from "./section/UrgentSection.index";
 
 export default function OrderDetail() {
@@ -21,6 +22,8 @@ export default function OrderDetail() {
         <DeliveryInfoSection />
         <Spacer width="100%" height="60px" />
         <DrawingInfoSection />
+        <Spacer width="100%" height="60px" />
+        <QuotationInfoSection />
       </S.BodyWrapper>
       <S.MenuWrapper>
         <OrderDetailMenu />

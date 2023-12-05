@@ -33,3 +33,26 @@ export const Label = styled.div`
 export const Content = styled.div`
   width: 100%;
 `;
+
+export const SideWrapper = styled.div`
+  background-color: var(--color-lightGray);
+`;
+
+export const SideBox = styled.div`
+  width: 300px;
+  padding: 18px 12px;
+  border-bottom: 1px solid var(--color-mediumGray);
+  &:last-of-type {
+    border-bottom: none;
+  }
+`;
+
+export const SideLabel = styled.p`
+  color: var(--color-darkGray);
+  margin-bottom: 6px;
+`;
+
+export const SideContent = styled.p`
+  width: 100%;
+  text-align: end;
+`;
