@@ -25,7 +25,7 @@ export const MenuItem = styled.div<IMenuItemProps>`
     props.isFocus ? "var(--color-primary)" : "var(--color-white)"};
   color: ${(props) =>
     props.isFocus ? "var(--color-white)" : "var(--color-black)"};
-  transition: all ease 0.3s;
+  transition: all ease 0.2s;
   cursor: pointer;
   &:hover {
     background-color: ${(props) =>

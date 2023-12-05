@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
 
 export const BodyWrapper = styled.div`
   width: calc(100% - 340px);
-  padding: 48px 48px 148px 48px;
+  padding: 48px 48px 448px 48px;
 `;
 
 export const MenuWrapper = styled.div`

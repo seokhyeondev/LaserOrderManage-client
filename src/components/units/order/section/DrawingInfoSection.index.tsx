@@ -4,10 +4,15 @@ import EditIcon from "@/src/components/commons/icons/EditIcon.index";
 import Image from "next/image";
 import styled from "@emotion/styled";
 import MenuIcon from "@/src/components/commons/icons/MenuIcon.index";
+import { RefObject } from "react";
 
-export default function DrawingInfoSection() {
+interface IDrawingInfoSectionProps {
+  sectionRef: RefObject<HTMLDivElement>;
+}
+
+export default function DrawingInfoSection(props: IDrawingInfoSectionProps) {
   return (
-    <S.Wrapper>
+    <S.Wrapper ref={props.sectionRef}>
       <S.TitleWrapper className="flex-row-between">
         <S.Title className="bold18">도면 정보</S.Title>
         <S.EditBox className="flex-row">

@@ -1,9 +1,14 @@
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "./OrderDetailSection.styles";
+import { RefObject } from "react";
 
-export default function OrderInfoSection() {
+interface IOrderInfoSectionProps {
+  sectionRef: RefObject<HTMLDivElement>;
+}
+
+export default function OrderInfoSection(props: IOrderInfoSectionProps) {
   return (
-    <S.Wrapper>
+    <S.Wrapper ref={props.sectionRef}>
       <p className="medium20">견적 대기</p>
       <Spacer width="100%" height="10px" />
       <S.TitleWrapper>

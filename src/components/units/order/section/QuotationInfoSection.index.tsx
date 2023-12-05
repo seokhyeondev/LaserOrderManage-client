@@ -2,10 +2,17 @@ import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "./OrderDetailSection.styles";
 import EditIcon from "@/src/components/commons/icons/EditIcon.index";
 import styled from "@emotion/styled";
+import { RefObject } from "react";
 
-export default function QuotationInfoSection() {
+interface IQuotationInfoSectionProps {
+  sectionRef: RefObject<HTMLDivElement>;
+}
+
+export default function QuotationInfoSection(
+  props: IQuotationInfoSectionProps,
+) {
   return (
-    <S.Wrapper>
+    <S.Wrapper ref={props.sectionRef}>
       <S.TitleWrapper className="flex-row-between">
         <S.Title className="bold18">견적서</S.Title>
         <S.EditBox className="flex-row">
