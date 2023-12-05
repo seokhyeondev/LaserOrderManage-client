@@ -25,6 +25,6 @@ export const MenuWrapper = styled.div`
   position: fixed;
   right: 0;
   width: 340px;
+  padding: 10px;
   height: 100vh;
-  background-color: var(--color-primary);
 `;
