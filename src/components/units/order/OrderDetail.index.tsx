@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import OrderCommentMenu from "../../commons/menu/detail/OrderCommentMenu.index";
 import OrderDetailMenu from "../../commons/menu/detail/OrderDetailMenu.index";
 import Spacer from "../../commons/spacer/Spacer.index";
@@ -15,9 +15,7 @@ import { IDetailOrder } from "@/src/lib/apis/order/detail/OrderDetail.types";
 import { IDeliveryAddress } from "@/src/lib/apis/user/customer/Customer.types";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/src/store/auth";
-
-export type FocusableSection = "OrderInfo" | "DrawingInfo" | "QuotationInfo";
-const focusOffset = 30;
+import { useOrderDetailScroll } from "@/src/lib/hooks/useScroll";
 
 const address: IDeliveryAddress = {
   id: 0,
@@ -46,56 +44,22 @@ const detailOrder: IDetailOrder = {
 
 export default function OrderDetail() {
   const auth = useRecoilValue(authState);
-  const [focusedSection, setFocusedSection] =
-    useState<FocusableSection>("OrderInfo");
-  const orderInfoRef = useRef<HTMLDivElement>(null);
-  const drawingInfoRef = useRef<HTMLDivElement>(null);
-  const quotationInfoRef = useRef<HTMLDivElement>(null);
+  const scrollArgs = useOrderDetailScroll();
 
   useEffect(() => {
-    window.addEventListener("scroll", checkFocus);
+    window.addEventListener("scroll", scrollArgs.checkFocus);
     return () => {
-      window.removeEventListener("scroll", checkFocus);
+      window.removeEventListener("scroll", scrollArgs.checkFocus);
     };
   }, []);
-
-  const checkFocus = () => {
-    const orderInfoPosition = orderInfoRef.current?.getBoundingClientRect();
-    const drawingInfoPosition = drawingInfoRef.current?.getBoundingClientRect();
-    const quotationInfoPosition =
-      quotationInfoRef.current?.getBoundingClientRect();
-    if (
-      orderInfoPosition &&
-      orderInfoPosition.top - focusOffset <= 0 &&
-      orderInfoPosition.bottom > 0
-    ) {
-      setFocusedSection("OrderInfo");
-    } else if (
-      drawingInfoPosition &&
-      drawingInfoPosition.top - focusOffset <= 0 &&
-      drawingInfoPosition.bottom > 0
-    ) {
-      setFocusedSection("DrawingInfo");
-    } else if (
-      quotationInfoPosition &&
-      quotationInfoPosition.top - focusOffset <= 0 &&
-      quotationInfoPosition.bottom > 0
-    ) {
-      setFocusedSection("QuotationInfo");
-    }
-  };
-
-  const scrollToSection = (ref: RefObject<HTMLDivElement>) => {
-    window.scrollTo({
-      top: ref.current ? ref.current.offsetTop - focusOffset : undefined,
-      behavior: "smooth",
-    });
-  };
 
   return (
     <S.Wrapper className="flex-row">
       <S.BodyWrapper>
-        <OrderInfoSection sectionRef={orderInfoRef} data={detailOrder} />
+        <OrderInfoSection
+          sectionRef={scrollArgs.orderInfoRef}
+          data={detailOrder}
+        />
         {auth.role === "ROLE_FACTORY" && (
           <>
             <Spacer width="100%" height="48px" />
@@ -107,18 +71,24 @@ export default function OrderDetail() {
         <Spacer width="100%" height="60px" />
         <DeliveryInfoSection />
         <Spacer width="100%" height="60px" />
-        <DrawingInfoSection sectionRef={drawingInfoRef} />
+        <DrawingInfoSection sectionRef={scrollArgs.drawingInfoRef} />
         <Spacer width="100%" height="60px" />
-        <QuotationInfoSection sectionRef={quotationInfoRef} />
+        <QuotationInfoSection sectionRef={scrollArgs.quotationInfoRef} />
         <Spacer width="100%" height="60px" />
         <PurchaseOrderInfoSection />
       </S.BodyWrapper>
       <S.MenuWrapper>
         <OrderDetailMenu
-          focusedSection={focusedSection}
-          onClickOrderInfo={() => scrollToSection(orderInfoRef)}
-          onClickDrawingInfo={() => scrollToSection(drawingInfoRef)}
-          onClickQuotationInfo={() => scrollToSection(quotationInfoRef)}
+          focusedSection={scrollArgs.focusedSection}
+          onClickOrderInfo={() =>
+            scrollArgs.scrollToSection(scrollArgs.orderInfoRef)
+          }
+          onClickDrawingInfo={() =>
+            scrollArgs.scrollToSection(scrollArgs.drawingInfoRef)
+          }
+          onClickQuotationInfo={() =>
+            scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
+          }
         />
         <Spacer width="100%" height="10px" />
         <OrderCommentMenu />
