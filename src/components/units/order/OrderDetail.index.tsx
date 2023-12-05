@@ -24,10 +24,10 @@ const address: IDeliveryAddress = {
   id: 0,
   name: "회사",
   zipCode: "12345",
-  address: "",
-  detailAddress: "",
-  receiver: "",
-  phone1: "",
+  address: "경기도 안산시 단원구 21길",
+  detailAddress: "시화공단 234번지",
+  receiver: "김우리",
+  phone1: "010-0000-0000",
   phone2: null,
   isDefault: true,
 };
@@ -80,7 +80,7 @@ export default function OrderDetail() {
         <Spacer width="100%" height="60px" />
         <CustomerInfoSection data={customer} />
         <Spacer width="100%" height="60px" />
-        <DeliveryInfoSection />
+        <DeliveryInfoSection data={address} />
         <Spacer width="100%" height="60px" />
         <DrawingInfoSection sectionRef={scrollArgs.drawingInfoRef} />
         <Spacer width="100%" height="60px" />
