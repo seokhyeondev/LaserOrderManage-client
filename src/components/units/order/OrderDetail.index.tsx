@@ -14,6 +14,7 @@ import UrgentSection from "./section/UrgentSection.index";
 import {
   IDetailCustomer,
   IDetailOrder,
+  IDetailPurchaseOrder,
   IDetailQuotation,
 } from "@/src/lib/apis/order/detail/OrderDetail.types";
 import { IDeliveryAddress } from "@/src/lib/apis/user/customer/Customer.types";
@@ -62,6 +63,14 @@ const quotation: IDetailQuotation = {
   createdAt: "2023. 11. 24",
 };
 
+const purchaseOrder: IDetailPurchaseOrder = {
+  id: 0,
+  inspectionPeriod: "2023. 11. 28",
+  inspectionCondition: "발주 조건",
+  paymentDate: "2023. 12. 12",
+  createdAt: "2023. 11. 28",
+};
+
 export default function OrderDetail() {
   const auth = useRecoilValue(authState);
   const scrollArgs = useOrderDetailScroll();
@@ -98,7 +107,7 @@ export default function OrderDetail() {
           data={quotation}
         />
         <Spacer width="100%" height="60px" />
-        <PurchaseOrderInfoSection />
+        <PurchaseOrderInfoSection data={purchaseOrder} />
       </S.BodyWrapper>
       <S.MenuWrapper>
         <OrderDetailMenu

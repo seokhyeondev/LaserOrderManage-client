@@ -8,7 +8,7 @@ import { getCost } from "@/src/lib/utils/utils";
 
 interface IQuotationInfoSectionProps {
   sectionRef: RefObject<HTMLDivElement>;
-  data: IDetailQuotation;
+  data: IDetailQuotation | null;
 }
 
 export default function QuotationInfoSection({
@@ -29,33 +29,41 @@ export default function QuotationInfoSection({
         </S.EditBox>
       </S.TitleWrapper>
       <S.Section className="flex-row">
-        <QuotationName
-          className="medium20 flex-column"
-          href={data.fileUrl}
-          download={true}
-        >
-          {data.fileUrl}
-        </QuotationName>
-        <S.SideWrapper>
-          <S.SideBox>
-            <S.SideLabel className="regular14">발행 일자</S.SideLabel>
-            <S.SideContent className="regular14">
-              {data.createdAt}
-            </S.SideContent>
-          </S.SideBox>
-          <S.SideBox>
-            <S.SideLabel className="regular14">납기일</S.SideLabel>
-            <S.SideContent className="regular14">
-              {data.deliveryDate}
-            </S.SideContent>
-          </S.SideBox>
-          <S.SideBox>
-            <S.SideLabel className="regular14">총 견적 비용</S.SideLabel>
-            <S.SideContent className="bold16">
-              {getCost(data.totalCost)}
-            </S.SideContent>
-          </S.SideBox>
-        </S.SideWrapper>
+        {data === null ? (
+          <EmptyQuotation className="regular16 flex-center">
+            아직 견적서가 등록되지 않았어요
+          </EmptyQuotation>
+        ) : (
+          <>
+            <QuotationName
+              className="medium20 flex-column"
+              href={data.fileUrl}
+              download={true}
+            >
+              {data.fileUrl}
+            </QuotationName>
+            <S.SideWrapper>
+              <S.SideBox>
+                <S.SideLabel className="regular14">발행 일자</S.SideLabel>
+                <S.SideContent className="regular14">
+                  {data.createdAt}
+                </S.SideContent>
+              </S.SideBox>
+              <S.SideBox>
+                <S.SideLabel className="regular14">납기일</S.SideLabel>
+                <S.SideContent className="regular14">
+                  {data.deliveryDate}
+                </S.SideContent>
+              </S.SideBox>
+              <S.SideBox>
+                <S.SideLabel className="regular14">총 견적 비용</S.SideLabel>
+                <S.SideContent className="bold16">
+                  {getCost(data.totalCost)}
+                </S.SideContent>
+              </S.SideBox>
+            </S.SideWrapper>
+          </>
+        )}
       </S.Section>
     </S.Wrapper>
   );
@@ -66,4 +74,9 @@ const QuotationName = styled.a`
   padding-right: 24px;
   text-decoration: underline;
   cursor: pointer;
+`;
+
+const EmptyQuotation = styled.p`
+  width: 100%;
+  height: 234px;
 `;

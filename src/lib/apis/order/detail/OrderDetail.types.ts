@@ -3,8 +3,8 @@ import { IDeliveryAddress } from "../../user/customer/Customer.types";
 export interface IOrderDetailResponse {
   customer: IDetailCustomer;
   order: IDetailOrder;
-  quotation: IDetailQuotation;
-  purchaseOrder: IDetailPurchaseOrder;
+  quotation: IDetailQuotation | null;
+  purchaseOrder: IDetailPurchaseOrder | null;
 }
 
 export interface IDetailCustomer {
