@@ -13,6 +13,7 @@ import QuotationInfoSection from "./section/QuotationInfoSection.index";
 import UrgentSection from "./section/UrgentSection.index";
 import {
   IDetailCustomer,
+  IDetailDrawing,
   IDetailOrder,
   IDetailPurchaseOrder,
   IDetailQuotation,
@@ -34,6 +35,20 @@ const address: IDeliveryAddress = {
   isDefault: true,
 };
 
+const drawingList: IDetailDrawing[] = [
+  {
+    id: 0,
+    fileName: "BodyPart.dwg",
+    fileSize: "5000",
+    fileType: "dwg",
+    fileUrl: "www.naver.com",
+    thumbnailImgUrl: "/images/netflix.webp",
+    count: 4,
+    ingredient: "SS",
+    thickness: 4,
+  },
+];
+
 const detailOrder: IDetailOrder = {
   id: 0,
   name: "기계 시스템 제작 프로젝트",
@@ -41,7 +56,7 @@ const detailOrder: IDetailOrder = {
   stage: "견적 대기",
   manufacturingList: ["레이저 가공", "절삭"],
   postProcessingList: null,
-  drawingList: [],
+  drawingList: drawingList,
   request: "빨리 부탁드려요",
   deliveryAddress: address,
   createdAt: "2023. 12. 25",
@@ -100,7 +115,10 @@ export default function OrderDetail() {
         <Spacer width="100%" height="60px" />
         <DeliveryInfoSection data={address} />
         <Spacer width="100%" height="60px" />
-        <DrawingInfoSection sectionRef={scrollArgs.drawingInfoRef} />
+        <DrawingInfoSection
+          sectionRef={scrollArgs.drawingInfoRef}
+          data={detailOrder.drawingList}
+        />
         <Spacer width="100%" height="60px" />
         <QuotationInfoSection
           sectionRef={scrollArgs.quotationInfoRef}

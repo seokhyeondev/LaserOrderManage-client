@@ -36,7 +36,7 @@ export interface IDetailDrawing {
   fileUrl: string;
   thumbnailImgUrl: string;
   count: number;
-  ingredient: number;
+  ingredient: string;
   thickness: number;
 }
 
