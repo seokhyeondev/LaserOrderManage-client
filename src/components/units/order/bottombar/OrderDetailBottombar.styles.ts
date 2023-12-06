@@ -1,16 +1,21 @@
 import styled from "@emotion/styled";
 
-export const Wrapper = styled.div`
+interface IWrapperProps {
+  show: boolean;
+}
+
+export const Wrapper = styled.div<IWrapperProps>`
   position: fixed;
   left: 48px;
   right: 388px;
-  bottom: 0;
+  bottom: ${(props) => (props.show ? "0px" : "-100px")};
   height: 100px;
   padding-inline: 36px;
   border: 2px solid var(--color-mediumGray);
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
   background-color: var(--color-white);
+  transition: bottom ease 0.5s;
 `;
 
 export const Announce = styled.p``;

@@ -1,12 +1,21 @@
 import * as S from "./OrderDetailBottombar.styles";
 
-export default function OrderDetailBottombar() {
+interface IOrderDetailBottombarProps {
+  showCondition: boolean;
+  announce: string;
+  buttonText: string;
+  onButton: () => void;
+}
+
+export default function OrderDetailBottombar(
+  props: IOrderDetailBottombarProps,
+) {
   return (
-    <S.Wrapper className="flex-row-between-center">
-      <S.Announce className="medium20">
-        견적서를 확인하고 승인해주세요
-      </S.Announce>
-      <S.BottombarButton className="bold20">견적 승인하기</S.BottombarButton>
+    <S.Wrapper className="flex-row-between-center" show={props.showCondition}>
+      <S.Announce className="medium20">{props.announce}</S.Announce>
+      <S.BottombarButton className="bold20" onClick={props.onButton}>
+        {props.buttonText}
+      </S.BottombarButton>
     </S.Wrapper>
   );
 }

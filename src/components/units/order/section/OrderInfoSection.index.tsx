@@ -7,19 +7,22 @@ import {
   getManufacurings,
   getPostprocessings,
 } from "@/src/lib/utils/utils";
+import { OrderStatus } from "@/src/lib/apis/order/Order.types";
 
 interface IOrderInfoSectionProps {
   sectionRef: RefObject<HTMLDivElement>;
   data: IDetailOrder;
+  status: OrderStatus;
 }
 
 export default function OrderInfoSection({
   sectionRef,
   data,
+  status,
 }: IOrderInfoSectionProps) {
   return (
     <S.Wrapper ref={sectionRef}>
-      <p className="medium20">{data.stage}</p>
+      <p className="medium20">{status}</p>
       <Spacer width="100%" height="10px" />
       <S.TitleWrapper>
         <S.Title className="bold28">{data.name}</S.Title>
