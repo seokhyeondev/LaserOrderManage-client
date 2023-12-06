@@ -14,6 +14,7 @@ import UrgentSection from "./section/UrgentSection.index";
 import {
   IDetailCustomer,
   IDetailOrder,
+  IDetailQuotation,
 } from "@/src/lib/apis/order/detail/OrderDetail.types";
 import { IDeliveryAddress } from "@/src/lib/apis/user/customer/Customer.types";
 import { useRecoilValue } from "recoil";
@@ -53,6 +54,14 @@ const customer: IDetailCustomer = {
   email: "wuri001@gmail.com",
 };
 
+const quotation: IDetailQuotation = {
+  id: 0,
+  fileUrl: "www.naver.com",
+  totalCost: 1000000,
+  deliveryDate: "2023. 12. 08",
+  createdAt: "2023. 11. 24",
+};
+
 export default function OrderDetail() {
   const auth = useRecoilValue(authState);
   const scrollArgs = useOrderDetailScroll();
@@ -84,7 +93,10 @@ export default function OrderDetail() {
         <Spacer width="100%" height="60px" />
         <DrawingInfoSection sectionRef={scrollArgs.drawingInfoRef} />
         <Spacer width="100%" height="60px" />
-        <QuotationInfoSection sectionRef={scrollArgs.quotationInfoRef} />
+        <QuotationInfoSection
+          sectionRef={scrollArgs.quotationInfoRef}
+          data={quotation}
+        />
         <Spacer width="100%" height="60px" />
         <PurchaseOrderInfoSection />
       </S.BodyWrapper>

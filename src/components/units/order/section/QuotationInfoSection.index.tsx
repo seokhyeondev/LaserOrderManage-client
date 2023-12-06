@@ -3,19 +3,24 @@ import * as S from "./OrderDetailSection.styles";
 import EditIcon from "@/src/components/commons/icons/EditIcon.index";
 import styled from "@emotion/styled";
 import { RefObject } from "react";
+import { IDetailQuotation } from "@/src/lib/apis/order/detail/OrderDetail.types";
+import { getCost } from "@/src/lib/utils/utils";
 
 interface IQuotationInfoSectionProps {
   sectionRef: RefObject<HTMLDivElement>;
+  data: IDetailQuotation;
 }
 
-export default function QuotationInfoSection(
-  props: IQuotationInfoSectionProps,
-) {
+export default function QuotationInfoSection({
+  sectionRef,
+  data,
+}: IQuotationInfoSectionProps) {
+  const onEditQuotation = () => {};
   return (
-    <S.Wrapper ref={props.sectionRef}>
+    <S.Wrapper ref={sectionRef}>
       <S.TitleWrapper className="flex-row-between">
         <S.Title className="bold18">견적서</S.Title>
-        <S.EditBox className="flex-row">
+        <S.EditBox className="flex-row" onClick={onEditQuotation}>
           <EditIcon size={20} />
           <Spacer width="5px" height="100%" />
           <S.EditBoxText className="regular16">
@@ -24,21 +29,31 @@ export default function QuotationInfoSection(
         </S.EditBox>
       </S.TitleWrapper>
       <S.Section className="flex-row">
-        <QuotationName className="medium20 flex-column">
-          기계 시스템 제작 프로젝트 견적서.xlsx
+        <QuotationName
+          className="medium20 flex-column"
+          href={data.fileUrl}
+          download={true}
+        >
+          {data.fileUrl}
         </QuotationName>
         <S.SideWrapper>
           <S.SideBox>
             <S.SideLabel className="regular14">발행 일자</S.SideLabel>
-            <S.SideContent className="regular14">2023. 11. 27</S.SideContent>
+            <S.SideContent className="regular14">
+              {data.createdAt}
+            </S.SideContent>
           </S.SideBox>
           <S.SideBox>
             <S.SideLabel className="regular14">납기일</S.SideLabel>
-            <S.SideContent className="regular14">2023. 12. 24</S.SideContent>
+            <S.SideContent className="regular14">
+              {data.deliveryDate}
+            </S.SideContent>
           </S.SideBox>
           <S.SideBox>
             <S.SideLabel className="regular14">총 견적 비용</S.SideLabel>
-            <S.SideContent className="bold16">12,000,000 원</S.SideContent>
+            <S.SideContent className="bold16">
+              {getCost(data.totalCost)}
+            </S.SideContent>
           </S.SideBox>
         </S.SideWrapper>
       </S.Section>
@@ -46,7 +61,7 @@ export default function QuotationInfoSection(
   );
 }
 
-const QuotationName = styled.p`
+const QuotationName = styled.a`
   flex-grow: 1;
   padding-right: 24px;
   text-decoration: underline;
