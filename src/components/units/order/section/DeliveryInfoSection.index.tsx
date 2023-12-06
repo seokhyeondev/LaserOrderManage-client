@@ -1,14 +1,12 @@
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "./OrderDetailSection.styles";
 import EditIcon from "@/src/components/commons/icons/EditIcon.index";
-import { IDeliveryAddress } from "@/src/lib/apis/user/customer/Customer.types";
-
-interface IDeliveryInfoSectionProps {
-  data: IDeliveryAddress;
-}
+import { IDeliveryInfoSectionProps } from "./DetailSection.types";
 
 export default function DeliveryInfoSection({
   data,
+  role,
+  status,
 }: IDeliveryInfoSectionProps) {
   const onChangeAddress = () => {};
 
@@ -16,11 +14,16 @@ export default function DeliveryInfoSection({
     <S.Wrapper>
       <S.TitleWrapper className="flex-row-between">
         <S.Title className="bold18">배송 정보</S.Title>
-        <S.EditBox className="flex-row" onClick={onChangeAddress}>
-          <EditIcon size={20} />
-          <Spacer width="5px" height="100%" />
-          <S.EditBoxText className="regular16">배송지 수정하기</S.EditBoxText>
-        </S.EditBox>
+        {role === "ROLE_CUSTOMER" &&
+          !(status === "배송 중" || status === "거래 완료") && (
+            <S.EditBox className="flex-row" onClick={onChangeAddress}>
+              <EditIcon size={20} />
+              <Spacer width="5px" height="100%" />
+              <S.EditBoxText className="regular16">
+                배송지 수정하기
+              </S.EditBoxText>
+            </S.EditBox>
+          )}
       </S.TitleWrapper>
       <S.Section>
         <Spacer width="100%" height="20px" />

@@ -1,11 +1,11 @@
 import { atom } from "recoil";
 
-export type UserType = "ROLE_CUSTOMER" | "ROLE_FACTORY";
+export type UserType = "ROLE_CUSTOMER" | "ROLE_FACTORY" | null;
 
 export interface IAuthState {
   isAuthenticated: boolean;
   accessToken: string;
-  role: UserType | null;
+  role: UserType;
 }
 
 const initialState: IAuthState = {

@@ -2,18 +2,14 @@ import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "./OrderDetailSection.styles";
 import EditIcon from "@/src/components/commons/icons/EditIcon.index";
 import styled from "@emotion/styled";
-import { RefObject } from "react";
-import { IDetailQuotation } from "@/src/lib/apis/order/detail/OrderDetail.types";
 import { getCost, getDate } from "@/src/lib/utils/utils";
-
-interface IQuotationInfoSectionProps {
-  sectionRef: RefObject<HTMLDivElement>;
-  data: IDetailQuotation | null;
-}
+import { IQuotationInfoSectionProps } from "./DetailSection.types";
 
 export default function QuotationInfoSection({
   sectionRef,
   data,
+  role,
+  status,
 }: IQuotationInfoSectionProps) {
   const getFileUrl = (url: string) => {
     const urlParts = url.split("/");
@@ -25,18 +21,22 @@ export default function QuotationInfoSection({
     <S.Wrapper ref={sectionRef}>
       <S.TitleWrapper className="flex-row-between">
         <S.Title className="bold18">견적서</S.Title>
-        <S.EditBox className="flex-row" onClick={onEditQuotation}>
-          <EditIcon size={20} />
-          <Spacer width="5px" height="100%" />
-          <S.EditBoxText className="regular16">
-            견적서 추가/수정하기
-          </S.EditBoxText>
-        </S.EditBox>
+        {role === "ROLE_FACTORY" && status === "견적 대기" && (
+          <S.EditBox className="flex-row" onClick={onEditQuotation}>
+            <EditIcon size={20} />
+            <Spacer width="5px" height="100%" />
+            <S.EditBoxText className="regular16">
+              견적서 추가/수정하기
+            </S.EditBoxText>
+          </S.EditBox>
+        )}
       </S.TitleWrapper>
       <S.Section className="flex-row">
         {data === null ? (
           <EmptyQuotation className="regular16 flex-center">
-            아직 견적서가 등록되지 않았어요
+            {role === "ROLE_FACTORY" && status === "견적 대기"
+              ? "견적서를 추가해주세요"
+              : "아직 견적서가 등록되지 않았어요"}
           </EmptyQuotation>
         ) : (
           <>

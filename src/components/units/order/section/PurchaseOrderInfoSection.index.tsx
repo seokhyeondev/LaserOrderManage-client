@@ -2,33 +2,35 @@ import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "./OrderDetailSection.styles";
 import EditIcon from "@/src/components/commons/icons/EditIcon.index";
 import styled from "@emotion/styled";
-import { IDetailPurchaseOrder } from "@/src/lib/apis/order/detail/OrderDetail.types";
 import { getDate } from "@/src/lib/utils/utils";
-
-interface IPurchaseOrderInfoSectionProps {
-  data: IDetailPurchaseOrder | null;
-}
+import { IPurchaseOrderInfoSectionProps } from "./DetailSection.types";
 
 export default function PurchaseOrderInfoSection({
   data,
+  role,
+  status,
 }: IPurchaseOrderInfoSectionProps) {
   const onEditPurchaseOrder = () => {};
   return (
     <S.Wrapper>
       <S.TitleWrapper className="flex-row-between">
         <S.Title className="bold18">발주서</S.Title>
-        <S.EditBox className="flex-row" onClick={onEditPurchaseOrder}>
-          <EditIcon size={20} />
-          <Spacer width="5px" height="100%" />
-          <S.EditBoxText className="regular16">
-            발주서 추가/수정하기
-          </S.EditBoxText>
-        </S.EditBox>
+        {role === "ROLE_CUSTOMER" && status === "견적 승인" && (
+          <S.EditBox className="flex-row" onClick={onEditPurchaseOrder}>
+            <EditIcon size={20} />
+            <Spacer width="5px" height="100%" />
+            <S.EditBoxText className="regular16">
+              발주서 추가/수정하기
+            </S.EditBoxText>
+          </S.EditBox>
+        )}
       </S.TitleWrapper>
       <S.Section className="flex-row">
         {data === null ? (
           <EmptyPurchaseOrder className="regular16 flex-center">
-            아직 발주서가 등록되지 않았어요
+            {role === "ROLE_CUSTOMER" && status === "견적 승인"
+              ? "발주서를 추가해주세요"
+              : "아직 발주서가 등록되지 않았어요"}
           </EmptyPurchaseOrder>
         ) : (
           <>

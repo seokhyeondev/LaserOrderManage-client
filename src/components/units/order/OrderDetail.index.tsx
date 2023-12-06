@@ -124,19 +124,27 @@ export default function OrderDetail() {
         <Spacer width="100%" height="60px" />
         <CustomerInfoSection data={customer} />
         <Spacer width="100%" height="60px" />
-        <DeliveryInfoSection data={address} />
+        <DeliveryInfoSection data={address} role={auth.role} status={status} />
         <Spacer width="100%" height="60px" />
         <DrawingInfoSection
           sectionRef={scrollArgs.drawingInfoRef}
           data={detailOrder.drawingList}
+          role={auth.role}
+          status={status}
         />
         <Spacer width="100%" height="60px" />
         <QuotationInfoSection
           sectionRef={scrollArgs.quotationInfoRef}
           data={quotation}
+          role={auth.role}
+          status={status}
         />
         <Spacer width="100%" height="60px" />
-        <PurchaseOrderInfoSection data={purchaseOrder} />
+        <PurchaseOrderInfoSection
+          data={purchaseOrder}
+          role={auth.role}
+          status={status}
+        />
       </S.BodyWrapper>
       <S.MenuWrapper>
         <OrderDetailMenu

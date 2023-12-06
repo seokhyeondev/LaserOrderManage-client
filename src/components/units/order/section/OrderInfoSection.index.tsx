@@ -1,19 +1,11 @@
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "./OrderDetailSection.styles";
-import { RefObject } from "react";
-import { IDetailOrder } from "@/src/lib/apis/order/detail/OrderDetail.types";
 import {
   getDate,
   getManufacurings,
   getPostprocessings,
 } from "@/src/lib/utils/utils";
-import { OrderStatus } from "@/src/lib/apis/order/Order.types";
-
-interface IOrderInfoSectionProps {
-  sectionRef: RefObject<HTMLDivElement>;
-  data: IDetailOrder;
-  status: OrderStatus;
-}
+import { IOrderInfoSectionProps } from "./DetailSection.types";
 
 export default function OrderInfoSection({
   sectionRef,

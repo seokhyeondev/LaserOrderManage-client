@@ -4,17 +4,18 @@ import EditIcon from "@/src/components/commons/icons/EditIcon.index";
 import Image from "next/image";
 import styled from "@emotion/styled";
 import MenuIcon from "@/src/components/commons/icons/MenuIcon.index";
-import { RefObject, useEffect, useRef, useState, MouseEvent } from "react";
+import { useEffect, useRef, useState, MouseEvent } from "react";
 import { IDetailDrawing } from "@/src/lib/apis/order/detail/OrderDetail.types";
-
-interface IDrawingInfoSectionProps {
-  sectionRef: RefObject<HTMLDivElement>;
-  data: IDetailDrawing[];
-}
+import {
+  IDrawingInfoItemProps,
+  IDrawingInfoSectionProps,
+} from "./DetailSection.types";
 
 export default function DrawingInfoSection({
   sectionRef,
   data,
+  role,
+  status,
 }: IDrawingInfoSectionProps) {
   const [drawings, setDrawings] = useState<IDetailDrawing[]>([]);
 
@@ -35,11 +36,14 @@ export default function DrawingInfoSection({
     <S.Wrapper ref={sectionRef}>
       <S.TitleWrapper className="flex-row-between">
         <S.Title className="bold18">도면 정보</S.Title>
-        <S.EditBox className="flex-row" onClick={onAddDrawing}>
-          <EditIcon size={20} />
-          <Spacer width="5px" height="100%" />
-          <S.EditBoxText className="regular16">도면 추가하기</S.EditBoxText>
-        </S.EditBox>
+        {role === "ROLE_CUSTOMER" &&
+          (status === "견적 대기" || status === "견적 승인") && (
+            <S.EditBox className="flex-row" onClick={onAddDrawing}>
+              <EditIcon size={20} />
+              <Spacer width="5px" height="100%" />
+              <S.EditBoxText className="regular16">도면 추가하기</S.EditBoxText>
+            </S.EditBox>
+          )}
       </S.TitleWrapper>
       <S.Section>
         <Spacer width="100%" height="10px" />
@@ -52,6 +56,8 @@ export default function DrawingInfoSection({
             <DrawingInfoItem
               key={el.id}
               data={el}
+              role={role}
+              status={status}
               onEditDrawing={() => onEditDrawing(el)}
               onDeleteDrawing={() => onDeleteDrawing(el.id)}
             />
@@ -64,14 +70,10 @@ export default function DrawingInfoSection({
   );
 }
 
-interface IDrawingInfoItemProps {
-  data: IDetailDrawing;
-  onEditDrawing: () => void;
-  onDeleteDrawing: () => void;
-}
-
 function DrawingInfoItem({
   data,
+  role,
+  status,
   onEditDrawing,
   onDeleteDrawing,
 }: IDrawingInfoItemProps) {
@@ -128,15 +130,29 @@ function DrawingInfoItem({
               className="regular14"
               href={data.fileUrl}
               download={true}
+              isAlert={false}
             >
               다운로드
             </ItemMenuTitle>
-            <ItemMenuTitle className="regular14" onClick={onEdit}>
-              수정하기
-            </ItemMenuTitle>
-            <ItemMenuTitle className="regular14" onClick={onDeleteDrawing}>
-              삭제하기
-            </ItemMenuTitle>
+            {role === "ROLE_CUSTOMER" &&
+              (status === "견적 대기" || status === "견적 승인") && (
+                <>
+                  <ItemMenuTitle
+                    className="regular14"
+                    isAlert={false}
+                    onClick={onEdit}
+                  >
+                    수정하기
+                  </ItemMenuTitle>
+                  <ItemMenuTitle
+                    className="regular14"
+                    isAlert={true}
+                    onClick={onDeleteDrawing}
+                  >
+                    삭제하기
+                  </ItemMenuTitle>
+                </>
+              )}
           </ItemMenu>
         )}
       </ItemMenuWrapper>
@@ -191,16 +207,19 @@ const ItemMenu = styled.div`
   border-radius: var(--border-radius);
 `;
 
-const ItemMenuTitle = styled.a`
+interface IItemMenuTitleProps {
+  isAlert: boolean;
+}
+
+const ItemMenuTitle = styled.a<IItemMenuTitleProps>`
   display: block;
   width: 90px;
   padding: 8px 10px;
   transition: all ease 0.3s;
   cursor: pointer;
+  color: ${(props) =>
+    props.isAlert ? "var(--color-alert)" : "var(--color-black)"};
   &:hover {
     background-color: var(--color-lightGray);
-  }
-  &:last-of-type {
-    color: var(--color-alert);
   }
 `;

@@ -1,15 +1,12 @@
 import { useState } from "react";
 import * as S from "./OrderDetailSection.styles";
 import styled from "@emotion/styled";
+import { IUrgentSectionProps } from "./DetailSection.types";
 
 const URGENT_SELECT = [
   { status: false, name: "일반 거래" },
   { status: true, name: "긴급 거래" },
 ];
-
-interface IUrgentSectionProps {
-  isUrgent: boolean;
-}
 
 export default function UrgentSection({ isUrgent }: IUrgentSectionProps) {
   const [selectStatus, setSelectStatus] = useState(isUrgent);

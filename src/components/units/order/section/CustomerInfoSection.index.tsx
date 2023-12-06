@@ -1,10 +1,6 @@
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "./OrderDetailSection.styles";
-import { IDetailCustomer } from "@/src/lib/apis/order/detail/OrderDetail.types";
-
-interface ICustomerInfoSectionProps {
-  data: IDetailCustomer;
-}
+import { ICustomerInfoSectionProps } from "./DetailSection.types";
 
 export default function CustomerInfoSection({
   data,
