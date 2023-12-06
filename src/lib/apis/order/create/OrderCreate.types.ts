@@ -1,10 +1,11 @@
 import { IBaseListResponse } from "@/src/lib/apis/base/base.types";
 import { IDeliveryAddress } from "@/src/lib/apis/user/customer/Customer.types";
+import { Manufacturing, PostProcessing } from "../Order.types";
 
 export interface IOrderCreateRequest {
   name: string;
-  manufacturing: string[];
-  postProcessing: string[];
+  manufacturing: Manufacturing[];
+  postProcessing: PostProcessing[];
   drawingList: IDrawing[];
   request: string;
   deliveryAddressId: number;
@@ -35,8 +36,8 @@ export interface IDrawingResponse {
 export interface IOrderHistoryResponse {
   id: number;
   name: string;
-  manufacturingList: string[];
-  postProcessingList: string[] | null;
+  manufacturingList: Manufacturing[];
+  postProcessingList: PostProcessing[] | null;
   drawingList: IDrawing[];
   request: string | null;
   deliveryAddress: IDeliveryAddress;

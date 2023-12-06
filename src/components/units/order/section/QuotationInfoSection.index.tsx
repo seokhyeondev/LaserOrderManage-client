@@ -4,7 +4,7 @@ import EditIcon from "@/src/components/commons/icons/EditIcon.index";
 import styled from "@emotion/styled";
 import { RefObject } from "react";
 import { IDetailQuotation } from "@/src/lib/apis/order/detail/OrderDetail.types";
-import { getCost } from "@/src/lib/utils/utils";
+import { getCost, getDate } from "@/src/lib/utils/utils";
 
 interface IQuotationInfoSectionProps {
   sectionRef: RefObject<HTMLDivElement>;
@@ -15,6 +15,11 @@ export default function QuotationInfoSection({
   sectionRef,
   data,
 }: IQuotationInfoSectionProps) {
+  const getFileUrl = (url: string) => {
+    const urlParts = url.split("/");
+    return urlParts[urlParts.length - 1];
+  };
+
   const onEditQuotation = () => {};
   return (
     <S.Wrapper ref={sectionRef}>
@@ -39,20 +44,21 @@ export default function QuotationInfoSection({
               className="medium20 flex-column"
               href={data.fileUrl}
               download={true}
+              target="_blank"
             >
-              {data.fileUrl}
+              {getFileUrl(data.fileUrl)}
             </QuotationName>
             <S.SideWrapper>
               <S.SideBox>
                 <S.SideLabel className="regular14">발행 일자</S.SideLabel>
                 <S.SideContent className="regular14">
-                  {data.createdAt}
+                  {getDate(data.createdAt)}
                 </S.SideContent>
               </S.SideBox>
               <S.SideBox>
                 <S.SideLabel className="regular14">납기일</S.SideLabel>
                 <S.SideContent className="regular14">
-                  {data.deliveryDate}
+                  {getDate(data.deliveryDate)}
                 </S.SideContent>
               </S.SideBox>
               <S.SideBox>

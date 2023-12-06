@@ -3,6 +3,7 @@ import * as S from "./OrderDetailSection.styles";
 import EditIcon from "@/src/components/commons/icons/EditIcon.index";
 import styled from "@emotion/styled";
 import { IDetailPurchaseOrder } from "@/src/lib/apis/order/detail/OrderDetail.types";
+import { getDate } from "@/src/lib/utils/utils";
 
 interface IPurchaseOrderInfoSectionProps {
   data: IDetailPurchaseOrder | null;
@@ -38,17 +39,19 @@ export default function PurchaseOrderInfoSection({
               <S.SideBox>
                 <S.SideLabel className="regular14">발행 일자</S.SideLabel>
                 <S.SideContent className="regular14">
-                  {data.createdAt}
+                  {getDate(data.createdAt)}
                 </S.SideContent>
               </S.SideBox>
               <S.SideBox>
                 <S.SideLabel className="regular14">검수 기간</S.SideLabel>
-                <S.SideContent className="regular14">{`~ ${data.inspectionPeriod}`}</S.SideContent>
+                <S.SideContent className="regular14">{`~ ${getDate(
+                  data.inspectionPeriod,
+                )}`}</S.SideContent>
               </S.SideBox>
               <S.SideBox>
                 <S.SideLabel className="regular14">지급 일자</S.SideLabel>
                 <S.SideContent className="bold16">
-                  {data.paymentDate}
+                  {getDate(data.paymentDate)}
                 </S.SideContent>
               </S.SideBox>
             </S.SideWrapper>

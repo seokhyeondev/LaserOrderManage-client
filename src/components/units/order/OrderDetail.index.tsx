@@ -41,8 +41,9 @@ const drawingList: IDetailDrawing[] = [
     fileName: "BodyPart.dwg",
     fileSize: "5000",
     fileType: "dwg",
-    fileUrl: "www.naver.com",
-    thumbnailImgUrl: "/images/netflix.webp",
+    fileUrl: "https://ordermanage.s3.ap-northeast-2.amazonaws.com/test.dwg",
+    thumbnailUrl:
+      "https://ordermanage.s3.ap-northeast-2.amazonaws.com/output.png",
     count: 4,
     ingredient: "SS",
     thickness: 4,
@@ -54,12 +55,12 @@ const detailOrder: IDetailOrder = {
   name: "기계 시스템 제작 프로젝트",
   isUrgent: true,
   stage: "견적 대기",
-  manufacturingList: ["레이저 가공", "절삭"],
-  postProcessingList: null,
+  manufacturingList: ["bending", "laser-cutting"],
+  postProcessingList: ["painting", "plating"],
   drawingList: drawingList,
   request: "빨리 부탁드려요",
   deliveryAddress: address,
-  createdAt: "2023. 12. 25",
+  createdAt: "2023-10-12T10:20:30",
 };
 
 const customer: IDetailCustomer = {
@@ -72,18 +73,18 @@ const customer: IDetailCustomer = {
 
 const quotation: IDetailQuotation = {
   id: 0,
-  fileUrl: "www.naver.com",
+  fileUrl: "https://ordermanage.s3.ap-northeast-2.amazonaws.com/quotation.pdf",
   totalCost: 1000000,
-  deliveryDate: "2023. 12. 08",
-  createdAt: "2023. 11. 24",
+  deliveryDate: "2023-10-19",
+  createdAt: "2023-10-12T10:20:30",
 };
 
 const purchaseOrder: IDetailPurchaseOrder = {
   id: 0,
-  inspectionPeriod: "2023. 11. 28",
+  inspectionPeriod: "2023-11-28",
   inspectionCondition: "발주 조건",
-  paymentDate: "2023. 12. 12",
-  createdAt: "2023. 11. 28",
+  paymentDate: "2023-10-19",
+  createdAt: "2023-10-12T10:20:30",
 };
 
 export default function OrderDetail() {

@@ -1,4 +1,5 @@
 import { IDeliveryAddress } from "../../user/customer/Customer.types";
+import { Manufacturing, OrderStatus, PostProcessing } from "../Order.types";
 
 export interface IOrderDetailResponse {
   customer: IDetailCustomer;
@@ -19,9 +20,9 @@ export interface IDetailOrder {
   id: number;
   name: string;
   isUrgent: boolean;
-  stage: string;
-  manufacturingList: string[];
-  postProcessingList: string[] | null;
+  stage: OrderStatus;
+  manufacturingList: Manufacturing[];
+  postProcessingList: PostProcessing[] | null;
   drawingList: IDetailDrawing[];
   request: string | null;
   deliveryAddress: IDeliveryAddress;
@@ -34,7 +35,7 @@ export interface IDetailDrawing {
   fileSize: string;
   fileType: string;
   fileUrl: string;
-  thumbnailImgUrl: string;
+  thumbnailUrl: string;
   count: number;
   ingredient: string;
   thickness: number;

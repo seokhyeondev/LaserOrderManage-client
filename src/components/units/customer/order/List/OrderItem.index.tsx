@@ -2,7 +2,7 @@ import { IOrderItemProps } from "./OrderList.types";
 import OrderProgressbar from "@/src/components/commons/progressbar/order/OrderProgressbar.index";
 import * as S from "./OrderList.styles";
 import Image from "next/image";
-import { getDate, getCost } from "@/src/lib/utils/utils";
+import { getDate, getCost, getManufacurings } from "@/src/lib/utils/utils";
 import { MANUFACTURING } from "@/src/components/commons/filters/order/OrderFilterQueries";
 import { useRouter } from "next/router";
 
@@ -11,13 +11,6 @@ export default function CustomerOrderItem(props: IOrderItemProps) {
 
   const onItem = (id: number) => {
     router.push(`/order/${id}`);
-  };
-
-  const getManufacturings = (manufacturings: string[]) => {
-    const changed = manufacturings.map(
-      (el) => MANUFACTURING.filters.find((f) => f.value === el)?.name,
-    );
-    return changed.join(", ");
   };
 
   return (
@@ -56,7 +49,7 @@ export default function CustomerOrderItem(props: IOrderItemProps) {
           <S.InfoContentWrapper className="flex-row">
             <S.InfoLabel className="regular16">작업 범위</S.InfoLabel>
             <p className="regular16">
-              {getManufacturings(props.data.manufacturing)}
+              {getManufacurings(props.data.manufacturing)}
             </p>
           </S.InfoContentWrapper>
           <div className="flex-row">

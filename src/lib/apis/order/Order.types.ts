@@ -8,13 +8,24 @@ export interface ICustomerOrderResponse {
   last: boolean;
 }
 
+export type OrderStatus =
+  | "견적 대기"
+  | "견적 승인"
+  | "제작 중"
+  | "배송 중"
+  | "거래 완료";
+
+export type Manufacturing = "laser-cutting" | "bending" | "welding-fabrication";
+
+export type PostProcessing = "painting" | "plating";
+
 export interface ICustomerOrder {
   id: number;
   name: string;
   imgUrl: string;
-  stage: string;
+  stage: OrderStatus;
   isUrgent: boolean;
-  manufacturing: string[];
+  manufacturing: Manufacturing[];
   createdAt: any;
   deliveryAt: any | null;
   cost: number | null;
@@ -40,7 +51,7 @@ export interface IFactoryNewOrder {
   hasQuotation: boolean;
   imgUrl: string;
   isUrgent: boolean;
-  manufacturing: string[];
+  manufacturing: Manufacturing[];
   createdAt: any;
   deliveryAt: any | null;
   cost: number | null;
@@ -65,7 +76,7 @@ export interface IFactoryOrder {
   imgUrl: string;
   stage: string;
   isUrgent: string;
-  manufacturing: string[];
+  manufacturing: Manufacturing[];
   createdAt: any;
   deliveryAt: any | null;
   cost: number | null;

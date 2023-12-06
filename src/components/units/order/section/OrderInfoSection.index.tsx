@@ -2,6 +2,11 @@ import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "./OrderDetailSection.styles";
 import { RefObject } from "react";
 import { IDetailOrder } from "@/src/lib/apis/order/detail/OrderDetail.types";
+import {
+  getDate,
+  getManufacurings,
+  getPostprocessings,
+} from "@/src/lib/utils/utils";
 
 interface IOrderInfoSectionProps {
   sectionRef: RefObject<HTMLDivElement>;
@@ -24,18 +29,20 @@ export default function OrderInfoSection({
         <S.InfoWrapper className="flex-row">
           <S.Label className="regular16">작업 범위</S.Label>
           <S.Content className="regular16">
-            {data.manufacturingList.join(", ")}
+            {getManufacurings(data.manufacturingList)}
           </S.Content>
         </S.InfoWrapper>
         <S.InfoWrapper className="flex-row">
           <S.Label className="regular16">후처리 서비스</S.Label>
           <S.Content className="regular16">
-            {data.postProcessingList ? data.postProcessingList.join(", ") : "-"}
+            {data.postProcessingList
+              ? getPostprocessings(data.postProcessingList)
+              : "-"}
           </S.Content>
         </S.InfoWrapper>
         <S.InfoWrapper className="flex-row">
           <S.Label className="regular16">생성 일자</S.Label>
-          <S.Content className="regular16">{data.createdAt}</S.Content>
+          <S.Content className="regular16">{getDate(data.createdAt)}</S.Content>
         </S.InfoWrapper>
         <S.InfoWrapper className="flex-row">
           <S.Label className="regular16">요청 사항</S.Label>

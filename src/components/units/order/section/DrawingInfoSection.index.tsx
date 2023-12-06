@@ -93,11 +93,11 @@ function DrawingInfoItem({
     <ItemWrapper className="flex-row-between" onClick={onMenuOutside}>
       <ItemInfoWrapper className="flex-row">
         <Image
-          src={data.thumbnailImgUrl}
+          src={data.thumbnailUrl}
           width={120}
           height={120}
           style={ItemImage}
-          alt={data.thumbnailImgUrl}
+          alt={data.thumbnailUrl}
         />
         <ItemInfoTextWrapper>
           <p className="bold16">{data.fileName}</p>
