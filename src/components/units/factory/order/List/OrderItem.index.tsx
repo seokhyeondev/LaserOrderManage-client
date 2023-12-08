@@ -8,10 +8,16 @@ import {
   getDate,
   getManufacurings,
 } from "@/src/lib/utils/utils";
+import { useRouter } from "next/router";
 
 export default function FactoryOrderItem(props: IOrderItemProps) {
+  const router = useRouter();
+
+  const onItem = (id: number) => {
+    router.push(`/order/${id}`);
+  };
   return (
-    <S.Wrapper className="flex-row">
+    <S.Wrapper className="flex-row" onClick={() => onItem(props.data.id)}>
       <Image
         width={200}
         height={200}

@@ -24,6 +24,7 @@ import { authState } from "@/src/store/auth";
 import { useOrderDetailScroll } from "@/src/lib/hooks/useScroll";
 import { OrderStatus } from "@/src/lib/apis/order/Order.types";
 import { useToastify } from "@/src/lib/hooks/useToastify";
+import { useRouter } from "next/router";
 
 const address: IDeliveryAddress = {
   id: 0,
@@ -90,6 +91,8 @@ const purchaseOrder: IDetailPurchaseOrder = {
 };
 
 export default function OrderDetail() {
+  const router = useRouter();
+  const { orderId } = router.query;
   const auth = useRecoilValue(authState);
   const scrollArgs = useOrderDetailScroll();
   const [status, setStatus] = useState<OrderStatus>(detailOrder.stage);
@@ -163,7 +166,10 @@ export default function OrderDetail() {
           }
         />
         <Spacer width="100%" height="10px" />
-        <OrderCommentMenu expanded={scrollArgs.menuExpanded} />
+        <OrderCommentMenu
+          expanded={scrollArgs.menuExpanded}
+          orderId={String(orderId)}
+        />
       </S.MenuWrapper>
       {/* 견적 승인하기, 고객이 견적서를 확인하고 클릭 -> 견적 대기 -> 견적 승인 */}
       <OrderDetailBottombar

@@ -62,16 +62,16 @@ export const OrderApi = {
     );
     return response.data;
   },
-  GET_ORDER_DETAIL: async (id: number): Promise<IOrderDetailResponse> => {
+  GET_ORDER_DETAIL: async (id: string): Promise<IOrderDetailResponse> => {
     const response = await axiosPrivate.get(`order/${id}/detail`);
     return response.data;
   },
-  GET_ORDER_COMMENTS: async (id: number): Promise<IOrderCommentsResponse> => {
+  GET_ORDER_COMMENTS: async (id: string): Promise<IOrderCommentsResponse> => {
     const response = await axiosPrivate.get(`/order/${id}/comment`);
     return response.data;
   },
   POST_ORDER_COMMENT: async (
-    id: number,
+    id: string,
     paylod: IOrderCommentRequest,
   ): Promise<IOrderCommentResponse> => {
     const response = await axiosPrivate.post(`/order/${id}/comment`, paylod);

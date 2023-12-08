@@ -3,7 +3,6 @@ import OrderProgressbar from "@/src/components/commons/progressbar/order/OrderPr
 import * as S from "./OrderList.styles";
 import Image from "next/image";
 import { getDate, getCost, getManufacurings } from "@/src/lib/utils/utils";
-import { MANUFACTURING } from "@/src/components/commons/filters/order/OrderFilterQueries";
 import { useRouter } from "next/router";
 
 export default function CustomerOrderItem(props: IOrderItemProps) {

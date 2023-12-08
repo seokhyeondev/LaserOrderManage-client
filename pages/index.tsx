@@ -1,1 +1,3 @@
-export { default } from "@/src/components/units/order/OrderDetail.index";
+export default function Home() {
+  return <div>hi</div>;
+}
