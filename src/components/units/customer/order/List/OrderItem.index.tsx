@@ -11,12 +11,9 @@ export default function CustomerOrderItem(props: IOrderItemProps) {
   const requestRef = useRef<HTMLAnchorElement>(null);
 
   const onItem = (id: number, event: MouseEvent<HTMLElement>) => {
-    if (
-      requestRef.current &&
-      !requestRef.current.contains(event.target as Node)
-    ) {
-      router.push(`/order/${id}`);
-    }
+    if (requestRef.current && requestRef.current.contains(event.target as Node))
+      return;
+    router.push(`/order/${id}`);
   };
 
   return (
