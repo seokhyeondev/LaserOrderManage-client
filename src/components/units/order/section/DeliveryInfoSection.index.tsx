@@ -2,6 +2,7 @@ import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "./OrderDetailSection.styles";
 import EditIcon from "@/src/components/commons/icons/EditIcon.index";
 import { IDeliveryInfoSectionProps } from "./DetailSection.types";
+import { getPhoneNumber } from "@/src/lib/utils/utils";
 
 export default function DeliveryInfoSection({
   data,
@@ -49,12 +50,14 @@ export default function DeliveryInfoSection({
         </S.InfoWrapper>
         <S.InfoWrapper className="flex-row">
           <S.Label className="regular16">연락처1</S.Label>
-          <S.Content className="regular16">{data.phone1}</S.Content>
+          <S.Content className="regular16">
+            {getPhoneNumber(data.phone1)}
+          </S.Content>
         </S.InfoWrapper>
         <S.InfoWrapper className="flex-row">
           <S.Label className="regular16">연락처2</S.Label>
           <S.Content className="regular16">
-            {data.phone2 ? data.phone2 : "-"}
+            {data.phone2 ? getPhoneNumber(data.phone2) : "-"}
           </S.Content>
         </S.InfoWrapper>
         <Spacer width="100%" height="20px" />

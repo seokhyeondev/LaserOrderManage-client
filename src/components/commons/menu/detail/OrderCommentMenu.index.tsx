@@ -27,7 +27,7 @@ export default function OrderCommentMenu({
   const { setToast } = useToastify();
 
   const { data, refetch } = useQuery({
-    queryKey: ["orderDetailComments"],
+    queryKey: [`orderDetailComments/${orderId}`],
     queryFn: () => OrderApi.GET_ORDER_COMMENTS(orderId),
   });
 

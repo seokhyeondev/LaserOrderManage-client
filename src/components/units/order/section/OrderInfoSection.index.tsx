@@ -30,7 +30,7 @@ export default function OrderInfoSection({
         <S.InfoWrapper className="flex-row">
           <S.Label className="regular16">후처리 서비스</S.Label>
           <S.Content className="regular16">
-            {data.postProcessingList
+            {data.postProcessingList && data.postProcessingList.length !== 0
               ? getPostprocessings(data.postProcessingList)
               : "-"}
           </S.Content>

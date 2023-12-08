@@ -12,13 +12,13 @@ import { RefObject } from "react";
 
 interface IDetailSectionProps {
   role: UserType;
-  status: OrderStatus;
+  status: OrderStatus | undefined;
 }
 
 export interface IOrderInfoSectionProps {
   sectionRef: RefObject<HTMLDivElement>;
   data: IDetailOrder;
-  status: OrderStatus;
+  status: OrderStatus | undefined;
 }
 
 export interface IUrgentSectionProps {
