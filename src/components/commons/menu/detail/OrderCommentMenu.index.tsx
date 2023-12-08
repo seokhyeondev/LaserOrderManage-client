@@ -1,11 +1,17 @@
 import * as S from "./OrderCommentMenu.styles";
 import SendIcon from "../../icons/SendIcon.index";
-import { IOrderComment } from "@/src/lib/apis/order/detail/OrderDetail.types";
+import {
+  IOrderComment,
+  IOrderCommentRequest,
+} from "@/src/lib/apis/order/detail/OrderDetail.types";
 import { useState } from "react";
 import { useInputWithMaxLength } from "@/src/lib/hooks/useInput";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { OrderApi } from "@/src/lib/apis/order/OrderApi";
 import { getDate } from "@/src/lib/utils/utils";
+import { AxiosError } from "axios";
+import { IHttpStatus } from "@/src/lib/apis/axios";
+import { useToastify } from "@/src/lib/hooks/useToastify";
 
 interface IOrderCommentMenuProps {
   expanded: boolean;
@@ -18,14 +24,35 @@ export default function OrderCommentMenu({
 }: IOrderCommentMenuProps) {
   const [inputFocus, setInputFocus] = useState(false);
   const inputArgs = useInputWithMaxLength(200);
+  const { setToast } = useToastify();
 
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["orderDetailComments"],
     queryFn: () => OrderApi.GET_ORDER_COMMENTS(orderId),
   });
 
+  const { mutate } = useMutation({
+    mutationFn: OrderApi.POST_ORDER_COMMENT,
+    onSuccess: () => {
+      inputArgs.setValue("");
+      refetch();
+    },
+    onError: (error: AxiosError) => {
+      if (error.response) {
+        const status = error.response.data as IHttpStatus;
+        if (status.errorCode === "-302") {
+          setToast({ comment: "댓글 작성 권한이 없어요" });
+        }
+      }
+    },
+  });
+
   const onSend = () => {
-    inputArgs.setValue("");
+    if (inputArgs.value === "") return;
+    const payload: IOrderCommentRequest = {
+      content: inputArgs.value,
+    };
+    mutate({ id: orderId, paylod: payload });
   };
 
   return (

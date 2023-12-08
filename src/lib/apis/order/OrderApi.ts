@@ -70,10 +70,13 @@ export const OrderApi = {
     const response = await axiosPrivate.get(`/order/${id}/comment`);
     return response.data;
   },
-  POST_ORDER_COMMENT: async (
-    id: string,
-    paylod: IOrderCommentRequest,
-  ): Promise<IOrderCommentResponse> => {
+  POST_ORDER_COMMENT: async ({
+    id,
+    paylod,
+  }: {
+    id: string;
+    paylod: IOrderCommentRequest;
+  }): Promise<IOrderCommentResponse> => {
     const response = await axiosPrivate.post(`/order/${id}/comment`, paylod);
     return response.data;
   },
