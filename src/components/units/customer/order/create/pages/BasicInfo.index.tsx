@@ -10,16 +10,21 @@ import LoadOrderModal from "@/src/components/commons/modal/create/LoadOrderModal
 import { useInputWithMaxLength } from "@/src/lib/hooks/useInput";
 import { useSelect } from "@/src/lib/hooks/useSelect";
 import { useRecoilState } from "recoil";
-import { createOrderState } from "@/src/store/createOrder"
+import { createOrderState } from "@/src/store/createOrder";
 import { IOrderHistoryResponse } from "@/src/lib/apis/order/create/OrderCreate.types";
+import {
+  Manufacturing,
+  PostProcessing,
+} from "@/src/lib/apis/order/Order.types";
 
 export default function BasicInfo(props: ICreateOrderPageProps) {
   const [editMode, setEditMode] = useState(false);
   const [loadModalOpen, setLoadModalOpen] = useState(false);
   const nameArgs = useInputWithMaxLength(30);
-  const manufacturingArgs = useSelect();
-  const postProcessingArgs = useSelect();
-  const nextStepAvailable = nameArgs.value.length !== 0 && manufacturingArgs.selected.length !== 0 
+  const manufacturingArgs = useSelect<Manufacturing>();
+  const postProcessingArgs = useSelect<PostProcessing>();
+  const nextStepAvailable =
+    nameArgs.value.length !== 0 && manufacturingArgs.selected.length !== 0;
   const [orderState, setOrderState] = useRecoilState(createOrderState);
 
   useEffect(() => {
@@ -28,7 +33,7 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
     postProcessingArgs.setSelected(orderState.postProcessing);
     setEditMode(!orderState.isNewIssue);
   }, []);
-  
+
   const loadOrder = (callback: IOrderHistoryResponse) => {
     setOrderState({
       name: callback.name,
@@ -37,7 +42,7 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
       drawingList: callback.drawingList,
       request: callback.request ?? "",
       deliveryAddressId: callback.deliveryAddress.id,
-      isNewIssue: true
+      isNewIssue: true,
     });
     nameArgs.setValue(callback.name);
     manufacturingArgs.setSelected(callback.manufacturingList);
@@ -47,16 +52,14 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
 
   const onNext = () => {
     setOrderState({
-      ...orderState, 
-      name: nameArgs.value, 
-      manufacturing: manufacturingArgs.selected, 
+      ...orderState,
+      name: nameArgs.value,
+      manufacturing: manufacturingArgs.selected,
       postProcessing: postProcessingArgs.selected,
-      isNewIssue: !editMode
+      isNewIssue: !editMode,
     });
-    if(props.onNext) props.onNext();
-  }
-
-
+    if (props.onNext) props.onNext();
+  };
 
   return (
     <>

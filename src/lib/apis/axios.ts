@@ -8,12 +8,12 @@ import { UserApi } from "./user/UserApi";
 import { setCredentials } from "../utils/setCredentials";
 
 export const axiosPublic = axios.create({
-  baseURL: "http://192.168.0.132:8080",
+  baseURL: "http://13.209.132.215",
   headers: { "Content-Type": "application/json" },
 });
 
 export const axiosPrivate = axios.create({
-  baseURL: "http://192.168.0.132:8080",
+  baseURL: "http://13.209.132.215",
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });

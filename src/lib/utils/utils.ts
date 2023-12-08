@@ -1,3 +1,5 @@
+import { Manufacturing, PostProcessing } from "../apis/order/Order.types";
+
 export const getDate = (value: any) => {
   const date = new Date(value);
   const yyyy = date.getFullYear();
@@ -58,4 +60,31 @@ export const getFileSize = (fileSize: number): string => {
   } else if (fileSize < 1024 * 1024) {
     return `${(fileSize / 1024).toFixed(2)} KB`;
   } else return `${(fileSize / (1024 * 1024)).toFixed(2)} MB`;
+};
+
+const ManufacturingMap = new Map<Manufacturing, string>([
+  ["laser-cutting", "레이저 가공"],
+  ["bending", "절곡"],
+  ["welding-fabrication", "용접"],
+]);
+
+const PostprocessingMap = new Map<PostProcessing, string>([
+  ["painting", "도색"],
+  ["plating", "도금"],
+]);
+
+const getManufacuring = (key: Manufacturing) => ManufacturingMap.get(key)!!;
+
+const getPostprocessing = (key: PostProcessing) => PostprocessingMap.get(key)!!;
+
+export const getManufacurings = (keys: Manufacturing[]) => {
+  const manufacturings: string[] = [];
+  keys.forEach((key) => manufacturings.push(getManufacuring(key)));
+  return manufacturings.join(", ");
+};
+
+export const getPostprocessings = (keys: PostProcessing[]) => {
+  const postProcessings: string[] = [];
+  keys.forEach((key) => postProcessings.push(getPostprocessing(key)));
+  return postProcessings.join(", ");
 };

@@ -2,7 +2,12 @@ import OrderProgressbar from "@/src/components/commons/progressbar/order/OrderPr
 import * as S from "./OrderList.styles";
 import Image from "next/image";
 import { IOrderItemProps } from "./OrderList.types";
-import { getCost, getCustomerInfo, getDate } from "@/src/lib/utils/utils";
+import {
+  getCost,
+  getCustomerInfo,
+  getDate,
+  getManufacurings,
+} from "@/src/lib/utils/utils";
 
 export default function FactoryOrderItem(props: IOrderItemProps) {
   return (
@@ -48,7 +53,9 @@ export default function FactoryOrderItem(props: IOrderItemProps) {
           </S.InfoContentWrapper>
           <S.InfoContentWrapper className="flex-row">
             <S.InfoLabel className="regular16">작업 범위</S.InfoLabel>
-            <p className="regular16">{props.data.manufacturing.join(", ")}</p>
+            <p className="regular16">
+              {getManufacurings(props.data.manufacturing)}
+            </p>
           </S.InfoContentWrapper>
           <div className="flex-row">
             <S.InfoContentWrapper className="flex-row">

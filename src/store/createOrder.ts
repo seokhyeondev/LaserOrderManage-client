@@ -1,10 +1,11 @@
 import { atom } from "recoil";
 import { IDrawing } from "../lib/apis/order/create/OrderCreate.types";
+import { Manufacturing, PostProcessing } from "../lib/apis/order/Order.types";
 
 export interface ICreateOrderState {
   name: string;
-  manufacturing: string[];
-  postProcessing: string[];
+  manufacturing: Manufacturing[];
+  postProcessing: PostProcessing[];
   drawingList: IDrawing[];
   request: string;
   deliveryAddressId: number | undefined;
