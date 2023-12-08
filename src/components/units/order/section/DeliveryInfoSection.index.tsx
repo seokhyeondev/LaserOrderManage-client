@@ -46,7 +46,9 @@ export default function DeliveryInfoSection({
         </S.InfoWrapper>
         <S.InfoWrapper className="flex-row">
           <S.Label className="regular16">상세 주소</S.Label>
-          <S.Content className="regular16">{data.detailAddress}</S.Content>
+          <S.Content className="regular16">
+            {data.detailAddress ? data.detailAddress : "-"}
+          </S.Content>
         </S.InfoWrapper>
         <S.InfoWrapper className="flex-row">
           <S.Label className="regular16">연락처1</S.Label>

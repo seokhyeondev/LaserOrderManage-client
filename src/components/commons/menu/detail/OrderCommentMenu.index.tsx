@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useInputWithMaxLength } from "@/src/lib/hooks/useInput";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { OrderApi } from "@/src/lib/apis/order/OrderApi";
-import { getDate } from "@/src/lib/utils/utils";
+import { getDate, getDateTime } from "@/src/lib/utils/utils";
 import { AxiosError } from "axios";
 import { IHttpStatus } from "@/src/lib/apis/axios";
 import { useToastify } from "@/src/lib/hooks/useToastify";
@@ -97,7 +97,7 @@ function OrderCommentItem({ data }: IOrderCommentItemProps) {
       <S.CommentWrapper>
         <p className="regular14">{data.content}</p>
         <S.CommentDate className="regular10">
-          {getDate(data.createdAt)}
+          {getDateTime(data.createdAt)}
         </S.CommentDate>
       </S.CommentWrapper>
     </S.CommentItemWrapper>

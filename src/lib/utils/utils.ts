@@ -8,6 +8,30 @@ export const getDate = (value: any) => {
   return `${yyyy}.${mm}.${dd}`;
 };
 
+const now = new Date();
+
+export const getDateTime = (value: any) => {
+  const date = new Date(value);
+
+  if (now.getFullYear() !== date.getFullYear()) {
+    return `${date.getFullYear()}년 ${
+      date.getMonth() + 1
+    }월 ${date.getDate()}일`;
+  }
+
+  const dayDiff = Math.floor(
+    (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
+  );
+  const hourDiff = Math.floor(
+    (now.getTime() - date.getTime()) / (1000 * 60 * 60),
+  );
+
+  if (dayDiff === 1) return "어제";
+  if (dayDiff === 0) return `${hourDiff}시간 전`;
+  if (dayDiff > 7) return `${date.getMonth() + 1}월 ${date.getDate()}일`;
+  return `${dayDiff}일 전`;
+};
+
 export const getParamDate = (value: string): string => {
   if (value === "") {
     return "";

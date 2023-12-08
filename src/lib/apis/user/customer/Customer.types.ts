@@ -21,7 +21,7 @@ export interface IDeliveryAddress {
   name: string;
   zipCode: string;
   address: string;
-  detailAddress: string;
+  detailAddress: string | null;
   receiver: string;
   phone1: string;
   phone2: string | null;
