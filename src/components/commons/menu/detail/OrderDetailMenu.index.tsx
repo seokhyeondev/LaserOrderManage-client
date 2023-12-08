@@ -1,11 +1,11 @@
-import { FocusableSection } from "@/src/components/units/order/OrderDetail.index";
+import { FocusableSection } from "@/src/components/units/order/section/DetailSection.types";
 import * as S from "./OrderDetailMenu.styles";
 
 interface IOrderDetailMenuProps {
   focusedSection: FocusableSection;
-  onClickOrderInfo: () => void;
-  onClickDrawingInfo: () => void;
-  onClickQuotationInfo: () => void;
+  onOrderInfo: () => void;
+  onDrawingInfo: () => void;
+  onQuotationInfo: () => void;
 }
 
 export default function OrderDetailMenu(props: IOrderDetailMenuProps) {
@@ -15,21 +15,21 @@ export default function OrderDetailMenu(props: IOrderDetailMenuProps) {
       <S.MenuItem
         className="flex-column"
         isFocus={props.focusedSection === "OrderInfo"}
-        onClick={props.onClickOrderInfo}
+        onClick={props.onOrderInfo}
       >
         기본 정보
       </S.MenuItem>
       <S.MenuItem
         className="flex-column"
         isFocus={props.focusedSection === "DrawingInfo"}
-        onClick={props.onClickDrawingInfo}
+        onClick={props.onDrawingInfo}
       >
         도면 정보
       </S.MenuItem>
       <S.MenuItem
         className="flex-column"
         isFocus={props.focusedSection === "QuotationInfo"}
-        onClick={props.onClickQuotationInfo}
+        onClick={props.onQuotationInfo}
       >
         견적서/발주서
       </S.MenuItem>

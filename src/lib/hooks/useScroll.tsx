@@ -1,6 +1,5 @@
+import { FocusableSection } from "@/src/components/units/order/section/DetailSection.types";
 import { RefObject, useRef, useState } from "react";
-
-type FocusableSection = "OrderInfo" | "DrawingInfo" | "QuotationInfo";
 
 export const useOrderDetailScroll = () => {
   const [focusedSection, setFocusedSection] =

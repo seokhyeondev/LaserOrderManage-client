@@ -67,7 +67,7 @@ export const CommentWrapper = styled.div`
 
 export const CommentDate = styled.p`
   width: 100%;
-  margin-top: 8px;
+  margin-top: 14px;
   text-align: end;
   color: var(--color-darkGray);
 `;

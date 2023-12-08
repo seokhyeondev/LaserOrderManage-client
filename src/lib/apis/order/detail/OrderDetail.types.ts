@@ -68,3 +68,9 @@ export interface IOrderComment {
   content: string;
   createdAt: any;
 }
+
+export interface IOrderCommentRequest {
+  content: string;
+}
+
+export interface IOrderCommentResponse {}

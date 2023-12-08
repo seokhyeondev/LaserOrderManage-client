@@ -1,6 +1,7 @@
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "./OrderDetailSection.styles";
 import { ICustomerInfoSectionProps } from "./DetailSection.types";
+import { getPhoneNumber } from "@/src/lib/utils/utils";
 
 export default function CustomerInfoSection({
   data,
@@ -24,7 +25,9 @@ export default function CustomerInfoSection({
         </S.InfoWrapper>
         <S.InfoWrapper className="flex-row">
           <S.Label className="regular16">연락처</S.Label>
-          <S.Content className="regular16">{data.phone}</S.Content>
+          <S.Content className="regular16">
+            {getPhoneNumber(data.phone)}
+          </S.Content>
         </S.InfoWrapper>
         <S.InfoWrapper className="flex-row">
           <S.Label className="regular16">이메일</S.Label>
