@@ -104,13 +104,13 @@ export default function OrderDetail() {
       >
         <OrderDetailMenu
           focusedSection={scrollArgs.focusedSection}
-          onClickOrderInfo={() =>
+          onOrderInfo={() =>
             scrollArgs.scrollToSection(scrollArgs.orderInfoRef)
           }
-          onClickDrawingInfo={() =>
+          onDrawingInfo={() =>
             scrollArgs.scrollToSection(scrollArgs.drawingInfoRef)
           }
-          onClickQuotationInfo={() =>
+          onQuotationInfo={() =>
             scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
           }
         />

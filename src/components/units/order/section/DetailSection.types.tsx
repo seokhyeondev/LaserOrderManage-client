@@ -15,6 +15,8 @@ interface IDetailSectionProps {
   status: OrderStatus | undefined;
 }
 
+export type FocusableSection = "OrderInfo" | "DrawingInfo" | "QuotationInfo";
+
 export interface IOrderInfoSectionProps {
   sectionRef: RefObject<HTMLDivElement>;
   data: IDetailOrder;

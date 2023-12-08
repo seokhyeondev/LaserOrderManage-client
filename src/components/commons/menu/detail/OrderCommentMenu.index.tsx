@@ -4,7 +4,7 @@ import {
   IOrderComment,
   IOrderCommentRequest,
 } from "@/src/lib/apis/order/detail/OrderDetail.types";
-import { useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { useInputWithMaxLength } from "@/src/lib/hooks/useInput";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { OrderApi } from "@/src/lib/apis/order/OrderApi";
@@ -25,11 +25,18 @@ export default function OrderCommentMenu({
   const [inputFocus, setInputFocus] = useState(false);
   const inputArgs = useInputWithMaxLength(200);
   const { setToast } = useToastify();
+  const lastCommentRef = useRef<HTMLDivElement>(null);
 
-  const { data, refetch } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: [`orderDetailComments/${orderId}`],
     queryFn: () => OrderApi.GET_ORDER_COMMENTS(orderId),
   });
+
+  useEffect(() => {
+    if (data && !isLoading) {
+      lastCommentRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [data, isLoading]);
 
   const { mutate } = useMutation({
     mutationFn: OrderApi.POST_ORDER_COMMENT,
@@ -66,7 +73,13 @@ export default function OrderCommentMenu({
         )}
         {data &&
           data.totalElements !== 0 &&
-          data.contents.map((el) => <OrderCommentItem data={el} key={el.id} />)}
+          data.contents.map((el, index) => (
+            <OrderCommentItem
+              data={el}
+              key={el.id}
+              itmeRef={index === data.totalElements - 1 ? lastCommentRef : null}
+            />
+          ))}
       </S.CommentsWrapper>
       <S.InputWrapper className="flex-row-between" isFocus={inputFocus}>
         <S.CommentInput
@@ -86,11 +99,12 @@ export default function OrderCommentMenu({
 
 interface IOrderCommentItemProps {
   data: IOrderComment;
+  itmeRef: RefObject<HTMLDivElement> | null;
 }
 
-function OrderCommentItem({ data }: IOrderCommentItemProps) {
+function OrderCommentItem({ data, itmeRef }: IOrderCommentItemProps) {
   return (
-    <S.CommentItemWrapper>
+    <S.CommentItemWrapper ref={itmeRef}>
       <S.CommentWritter className="regular12">
         {data.authorName}
       </S.CommentWritter>
