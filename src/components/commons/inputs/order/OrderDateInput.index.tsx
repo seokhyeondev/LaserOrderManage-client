@@ -3,7 +3,6 @@ import * as S from "./OrderDateInput.styles";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useState } from "react";
-import moment from "moment";
 import { IOrderDateInputProps, Value } from "./OrderDateInput.types";
 
 export default function OrderDateInput(props: IOrderDateInputProps) {
