@@ -8,16 +8,23 @@ import {
   getManufacurings,
 } from "@/src/lib/utils/utils";
 import { useRouter } from "next/router";
+import { useRef, MouseEvent } from "react";
 
 export default function FactoryNewOrderItem(props: IOrderItemProps) {
   const router = useRouter();
+  const requestRef = useRef<HTMLAnchorElement>(null);
 
-  const onItem = (id: number) => {
-    router.push(`/order/${id}`);
+  const onItem = (id: number, event: MouseEvent<HTMLElement>) => {
+    if (
+      requestRef.current &&
+      !requestRef.current.contains(event.target as Node)
+    ) {
+      router.push(`/order/${id}`);
+    }
   };
 
   return (
-    <S.Wrapper className="flex-row" onClick={() => onItem(props.data.id)}>
+    <S.Wrapper className="flex-row" onClick={(e) => onItem(props.data.id, e)}>
       <Image
         width={200}
         height={200}
