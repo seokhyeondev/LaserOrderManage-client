@@ -5,6 +5,7 @@ type FocusableSection = "OrderInfo" | "DrawingInfo" | "QuotationInfo";
 export const useOrderDetailScroll = () => {
   const [focusedSection, setFocusedSection] =
     useState<FocusableSection>("OrderInfo");
+  const [menuExpanded, setMenuExpanded] = useState(false);
   const orderInfoRef = useRef<HTMLDivElement>(null);
   const drawingInfoRef = useRef<HTMLDivElement>(null);
   const quotationInfoRef = useRef<HTMLDivElement>(null);
@@ -15,6 +16,10 @@ export const useOrderDetailScroll = () => {
     const drawingInfoPosition = drawingInfoRef.current?.getBoundingClientRect();
     const quotationInfoPosition =
       quotationInfoRef.current?.getBoundingClientRect();
+
+    if (orderInfoPosition) {
+      setMenuExpanded(orderInfoPosition.top < 0);
+    }
     if (
       orderInfoPosition &&
       orderInfoPosition.top - focusOffset <= 0 &&
@@ -45,6 +50,7 @@ export const useOrderDetailScroll = () => {
 
   return {
     focusedSection,
+    menuExpanded,
     orderInfoRef,
     drawingInfoRef,
     quotationInfoRef,

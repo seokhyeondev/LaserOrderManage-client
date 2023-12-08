@@ -28,7 +28,7 @@ const comments: IOrderCommentsResponse = {
   totalElements: 4,
 };
 
-export default function OrderCommentMenu() {
+export default function OrderCommentMenu({ expanded }: { expanded: boolean }) {
   const [inputFocus, setInputFocus] = useState(false);
   const inputArgs = useInputWithMaxLength(200);
 
@@ -37,7 +37,7 @@ export default function OrderCommentMenu() {
   };
 
   return (
-    <S.Wrapper className="flex-column-start">
+    <S.Wrapper className="flex-column-start" expanded={expanded}>
       <S.Label className="bold20">댓글</S.Label>
       <S.CommentsWrapper>
         {comments.totalElements == 0 && (

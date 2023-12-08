@@ -146,7 +146,10 @@ export default function OrderDetail() {
           status={status}
         />
       </S.BodyWrapper>
-      <S.MenuWrapper>
+      <S.MenuWrapper
+        className="flex-column-start"
+        expanded={scrollArgs.menuExpanded}
+      >
         <OrderDetailMenu
           focusedSection={scrollArgs.focusedSection}
           onClickOrderInfo={() =>
@@ -160,7 +163,7 @@ export default function OrderDetail() {
           }
         />
         <Spacer width="100%" height="10px" />
-        <OrderCommentMenu />
+        <OrderCommentMenu expanded={scrollArgs.menuExpanded} />
       </S.MenuWrapper>
       {/* 견적 승인하기, 고객이 견적서를 확인하고 클릭 -> 견적 대기 -> 견적 승인 */}
       <OrderDetailBottombar

@@ -1,12 +1,17 @@
 import styled from "@emotion/styled";
 
-export const Wrapper = styled.div`
+interface IWrapperProps {
+  expanded: boolean;
+}
+
+export const Wrapper = styled.div<IWrapperProps>`
   width: 100%;
-  height: calc(100vh - 400px);
+  height: ${(props) => (props.expanded ? "100%" : "calc(100% - 380px)")};
   padding: 30px 15px 18px 15px;
   border: 2px solid var(--color-mediumGray);
   border-radius: var(--border-radius);
   background-color: var(--color-lightGray);
+  transition: height ease 0.5s;
 `;
 
 export const Label = styled.p``;

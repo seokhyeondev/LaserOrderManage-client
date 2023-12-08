@@ -9,10 +9,16 @@ export const BodyWrapper = styled.div`
   padding: 48px 48px 448px 48px;
 `;
 
-export const MenuWrapper = styled.div`
+interface IMenuWrapperProps {
+  expanded: boolean;
+}
+
+export const MenuWrapper = styled.div<IMenuWrapperProps>`
   position: fixed;
+  top: ${(props) => (props.expanded ? "0px" : "auto")};
   right: 0;
   width: 340px;
   padding: 10px;
   height: 100vh;
+  transition: top ease 0.5s;
 `;
