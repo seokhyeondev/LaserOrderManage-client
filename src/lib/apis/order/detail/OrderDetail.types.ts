@@ -75,3 +75,48 @@ export interface IOrderCommentRequest {
 }
 
 export interface IOrderCommentResponse {}
+
+export interface IDetailUrgentRequest {
+  isUrgent: boolean;
+}
+
+export interface IDetailUrgentResponse {}
+
+export interface IDetailEditAddressRequest {
+  deliveryAddressId: number;
+}
+
+export interface IDetailEditAddressResponse {}
+
+export interface IDetailAddDrawingRequest {
+  thumbnailUrl: string;
+  fileName: string;
+  fileSize: string;
+  fileType: string;
+  fileUrl: string;
+  count: number;
+  ingredient: string;
+  thickness: number;
+}
+
+export interface IDetailAddDrawingResponse {
+  id: number;
+}
+
+export interface IDetailEditDrawingRequest {
+  count: number;
+  ingredient: string;
+  thickness: number;
+}
+
+export interface IDetailEditDrawingResponse {}
+
+export interface IDetailDeleteDrawingResponse {}
+
+export interface IDetailEditQuotationResponse {}
+
+export interface IDetailEditPurchaseOrderRequest {
+  inspectionPeriod: string;
+  inspectionCondition: string;
+  paymentDate: string;
+}
