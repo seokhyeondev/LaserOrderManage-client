@@ -59,6 +59,21 @@ export const Input = styled.input<IInputProps>`
   }
 `;
 
+export const Select = styled.select`
+  width: 100%;
+  padding: 15px 14px;
+  border: 1px solid var(--color-mediumGray);
+  border-radius: var(--border-radius);
+  appearance: none;
+  margin-bottom: 44px;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+`;
+
+export const Option = styled.option``;
+
 export const ButtonWrapper = styled.div`
   width: 100%;
 `;
@@ -126,4 +141,9 @@ export const BasicAddressLabel = styled.p`
 
 export const AddressUserInfo = styled.p`
   color: var(--color-normalGray);
+`;
+
+export const FileName = styled.p`
+  width: 100%;
+  text-align: center;
 `;

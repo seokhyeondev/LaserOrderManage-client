@@ -2,45 +2,9 @@ import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "./DrawingItem.styles";
 import Image from "next/image";
 import { useState, ChangeEvent } from "react";
-import { IDrawing } from "@/src/lib/apis/order/create/OrderCreate.types";
 import { getFileSize } from "@/src/lib/utils/utils";
 import LoadingBox from "@/src/components/commons/loading/LoadingBox.index";
-
-interface IIngredient {
-  key: string;
-}
-
-const INGREDIENTS: IIngredient[] = [
-  { key: "2HL" },
-  { key: "HL" },
-  { key: "2PL" },
-  { key: "PL" },
-  { key: "430" },
-  { key: "AC" },
-  { key: "AL" },
-  { key: "ALCK" },
-  { key: "AR" },
-  { key: "ATOS" },
-  { key: "CK" },
-  { key: "CR" },
-  { key: "CU" },
-  { key: "EGI" },
-  { key: "GI" },
-  { key: "HGI" },
-  { key: "MS" },
-  { key: "MS-N" },
-  { key: "PO" },
-  { key: "S45" },
-  { key: "SM490" },
-  { key: "SPCC" },
-  { key: "SS" },
-  { key: "SS400" },
-  { key: "SS41" },
-  { key: "STS" },
-  { key: "SUS" },
-  { key: "SUSCK" },
-  { key: "TI" },
-];
+import { INGREDIENTS, MAX_THICKNESS } from "@/src/lib/constants/constant";
 
 export interface IDrawingItem {
   thumbnailUrl: string;
@@ -159,11 +123,13 @@ export default function DrawingItem(props: IDrawingItemProps) {
                   <S.Option value={""} disabled hidden>
                     두께를 선택해주세요
                   </S.Option>
-                  {Array.from({ length: 19 }, (_, i) => i + 1).map((el) => (
-                    <S.Option key={el} value={el}>
-                      {`${el} T`}
-                    </S.Option>
-                  ))}
+                  {Array.from({ length: MAX_THICKNESS }, (_, i) => i + 1).map(
+                    (el) => (
+                      <S.Option key={el} value={el}>
+                        {`${el} T`}
+                      </S.Option>
+                    ),
+                  )}
                 </S.Select>
               </S.SelectWrapper>
             </div>

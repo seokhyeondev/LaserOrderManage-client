@@ -10,6 +10,7 @@ import {
   IDrawingInfoItemProps,
   IDrawingInfoSectionProps,
 } from "./DetailSection.types";
+import EditDrawingModal from "@/src/components/commons/modal/detail/EditDrawingModal.index";
 
 export default function DrawingInfoSection({
   sectionRef,
@@ -18,6 +19,9 @@ export default function DrawingInfoSection({
   status,
 }: IDrawingInfoSectionProps) {
   const [drawings, setDrawings] = useState<IDetailDrawing[]>([]);
+  const [targetDrawing, setTargetDrawing] = useState<IDetailDrawing>();
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
     setDrawings(data);
@@ -25,7 +29,10 @@ export default function DrawingInfoSection({
 
   const onAddDrawing = () => {};
 
-  const onEditDrawing = (drawing: IDetailDrawing) => {};
+  const onEditDrawing = (drawing: IDetailDrawing) => {
+    setTargetDrawing(drawing);
+    setShowEditModal(true);
+  };
 
   const onDeleteDrawing = (id: number) => {
     const updatedDrawings = drawings.filter((el) => el.id !== id);
@@ -33,40 +40,51 @@ export default function DrawingInfoSection({
   };
 
   return (
-    <S.Wrapper ref={sectionRef}>
-      <S.TitleWrapper className="flex-row-between">
-        <S.Title className="bold18">도면 정보</S.Title>
-        {role === "ROLE_CUSTOMER" &&
-          (status === "견적 대기" || status === "견적 승인") && (
-            <S.EditBox className="flex-row" onClick={onAddDrawing}>
-              <EditIcon size={20} />
-              <Spacer width="5px" height="100%" />
-              <S.EditBoxText className="regular16">도면 추가하기</S.EditBoxText>
-            </S.EditBox>
+    <>
+      <S.Wrapper ref={sectionRef}>
+        <S.TitleWrapper className="flex-row-between">
+          <S.Title className="bold18">도면 정보</S.Title>
+          {role === "ROLE_CUSTOMER" &&
+            (status === "견적 대기" || status === "견적 승인") && (
+              <S.EditBox className="flex-row" onClick={onAddDrawing}>
+                <EditIcon size={20} />
+                <Spacer width="5px" height="100%" />
+                <S.EditBoxText className="regular16">
+                  도면 추가하기
+                </S.EditBoxText>
+              </S.EditBox>
+            )}
+        </S.TitleWrapper>
+        <S.Section>
+          <Spacer width="100%" height="10px" />
+          {drawings.length === 0 ? (
+            <EmptyDrawing className="regular16 flex-center">
+              도면을 추가해주세요
+            </EmptyDrawing>
+          ) : (
+            drawings.map((el) => (
+              <DrawingInfoItem
+                key={el.id}
+                data={el}
+                role={role}
+                status={status}
+                onEditDrawing={() => onEditDrawing(el)}
+                onDeleteDrawing={() => onDeleteDrawing(el.id)}
+              />
+            ))
           )}
-      </S.TitleWrapper>
-      <S.Section>
-        <Spacer width="100%" height="10px" />
-        {drawings.length === 0 ? (
-          <EmptyDrawing className="regular16 flex-center">
-            도면을 추가해주세요
-          </EmptyDrawing>
-        ) : (
-          drawings.map((el) => (
-            <DrawingInfoItem
-              key={el.id}
-              data={el}
-              role={role}
-              status={status}
-              onEditDrawing={() => onEditDrawing(el)}
-              onDeleteDrawing={() => onDeleteDrawing(el.id)}
-            />
-          ))
-        )}
 
-        <Spacer width="100%" height="10px" />
-      </S.Section>
-    </S.Wrapper>
+          <Spacer width="100%" height="10px" />
+        </S.Section>
+      </S.Wrapper>
+      {showEditModal && targetDrawing !== undefined && (
+        <EditDrawingModal
+          data={targetDrawing}
+          isOpen={showEditModal}
+          onClose={() => setShowEditModal(false)}
+        />
+      )}
+    </>
   );
 }
 

@@ -13,8 +13,9 @@ export const useInput = () => {
 export const useInputWithRegex = (
   regex: string | RegExp,
   replaceValue: string,
+  initialValue?: string,
 ) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(initialValue ?? "");
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value.replace(regex, replaceValue));
@@ -35,7 +36,7 @@ export const useInputWithMaxLength = (maxLength: number) => {
     }
   };
 
-  return {value, setValue, onChange} as const;
+  return { value, setValue, onChange } as const;
 };
 
 export const useInputWithError = (
@@ -43,21 +44,23 @@ export const useInputWithError = (
   correct: (value: string) => boolean,
   passCondition: (value: string) => boolean,
   regex?: string | RegExp,
-  ) => {
+) => {
   const [value, setValue] = useState("");
-  const [error , setError] = useState(false);
+  const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(defErrorMessage);
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const input = regex ? event.target.value.replace(regex, "") : event.target.value;
+    const input = regex
+      ? event.target.value.replace(regex, "")
+      : event.target.value;
     setValue(input);
-    if(correct(input)) {
+    if (correct(input)) {
       setError(false);
     }
   };
 
   const passError = (): boolean => {
-    if(!passCondition(value)) {
+    if (!passCondition(value)) {
       setErrorMessage(defErrorMessage);
       setError(true);
       return false;
@@ -68,14 +71,26 @@ export const useInputWithError = (
   const showError = (msg?: string) => {
     setErrorMessage(msg ?? defErrorMessage);
     setError(true);
-  }
+  };
 
   const hideError = () => {
     setError(false);
-  }
+  };
 
   const isCorrect = correct(value);
   const errorWithEmpty = value !== "" && !correct(value);
 
-  return {value, setValue, onChange, isCorrect, error, errorWithEmpty, showError, hideError, errorMessage, setErrorMessage, passError} as const;
+  return {
+    value,
+    setValue,
+    onChange,
+    isCorrect,
+    error,
+    errorWithEmpty,
+    showError,
+    hideError,
+    errorMessage,
+    setErrorMessage,
+    passError,
+  } as const;
 };
