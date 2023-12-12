@@ -3,7 +3,8 @@ import * as S from "./OrderDateInput.styles";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useState } from "react";
-import { IOrderDateInputProps, Value } from "./OrderDateInput.types";
+import { IOrderDateInputProps } from "./OrderDateInput.types";
+import { DateValue } from "@/src/lib/hooks/useDate";
 
 export default function OrderDateInput(props: IOrderDateInputProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +13,7 @@ export default function OrderDateInput(props: IOrderDateInputProps) {
     setIsOpen(!isOpen);
   };
 
-  const handleDateChange = (selectedDate: Value) => {
+  const handleDateChange = (selectedDate: DateValue) => {
     props.setDate(selectedDate);
     setIsOpen(false);
   };
@@ -27,6 +28,7 @@ export default function OrderDateInput(props: IOrderDateInputProps) {
           className="regular14"
           placeholder="연도. 월. 일"
           value={props.date}
+          readOnly
         />
         <Image width={18} height={18} src="/images/calender.svg" alt="달력" />
       </S.InputWrapper>

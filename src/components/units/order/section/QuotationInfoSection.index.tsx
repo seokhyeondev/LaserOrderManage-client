@@ -2,7 +2,7 @@ import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "./OrderDetailSection.styles";
 import EditIcon from "@/src/components/commons/icons/EditIcon.index";
 import styled from "@emotion/styled";
-import { getCost, getDate } from "@/src/lib/utils/utils";
+import { getCost, getDate, getFileUrl } from "@/src/lib/utils/utils";
 import { IQuotationInfoSectionProps } from "./DetailSection.types";
 import { useState } from "react";
 import QuotationModal from "@/src/components/commons/modal/detail/QuotationModal.index";
@@ -14,12 +14,7 @@ export default function QuotationInfoSection({
   status,
 }: IQuotationInfoSectionProps) {
   const [showModal, setShowModal] = useState(false);
-  const getFileUrl = (url: string) => {
-    const urlParts = url.split("/");
-    return urlParts[urlParts.length - 1];
-  };
 
-  const onEditQuotation = () => {};
   return (
     <>
       <S.Wrapper ref={sectionRef}>
@@ -76,7 +71,11 @@ export default function QuotationInfoSection({
           )}
         </S.Section>
       </S.Wrapper>
-      <QuotationModal isOpen={showModal} onClose={() => setShowModal(false)} />
+      <QuotationModal
+        isOpen={showModal}
+        data={data}
+        onClose={() => setShowModal(false)}
+      />
     </>
   );
 }

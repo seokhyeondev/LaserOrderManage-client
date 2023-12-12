@@ -174,3 +174,20 @@ export const UploadDrawingsWrapper = styled.div`
   height: 420px;
   overflow-y: auto;
 `;
+
+export const CalendarInputWrapper = styled.div`
+  position: relative;
+  margin-bottom: 44px;
+`;
+
+interface ICalendarWrapperProps {
+  isOpen: boolean;
+}
+
+export const CalendarWrapper = styled.div<ICalendarWrapperProps>`
+  position: absolute;
+  z-index: 3;
+  top: 110%;
+  left: 0;
+  display: ${(props) => (props.isOpen ? "block" : "none")};
+`;
