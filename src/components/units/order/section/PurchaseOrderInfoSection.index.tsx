@@ -7,11 +7,14 @@ import { IPurchaseOrderInfoSectionProps } from "./DetailSection.types";
 import { useState } from "react";
 import PurchaseOrderModal from "@/src/components/commons/modal/detail/PurchaseOrderModal.index";
 import { IDetailPurchaseOrder } from "@/src/lib/apis/order/detail/OrderDetail.types";
+import OrderDetailBottombar from "../bottombar/OrderDetailBottombar.index";
 
 export default function PurchaseOrderInfoSection({
   data,
+  name,
   role,
   status,
+  scrollPage,
 }: IPurchaseOrderInfoSectionProps) {
   const [showModal, setShowModal] = useState(false);
   const [purchaseOrder, setPurchaseOrder] = useState(data);
@@ -77,6 +80,16 @@ export default function PurchaseOrderInfoSection({
         data={purchaseOrder}
         callback={editPurchaseOrderCallback}
         onClose={() => setShowModal(false)}
+      />
+      <OrderDetailBottombar
+        showCondition={
+          role === "ROLE_CUSTOMER" &&
+          status === "견적 승인" &&
+          purchaseOrder === null
+        }
+        announce={`${name}님, 발주서를 추가해주세요!`}
+        buttonText="발주서 추가하기"
+        onButton={scrollPage}
       />
     </>
   );

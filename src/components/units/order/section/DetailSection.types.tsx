@@ -53,4 +53,6 @@ export interface IQuotationInfoSectionProps extends IDetailSectionProps {
 
 export interface IPurchaseOrderInfoSectionProps extends IDetailSectionProps {
   data: IDetailPurchaseOrder | null;
+  name: string;
+  scrollPage: () => void;
 }

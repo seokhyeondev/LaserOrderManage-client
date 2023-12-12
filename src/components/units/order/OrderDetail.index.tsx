@@ -92,8 +92,12 @@ export default function OrderDetail() {
             <Spacer width="100%" height="60px" />
             <PurchaseOrderInfoSection
               data={data.purchaseOrder}
+              name={data.customer.name}
               role={auth.role}
               status={status}
+              scrollPage={() =>
+                scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
+              }
             />
           </>
         )}
