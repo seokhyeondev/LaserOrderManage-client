@@ -67,6 +67,7 @@ export default function PurchaseOrderInfoSection({
       </S.Wrapper>
       <PurchaseOrderModal
         isOpen={showModal}
+        data={data}
         onClose={() => setShowModal(false)}
       />
     </>

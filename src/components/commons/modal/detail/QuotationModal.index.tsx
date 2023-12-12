@@ -8,6 +8,7 @@ import { useInputWithRegex } from "@/src/lib/hooks/useInput";
 import { numberRegex } from "@/src/lib/constants/regex";
 import { ChangeEvent, useRef, useState } from "react";
 import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import { useCalendar } from "@/src/lib/hooks/useDate";
 import { getFileUrl } from "@/src/lib/utils/utils";
 
