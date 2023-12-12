@@ -4,7 +4,7 @@ import EditIcon from "@/src/components/commons/icons/EditIcon.index";
 import Image from "next/image";
 import styled from "@emotion/styled";
 import MenuIcon from "@/src/components/commons/icons/MenuIcon.index";
-import { useEffect, useRef, useState, MouseEvent } from "react";
+import { useRef, useState, MouseEvent } from "react";
 import { IDetailDrawing } from "@/src/lib/apis/order/detail/OrderDetail.types";
 import {
   IDrawingInfoItemProps,
@@ -12,6 +12,7 @@ import {
 } from "./DetailSection.types";
 import EditDrawingModal from "@/src/components/commons/modal/detail/EditDrawingModal.index";
 import AddDrawingModal from "@/src/components/commons/modal/detail/AddDrawingModal.index";
+import { useToastify } from "@/src/lib/hooks/useToastify";
 
 export default function DrawingInfoSection({
   sectionRef,
@@ -19,23 +20,33 @@ export default function DrawingInfoSection({
   role,
   status,
 }: IDrawingInfoSectionProps) {
-  const [drawings, setDrawings] = useState<IDetailDrawing[]>([]);
+  const [drawings, setDrawings] = useState<IDetailDrawing[]>(data);
   const [targetDrawing, setTargetDrawing] = useState<IDetailDrawing>();
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
-
-  useEffect(() => {
-    setDrawings(data);
-  }, [data]);
+  const { setToast } = useToastify();
 
   const onEditDrawing = (drawing: IDetailDrawing) => {
     setTargetDrawing(drawing);
     setShowEditModal(true);
   };
 
+  const editDrawingCallback = (newDrawing: IDetailDrawing) => {
+    if (targetDrawing) {
+      setDrawings(
+        drawings.map((el) => (el.id === targetDrawing.id ? newDrawing : el)),
+      );
+    }
+  };
+
   const onDeleteDrawing = (id: number) => {
+    if (drawings.length === 1) {
+      setToast({ comment: "도면은 모두 삭제할 수 없어요" });
+      return;
+    }
     const updatedDrawings = drawings.filter((el) => el.id !== id);
     setDrawings(updatedDrawings);
+    setToast({ comment: "도면을 삭제했어요" });
   };
 
   return (
@@ -79,10 +90,11 @@ export default function DrawingInfoSection({
           <Spacer width="100%" height="10px" />
         </S.Section>
       </S.Wrapper>
-      {showEditModal && targetDrawing !== undefined && (
+      {targetDrawing !== undefined && (
         <EditDrawingModal
           data={targetDrawing}
           isOpen={showEditModal}
+          callback={editDrawingCallback}
           onClose={() => setShowEditModal(false)}
         />
       )}

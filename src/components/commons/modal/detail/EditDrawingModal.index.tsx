@@ -6,10 +6,13 @@ import Spacer from "../../spacer/Spacer.index";
 import { useInputWithRegex } from "@/src/lib/hooks/useInput";
 import { numberRegex } from "@/src/lib/constants/regex";
 import { INGREDIENTS, MAX_THICKNESS } from "@/src/lib/constants/constant";
+import { useOptions } from "@/src/lib/hooks/useSelect";
+import { useToastify } from "@/src/lib/hooks/useToastify";
 
 export default function EditDrawingModal({
   isOpen,
   data,
+  callback,
   onClose,
 }: IEditDrawingModalProps) {
   const [count, onChangeCount] = useInputWithRegex(
@@ -17,6 +20,20 @@ export default function EditDrawingModal({
     "",
     String(data.count),
   );
+  const [ingredient, onChangeIngredient] = useOptions(data.ingredient);
+  const [thickness, onChangeThickness] = useOptions(String(data.thickness));
+  const { setToast } = useToastify();
+
+  const onSubmit = () => {
+    callback({
+      ...data,
+      count: Number(count),
+      ingredient: ingredient,
+      thickness: Number(thickness),
+    });
+    setToast({ comment: "도면을 수정했어요" });
+    onClose();
+  };
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <S.Wrapper width={400}>
@@ -50,7 +67,7 @@ export default function EditDrawingModal({
           <S.Label className="regular12">재료</S.Label>
           <S.Required className="regular12">*</S.Required>
         </S.LabelWrapper>
-        <S.Select value={data.ingredient}>
+        <S.Select value={ingredient} onChange={onChangeIngredient}>
           {INGREDIENTS.map((el) => (
             <S.Option key={el.key} value={el.key}>
               {el.key}
@@ -61,7 +78,7 @@ export default function EditDrawingModal({
           <S.Label className="regular12">두께</S.Label>
           <S.Required className="regular12">*</S.Required>
         </S.LabelWrapper>
-        <S.Select value={data.thickness}>
+        <S.Select value={thickness} onChange={onChangeThickness}>
           {Array.from({ length: MAX_THICKNESS }, (_, i) => i + 1).map((el) => (
             <S.Option key={el} value={el}>{`${el} T`}</S.Option>
           ))}
@@ -72,7 +89,11 @@ export default function EditDrawingModal({
             취소
           </S.CancelButton>
           <Spacer width="8px" height="100%" />
-          <S.SubmitButton className="bold14" disabled={count === ""}>
+          <S.SubmitButton
+            className="bold14"
+            disabled={count === ""}
+            onClick={onSubmit}
+          >
             수정하기
           </S.SubmitButton>
         </S.ButtonWrapper>
