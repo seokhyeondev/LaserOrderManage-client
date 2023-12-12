@@ -25,7 +25,7 @@ export interface ICustomerOrder {
   imgUrl: string;
   stage: OrderStatus;
   isUrgent: boolean;
-  manufacturing: Manufacturing[];
+  manufacturingList: Manufacturing[];
   createdAt: any;
   deliveryAt: any | null;
   cost: number | null;
@@ -51,7 +51,7 @@ export interface IFactoryNewOrder {
   hasQuotation: boolean;
   imgUrl: string;
   isUrgent: boolean;
-  manufacturing: Manufacturing[];
+  manufacturingList: Manufacturing[];
   createdAt: any;
   deliveryAt: any | null;
   cost: number | null;
@@ -76,7 +76,7 @@ export interface IFactoryOrder {
   imgUrl: string;
   stage: string;
   isUrgent: string;
-  manufacturing: Manufacturing[];
+  manufacturingList: Manufacturing[];
   createdAt: any;
   deliveryAt: any | null;
   cost: number | null;

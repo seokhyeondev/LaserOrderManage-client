@@ -76,3 +76,15 @@ export const SubmitButton = styled.button`
   color: var(--color-white);
   border-radius: var(--border-radius);
 `;
+
+export const TextArea = styled.textarea`
+  width: 100%;
+  height: 260px;
+  padding: 15px 14px;
+  border: 1px solid var(--color-mediumGray);
+  border-radius: var(--border-radius);
+  resize: none;
+  &::placeholder {
+    color: var(--color-normalGray);
+  }
+`;

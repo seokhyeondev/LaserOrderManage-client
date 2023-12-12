@@ -20,7 +20,7 @@ export const OrderApi = {
     keyword: string,
   ): Promise<ICustomerOrderResponse> => {
     const response = await axiosPrivate.get(
-      `/customer/order?page=${page}&size=${size}&stage=${stage}&manufacturing=${manufacturing}&query=${keyword}`,
+      `/customer/order?page=${page}&size=${size}&stage-list=${stage}&manufacturing-list=${manufacturing}&query=${keyword}`,
     );
     return response.data;
   },

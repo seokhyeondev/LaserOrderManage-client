@@ -65,7 +65,7 @@ export default function FactoryOrderItem(props: IOrderItemProps) {
           <S.InfoContentWrapper className="flex-row">
             <S.InfoLabel className="regular16">작업 범위</S.InfoLabel>
             <p className="regular16">
-              {getManufacurings(props.data.manufacturing)}
+              {getManufacurings(props.data.manufacturingList)}
             </p>
           </S.InfoContentWrapper>
           <div className="flex-row">
