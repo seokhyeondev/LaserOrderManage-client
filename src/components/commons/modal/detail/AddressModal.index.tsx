@@ -3,57 +3,73 @@ import { IDeliveryModalProps } from "./DetailModal.types";
 import * as S from "./DetailModal.styles";
 import Spacer from "../../spacer/Spacer.index";
 import { IDeliveryAddress } from "@/src/lib/apis/user/customer/Customer.types";
-import { getAddress, getPhoneNumber } from "@/src/lib/utils/utils";
+import { getPhoneNumber } from "@/src/lib/utils/utils";
 import { useState } from "react";
+import { useToast } from "react-toastify";
+import { useToastify } from "@/src/lib/hooks/useToastify";
 
-export default function AddressModal({ isOpen, onClose }: IDeliveryModalProps) {
-  const [selectedId, setSelectedId] = useState<number>();
-  const addressList: IDeliveryAddress[] = [
-    {
-      id: 0,
-      name: "회원 주소",
-      zipCode: "11111",
-      address: "서울 마포구 성미산로 160",
-      detailAddress: "휴먼빌",
-      receiver: "안승우",
-      phone1: "01011111111",
-      phone2: null,
-      isDefault: true,
-    },
-    {
-      id: 1,
-      name: "회원 주소",
-      zipCode: "11111",
-      address: "서울 마포구 성미산로 160",
-      detailAddress: "휴먼빌",
-      receiver: "안승우",
-      phone1: "01011111111",
-      phone2: null,
-      isDefault: false,
-    },
-    {
-      id: 2,
-      name: "회원 주소",
-      zipCode: "11111",
-      address: "서울 마포구 성미산로 160",
-      detailAddress: "휴먼빌",
-      receiver: "안승우",
-      phone1: "01011111111",
-      phone2: null,
-      isDefault: false,
-    },
-    {
-      id: 3,
-      name: "회원 주소",
-      zipCode: "11111",
-      address: "서울 마포구 성미산로 160",
-      detailAddress: "휴먼빌",
-      receiver: "안승우",
-      phone1: "01011111111",
-      phone2: null,
-      isDefault: false,
-    },
-  ];
+const addressList: IDeliveryAddress[] = [
+  {
+    id: 0,
+    name: "회원 주소",
+    zipCode: "11111",
+    address: "서울 마포구 성미산로 160",
+    detailAddress: "휴먼빌",
+    receiver: "안승우",
+    phone1: "01011111111",
+    phone2: null,
+    isDefault: true,
+  },
+  {
+    id: 1,
+    name: "회원 주소",
+    zipCode: "11111",
+    address: "서울 마포구 성미산로 160",
+    detailAddress: "휴먼빌",
+    receiver: "안승우",
+    phone1: "01011111111",
+    phone2: null,
+    isDefault: false,
+  },
+  {
+    id: 2,
+    name: "회원 주소",
+    zipCode: "11111",
+    address: "서울 마포구 성미산로 160",
+    detailAddress: "휴먼빌",
+    receiver: "안승우",
+    phone1: "01011111111",
+    phone2: null,
+    isDefault: false,
+  },
+  {
+    id: 3,
+    name: "회원 주소",
+    zipCode: "11111",
+    address: "서울 마포구 성미산로 160",
+    detailAddress: "휴먼빌",
+    receiver: "안승우",
+    phone1: "01011111111",
+    phone2: null,
+    isDefault: false,
+  },
+];
+
+export default function AddressModal({
+  isOpen,
+  data,
+  onClose,
+  callback,
+}: IDeliveryModalProps) {
+  const [selectedAddress, setSelectedAddress] =
+    useState<IDeliveryAddress>(data);
+  const { setToast } = useToastify();
+
+  const onSubmit = () => {
+    callback(selectedAddress);
+    setToast({ comment: "배송지를 변경했어요" });
+    onClose();
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -64,8 +80,8 @@ export default function AddressModal({ isOpen, onClose }: IDeliveryModalProps) {
             <AddressItem
               data={el}
               key={el.id}
-              selectedId={selectedId}
-              onSelect={() => setSelectedId(el.id)}
+              isSelect={el === selectedAddress}
+              onSelect={() => setSelectedAddress(el)}
             />
           ))}
         </S.AddressItemsWrapper>
@@ -77,7 +93,8 @@ export default function AddressModal({ isOpen, onClose }: IDeliveryModalProps) {
           <Spacer width="8px" height="100%" />
           <S.SubmitButton
             className="bold14"
-            disabled={selectedId === undefined}
+            disabled={selectedAddress === data}
+            onClick={onSubmit}
           >
             수정하기
           </S.SubmitButton>
@@ -89,13 +106,13 @@ export default function AddressModal({ isOpen, onClose }: IDeliveryModalProps) {
 
 interface IAddressItemProps {
   data: IDeliveryAddress;
-  selectedId: number | undefined;
+  isSelect: boolean;
   onSelect: () => void;
 }
 
-function AddressItem({ data, selectedId, onSelect }: IAddressItemProps) {
+function AddressItem({ data, isSelect, onSelect }: IAddressItemProps) {
   return (
-    <S.AddressItemWrapper isSelect={data.id === selectedId} onClick={onSelect}>
+    <S.AddressItemWrapper isSelect={isSelect} onClick={onSelect}>
       <div className="flex-row-align-center">
         <p className="bold16">{data.name}</p>
         {data.isDefault && (

@@ -5,13 +5,19 @@ import { IDeliveryInfoSectionProps } from "./DetailSection.types";
 import { getPhoneNumber } from "@/src/lib/utils/utils";
 import { useState } from "react";
 import AddressModal from "@/src/components/commons/modal/detail/AddressModal.index";
+import { IDeliveryAddress } from "@/src/lib/apis/user/customer/Customer.types";
 
 export default function DeliveryInfoSection({
   data,
   role,
   status,
 }: IDeliveryInfoSectionProps) {
+  const [address, setAddress] = useState<IDeliveryAddress>(data);
   const [showModal, setShowModal] = useState(false);
+
+  const editAddressCallback = (newAddress: IDeliveryAddress) => {
+    setAddress(newAddress);
+  };
 
   return (
     <>
@@ -36,42 +42,47 @@ export default function DeliveryInfoSection({
           <Spacer width="100%" height="20px" />
           <S.InfoWrapper className="flex-row">
             <S.Label className="regular16">배송지명</S.Label>
-            <S.Content className="regular16">{data.name}</S.Content>
+            <S.Content className="regular16">{address.name}</S.Content>
           </S.InfoWrapper>
           <S.InfoWrapper className="flex-row">
             <S.Label className="regular16">수령인</S.Label>
-            <S.Content className="regular16">{data.receiver}</S.Content>
+            <S.Content className="regular16">{address.receiver}</S.Content>
           </S.InfoWrapper>
           <S.InfoWrapper className="flex-row">
             <S.Label className="regular16">우편번호</S.Label>
-            <S.Content className="regular16">{data.zipCode}</S.Content>
+            <S.Content className="regular16">{address.zipCode}</S.Content>
           </S.InfoWrapper>
           <S.InfoWrapper className="flex-row">
             <S.Label className="regular16">주소</S.Label>
-            <S.Content className="regular16">{data.address}</S.Content>
+            <S.Content className="regular16">{address.address}</S.Content>
           </S.InfoWrapper>
           <S.InfoWrapper className="flex-row">
             <S.Label className="regular16">상세 주소</S.Label>
             <S.Content className="regular16">
-              {data.detailAddress ? data.detailAddress : "-"}
+              {address.detailAddress ? address.detailAddress : "-"}
             </S.Content>
           </S.InfoWrapper>
           <S.InfoWrapper className="flex-row">
             <S.Label className="regular16">연락처1</S.Label>
             <S.Content className="regular16">
-              {getPhoneNumber(data.phone1)}
+              {getPhoneNumber(address.phone1)}
             </S.Content>
           </S.InfoWrapper>
           <S.InfoWrapper className="flex-row">
             <S.Label className="regular16">연락처2</S.Label>
             <S.Content className="regular16">
-              {data.phone2 ? getPhoneNumber(data.phone2) : "-"}
+              {address.phone2 ? getPhoneNumber(address.phone2) : "-"}
             </S.Content>
           </S.InfoWrapper>
           <Spacer width="100%" height="20px" />
         </S.Section>
       </S.Wrapper>
-      <AddressModal isOpen={showModal} onClose={() => setShowModal(false)} />
+      <AddressModal
+        isOpen={showModal}
+        data={address}
+        onClose={() => setShowModal(false)}
+        callback={editAddressCallback}
+      />
     </>
   );
 }
