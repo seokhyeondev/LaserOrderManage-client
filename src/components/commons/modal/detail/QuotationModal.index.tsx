@@ -10,7 +10,6 @@ import { ChangeEvent, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useCalendar } from "@/src/lib/hooks/useDate";
-import { getFileUrl } from "@/src/lib/utils/utils";
 
 export default function QuotationModal({
   isOpen,
@@ -18,9 +17,7 @@ export default function QuotationModal({
   onClose,
 }: IQuotationModalProps) {
   const [file, setFile] = useState<File>();
-  const [fileName, setFileName] = useState(
-    data ? getFileUrl(data?.fileUrl) : "",
-  );
+  const [fileName, setFileName] = useState(data ? data.fileName : "");
   const [cost, onChangeCost] = useInputWithRegex(
     numberRegex,
     "",

@@ -2,7 +2,7 @@ import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "./OrderDetailSection.styles";
 import EditIcon from "@/src/components/commons/icons/EditIcon.index";
 import styled from "@emotion/styled";
-import { getCost, getDate, getFileUrl } from "@/src/lib/utils/utils";
+import { getCost, getDate } from "@/src/lib/utils/utils";
 import { IQuotationInfoSectionProps } from "./DetailSection.types";
 import { useState } from "react";
 import QuotationModal from "@/src/components/commons/modal/detail/QuotationModal.index";
@@ -45,7 +45,7 @@ export default function QuotationInfoSection({
                 download={true}
                 target="_blank"
               >
-                {getFileUrl(data.fileUrl)}
+                {data.fileName}
               </QuotationName>
               <S.SideWrapper>
                 <S.SideBox>

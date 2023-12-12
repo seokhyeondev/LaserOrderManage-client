@@ -43,6 +43,7 @@ export interface IDetailDrawing {
 
 export interface IDetailQuotation {
   id: number;
+  fileName: string;
   fileUrl: string;
   totalCost: number;
   deliveryDate: any;

@@ -112,8 +112,3 @@ export const getPostprocessings = (keys: PostProcessing[]) => {
   keys.forEach((key) => postProcessings.push(getPostprocessing(key)));
   return postProcessings.join(", ");
 };
-
-export const getFileUrl = (url: string) => {
-  const urlParts = url.split("/");
-  return urlParts[urlParts.length - 1];
-};
