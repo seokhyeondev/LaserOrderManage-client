@@ -59,7 +59,9 @@ export const Input = styled.input<IInputProps>`
   }
 `;
 
-export const ButtonWrapper = styled.div``;
+export const ButtonWrapper = styled.div`
+  width: 100%;
+`;
 
 export const CancelButton = styled.button`
   width: 120px;
@@ -72,7 +74,8 @@ export const CancelButton = styled.button`
 export const SubmitButton = styled.button`
   width: 100%;
   height: 50px;
-  background-color: var(--color-primary);
+  background-color: ${(props) =>
+    props.disabled ? "var(--color-mediumGray)" : "var(--color-primary)"};
   color: var(--color-white);
   border-radius: var(--border-radius);
 `;
@@ -87,4 +90,40 @@ export const TextArea = styled.textarea`
   &::placeholder {
     color: var(--color-normalGray);
   }
+`;
+
+export const AddressItemsWrapper = styled.div`
+  width: 100%;
+  flex-grow: 1;
+  overflow-y: auto;
+`;
+
+interface IAddressItemWrapperProps {
+  isSelect: boolean;
+}
+
+export const AddressItemWrapper = styled.div<IAddressItemWrapperProps>`
+  width: 100%;
+  padding: 18px 24px;
+  border: 1px solid
+    ${(props) =>
+      props.isSelect ? "var(--color-primary)" : "var(--color-mediumGray)"};
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  margin-bottom: 16px;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+`;
+
+export const BasicAddressLabel = styled.p`
+  width: 70px;
+  height: 24px;
+  background-color: var(--color-primary);
+  border-radius: var(--border-radius);
+  color: var(--color-white);
+`;
+
+export const AddressUserInfo = styled.p`
+  color: var(--color-normalGray);
 `;

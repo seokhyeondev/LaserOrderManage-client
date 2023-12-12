@@ -1,4 +1,3 @@
-import UploadIcon from "../../icons/UploadIcon.index";
 import Spacer from "../../spacer/Spacer.index";
 import Modal from "../Modal.index";
 import { IPurchaseOrderModalProps } from "./DetailModal.types";
