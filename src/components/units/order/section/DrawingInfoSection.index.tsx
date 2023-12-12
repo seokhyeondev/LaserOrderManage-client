@@ -11,6 +11,7 @@ import {
   IDrawingInfoSectionProps,
 } from "./DetailSection.types";
 import EditDrawingModal from "@/src/components/commons/modal/detail/EditDrawingModal.index";
+import AddDrawingModal from "@/src/components/commons/modal/detail/AddDrawingModal.index";
 
 export default function DrawingInfoSection({
   sectionRef,
@@ -26,8 +27,6 @@ export default function DrawingInfoSection({
   useEffect(() => {
     setDrawings(data);
   }, [data]);
-
-  const onAddDrawing = () => {};
 
   const onEditDrawing = (drawing: IDetailDrawing) => {
     setTargetDrawing(drawing);
@@ -46,7 +45,10 @@ export default function DrawingInfoSection({
           <S.Title className="bold18">도면 정보</S.Title>
           {role === "ROLE_CUSTOMER" &&
             (status === "견적 대기" || status === "견적 승인") && (
-              <S.EditBox className="flex-row" onClick={onAddDrawing}>
+              <S.EditBox
+                className="flex-row"
+                onClick={() => setShowAddModal(true)}
+              >
                 <EditIcon size={20} />
                 <Spacer width="5px" height="100%" />
                 <S.EditBoxText className="regular16">
@@ -84,6 +86,11 @@ export default function DrawingInfoSection({
           onClose={() => setShowEditModal(false)}
         />
       )}
+
+      <AddDrawingModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+      />
     </>
   );
 }

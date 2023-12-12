@@ -72,7 +72,9 @@ export default function EditDrawingModal({
             취소
           </S.CancelButton>
           <Spacer width="8px" height="100%" />
-          <S.SubmitButton className="bold14">수정하기</S.SubmitButton>
+          <S.SubmitButton className="bold14" disabled={count === ""}>
+            수정하기
+          </S.SubmitButton>
         </S.ButtonWrapper>
       </S.Wrapper>
     </Modal>
