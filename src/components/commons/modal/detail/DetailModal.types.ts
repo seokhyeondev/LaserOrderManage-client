@@ -8,6 +8,7 @@ import { IDeliveryAddress } from "@/src/lib/apis/user/customer/Customer.types";
 
 export interface IQuotationModalProps extends IModalProps {
   data: IDetailQuotation | null;
+  callback: (newQuotation: IDetailQuotation) => void;
 }
 
 export interface IPurchaseOrderModalProps extends IModalProps {

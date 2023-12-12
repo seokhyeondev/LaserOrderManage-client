@@ -6,6 +6,7 @@ import { getCost, getDate } from "@/src/lib/utils/utils";
 import { IQuotationInfoSectionProps } from "./DetailSection.types";
 import { useState } from "react";
 import QuotationModal from "@/src/components/commons/modal/detail/QuotationModal.index";
+import { IDetailQuotation } from "@/src/lib/apis/order/detail/OrderDetail.types";
 
 export default function QuotationInfoSection({
   sectionRef,
@@ -14,6 +15,11 @@ export default function QuotationInfoSection({
   status,
 }: IQuotationInfoSectionProps) {
   const [showModal, setShowModal] = useState(false);
+  const [quotation, setQuotation] = useState(data);
+
+  const editQuotationCallback = (newQuotation: IDetailQuotation) => {
+    setQuotation(newQuotation);
+  };
 
   return (
     <>
@@ -31,7 +37,7 @@ export default function QuotationInfoSection({
           )}
         </S.TitleWrapper>
         <S.Section className="flex-row">
-          {data === null ? (
+          {quotation === null ? (
             <EmptyQuotation className="regular16 flex-center">
               {role === "ROLE_FACTORY" && status === "견적 대기"
                 ? "견적서를 추가해주세요"
@@ -41,29 +47,29 @@ export default function QuotationInfoSection({
             <>
               <QuotationName
                 className="medium20 flex-column"
-                href={data.fileUrl}
+                href={quotation.fileUrl}
                 download={true}
                 target="_blank"
               >
-                {data.fileName}
+                {quotation.fileName}
               </QuotationName>
               <S.SideWrapper>
                 <S.SideBox>
                   <S.SideLabel className="regular14">발행 일자</S.SideLabel>
                   <S.SideContent className="regular14">
-                    {getDate(data.createdAt)}
+                    {getDate(quotation.createdAt)}
                   </S.SideContent>
                 </S.SideBox>
                 <S.SideBox>
                   <S.SideLabel className="regular14">납기일</S.SideLabel>
                   <S.SideContent className="regular14">
-                    {getDate(data.deliveryDate)}
+                    {getDate(quotation.deliveryDate)}
                   </S.SideContent>
                 </S.SideBox>
                 <S.SideBox>
                   <S.SideLabel className="regular14">총 견적 비용</S.SideLabel>
                   <S.SideContent className="bold16">
-                    {getCost(data.totalCost)}
+                    {getCost(quotation.totalCost)}
                   </S.SideContent>
                 </S.SideBox>
               </S.SideWrapper>
@@ -73,7 +79,8 @@ export default function QuotationInfoSection({
       </S.Wrapper>
       <QuotationModal
         isOpen={showModal}
-        data={data}
+        data={quotation}
+        callback={editQuotationCallback}
         onClose={() => setShowModal(false)}
       />
     </>

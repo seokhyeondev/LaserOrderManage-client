@@ -10,10 +10,13 @@ import { ChangeEvent, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useCalendar } from "@/src/lib/hooks/useDate";
+import { getParamDate } from "@/src/lib/utils/utils";
+import { useToastify } from "@/src/lib/hooks/useToastify";
 
 export default function QuotationModal({
   isOpen,
   data,
+  callback,
   onClose,
 }: IQuotationModalProps) {
   const [file, setFile] = useState<File>();
@@ -24,8 +27,8 @@ export default function QuotationModal({
     data ? String(data.totalCost) : undefined,
   );
   const dateArgs = useCalendar(data ? new Date(data.deliveryDate) : undefined);
-
   const hiddenFileInput = useRef<HTMLInputElement>(null);
+  const { setToast } = useToastify();
 
   const onUpload = () => {
     hiddenFileInput?.current?.click();
@@ -39,7 +42,22 @@ export default function QuotationModal({
     }
   };
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    const payload = new FormData();
+    if (file) payload.append("file", file);
+    payload.append("totalCost", cost);
+    payload.append("deliveryDate", getParamDate(dateArgs.date));
+    callback({
+      id: data ? data.id : 0,
+      fileName: fileName,
+      fileUrl: "",
+      totalCost: Number(cost),
+      deliveryDate: getParamDate(dateArgs.date),
+      createdAt: new Date(),
+    });
+    setToast({ comment: data ? "견적서를 수정했어요" : "견적서를 추가했어요" });
+    onClose();
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
