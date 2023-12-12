@@ -88,6 +88,9 @@ export default function OrderDetail() {
               data={data.quotation}
               role={auth.role}
               status={status}
+              scrollPage={() =>
+                scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
+              }
             />
             <Spacer width="100%" height="60px" />
             <PurchaseOrderInfoSection

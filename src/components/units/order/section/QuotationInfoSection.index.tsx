@@ -7,12 +7,14 @@ import { IQuotationInfoSectionProps } from "./DetailSection.types";
 import { useState } from "react";
 import QuotationModal from "@/src/components/commons/modal/detail/QuotationModal.index";
 import { IDetailQuotation } from "@/src/lib/apis/order/detail/OrderDetail.types";
+import OrderDetailBottombar from "../bottombar/OrderDetailBottombar.index";
 
 export default function QuotationInfoSection({
   sectionRef,
   data,
   role,
   status,
+  scrollPage,
 }: IQuotationInfoSectionProps) {
   const [showModal, setShowModal] = useState(false);
   const [quotation, setQuotation] = useState(data);
@@ -82,6 +84,16 @@ export default function QuotationInfoSection({
         data={quotation}
         callback={editQuotationCallback}
         onClose={() => setShowModal(false)}
+      />
+      <OrderDetailBottombar
+        showCondition={
+          role === "ROLE_FACTORY" &&
+          status === "견적 대기" &&
+          quotation === null
+        }
+        announce="견적서를 추가해주세요!"
+        buttonText="견적서 추가하기"
+        onButton={scrollPage}
       />
     </>
   );
