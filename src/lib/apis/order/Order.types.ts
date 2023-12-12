@@ -1,4 +1,4 @@
-export interface ICustomerOrderResponse {
+export type ICustomerOrderResponse = {
   contents: ICustomerOrder[];
   page: number;
   size: number;
@@ -6,7 +6,7 @@ export interface ICustomerOrderResponse {
   totalPages: number;
   first: boolean;
   last: boolean;
-}
+};
 
 export type OrderStatus =
   | "견적 대기"
@@ -19,7 +19,7 @@ export type Manufacturing = "laser-cutting" | "bending" | "welding-fabrication";
 
 export type PostProcessing = "painting" | "plating";
 
-export interface ICustomerOrder {
+export type ICustomerOrder = {
   id: number;
   name: string;
   imgUrl: string;
@@ -30,9 +30,9 @@ export interface ICustomerOrder {
   deliveryAt: any | null;
   cost: number | null;
   request: string | null;
-}
+};
 
-export interface IFactoryNewOrderResponse {
+export type IFactoryNewOrderResponse = {
   contents: IFactoryNewOrder[];
   page: number;
   size: number;
@@ -40,9 +40,9 @@ export interface IFactoryNewOrderResponse {
   totalPages: number;
   first: boolean;
   last: boolean;
-}
+};
 
-export interface IFactoryNewOrder {
+export type IFactoryNewOrder = {
   id: number;
   name: string;
   customer: string;
@@ -56,9 +56,9 @@ export interface IFactoryNewOrder {
   deliveryAt: any | null;
   cost: number | null;
   request: string | null;
-}
+};
 
-export interface IFactoryOrderResponse {
+export type IFactoryOrderResponse = {
   contents: IFactoryOrder[];
   page: number;
   size: number;
@@ -66,9 +66,9 @@ export interface IFactoryOrderResponse {
   totalPages: number;
   first: boolean;
   last: boolean;
-}
+};
 
-export interface IFactoryOrder {
+export type IFactoryOrder = {
   id: number;
   name: string;
   customer: string;
@@ -81,4 +81,4 @@ export interface IFactoryOrder {
   deliveryAt: any | null;
   cost: number | null;
   request: string | null;
-}
+};

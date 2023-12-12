@@ -2,7 +2,7 @@ import { IBaseListResponse } from "@/src/lib/apis/base/base.types";
 import { IDeliveryAddress } from "@/src/lib/apis/user/customer/Customer.types";
 import { Manufacturing, PostProcessing } from "../Order.types";
 
-export interface IOrderCreateRequest {
+export type IOrderCreateRequest = {
   name: string;
   manufacturing: Manufacturing[];
   postProcessing: PostProcessing[];
@@ -10,11 +10,11 @@ export interface IOrderCreateRequest {
   request: string;
   deliveryAddressId: number;
   isNewIssue: boolean;
-}
+};
 
-export interface IOrderCreateResponse {}
+export type IOrderCreateResponse = {};
 
-export interface IDrawing {
+export type IDrawing = {
   thumbnailUrl: string;
   fileName: string;
   fileSize: number;
@@ -23,17 +23,17 @@ export interface IDrawing {
   count: number;
   ingredient: string;
   thickness: number;
-}
+};
 
-export interface IDrawingResponse {
+export type IDrawingResponse = {
   thumbnailUrl: string;
   fileName: string;
   fileSize: number;
   fileType: string;
   fileUrl: string;
-}
+};
 
-export interface IOrderHistoryResponse {
+export type IOrderHistoryResponse = {
   id: number;
   name: string;
   manufacturingList: Manufacturing[];
@@ -41,14 +41,13 @@ export interface IOrderHistoryResponse {
   drawingList: IDrawing[];
   request: string | null;
   deliveryAddress: IDeliveryAddress;
-}
+};
 
-export interface IOrderHistoryListResponse
-  extends IBaseListResponse<IOrderHistory> {}
+export type IOrderHistoryListResponse = IBaseListResponse<IOrderHistory> & {};
 
-export interface IOrderHistory {
+export type IOrderHistory = {
   id: number;
   name: string;
   imgUrl: string;
   createdAt: any;
-}
+};

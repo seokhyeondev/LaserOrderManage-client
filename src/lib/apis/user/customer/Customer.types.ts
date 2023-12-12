@@ -1,9 +1,9 @@
-export interface IDeliveryAddressListResponse {
+export type IDeliveryAddressListResponse = {
   contents: IDeliveryAddress[];
   totalElements: number;
-}
+};
 
-export interface IDeliveryAddressRequest {
+export type IDeliveryAddressRequest = {
   deliveryName: string;
   zipCode: string;
   address: string;
@@ -12,11 +12,11 @@ export interface IDeliveryAddressRequest {
   phone1: string;
   phone2: string | null;
   isDefault: boolean;
-}
+};
 
-export interface IDeliveryAddressResponse {}
+export type IDeliveryAddressResponse = {};
 
-export interface IDeliveryAddress {
+export type IDeliveryAddress = {
   id: number;
   name: string;
   zipCode: string;
@@ -26,4 +26,4 @@ export interface IDeliveryAddress {
   phone1: string;
   phone2: string | null;
   isDefault: boolean;
-}
+};
