@@ -7,10 +7,14 @@ import { useCalendar } from "@/src/lib/hooks/useDate";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useInput } from "@/src/lib/hooks/useInput";
+import { IDetailEditPurchaseOrderRequest } from "@/src/lib/apis/order/detail/OrderDetail.types";
+import { getParamDate } from "@/src/lib/utils/utils";
+import { useToastify } from "@/src/lib/hooks/useToastify";
 
 export default function PurchaseOrderModal({
   isOpen,
   data,
+  callback,
   onClose,
 }: IPurchaseOrderModalProps) {
   const paymentDateArgs = useCalendar(
@@ -20,8 +24,24 @@ export default function PurchaseOrderModal({
     data ? new Date(data.inspectionPeriod) : undefined,
   );
   const [condition, onChangeCondition] = useInput(data?.inspectionCondition);
+  const { setToast } = useToastify();
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    const payload: IDetailEditPurchaseOrderRequest = {
+      inspectionPeriod: getParamDate(inspectionDateArgs.date),
+      inspectionCondition: condition,
+      paymentDate: getParamDate(paymentDateArgs.date),
+    };
+    callback({
+      id: data ? data.id : 0,
+      inspectionPeriod: payload.inspectionPeriod,
+      inspectionCondition: payload.inspectionCondition,
+      paymentDate: payload.paymentDate,
+      createdAt: new Date(),
+    });
+    setToast({ comment: data ? "발주서를 수정했어요" : "발주서를 추가했어요" });
+    onClose();
+  };
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <S.Wrapper width={400}>

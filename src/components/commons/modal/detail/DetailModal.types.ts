@@ -12,6 +12,7 @@ export interface IQuotationModalProps extends IModalProps {
 
 export interface IPurchaseOrderModalProps extends IModalProps {
   data: IDetailPurchaseOrder | null;
+  callback: (newPurchaseOrder: IDetailPurchaseOrder) => void;
 }
 
 export interface IDeliveryModalProps extends IModalProps {

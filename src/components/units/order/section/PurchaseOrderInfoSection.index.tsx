@@ -6,6 +6,7 @@ import { getDate } from "@/src/lib/utils/utils";
 import { IPurchaseOrderInfoSectionProps } from "./DetailSection.types";
 import { useState } from "react";
 import PurchaseOrderModal from "@/src/components/commons/modal/detail/PurchaseOrderModal.index";
+import { IDetailPurchaseOrder } from "@/src/lib/apis/order/detail/OrderDetail.types";
 
 export default function PurchaseOrderInfoSection({
   data,
@@ -13,7 +14,13 @@ export default function PurchaseOrderInfoSection({
   status,
 }: IPurchaseOrderInfoSectionProps) {
   const [showModal, setShowModal] = useState(false);
+  const [purchaseOrder, setPurchaseOrder] = useState(data);
 
+  const editPurchaseOrderCallback = (
+    newPurchaseOrder: IDetailPurchaseOrder,
+  ) => {
+    setPurchaseOrder(newPurchaseOrder);
+  };
   return (
     <>
       <S.Wrapper>
@@ -30,7 +37,7 @@ export default function PurchaseOrderInfoSection({
           )}
         </S.TitleWrapper>
         <S.Section className="flex-row">
-          {data === null ? (
+          {purchaseOrder === null ? (
             <EmptyPurchaseOrder className="regular16 flex-center">
               {role === "ROLE_CUSTOMER" && status === "견적 승인"
                 ? "발주서를 추가해주세요"
@@ -39,25 +46,25 @@ export default function PurchaseOrderInfoSection({
           ) : (
             <>
               <PurchaseOrder className="regular16">
-                {data.inspectionCondition}
+                {purchaseOrder.inspectionCondition}
               </PurchaseOrder>
               <S.SideWrapper>
                 <S.SideBox>
                   <S.SideLabel className="regular14">발행 일자</S.SideLabel>
                   <S.SideContent className="regular14">
-                    {getDate(data.createdAt)}
+                    {getDate(purchaseOrder.createdAt)}
                   </S.SideContent>
                 </S.SideBox>
                 <S.SideBox>
                   <S.SideLabel className="regular14">검수 기간</S.SideLabel>
                   <S.SideContent className="regular14">{`~ ${getDate(
-                    data.inspectionPeriod,
+                    purchaseOrder.inspectionPeriod,
                   )}`}</S.SideContent>
                 </S.SideBox>
                 <S.SideBox>
                   <S.SideLabel className="regular14">지급 일자</S.SideLabel>
                   <S.SideContent className="bold16">
-                    {getDate(data.paymentDate)}
+                    {getDate(purchaseOrder.paymentDate)}
                   </S.SideContent>
                 </S.SideBox>
               </S.SideWrapper>
@@ -67,7 +74,8 @@ export default function PurchaseOrderInfoSection({
       </S.Wrapper>
       <PurchaseOrderModal
         isOpen={showModal}
-        data={data}
+        data={purchaseOrder}
+        callback={editPurchaseOrderCallback}
         onClose={() => setShowModal(false)}
       />
     </>
