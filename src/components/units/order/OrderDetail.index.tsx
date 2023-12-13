@@ -27,6 +27,10 @@ export default function OrderDetail() {
   const [status, setStatus] = useState<OrderStatus>();
   const scrollArgs = useOrderDetailScroll();
   const { setToast } = useToastify();
+  const { data, isSuccess } = useQuery({
+    queryKey: [`orderDetail/${orderId}`],
+    queryFn: () => OrderDetailApi.GET_ORDER_DETAIL(String(orderId)),
+  });
 
   useEffect(() => {
     window.addEventListener("scroll", scrollArgs.checkFocus);
@@ -34,11 +38,6 @@ export default function OrderDetail() {
       window.removeEventListener("scroll", scrollArgs.checkFocus);
     };
   }, []);
-
-  const { data, isSuccess } = useQuery({
-    queryKey: [`orderDetail/${orderId}`],
-    queryFn: () => OrderDetailApi.GET_ORDER_DETAIL(String(orderId)),
-  });
 
   useEffect(() => {
     if (data) {
@@ -64,7 +63,10 @@ export default function OrderDetail() {
             {auth.role === "ROLE_FACTORY" && status !== "거래 완료" && (
               <>
                 <Spacer width="100%" height="48px" />
-                <UrgentSection isUrgent={data.order.isUrgent} />
+                <UrgentSection
+                  isUrgent={data.order.isUrgent}
+                  orderId={String(orderId)}
+                />
               </>
             )}
             <Spacer width="100%" height="60px" />
@@ -74,6 +76,7 @@ export default function OrderDetail() {
               data={data.order.deliveryAddress}
               role={auth.role}
               status={status}
+              orderId={String(orderId)}
             />
             <Spacer width="100%" height="60px" />
             <DrawingInfoSection
@@ -81,6 +84,7 @@ export default function OrderDetail() {
               data={data.order.drawingList}
               role={auth.role}
               status={status}
+              orderId={String(orderId)}
             />
             <Spacer width="100%" height="60px" />
             <QuotationInfoSection
@@ -88,6 +92,7 @@ export default function OrderDetail() {
               data={data.quotation}
               role={auth.role}
               status={status}
+              orderId={String(orderId)}
               scrollPage={() =>
                 scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
               }
@@ -98,6 +103,7 @@ export default function OrderDetail() {
               name={data.customer.name}
               role={auth.role}
               status={status}
+              orderId={String(orderId)}
               scrollPage={() =>
                 scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
               }

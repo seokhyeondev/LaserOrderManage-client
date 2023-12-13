@@ -13,6 +13,7 @@ import { RefObject } from "react";
 interface IDetailSectionProps {
   role: UserType;
   status: OrderStatus | undefined;
+  orderId: string;
 }
 
 export type FocusableSection = "OrderInfo" | "DrawingInfo" | "QuotationInfo";
@@ -25,6 +26,7 @@ export interface IOrderInfoSectionProps {
 
 export interface IUrgentSectionProps {
   isUrgent: boolean;
+  orderId: string;
 }
 
 export interface ICustomerInfoSectionProps {

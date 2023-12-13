@@ -3,21 +3,47 @@ import * as S from "./OrderDetailSection.styles";
 import styled from "@emotion/styled";
 import { IUrgentSectionProps } from "./DetailSection.types";
 import { IDetailUrgentRequest } from "@/src/lib/apis/order/detail/OrderDetail.types";
+import { useMutation } from "@tanstack/react-query";
+import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
+import { useToastify } from "@/src/lib/hooks/useToastify";
 
 const URGENT_SELECT = [
   { status: false, name: "일반 거래" },
   { status: true, name: "긴급 거래" },
 ];
 
-export default function UrgentSection({ isUrgent }: IUrgentSectionProps) {
+export default function UrgentSection({
+  isUrgent,
+  orderId,
+}: IUrgentSectionProps) {
   const [selectStatus, setSelectStatus] = useState(isUrgent);
+  const { setToast } = useToastify();
+
+  const { mutate } = useMutation({
+    mutationFn: OrderDetailApi.PUT_ORDER_URGENT,
+    onError: () => {
+      setToast({ comment: "거래 상태를 변경할 수 없어요" });
+    },
+  });
 
   const onSelect = (status: boolean) => {
     if (status !== selectStatus) {
       const payload: IDetailUrgentRequest = {
         isUrgent: status,
       };
-      setSelectStatus(status);
+      // mutate(
+      //   { id: orderId, payload: payload },
+      //   {
+      //     onSuccess: () => {
+      //       setSelectStatus(status);
+      //       setToast({
+      //         comment: status
+      //           ? "긴급 거래로 설정했어요"
+      //           : "일반 거래로 설정했어요",
+      //       });
+      //     },
+      //   },
+      // );
     }
   };
 
