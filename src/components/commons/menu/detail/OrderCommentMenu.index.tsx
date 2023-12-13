@@ -7,8 +7,8 @@ import {
 import { RefObject, useEffect, useRef, useState } from "react";
 import { useInputWithMaxLength } from "@/src/lib/hooks/useInput";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { OrderApi } from "@/src/lib/apis/order/OrderApi";
-import { getDate, getDateTime } from "@/src/lib/utils/utils";
+import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
+import { getDateTime } from "@/src/lib/utils/utils";
 import { AxiosError } from "axios";
 import { IHttpStatus } from "@/src/lib/apis/axios";
 import { useToastify } from "@/src/lib/hooks/useToastify";
@@ -29,7 +29,7 @@ export default function OrderCommentMenu({
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: [`orderDetailComments/${orderId}`],
-    queryFn: () => OrderApi.GET_ORDER_COMMENTS(orderId),
+    queryFn: () => OrderDetailApi.GET_ORDER_COMMENTS(orderId),
   });
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function OrderCommentMenu({
   }, [data, isLoading]);
 
   const { mutate } = useMutation({
-    mutationFn: OrderApi.POST_ORDER_COMMENT,
+    mutationFn: OrderDetailApi.POST_ORDER_COMMENT,
     onSuccess: () => {
       inputArgs.setValue("");
       refetch();

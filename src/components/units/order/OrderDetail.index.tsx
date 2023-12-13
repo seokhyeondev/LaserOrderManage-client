@@ -18,7 +18,7 @@ import { OrderStatus } from "@/src/lib/apis/order/Order.types";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
-import { OrderApi } from "@/src/lib/apis/order/OrderApi";
+import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 
 export default function OrderDetail() {
   const router = useRouter();
@@ -37,7 +37,7 @@ export default function OrderDetail() {
 
   const { data, isSuccess } = useQuery({
     queryKey: [`orderDetail/${orderId}`],
-    queryFn: () => OrderApi.GET_ORDER_DETAIL(String(orderId)),
+    queryFn: () => OrderDetailApi.GET_ORDER_DETAIL(String(orderId)),
   });
 
   useEffect(() => {
