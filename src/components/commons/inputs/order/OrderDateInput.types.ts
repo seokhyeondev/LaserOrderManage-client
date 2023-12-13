@@ -1,6 +1,4 @@
-type ValuePiece = Date | null;
-
-export type Value = ValuePiece | [ValuePiece, ValuePiece];
+import { DateValue } from "@/src/lib/hooks/useDate";
 
 export interface ICalenderProps {
   isOpen: boolean;
@@ -8,5 +6,5 @@ export interface ICalenderProps {
 
 export interface IOrderDateInputProps {
   date: string;
-  setDate: (date: Value) => void;
+  setDate: (date: DateValue) => void;
 }

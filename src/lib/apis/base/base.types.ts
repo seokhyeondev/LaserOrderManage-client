@@ -1,4 +1,4 @@
-export interface IBaseListResponse<T> {
+export type IBaseListResponse<T> = {
   contents: T[];
   page: number;
   size: number;
@@ -6,4 +6,4 @@ export interface IBaseListResponse<T> {
   totalPages: number;
   first: boolean;
   last: boolean;
-}
+};

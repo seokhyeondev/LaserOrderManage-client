@@ -49,8 +49,11 @@ export interface IDrawingInfoItemProps extends IDetailSectionProps {
 export interface IQuotationInfoSectionProps extends IDetailSectionProps {
   sectionRef: RefObject<HTMLDivElement>;
   data: IDetailQuotation | null;
+  scrollPage: () => void;
 }
 
 export interface IPurchaseOrderInfoSectionProps extends IDetailSectionProps {
   data: IDetailPurchaseOrder | null;
+  name: string;
+  scrollPage: () => void;
 }

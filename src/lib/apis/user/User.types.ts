@@ -1,37 +1,37 @@
 import { UserType } from "@/src/store/auth";
 
-export interface ILoginRequest {
+export type ILoginRequest = {
   email: string;
   password: string;
-}
+};
 
-export interface IToken {
+export type IToken = {
   role: UserType;
   grantType: string;
   accessToken: string;
   accessTokenExpirationTime: string;
-}
+};
 
-export interface IRequestVerifyResponse {
+export type IRequestVerifyResponse = {
   email: string | null;
   name: string | null;
   createdAt: any | null;
   status: string;
-}
+};
 
-export interface IVerifyEmailRequest {
+export type IVerifyEmailRequest = {
   email: string;
   code: string;
-}
+};
 
-export interface IVerifyEmailResponse {
+export type IVerifyEmailResponse = {
   email: string | null;
   name: string | null;
   createdAt: any | null;
   status: string;
-}
+};
 
-export interface IJoinRequest {
+export type IJoinRequest = {
   email: string;
   password: string;
   name: string;
@@ -40,12 +40,11 @@ export interface IJoinRequest {
   zipCode: string;
   address: string;
   detailAddress: string | null;
-}
+};
 
-export interface IJoinResponse {
+export type IJoinResponse = {
   email: string;
   name: string;
   createdAt: any;
   status: string;
-}
-
+};

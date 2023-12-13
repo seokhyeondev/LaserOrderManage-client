@@ -13,7 +13,7 @@ export default function OrderDetailBottombar(
   return (
     <S.Wrapper className="flex-row-between-center" show={props.showCondition}>
       <S.Announce className="medium20">{props.announce}</S.Announce>
-      <S.BottombarButton className="bold20" onClick={props.onButton}>
+      <S.BottombarButton className="bold18" onClick={props.onButton}>
         {props.buttonText}
       </S.BottombarButton>
     </S.Wrapper>

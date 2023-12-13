@@ -61,7 +61,7 @@ export default function OrderDetail() {
               data={data.order}
               status={status}
             />
-            {auth.role === "ROLE_FACTORY" && (
+            {auth.role === "ROLE_FACTORY" && status !== "거래 완료" && (
               <>
                 <Spacer width="100%" height="48px" />
                 <UrgentSection isUrgent={data.order.isUrgent} />
@@ -88,12 +88,19 @@ export default function OrderDetail() {
               data={data.quotation}
               role={auth.role}
               status={status}
+              scrollPage={() =>
+                scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
+              }
             />
             <Spacer width="100%" height="60px" />
             <PurchaseOrderInfoSection
               data={data.purchaseOrder}
+              name={data.customer.name}
               role={auth.role}
               status={status}
+              scrollPage={() =>
+                scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
+              }
             />
           </>
         )}
