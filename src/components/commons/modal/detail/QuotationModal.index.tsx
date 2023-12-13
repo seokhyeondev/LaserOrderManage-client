@@ -12,10 +12,13 @@ import "react-calendar/dist/Calendar.css";
 import { useCalendar } from "@/src/lib/hooks/useDate";
 import { getParamDate } from "@/src/lib/utils/utils";
 import { useToastify } from "@/src/lib/hooks/useToastify";
+import { useMutation } from "@tanstack/react-query";
+import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 
 export default function QuotationModal({
   isOpen,
   data,
+  orderId,
   callback,
   onClose,
 }: IQuotationModalProps) {
@@ -42,21 +45,38 @@ export default function QuotationModal({
     }
   };
 
+  const { mutate } = useMutation({
+    mutationFn: OrderDetailApi.PUT_ORDER_QUOTATION,
+    onError: () => {
+      setToast({ comment: "견적서 등록에 실패했어요" });
+    },
+  });
+
   const onSubmit = () => {
     const payload = new FormData();
     if (file) payload.append("file", file);
     payload.append("totalCost", cost);
     payload.append("deliveryDate", getParamDate(dateArgs.date));
-    callback({
-      id: data ? data.id : 0,
-      fileName: fileName,
-      fileUrl: "",
-      totalCost: Number(cost),
-      deliveryDate: getParamDate(dateArgs.date),
-      createdAt: new Date(),
-    });
-    setToast({ comment: data ? "견적서를 수정했어요" : "견적서를 추가했어요" });
-    onClose();
+    // mutate(
+    //   { id: orderId, payload: payload },
+    //   {
+    //     onSuccess: (data) => {
+    //       callback({
+    //         id: data.id,
+    //         fileName: data.fileName,
+    //         fileUrl: data.fileUrl,
+    //         totalCost: Number(cost),
+    //         deliveryDate: getParamDate(dateArgs.date),
+    //         createdAt: new Date(),
+    //       });
+    //       setToast({
+    //         comment: data ? "견적서를 수정했어요" : "견적서를 추가했어요",
+    //       });
+    //       setFile(undefined);
+    //       onClose();
+    //     },
+    //   },
+    // );
   };
 
   return (
