@@ -13,6 +13,8 @@ import {
 import EditDrawingModal from "@/src/components/commons/modal/detail/EditDrawingModal.index";
 import AddDrawingModal from "@/src/components/commons/modal/detail/AddDrawingModal.index";
 import { useToastify } from "@/src/lib/hooks/useToastify";
+import { useMutation } from "@tanstack/react-query";
+import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 
 export default function DrawingInfoSection({
   sectionRef,
@@ -44,14 +46,28 @@ export default function DrawingInfoSection({
     setDrawings([...drawings, newDrawing]);
   };
 
+  const { mutate } = useMutation({
+    mutationFn: OrderDetailApi.DELETE_ORDER_DRAWING,
+    onError: () => {
+      setToast({ comment: "도면 삭제를 실패했어요" });
+    },
+  });
+
   const onDeleteDrawing = (id: number) => {
     if (drawings.length === 1) {
       setToast({ comment: "도면은 모두 삭제할 수 없어요" });
       return;
     }
-    const updatedDrawings = drawings.filter((el) => el.id !== id);
-    setDrawings(updatedDrawings);
-    setToast({ comment: "도면을 삭제했어요" });
+    // mutate(
+    //   { id: orderId, drawingId: id },
+    //   {
+    //     onSuccess: () => {
+    //       const updatedDrawings = drawings.filter((el) => el.id !== id);
+    //       setDrawings(updatedDrawings);
+    //       setToast({ comment: "도면을 삭제했어요" });
+    //     },
+    //   },
+    // );
   };
 
   return (

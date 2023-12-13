@@ -86,7 +86,7 @@ export const OrderDetailApi = {
     payload,
   }: {
     id: string;
-    drawingId: string;
+    drawingId: number;
     payload: IDetailEditDrawingRequest;
   }): Promise<IDetailEditDrawingResponse> => {
     const response = await axiosPrivate.put(
@@ -100,7 +100,7 @@ export const OrderDetailApi = {
     drawingId,
   }: {
     id: string;
-    drawingId: string;
+    drawingId: number;
   }): Promise<IDetailDeleteDrawingResponse> => {
     const response = await axiosPrivate.delete(
       `/customer/order/${id}/drawing/${drawingId}`,
