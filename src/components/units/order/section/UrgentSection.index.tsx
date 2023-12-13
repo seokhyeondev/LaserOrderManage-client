@@ -2,6 +2,7 @@ import { useState } from "react";
 import * as S from "./OrderDetailSection.styles";
 import styled from "@emotion/styled";
 import { IUrgentSectionProps } from "./DetailSection.types";
+import { IDetailUrgentRequest } from "@/src/lib/apis/order/detail/OrderDetail.types";
 
 const URGENT_SELECT = [
   { status: false, name: "일반 거래" },
@@ -13,6 +14,9 @@ export default function UrgentSection({ isUrgent }: IUrgentSectionProps) {
 
   const onSelect = (status: boolean) => {
     if (status !== selectStatus) {
+      const payload: IDetailUrgentRequest = {
+        isUrgent: status,
+      };
       setSelectStatus(status);
     }
   };
