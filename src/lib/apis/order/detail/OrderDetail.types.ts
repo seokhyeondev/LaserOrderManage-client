@@ -113,10 +113,26 @@ export type IDetailEditDrawingResponse = {};
 
 export type IDetailDeleteDrawingResponse = {};
 
-export type IDetailEditQuotationResponse = {};
+export type IDetailEditQuotationResponse = {
+  id: number;
+  fileName: string;
+  fileUrl: string;
+};
+
+export type IDetailAcceptQuotationResponse = {};
 
 export type IDetailEditPurchaseOrderRequest = {
   inspectionPeriod: string;
   inspectionCondition: string;
   paymentDate: string;
 };
+
+export type IDetailEditPurchaseOrderResponse = {
+  id: number;
+};
+
+export type IDetailAcceptPurchaseOrderResponse = {};
+
+export type IDetailAcceptShippingResponse = {};
+
+export type IDetailAcceptCompletedResponse = {};
