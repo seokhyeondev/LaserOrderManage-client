@@ -8,10 +8,14 @@ import { numberRegex } from "@/src/lib/constants/regex";
 import { INGREDIENTS, MAX_THICKNESS } from "@/src/lib/constants/constant";
 import { useOptions } from "@/src/lib/hooks/useSelect";
 import { useToastify } from "@/src/lib/hooks/useToastify";
+import { useMutation } from "@tanstack/react-query";
+import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
+import { IDetailEditDrawingRequest } from "@/src/lib/apis/order/detail/OrderDetail.types";
 
 export default function EditDrawingModal({
   isOpen,
   data,
+  orderId,
   callback,
   onClose,
 }: IEditDrawingModalProps) {
@@ -24,16 +28,32 @@ export default function EditDrawingModal({
   const [thickness, onChangeThickness] = useOptions(String(data.thickness));
   const { setToast } = useToastify();
 
+  const { mutate } = useMutation({
+    mutationFn: OrderDetailApi.PUT_ORDER_DRAWING,
+    onSuccess: () => {
+      callback({
+        ...data,
+        count: Number(count),
+        ingredient: ingredient,
+        thickness: Number(thickness),
+      });
+      setToast({ comment: "도면을 수정했어요" });
+      onClose();
+    },
+    onError: () => {
+      setToast({ comment: "도면 수정을 실패했어요" });
+    },
+  });
+
   const onSubmit = () => {
-    callback({
-      ...data,
+    const payload: IDetailEditDrawingRequest = {
       count: Number(count),
       ingredient: ingredient,
       thickness: Number(thickness),
-    });
-    setToast({ comment: "도면을 수정했어요" });
-    onClose();
+    };
+    // mutate({ id: orderId, drawingId: data.id, payload: payload });
   };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <S.Wrapper width={400}>
