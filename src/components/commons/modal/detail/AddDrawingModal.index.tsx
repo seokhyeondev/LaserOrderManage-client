@@ -15,6 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import { OrderCreateApi } from "@/src/lib/apis/order/create/OrderCreateApi";
 import { AxiosError } from "axios";
 import { IHttpStatus } from "@/src/lib/apis/axios";
+import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 
 export default function AddDrawingModal({
   isOpen,
@@ -143,6 +144,13 @@ export default function AddDrawingModal({
     }
   };
 
+  const { mutate: addMutate } = useMutation({
+    mutationFn: OrderDetailApi.POST_ORDER_DRAWING,
+    onError: () => {
+      setToast({ comment: "도면 추가를 실패했어요" });
+    },
+  });
+
   const onSubmit = () => {
     if (drawing) {
       const payload: IDetailAddDrawingRequest = {
@@ -151,9 +159,16 @@ export default function AddDrawingModal({
         count: Number(drawing.count),
         thickness: Number(drawing.thickness),
       };
-      setToast({ comment: "도면을 추가했어요" });
-      callback({ ...payload, id: 0 });
-      onClose();
+      // addMutate(
+      //   { id: orderId, payload: payload },
+      //   {
+      //     onSuccess: (data) => {
+      //       setToast({ comment: "도면을 추가했어요" });
+      //       callback({ ...payload, id: data.id });
+      //       onClose();
+      //     },
+      //   },
+      // );
     }
   };
 
