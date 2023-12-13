@@ -26,4 +26,6 @@ export interface IEditDrawingModalProps extends IModalProps {
   callback: (newDrawing: IDetailDrawing) => void;
 }
 
-export interface IAddDrawingModalProps extends IModalProps {}
+export interface IAddDrawingModalProps extends IModalProps {
+  callback: (newDrawing: IDetailDrawing) => void;
+}

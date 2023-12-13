@@ -3,21 +3,124 @@ import { IAddDrawingModalProps } from "./DetailModal.types";
 import * as S from "./DetailModal.styles";
 import { AVAILABLE_FILE_TYPE } from "@/src/lib/constants/constant";
 import Spacer from "../../spacer/Spacer.index";
-import { useRef, ChangeEvent } from "react";
+import { useRef, ChangeEvent, useState } from "react";
 import Image from "next/image";
+import DrawingItem, {
+  IDrawingItem,
+} from "@/src/components/units/customer/order/create/pages/items/DrawingItem.index";
+import { numberRegex } from "@/src/lib/constants/regex";
+import { useToastify } from "@/src/lib/hooks/useToastify";
+import { IDetailAddDrawingRequest } from "@/src/lib/apis/order/detail/OrderDetail.types";
 
 export default function AddDrawingModal({
   isOpen,
+  callback,
   onClose,
 }: IAddDrawingModalProps) {
+  const [drawing, setDrawing] = useState<IDrawingItem>();
   const hiddenFileInput = useRef<HTMLInputElement>(null);
+  const { setToast } = useToastify();
+
   const onUpload = () => {
     hiddenFileInput?.current?.click();
   };
-  const onUploadCallback = (event: ChangeEvent<HTMLInputElement>) => {};
+
+  const onChangeCount = (
+    name: string,
+    event: ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (drawing) {
+      const updatedDrawings: IDrawingItem = {
+        ...drawing,
+        count: event.target.value.replace(numberRegex, ""),
+      };
+      setDrawing(updatedDrawings);
+    }
+  };
+
+  const onChangeIngredient = (
+    name: string,
+    event: ChangeEvent<HTMLSelectElement>,
+  ) => {
+    if (drawing) {
+      const updatedDrawing: IDrawingItem = {
+        ...drawing,
+        ingredient: event.target.value,
+      };
+      setDrawing(updatedDrawing);
+    }
+  };
+
+  const onChnageThickness = (
+    name: string,
+    event: ChangeEvent<HTMLSelectElement>,
+  ) => {
+    if (drawing) {
+      const updatedDrawing: IDrawingItem = {
+        ...drawing,
+        thickness: event.target.value,
+      };
+      setDrawing(updatedDrawing);
+    }
+  };
+
+  const onDeleteDrawing = (name: string) => {
+    setDrawing(undefined);
+  };
+
+  const addDrawingClient = (file: File) => {
+    const newDrawing: IDrawingItem = {
+      thumbnailUrl: "",
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.name.slice(file.name.lastIndexOf(".") + 1),
+      fileUrl: "",
+      count: "",
+      ingredient: "",
+      thickness: "",
+      isLoading: true,
+    };
+    setDrawing(newDrawing);
+  };
+
+  const postDrawingServer = (file: File) => {
+    const payload = new FormData();
+    payload.append("file", file);
+    payload.append("fileName", file.name);
+    payload.append("fileSize", String(file.size));
+  };
+
+  const onUploadCallback = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file.size > 100 * 1024 * 1024) {
+        setToast({ comment: "도면 최대 용량은 100MB까지 가능합니다" });
+        return;
+      }
+      addDrawingClient(file);
+      postDrawingServer(file);
+    } else {
+      setToast({ comment: "도면 파일을 찾을 수 없습니다" });
+    }
+  };
+
+  const onSubmit = () => {
+    if (drawing) {
+      const payload: IDetailAddDrawingRequest = {
+        ...drawing,
+        fileSize: String(drawing.fileSize),
+        count: Number(drawing.count),
+        thickness: Number(drawing.thickness),
+      };
+      setToast({ comment: "도면을 추가했어요" });
+      callback({ ...payload, id: 0 });
+      onClose();
+    }
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <S.Wrapper width={970}>
+      <S.Wrapper width={1200}>
         <p className="bold20">도면 추가하기</p>
         <Spacer width="100%" height="30px" />
         <S.LabelWrapper className="flex-row">
@@ -34,21 +137,46 @@ export default function AddDrawingModal({
           ref={hiddenFileInput}
           onChange={onUploadCallback}
         />
-        <S.UploadArea className="flex-center" onClick={onUpload}>
-          <div className="flex-column-center">
-            <Image src="/images/upload.svg" width={60} height={60} alt="" />
-            <Spacer width="100%" height="16px" />
-            <p className="medium16">도면을 추가해주세요</p>
-          </div>
-        </S.UploadArea>
-        <S.UploadDrawingsWrapper></S.UploadDrawingsWrapper>
-        <Spacer width="100%" height="10px" />
+        {drawing === undefined && (
+          <S.UploadArea className="flex-center" onClick={onUpload}>
+            <div className="flex-column-center">
+              <Image src="/images/upload.svg" width={60} height={60} alt="" />
+              <Spacer width="100%" height="16px" />
+              <p className="medium16">도면을 추가해주세요</p>
+            </div>
+          </S.UploadArea>
+        )}
+        {drawing && (
+          <S.UploadDrawingsWrapper>
+            <DrawingItem
+              data={drawing}
+              onChangeCount={onChangeCount}
+              onChangeIngredient={onChangeIngredient}
+              onChangeThickness={onChnageThickness}
+              onDelete={onDeleteDrawing}
+            />
+          </S.UploadDrawingsWrapper>
+        )}
+        <Spacer width="100%" height="20px" />
         <S.ButtonWrapper className="flex-row">
           <S.CancelButton className="bold14" onClick={onClose}>
             취소
           </S.CancelButton>
           <Spacer width="8px" height="100%" />
-          <S.SubmitButton className="bold14">수정하기</S.SubmitButton>
+          <S.SubmitButton
+            className="bold14"
+            disabled={
+              drawing === undefined ||
+              drawing.count === "" ||
+              Number(drawing.count) <= 0 ||
+              drawing.ingredient === "" ||
+              drawing.thickness === "" ||
+              drawing.isLoading === true
+            }
+            onClick={onSubmit}
+          >
+            추가하기
+          </S.SubmitButton>
         </S.ButtonWrapper>
       </S.Wrapper>
     </Modal>

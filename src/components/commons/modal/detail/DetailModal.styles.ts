@@ -154,7 +154,7 @@ export const UploadAnnounce = styled.p`
 
 export const UploadArea = styled.div`
   width: 100%;
-  height: 180px;
+  height: 162px;
   border: 1px dotted var(--color-normalGray);
   border-radius: var(--border-radius);
   transition: all ease 0.3s;
@@ -169,11 +169,7 @@ export const UploadInput = styled.input`
   display: none;
 `;
 
-export const UploadDrawingsWrapper = styled.div`
-  width: 100%;
-  height: 420px;
-  overflow-y: auto;
-`;
+export const UploadDrawingsWrapper = styled.div``;
 
 export const CalendarInputWrapper = styled.div`
   position: relative;

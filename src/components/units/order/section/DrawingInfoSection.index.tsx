@@ -39,6 +39,10 @@ export default function DrawingInfoSection({
     }
   };
 
+  const addDrawingCallback = (newDrawing: IDetailDrawing) => {
+    setDrawings([...drawings, newDrawing]);
+  };
+
   const onDeleteDrawing = (id: number) => {
     if (drawings.length === 1) {
       setToast({ comment: "도면은 모두 삭제할 수 없어요" });
@@ -98,9 +102,9 @@ export default function DrawingInfoSection({
           onClose={() => setShowEditModal(false)}
         />
       )}
-
       <AddDrawingModal
         isOpen={showAddModal}
+        callback={addDrawingCallback}
         onClose={() => setShowAddModal(false)}
       />
     </>
