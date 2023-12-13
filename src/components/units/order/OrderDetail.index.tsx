@@ -17,7 +17,7 @@ import { useOrderDetailScroll } from "@/src/lib/hooks/useScroll";
 import { OrderStatus } from "@/src/lib/apis/order/Order.types";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 
 export default function OrderDetail() {
@@ -49,6 +49,46 @@ export default function OrderDetail() {
     setStatus(nextStatus);
     setToast({ comment: message });
   };
+
+  const { mutate: acceptQuotation } = useMutation({
+    mutationFn: OrderDetailApi.PUT_ACCEPT_QUOTATION,
+    onSuccess: () => {
+      onChangeStatus("견적 승인", "견적서를 승인했어요");
+    },
+    onError: () => {
+      setToast({ comment: "견적 승인하기에 실패했어요" });
+    },
+  });
+
+  const { mutate: acceptPurchaseOrder } = useMutation({
+    mutationFn: OrderDetailApi.PUT_ACCEPT_PURCHASE_ORDER,
+    onSuccess: () => {
+      onChangeStatus("제작 중", "발주서를 승인했어요");
+    },
+    onError: () => {
+      setToast({ comment: "발주 승인하기에 실패했어요" });
+    },
+  });
+
+  const { mutate: acceptShipping } = useMutation({
+    mutationFn: OrderDetailApi.PUT_ACCEPT_SHIPPING,
+    onSuccess: () => {
+      onChangeStatus("배송 중", "제작이 완료됐어요");
+    },
+    onError: () => {
+      setToast({ comment: "제작 완료하기에 실패했어요" });
+    },
+  });
+
+  const { mutate: acceptCompleted } = useMutation({
+    mutationFn: OrderDetailApi.PUT_ACCEPT_PURCHASE_ORDER,
+    onSuccess: () => {
+      onChangeStatus("거래 완료", "거래가 완료됐어요");
+    },
+    onError: () => {
+      setToast({ comment: "거래 완료하기에 실패했어요" });
+    },
+  });
 
   return (
     <S.Wrapper className="flex-row">
@@ -138,28 +178,28 @@ export default function OrderDetail() {
         showCondition={auth.role === "ROLE_CUSTOMER" && status === "견적 대기"}
         announce="견적서를 확인하고 승인해주세요"
         buttonText="견적 승인하기"
-        onButton={() => onChangeStatus("견적 승인", "견적서를 승인했어요")}
+        onButton={() => acceptQuotation(String(orderId))}
       />
       {/* 발주 승인하기, 회사가 발주서를 확인하고 클릭 -> 견적 승인 -> 제작 중 */}
       <OrderDetailBottombar
         showCondition={auth.role === "ROLE_FACTORY" && status === "견적 승인"}
         announce="발주서를 확인하고 제작을 시작해주세요"
         buttonText="발주 승인하기"
-        onButton={() => onChangeStatus("제작 중", "발주서를 승인했어요")}
+        onButton={() => acceptPurchaseOrder(String(orderId))}
       />
       {/* 제작 완료, 회사가 제작을 마치고 클릭 -> 제작 중 -> 배송 중 */}
       <OrderDetailBottombar
         showCondition={auth.role === "ROLE_FACTORY" && status === "제작 중"}
         announce="제작이 끝났다면 배송을 시작해주세요"
         buttonText="제작 완료"
-        onButton={() => onChangeStatus("배송 중", "제작이 완료됐어요")}
+        onButton={() => acceptShipping(String(orderId))}
       />
       {/* 배송 완료, 고객이 배송을 받았다면 클릭 -> 배송 중 -> 거래 완료 */}
       <OrderDetailBottombar
         showCondition={auth.role === "ROLE_CUSTOMER" && status === "배송 중"}
         announce="상품이 잘 도착했나요?"
         buttonText="배송 완료"
-        onButton={() => onChangeStatus("거래 완료", "거래가 완료됐어요")}
+        onButton={() => acceptCompleted(String(orderId))}
       />
     </S.Wrapper>
   );
