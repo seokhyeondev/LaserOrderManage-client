@@ -10,10 +10,13 @@ import { useInput } from "@/src/lib/hooks/useInput";
 import { IDetailEditPurchaseOrderRequest } from "@/src/lib/apis/order/detail/OrderDetail.types";
 import { getParamDate } from "@/src/lib/utils/utils";
 import { useToastify } from "@/src/lib/hooks/useToastify";
+import { useMutation } from "@tanstack/react-query";
+import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 
 export default function PurchaseOrderModal({
   isOpen,
   data,
+  orderId,
   callback,
   onClose,
 }: IPurchaseOrderModalProps) {
@@ -26,21 +29,37 @@ export default function PurchaseOrderModal({
   const [condition, onChangeCondition] = useInput(data?.inspectionCondition);
   const { setToast } = useToastify();
 
+  const { mutate } = useMutation({
+    mutationFn: OrderDetailApi.PUT_ORDER_PURCHASE_ORDER,
+    onError: () => {
+      setToast({ comment: "발주서 등록에 실패했어요" });
+    },
+  });
+
   const onSubmit = () => {
     const payload: IDetailEditPurchaseOrderRequest = {
       inspectionPeriod: getParamDate(inspectionDateArgs.date),
       inspectionCondition: condition,
       paymentDate: getParamDate(paymentDateArgs.date),
     };
-    callback({
-      id: data ? data.id : 0,
-      inspectionPeriod: payload.inspectionPeriod,
-      inspectionCondition: payload.inspectionCondition,
-      paymentDate: payload.paymentDate,
-      createdAt: new Date(),
-    });
-    setToast({ comment: data ? "발주서를 수정했어요" : "발주서를 추가했어요" });
-    onClose();
+    // mutate(
+    //   { id: orderId, payload: payload },
+    //   {
+    //     onSuccess: (res) => {
+    //       callback({
+    //         id: res.id,
+    //         inspectionPeriod: payload.inspectionPeriod,
+    //         inspectionCondition: payload.inspectionCondition,
+    //         paymentDate: payload.paymentDate,
+    //         createdAt: new Date(),
+    //       });
+    //       setToast({
+    //         comment: data ? "발주서를 수정했어요" : "발주서를 추가했어요",
+    //       });
+    //       onClose();
+    //     },
+    //   },
+    // );
   };
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

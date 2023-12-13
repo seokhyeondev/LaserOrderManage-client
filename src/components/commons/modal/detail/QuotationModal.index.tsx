@@ -60,11 +60,11 @@ export default function QuotationModal({
     // mutate(
     //   { id: orderId, payload: payload },
     //   {
-    //     onSuccess: (data) => {
+    //     onSuccess: (res) => {
     //       callback({
-    //         id: data.id,
-    //         fileName: data.fileName,
-    //         fileUrl: data.fileUrl,
+    //         id: res.id,
+    //         fileName: res.fileName,
+    //         fileUrl: res.fileUrl,
     //         totalCost: Number(cost),
     //         deliveryDate: getParamDate(dateArgs.date),
     //         createdAt: new Date(),
