@@ -14,6 +14,7 @@ export default function QuotationInfoSection({
   data,
   role,
   status,
+  orderId,
   scrollPage,
 }: IQuotationInfoSectionProps) {
   const [showModal, setShowModal] = useState(false);
@@ -82,6 +83,7 @@ export default function QuotationInfoSection({
       <QuotationModal
         isOpen={showModal}
         data={quotation}
+        orderId={orderId}
         callback={editQuotationCallback}
         onClose={() => setShowModal(false)}
       />

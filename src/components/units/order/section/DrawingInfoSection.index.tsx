@@ -19,6 +19,7 @@ export default function DrawingInfoSection({
   data,
   role,
   status,
+  orderId,
 }: IDrawingInfoSectionProps) {
   const [drawings, setDrawings] = useState<IDetailDrawing[]>(data);
   const [targetDrawing, setTargetDrawing] = useState<IDetailDrawing>();
@@ -98,12 +99,14 @@ export default function DrawingInfoSection({
         <EditDrawingModal
           data={targetDrawing}
           isOpen={showEditModal}
+          orderId={orderId}
           callback={editDrawingCallback}
           onClose={() => setShowEditModal(false)}
         />
       )}
       <AddDrawingModal
         isOpen={showAddModal}
+        orderId={orderId}
         callback={addDrawingCallback}
         onClose={() => setShowAddModal(false)}
       />

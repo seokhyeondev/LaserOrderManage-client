@@ -42,7 +42,9 @@ export interface IDrawingInfoSectionProps extends IDetailSectionProps {
   data: IDetailDrawing[];
 }
 
-export interface IDrawingInfoItemProps extends IDetailSectionProps {
+export interface IDrawingInfoItemProps {
+  role: UserType;
+  status: OrderStatus | undefined;
   data: IDetailDrawing;
   onEditDrawing: () => void;
   onDeleteDrawing: () => void;
