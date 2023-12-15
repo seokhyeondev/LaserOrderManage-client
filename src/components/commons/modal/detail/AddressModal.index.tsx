@@ -44,7 +44,7 @@ export default function AddressModal({
     const payload: IDetailEditAddressRequest = {
       deliveryAddressId: selectedAddress.id,
     };
-    // mutate({ id: orderId, payload: payload });
+    mutate({ id: orderId, payload: payload });
   };
 
   return (
