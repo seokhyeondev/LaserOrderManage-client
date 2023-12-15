@@ -159,16 +159,16 @@ export default function AddDrawingModal({
         count: Number(drawing.count),
         thickness: Number(drawing.thickness),
       };
-      // addMutate(
-      //   { id: orderId, payload: payload },
-      //   {
-      //     onSuccess: (data) => {
-      //       setToast({ comment: "도면을 추가했어요" });
-      //       callback({ ...payload, id: data.id });
-      //       onClose();
-      //     },
-      //   },
-      // );
+      addMutate(
+        { id: orderId, payload: payload },
+        {
+          onSuccess: (data) => {
+            setToast({ comment: "도면을 추가했어요" });
+            callback({ ...payload, id: data.id });
+            onClose();
+          },
+        },
+      );
     }
   };
 
