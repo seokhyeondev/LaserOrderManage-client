@@ -51,7 +51,7 @@ export default function EditDrawingModal({
       ingredient: ingredient,
       thickness: Number(thickness),
     };
-    // mutate({ id: orderId, drawingId: data.id, payload: payload });
+    mutate({ id: orderId, drawingId: data.id, payload: payload });
   };
 
   return (
