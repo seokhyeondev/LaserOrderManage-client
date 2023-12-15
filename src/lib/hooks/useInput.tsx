@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 
-export const useInput = (initialValue?: string) => {
-  const [value, setValue] = useState(initialValue ?? "");
+export const useInput = () => {
+  const [value, setValue] = useState("");
 
   const onChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -9,7 +9,7 @@ export const useInput = (initialValue?: string) => {
     setValue(event.target.value);
   };
 
-  return [value, onChange] as const;
+  return [value, onChange, setValue] as const;
 };
 
 export const useInputWithRegex = (
@@ -23,7 +23,7 @@ export const useInputWithRegex = (
     setValue(event.target.value.replace(regex, replaceValue));
   };
 
-  return [value, onChange] as const;
+  return [value, onChange, setValue] as const;
 };
 
 export const useInputWithMaxLength = (maxLength: number) => {

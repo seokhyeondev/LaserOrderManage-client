@@ -12,6 +12,7 @@ import { getParamDate } from "@/src/lib/utils/utils";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { useMutation } from "@tanstack/react-query";
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
+import { useEffect } from "react";
 
 export default function PurchaseOrderModal({
   isOpen,
@@ -21,14 +22,20 @@ export default function PurchaseOrderModal({
   callback,
   onClose,
 }: IPurchaseOrderModalProps) {
-  const paymentDateArgs = useCalendar(
-    data ? new Date(data.paymentDate) : undefined,
-  );
-  const inspectionDateArgs = useCalendar(
-    data ? new Date(data.inspectionPeriod) : undefined,
-  );
-  const [condition, onChangeCondition] = useInput(data?.inspectionCondition);
+  const paymentDateArgs = useCalendar();
+  const inspectionDateArgs = useCalendar();
+  const [condition, onChangeCondition, setCondition] = useInput();
   const { setToast } = useToastify();
+
+  useEffect(() => {
+    if (isOpen) {
+      if (data) {
+        paymentDateArgs.setDateValue(new Date(data.paymentDate));
+        inspectionDateArgs.setDateValue(new Date(data.inspectionPeriod));
+        setCondition(data.inspectionCondition);
+      }
+    }
+  }, [isOpen]);
 
   const { mutate } = useMutation({
     mutationFn: OrderDetailApi.PUT_ORDER_PURCHASE_ORDER,

@@ -41,14 +41,16 @@ export const useOrderDate = (resetFilter: () => void) => {
   };
 };
 
-export const useCalendar = (initalDate?: Date) => {
+export const useCalendar = () => {
   const [show, setShow] = useState(false);
-  const [date, setDate] = useState(
-    initalDate ? moment(initalDate.toString()).format("YY. MM. DD") : "",
-  );
+  const [date, setDate] = useState("");
 
   const toggle = () => {
     setShow(!show);
+  };
+
+  const setDateValue = (date: Date) => {
+    setDate(moment(date.toString()).format("YY. MM. DD"));
   };
 
   const onDate = (date: DateValue) => {
@@ -56,5 +58,5 @@ export const useCalendar = (initalDate?: Date) => {
     setShow(false);
   };
 
-  return { show, date, toggle, onDate } as const;
+  return { show, date, toggle, onDate, setDateValue } as const;
 };
