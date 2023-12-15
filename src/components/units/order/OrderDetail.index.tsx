@@ -81,7 +81,7 @@ export default function OrderDetail() {
   });
 
   const { mutate: acceptCompleted } = useMutation({
-    mutationFn: OrderDetailApi.PUT_ACCEPT_PURCHASE_ORDER,
+    mutationFn: OrderDetailApi.PUT_ACCEPT_COMPLETED,
     onSuccess: () => {
       onChangeStatus("거래 완료", "거래가 완료됐어요");
     },
