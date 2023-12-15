@@ -8,9 +8,8 @@ export const getDate = (value: any) => {
   return `${yyyy}.${mm}.${dd}`;
 };
 
-const now = new Date();
-
 export const getDateTime = (value: any) => {
+  const now = new Date();
   const date = new Date(value);
 
   if (now.getFullYear() !== date.getFullYear()) {
@@ -26,8 +25,8 @@ export const getDateTime = (value: any) => {
     (now.getTime() - date.getTime()) / (1000 * 60 * 60),
   );
 
+  if (dayDiff === 0) return hourDiff <= 1 ? "방금" : `${hourDiff}시간 전`;
   if (dayDiff === 1) return "어제";
-  if (dayDiff === 0) return `${hourDiff}시간 전`;
   if (dayDiff > 7) return `${date.getMonth() + 1}월 ${date.getDate()}일`;
   return `${dayDiff}일 전`;
 };

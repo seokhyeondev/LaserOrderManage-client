@@ -11,9 +11,15 @@ import DrawingItem, {
 import { numberRegex } from "@/src/lib/constants/regex";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { IDetailAddDrawingRequest } from "@/src/lib/apis/order/detail/OrderDetail.types";
+import { useMutation } from "@tanstack/react-query";
+import { OrderCreateApi } from "@/src/lib/apis/order/create/OrderCreateApi";
+import { AxiosError } from "axios";
+import { IHttpStatus } from "@/src/lib/apis/axios";
+import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 
 export default function AddDrawingModal({
   isOpen,
+  orderId,
   callback,
   onClose,
 }: IAddDrawingModalProps) {
@@ -83,11 +89,45 @@ export default function AddDrawingModal({
     setDrawing(newDrawing);
   };
 
+  const { mutate: uploadMutate } = useMutation({
+    mutationFn: OrderCreateApi.UPLOAD_DRAWING,
+    onSuccess: (data) => {
+      if (drawing) {
+        const updatedDrawing: IDrawingItem = {
+          ...drawing,
+          isLoading: false,
+          thumbnailUrl: data.thumbnailUrl,
+          fileUrl: data.fileUrl,
+        };
+        setDrawing(updatedDrawing);
+      }
+    },
+    onError: (error: AxiosError) => {
+      if (error.response) {
+        onDeleteDrawing("");
+        const status = error.response.data as IHttpStatus;
+        if (status.errorCode === "-009") {
+          // 지원하지 않는 파일 형식
+          setToast({ comment: "지원하지 않는 파일 형식입니다" });
+          return;
+        }
+        if (status.errorCode === "-503") {
+          // 파일 업로드가 불가능
+          setToast({ comment: "업로드를 할 수 없어요" });
+          return;
+        }
+        //썸네일 추출이 불가능
+        setToast({ comment: "업로드에 실패했어요" });
+      }
+    },
+  });
+
   const postDrawingServer = (file: File) => {
     const payload = new FormData();
     payload.append("file", file);
     payload.append("fileName", file.name);
     payload.append("fileSize", String(file.size));
+    uploadMutate(payload);
   };
 
   const onUploadCallback = (event: ChangeEvent<HTMLInputElement>) => {
@@ -104,6 +144,13 @@ export default function AddDrawingModal({
     }
   };
 
+  const { mutate: addMutate } = useMutation({
+    mutationFn: OrderDetailApi.POST_ORDER_DRAWING,
+    onError: () => {
+      setToast({ comment: "도면 추가를 실패했어요" });
+    },
+  });
+
   const onSubmit = () => {
     if (drawing) {
       const payload: IDetailAddDrawingRequest = {
@@ -112,9 +159,16 @@ export default function AddDrawingModal({
         count: Number(drawing.count),
         thickness: Number(drawing.thickness),
       };
-      setToast({ comment: "도면을 추가했어요" });
-      callback({ ...payload, id: 0 });
-      onClose();
+      addMutate(
+        { id: orderId, payload: payload },
+        {
+          onSuccess: (data) => {
+            setToast({ comment: "도면을 추가했어요" });
+            callback({ ...payload, id: data.id });
+            onClose();
+          },
+        },
+      );
     }
   };
 

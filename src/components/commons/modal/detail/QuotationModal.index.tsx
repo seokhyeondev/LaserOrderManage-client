@@ -6,29 +6,44 @@ import UploadIcon from "../../icons/UploadIcon.index";
 import CalenderIcon from "../../icons/CalenderIcon.index";
 import { useInputWithRegex } from "@/src/lib/hooks/useInput";
 import { numberRegex } from "@/src/lib/constants/regex";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useCalendar } from "@/src/lib/hooks/useDate";
 import { getParamDate } from "@/src/lib/utils/utils";
 import { useToastify } from "@/src/lib/hooks/useToastify";
+import { useMutation } from "@tanstack/react-query";
+import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
+
+type Quotation = {
+  totalCost: string;
+  deliveryDate: string;
+};
 
 export default function QuotationModal({
   isOpen,
   data,
+  orderId,
   callback,
   onClose,
 }: IQuotationModalProps) {
   const [file, setFile] = useState<File>();
-  const [fileName, setFileName] = useState(data ? data.fileName : "");
-  const [cost, onChangeCost] = useInputWithRegex(
-    numberRegex,
-    "",
-    data ? String(data.totalCost) : undefined,
-  );
-  const dateArgs = useCalendar(data ? new Date(data.deliveryDate) : undefined);
+  const [fileName, setFileName] = useState("");
+  const [cost, onChangeCost, setCost] = useInputWithRegex(numberRegex, "");
+  const dateArgs = useCalendar();
   const hiddenFileInput = useRef<HTMLInputElement>(null);
   const { setToast } = useToastify();
+
+  useEffect(() => {
+    if (isOpen) {
+      if (data) {
+        setFile(undefined);
+        setFileName(data.fileName);
+        setCost(String(data.totalCost));
+        dateArgs.setDateValue(new Date(data.deliveryDate));
+      }
+    }
+  }, [isOpen]);
 
   const onUpload = () => {
     hiddenFileInput?.current?.click();
@@ -42,21 +57,43 @@ export default function QuotationModal({
     }
   };
 
+  const { mutate } = useMutation({
+    mutationFn: OrderDetailApi.PUT_ORDER_QUOTATION,
+    onError: () => {
+      setToast({ comment: "견적서 등록에 실패했어요" });
+    },
+  });
+
   const onSubmit = () => {
     const payload = new FormData();
     if (file) payload.append("file", file);
-    payload.append("totalCost", cost);
-    payload.append("deliveryDate", getParamDate(dateArgs.date));
-    callback({
-      id: data ? data.id : 0,
-      fileName: fileName,
-      fileUrl: "",
-      totalCost: Number(cost),
+    const quotation: Quotation = {
+      totalCost: cost,
       deliveryDate: getParamDate(dateArgs.date),
-      createdAt: new Date(),
+    };
+    const quotationBlob = new Blob([JSON.stringify(quotation)], {
+      type: "application/json",
     });
-    setToast({ comment: data ? "견적서를 수정했어요" : "견적서를 추가했어요" });
-    onClose();
+    payload.append("quotation", quotationBlob);
+    mutate(
+      { id: orderId, payload: payload },
+      {
+        onSuccess: (res) => {
+          callback({
+            id: res.id,
+            fileName: res.fileName,
+            fileUrl: res.fileUrl,
+            totalCost: Number(cost),
+            deliveryDate: getParamDate(dateArgs.date),
+            createdAt: new Date(),
+          });
+          setToast({
+            comment: data ? "견적서를 수정했어요" : "견적서를 추가했어요",
+          });
+          onClose();
+        },
+      },
+    );
   };
 
   return (

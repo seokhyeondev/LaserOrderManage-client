@@ -5,59 +5,16 @@ import Spacer from "../../spacer/Spacer.index";
 import { IDeliveryAddress } from "@/src/lib/apis/user/customer/Customer.types";
 import { getPhoneNumber } from "@/src/lib/utils/utils";
 import { useState } from "react";
-import { useToast } from "react-toastify";
 import { useToastify } from "@/src/lib/hooks/useToastify";
-
-const addressList: IDeliveryAddress[] = [
-  {
-    id: 0,
-    name: "회원 주소",
-    zipCode: "11111",
-    address: "서울 마포구 성미산로 160",
-    detailAddress: "휴먼빌",
-    receiver: "안승우",
-    phone1: "01011111111",
-    phone2: null,
-    isDefault: true,
-  },
-  {
-    id: 1,
-    name: "회원 주소",
-    zipCode: "11111",
-    address: "서울 마포구 성미산로 160",
-    detailAddress: "휴먼빌",
-    receiver: "안승우",
-    phone1: "01011111111",
-    phone2: null,
-    isDefault: false,
-  },
-  {
-    id: 2,
-    name: "회원 주소",
-    zipCode: "11111",
-    address: "서울 마포구 성미산로 160",
-    detailAddress: "휴먼빌",
-    receiver: "안승우",
-    phone1: "01011111111",
-    phone2: null,
-    isDefault: false,
-  },
-  {
-    id: 3,
-    name: "회원 주소",
-    zipCode: "11111",
-    address: "서울 마포구 성미산로 160",
-    detailAddress: "휴먼빌",
-    receiver: "안승우",
-    phone1: "01011111111",
-    phone2: null,
-    isDefault: false,
-  },
-];
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { CustomerApi } from "@/src/lib/apis/user/customer/CustomerApi";
+import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
+import { IDetailEditAddressRequest } from "@/src/lib/apis/order/detail/OrderDetail.types";
 
 export default function AddressModal({
   isOpen,
   data,
+  orderId,
   onClose,
   callback,
 }: IDeliveryModalProps) {
@@ -65,10 +22,29 @@ export default function AddressModal({
     useState<IDeliveryAddress>(data);
   const { setToast } = useToastify();
 
+  const { data: addressList } = useQuery({
+    queryKey: ["getDeliveryAddress"],
+    queryFn: () => CustomerApi.GET_DELIVERY_ADDRESS(),
+    enabled: isOpen,
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: OrderDetailApi.PUT_ORDER_DELIVERY_ADDRESS,
+    onSuccess: () => {
+      callback(selectedAddress);
+      setToast({ comment: "배송지를 변경했어요" });
+      onClose();
+    },
+    onError: () => {
+      setToast({ comment: "배송지를 변경할 수 없어요" });
+    },
+  });
+
   const onSubmit = () => {
-    callback(selectedAddress);
-    setToast({ comment: "배송지를 변경했어요" });
-    onClose();
+    const payload: IDetailEditAddressRequest = {
+      deliveryAddressId: selectedAddress.id,
+    };
+    mutate({ id: orderId, payload: payload });
   };
 
   return (
@@ -76,11 +52,11 @@ export default function AddressModal({
       <S.Wrapper className="flex-column-start" width={600} height={600}>
         <S.Title className="bold20">배송지 수정하기</S.Title>
         <S.AddressItemsWrapper>
-          {addressList.map((el) => (
+          {addressList?.contents.map((el) => (
             <AddressItem
               data={el}
               key={el.id}
-              isSelect={el === selectedAddress}
+              isSelect={el.id === selectedAddress.id}
               onSelect={() => setSelectedAddress(el)}
             />
           ))}
@@ -93,7 +69,7 @@ export default function AddressModal({
           <Spacer width="8px" height="100%" />
           <S.SubmitButton
             className="bold14"
-            disabled={selectedAddress === data}
+            disabled={selectedAddress.id === data.id}
             onClick={onSubmit}
           >
             수정하기

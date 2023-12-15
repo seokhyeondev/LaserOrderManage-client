@@ -13,6 +13,7 @@ import { RefObject } from "react";
 interface IDetailSectionProps {
   role: UserType;
   status: OrderStatus | undefined;
+  orderId: string;
 }
 
 export type FocusableSection = "OrderInfo" | "DrawingInfo" | "QuotationInfo";
@@ -25,6 +26,7 @@ export interface IOrderInfoSectionProps {
 
 export interface IUrgentSectionProps {
   isUrgent: boolean;
+  orderId: string;
 }
 
 export interface ICustomerInfoSectionProps {
@@ -40,7 +42,9 @@ export interface IDrawingInfoSectionProps extends IDetailSectionProps {
   data: IDetailDrawing[];
 }
 
-export interface IDrawingInfoItemProps extends IDetailSectionProps {
+export interface IDrawingInfoItemProps {
+  role: UserType;
+  status: OrderStatus | undefined;
   data: IDetailDrawing;
   onEditDrawing: () => void;
   onDeleteDrawing: () => void;
@@ -55,5 +59,6 @@ export interface IQuotationInfoSectionProps extends IDetailSectionProps {
 export interface IPurchaseOrderInfoSectionProps extends IDetailSectionProps {
   data: IDetailPurchaseOrder | null;
   name: string;
+  minDate: string | null;
   scrollPage: () => void;
 }

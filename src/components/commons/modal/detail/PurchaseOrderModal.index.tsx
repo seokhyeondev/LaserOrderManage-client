@@ -10,21 +10,39 @@ import { useInput } from "@/src/lib/hooks/useInput";
 import { IDetailEditPurchaseOrderRequest } from "@/src/lib/apis/order/detail/OrderDetail.types";
 import { getParamDate } from "@/src/lib/utils/utils";
 import { useToastify } from "@/src/lib/hooks/useToastify";
+import { useMutation } from "@tanstack/react-query";
+import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
+import { useEffect } from "react";
 
 export default function PurchaseOrderModal({
   isOpen,
   data,
+  orderId,
+  minDate,
   callback,
   onClose,
 }: IPurchaseOrderModalProps) {
-  const paymentDateArgs = useCalendar(
-    data ? new Date(data.paymentDate) : undefined,
-  );
-  const inspectionDateArgs = useCalendar(
-    data ? new Date(data.inspectionPeriod) : undefined,
-  );
-  const [condition, onChangeCondition] = useInput(data?.inspectionCondition);
+  const paymentDateArgs = useCalendar();
+  const inspectionDateArgs = useCalendar();
+  const [condition, onChangeCondition, setCondition] = useInput();
   const { setToast } = useToastify();
+
+  useEffect(() => {
+    if (isOpen) {
+      if (data) {
+        paymentDateArgs.setDateValue(new Date(data.paymentDate));
+        inspectionDateArgs.setDateValue(new Date(data.inspectionPeriod));
+        setCondition(data.inspectionCondition);
+      }
+    }
+  }, [isOpen]);
+
+  const { mutate } = useMutation({
+    mutationFn: OrderDetailApi.PUT_ORDER_PURCHASE_ORDER,
+    onError: () => {
+      setToast({ comment: "발주서 등록에 실패했어요" });
+    },
+  });
 
   const onSubmit = () => {
     const payload: IDetailEditPurchaseOrderRequest = {
@@ -32,15 +50,24 @@ export default function PurchaseOrderModal({
       inspectionCondition: condition,
       paymentDate: getParamDate(paymentDateArgs.date),
     };
-    callback({
-      id: data ? data.id : 0,
-      inspectionPeriod: payload.inspectionPeriod,
-      inspectionCondition: payload.inspectionCondition,
-      paymentDate: payload.paymentDate,
-      createdAt: new Date(),
-    });
-    setToast({ comment: data ? "발주서를 수정했어요" : "발주서를 추가했어요" });
-    onClose();
+    mutate(
+      { id: orderId, payload: payload },
+      {
+        onSuccess: (res) => {
+          callback({
+            id: res.id,
+            inspectionPeriod: payload.inspectionPeriod,
+            inspectionCondition: payload.inspectionCondition,
+            paymentDate: payload.paymentDate,
+            createdAt: new Date(),
+          });
+          setToast({
+            comment: data ? "발주서를 수정했어요" : "발주서를 추가했어요",
+          });
+          onClose();
+        },
+      },
+    );
   };
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -65,7 +92,11 @@ export default function PurchaseOrderModal({
             <CalenderIcon size={16} />
           </S.InputWrapper>
           <S.CalendarWrapper isOpen={paymentDateArgs.show}>
-            <Calendar locale="ko" onChange={paymentDateArgs.onDate} />
+            <Calendar
+              locale="ko"
+              minDate={minDate ? new Date(minDate) : undefined}
+              onChange={paymentDateArgs.onDate}
+            />
           </S.CalendarWrapper>
         </S.CalendarInputWrapper>
         <S.LabelWrapper className="flex-row">
@@ -87,7 +118,11 @@ export default function PurchaseOrderModal({
             <CalenderIcon size={16} />
           </S.InputWrapper>
           <S.CalendarWrapper isOpen={inspectionDateArgs.show}>
-            <Calendar locale="ko" onChange={inspectionDateArgs.onDate} />
+            <Calendar
+              locale="ko"
+              minDate={minDate ? new Date(minDate) : undefined}
+              onChange={inspectionDateArgs.onDate}
+            />
           </S.CalendarWrapper>
         </S.CalendarInputWrapper>
         <S.LabelWrapper className="flex-row">

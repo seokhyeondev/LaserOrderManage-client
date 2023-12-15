@@ -17,8 +17,8 @@ import { useOrderDetailScroll } from "@/src/lib/hooks/useScroll";
 import { OrderStatus } from "@/src/lib/apis/order/Order.types";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
-import { OrderApi } from "@/src/lib/apis/order/OrderApi";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 
 export default function OrderDetail() {
   const router = useRouter();
@@ -27,6 +27,10 @@ export default function OrderDetail() {
   const [status, setStatus] = useState<OrderStatus>();
   const scrollArgs = useOrderDetailScroll();
   const { setToast } = useToastify();
+  const { data, isSuccess } = useQuery({
+    queryKey: [`orderDetail/${orderId}`],
+    queryFn: () => OrderDetailApi.GET_ORDER_DETAIL(String(orderId)),
+  });
 
   useEffect(() => {
     window.addEventListener("scroll", scrollArgs.checkFocus);
@@ -34,11 +38,6 @@ export default function OrderDetail() {
       window.removeEventListener("scroll", scrollArgs.checkFocus);
     };
   }, []);
-
-  const { data, isSuccess } = useQuery({
-    queryKey: [`orderDetail/${orderId}`],
-    queryFn: () => OrderApi.GET_ORDER_DETAIL(String(orderId)),
-  });
 
   useEffect(() => {
     if (data) {
@@ -50,6 +49,46 @@ export default function OrderDetail() {
     setStatus(nextStatus);
     setToast({ comment: message });
   };
+
+  const { mutate: acceptQuotation } = useMutation({
+    mutationFn: OrderDetailApi.PUT_ACCEPT_QUOTATION,
+    onSuccess: () => {
+      onChangeStatus("견적 승인", "견적서를 승인했어요");
+    },
+    onError: () => {
+      setToast({ comment: "견적 승인하기에 실패했어요" });
+    },
+  });
+
+  const { mutate: acceptPurchaseOrder } = useMutation({
+    mutationFn: OrderDetailApi.PUT_ACCEPT_PURCHASE_ORDER,
+    onSuccess: () => {
+      onChangeStatus("제작 중", "발주서를 승인했어요");
+    },
+    onError: () => {
+      setToast({ comment: "발주 승인하기에 실패했어요" });
+    },
+  });
+
+  const { mutate: acceptShipping } = useMutation({
+    mutationFn: OrderDetailApi.PUT_ACCEPT_SHIPPING,
+    onSuccess: () => {
+      onChangeStatus("배송 중", "제작이 완료됐어요");
+    },
+    onError: () => {
+      setToast({ comment: "제작 완료하기에 실패했어요" });
+    },
+  });
+
+  const { mutate: acceptCompleted } = useMutation({
+    mutationFn: OrderDetailApi.PUT_ACCEPT_COMPLETED,
+    onSuccess: () => {
+      onChangeStatus("거래 완료", "거래가 완료됐어요");
+    },
+    onError: () => {
+      setToast({ comment: "거래 완료하기에 실패했어요" });
+    },
+  });
 
   return (
     <S.Wrapper className="flex-row">
@@ -64,7 +103,10 @@ export default function OrderDetail() {
             {auth.role === "ROLE_FACTORY" && status !== "거래 완료" && (
               <>
                 <Spacer width="100%" height="48px" />
-                <UrgentSection isUrgent={data.order.isUrgent} />
+                <UrgentSection
+                  isUrgent={data.order.isUrgent}
+                  orderId={String(orderId)}
+                />
               </>
             )}
             <Spacer width="100%" height="60px" />
@@ -74,6 +116,7 @@ export default function OrderDetail() {
               data={data.order.deliveryAddress}
               role={auth.role}
               status={status}
+              orderId={String(orderId)}
             />
             <Spacer width="100%" height="60px" />
             <DrawingInfoSection
@@ -81,6 +124,7 @@ export default function OrderDetail() {
               data={data.order.drawingList}
               role={auth.role}
               status={status}
+              orderId={String(orderId)}
             />
             <Spacer width="100%" height="60px" />
             <QuotationInfoSection
@@ -88,6 +132,7 @@ export default function OrderDetail() {
               data={data.quotation}
               role={auth.role}
               status={status}
+              orderId={String(orderId)}
               scrollPage={() =>
                 scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
               }
@@ -98,6 +143,8 @@ export default function OrderDetail() {
               name={data.customer.name}
               role={auth.role}
               status={status}
+              orderId={String(orderId)}
+              minDate={data.quotation?.deliveryDate}
               scrollPage={() =>
                 scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
               }
@@ -129,31 +176,41 @@ export default function OrderDetail() {
       </S.MenuWrapper>
       {/* 견적 승인하기, 고객이 견적서를 확인하고 클릭 -> 견적 대기 -> 견적 승인 */}
       <OrderDetailBottombar
-        showCondition={auth.role === "ROLE_CUSTOMER" && status === "견적 대기"}
+        showCondition={
+          auth.role === "ROLE_CUSTOMER" &&
+          status === "견적 대기" &&
+          data !== undefined &&
+          data.quotation !== null
+        }
         announce="견적서를 확인하고 승인해주세요"
         buttonText="견적 승인하기"
-        onButton={() => onChangeStatus("견적 승인", "견적서를 승인했어요")}
+        onButton={() => acceptQuotation(String(orderId))}
       />
       {/* 발주 승인하기, 회사가 발주서를 확인하고 클릭 -> 견적 승인 -> 제작 중 */}
       <OrderDetailBottombar
-        showCondition={auth.role === "ROLE_FACTORY" && status === "견적 승인"}
+        showCondition={
+          auth.role === "ROLE_FACTORY" &&
+          status === "견적 승인" &&
+          data !== undefined &&
+          data.purchaseOrder !== null
+        }
         announce="발주서를 확인하고 제작을 시작해주세요"
         buttonText="발주 승인하기"
-        onButton={() => onChangeStatus("제작 중", "발주서를 승인했어요")}
+        onButton={() => acceptPurchaseOrder(String(orderId))}
       />
       {/* 제작 완료, 회사가 제작을 마치고 클릭 -> 제작 중 -> 배송 중 */}
       <OrderDetailBottombar
         showCondition={auth.role === "ROLE_FACTORY" && status === "제작 중"}
         announce="제작이 끝났다면 배송을 시작해주세요"
         buttonText="제작 완료"
-        onButton={() => onChangeStatus("배송 중", "제작이 완료됐어요")}
+        onButton={() => acceptShipping(String(orderId))}
       />
       {/* 배송 완료, 고객이 배송을 받았다면 클릭 -> 배송 중 -> 거래 완료 */}
       <OrderDetailBottombar
         showCondition={auth.role === "ROLE_CUSTOMER" && status === "배송 중"}
         announce="상품이 잘 도착했나요?"
         buttonText="배송 완료"
-        onButton={() => onChangeStatus("거래 완료", "거래가 완료됐어요")}
+        onButton={() => acceptCompleted(String(orderId))}
       />
     </S.Wrapper>
   );

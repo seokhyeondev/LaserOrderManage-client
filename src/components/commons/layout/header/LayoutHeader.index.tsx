@@ -25,9 +25,10 @@ export default function LayoutHeader() {
           <Image
             width={180}
             height={33}
-            src="/images/mainLogo.jpg"
+            src="/images/mainLogo.png"
             alt="메인 로고"
             onClick={onClickMoveToPage("/")}
+            priority={true}
           />
         </S.LogoWrapper>
         <S.MenuWrapper>

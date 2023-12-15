@@ -11,6 +11,7 @@ export default function DeliveryInfoSection({
   data,
   role,
   status,
+  orderId,
 }: IDeliveryInfoSectionProps) {
   const [address, setAddress] = useState<IDeliveryAddress>(data);
   const [showModal, setShowModal] = useState(false);
@@ -80,6 +81,7 @@ export default function DeliveryInfoSection({
       <AddressModal
         isOpen={showModal}
         data={address}
+        orderId={orderId}
         onClose={() => setShowModal(false)}
         callback={editAddressCallback}
       />
