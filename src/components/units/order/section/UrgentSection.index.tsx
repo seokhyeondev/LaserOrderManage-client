@@ -31,19 +31,19 @@ export default function UrgentSection({
       const payload: IDetailUrgentRequest = {
         isUrgent: status,
       };
-      // mutate(
-      //   { id: orderId, payload: payload },
-      //   {
-      //     onSuccess: () => {
-      //       setSelectStatus(status);
-      //       setToast({
-      //         comment: status
-      //           ? "긴급 거래로 설정했어요"
-      //           : "일반 거래로 설정했어요",
-      //       });
-      //     },
-      //   },
-      // );
+      mutate(
+        { id: orderId, payload: payload },
+        {
+          onSuccess: () => {
+            setSelectStatus(status);
+            setToast({
+              comment: status
+                ? "긴급 거래로 설정했어요"
+                : "일반 거래로 설정했어요",
+            });
+          },
+        },
+      );
     }
   };
 

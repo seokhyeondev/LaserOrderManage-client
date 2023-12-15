@@ -69,7 +69,7 @@ export default function AddressModal({
           <Spacer width="8px" height="100%" />
           <S.SubmitButton
             className="bold14"
-            disabled={selectedAddress === data}
+            disabled={selectedAddress.id === data.id}
             onClick={onSubmit}
           >
             수정하기

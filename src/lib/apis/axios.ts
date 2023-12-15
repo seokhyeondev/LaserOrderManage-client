@@ -6,6 +6,8 @@ import axios, {
 } from "axios";
 import { UserApi } from "./user/UserApi";
 import { setCredentials } from "../utils/setCredentials";
+import { useSetRecoilState } from "recoil";
+import { authState } from "@/src/store/auth";
 
 export const axiosPublic = axios.create({
   baseURL: "http://13.209.132.215",
@@ -37,10 +39,11 @@ axiosPrivate.interceptors.response.use(
 
     const status = Number(error.response?.status);
     const origin = error.config as AxiosRequestConfig;
+    const setAuth = useSetRecoilState(authState);
 
     if (status === 401) {
       const newToken = await UserApi.REISSUE();
-
+      setAuth({ isAuthenticated: true, ...newToken });
       setCredentials(newToken);
       (origin.headers as AxiosHeaders).set(
         "Authorization",

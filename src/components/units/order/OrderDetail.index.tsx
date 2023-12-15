@@ -144,6 +144,7 @@ export default function OrderDetail() {
               role={auth.role}
               status={status}
               orderId={String(orderId)}
+              minDate={data.quotation?.deliveryDate}
               scrollPage={() =>
                 scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
               }

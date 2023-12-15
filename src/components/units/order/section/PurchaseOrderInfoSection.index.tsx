@@ -15,6 +15,7 @@ export default function PurchaseOrderInfoSection({
   role,
   status,
   orderId,
+  minDate,
   scrollPage,
 }: IPurchaseOrderInfoSectionProps) {
   const [showModal, setShowModal] = useState(false);
@@ -80,6 +81,7 @@ export default function PurchaseOrderInfoSection({
         isOpen={showModal}
         data={purchaseOrder}
         orderId={orderId}
+        minDate={minDate}
         callback={editPurchaseOrderCallback}
         onClose={() => setShowModal(false)}
       />

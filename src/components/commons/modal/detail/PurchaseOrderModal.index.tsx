@@ -17,6 +17,7 @@ export default function PurchaseOrderModal({
   isOpen,
   data,
   orderId,
+  minDate,
   callback,
   onClose,
 }: IPurchaseOrderModalProps) {
@@ -42,24 +43,24 @@ export default function PurchaseOrderModal({
       inspectionCondition: condition,
       paymentDate: getParamDate(paymentDateArgs.date),
     };
-    // mutate(
-    //   { id: orderId, payload: payload },
-    //   {
-    //     onSuccess: (res) => {
-    //       callback({
-    //         id: res.id,
-    //         inspectionPeriod: payload.inspectionPeriod,
-    //         inspectionCondition: payload.inspectionCondition,
-    //         paymentDate: payload.paymentDate,
-    //         createdAt: new Date(),
-    //       });
-    //       setToast({
-    //         comment: data ? "발주서를 수정했어요" : "발주서를 추가했어요",
-    //       });
-    //       onClose();
-    //     },
-    //   },
-    // );
+    mutate(
+      { id: orderId, payload: payload },
+      {
+        onSuccess: (res) => {
+          callback({
+            id: res.id,
+            inspectionPeriod: payload.inspectionPeriod,
+            inspectionCondition: payload.inspectionCondition,
+            paymentDate: payload.paymentDate,
+            createdAt: new Date(),
+          });
+          setToast({
+            comment: data ? "발주서를 수정했어요" : "발주서를 추가했어요",
+          });
+          onClose();
+        },
+      },
+    );
   };
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -84,7 +85,11 @@ export default function PurchaseOrderModal({
             <CalenderIcon size={16} />
           </S.InputWrapper>
           <S.CalendarWrapper isOpen={paymentDateArgs.show}>
-            <Calendar locale="ko" onChange={paymentDateArgs.onDate} />
+            <Calendar
+              locale="ko"
+              minDate={minDate ? new Date(minDate) : undefined}
+              onChange={paymentDateArgs.onDate}
+            />
           </S.CalendarWrapper>
         </S.CalendarInputWrapper>
         <S.LabelWrapper className="flex-row">
@@ -106,7 +111,11 @@ export default function PurchaseOrderModal({
             <CalenderIcon size={16} />
           </S.InputWrapper>
           <S.CalendarWrapper isOpen={inspectionDateArgs.show}>
-            <Calendar locale="ko" onChange={inspectionDateArgs.onDate} />
+            <Calendar
+              locale="ko"
+              minDate={minDate ? new Date(minDate) : undefined}
+              onChange={inspectionDateArgs.onDate}
+            />
           </S.CalendarWrapper>
         </S.CalendarInputWrapper>
         <S.LabelWrapper className="flex-row">

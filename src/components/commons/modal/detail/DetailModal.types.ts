@@ -15,6 +15,7 @@ export interface IQuotationModalProps extends IModalProps {
 export interface IPurchaseOrderModalProps extends IModalProps {
   data: IDetailPurchaseOrder | null;
   orderId: string;
+  minDate: string | null;
   callback: (newPurchaseOrder: IDetailPurchaseOrder) => void;
 }
 
