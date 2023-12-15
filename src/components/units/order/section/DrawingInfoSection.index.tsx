@@ -58,16 +58,16 @@ export default function DrawingInfoSection({
       setToast({ comment: "도면은 모두 삭제할 수 없어요" });
       return;
     }
-    // mutate(
-    //   { id: orderId, drawingId: id },
-    //   {
-    //     onSuccess: () => {
-    //       const updatedDrawings = drawings.filter((el) => el.id !== id);
-    //       setDrawings(updatedDrawings);
-    //       setToast({ comment: "도면을 삭제했어요" });
-    //     },
-    //   },
-    // );
+    mutate(
+      { id: orderId, drawingId: id },
+      {
+        onSuccess: () => {
+          const updatedDrawings = drawings.filter((el) => el.id !== id);
+          setDrawings(updatedDrawings);
+          setToast({ comment: "도면을 삭제했어요" });
+        },
+      },
+    );
   };
 
   return (
