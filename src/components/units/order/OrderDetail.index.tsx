@@ -176,14 +176,24 @@ export default function OrderDetail() {
       </S.MenuWrapper>
       {/* 견적 승인하기, 고객이 견적서를 확인하고 클릭 -> 견적 대기 -> 견적 승인 */}
       <OrderDetailBottombar
-        showCondition={auth.role === "ROLE_CUSTOMER" && status === "견적 대기"}
+        showCondition={
+          auth.role === "ROLE_CUSTOMER" &&
+          status === "견적 대기" &&
+          data !== undefined &&
+          data.quotation !== null
+        }
         announce="견적서를 확인하고 승인해주세요"
         buttonText="견적 승인하기"
         onButton={() => acceptQuotation(String(orderId))}
       />
       {/* 발주 승인하기, 회사가 발주서를 확인하고 클릭 -> 견적 승인 -> 제작 중 */}
       <OrderDetailBottombar
-        showCondition={auth.role === "ROLE_FACTORY" && status === "견적 승인"}
+        showCondition={
+          auth.role === "ROLE_FACTORY" &&
+          status === "견적 승인" &&
+          data !== undefined &&
+          data.purchaseOrder !== null
+        }
         announce="발주서를 확인하고 제작을 시작해주세요"
         buttonText="발주 승인하기"
         onButton={() => acceptPurchaseOrder(String(orderId))}
