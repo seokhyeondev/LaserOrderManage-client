@@ -1,4 +1,4 @@
-import { Value } from "../../inputs/order/OrderDateInput.types";
+import type { DateValue } from "@/src/lib/hooks/useDate";
 
 export interface IFilterProps {
   isSelect: boolean;
@@ -16,8 +16,8 @@ export interface IOrderFilterWithDateProps extends IOrderFilterProps {
   startDate: string;
   endDate: string;
   onDateFilter: (filterItem: IFilterItem) => void;
-  onStartDate: (date: Value) => void;
-  onEndDate: (date: Value) => void;
+  onStartDate: (date: DateValue) => void;
+  onEndDate: (date: DateValue) => void;
 }
 
 export interface IFilterItem {
