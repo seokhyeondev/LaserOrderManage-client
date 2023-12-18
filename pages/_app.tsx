@@ -5,6 +5,7 @@ import { globalStyles } from "@/src/styles/globalStyles";
 import { Roboto } from "next/font/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilEnv, RecoilRoot } from "recoil";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const roboto = Roboto({ weight: ["400", "500", "700"], subsets: ["latin"] });
 const queryClient = new QueryClient();
@@ -15,12 +16,11 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <RecoilRoot>
         <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen={false} />
           <Global styles={globalStyles} />
-          <main className={roboto.className}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </main>
+          <Layout className={roboto.className}>
+            <Component {...pageProps} />
+          </Layout>
         </QueryClientProvider>
       </RecoilRoot>
     </>

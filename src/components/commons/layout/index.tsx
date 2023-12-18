@@ -8,15 +8,16 @@ const Body = styled.div`
 `;
 
 interface ILayoutProps {
+  className: string;
   children: JSX.Element;
 }
 export default function Layout(props: ILayoutProps) {
   const { Toast } = useToastify();
   return (
-    <>
+    <div className={props.className}>
       <Toast />
       <LayoutHeader />
       <Body>{props.children}</Body>
-    </>
+    </div>
   );
 }
