@@ -3,6 +3,7 @@ import SendIcon from "../../icons/SendIcon.index";
 import {
   IOrderComment,
   IOrderCommentRequest,
+  IOrderCommentsResponse,
 } from "@/src/lib/apis/order/detail/OrderDetail.types";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { useInputWithMaxLength } from "@/src/lib/hooks/useInput";
@@ -16,11 +17,13 @@ import { useToastify } from "@/src/lib/hooks/useToastify";
 interface IOrderCommentMenuProps {
   expanded: boolean;
   orderId: string;
+  comments: IOrderCommentsResponse;
 }
 
 export default function OrderCommentMenu({
   expanded,
   orderId,
+  comments,
 }: IOrderCommentMenuProps) {
   const [inputFocus, setInputFocus] = useState(false);
   const inputArgs = useInputWithMaxLength(200);
@@ -30,6 +33,7 @@ export default function OrderCommentMenu({
   const { data, isLoading, refetch } = useQuery({
     queryKey: [`orderDetailComments/${orderId}`],
     queryFn: () => OrderDetailApi.GET_ORDER_COMMENTS(orderId),
+    initialData: comments,
   });
 
   useEffect(() => {
@@ -66,13 +70,12 @@ export default function OrderCommentMenu({
     <S.Wrapper className="flex-column-start" expanded={expanded}>
       <S.Label className="bold20">댓글</S.Label>
       <S.CommentsWrapper>
-        {data?.totalElements == 0 && (
+        {data.totalElements == 0 && (
           <S.EmptyComment className="flex-center regular14">
             아직 댓글이 없습니다
           </S.EmptyComment>
         )}
-        {data &&
-          data.totalElements !== 0 &&
+        {data.totalElements !== 0 &&
           data.contents.map((el, index) => (
             <OrderCommentItem
               data={el}
