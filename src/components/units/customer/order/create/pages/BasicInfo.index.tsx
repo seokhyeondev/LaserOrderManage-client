@@ -63,25 +63,18 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
 
   return (
     <>
-      {!editMode && (
-        <>
-          <S.LoadWrapper className="flex-row-between-center">
-            <S.LoadInfoWrapper className="flex-column-between">
-              <p className="bold20">거래 불러오기</p>
-              <p className="medium18">
-                이전에 진행했던 거래 내역 정보를 불러옵니다.
-              </p>
-            </S.LoadInfoWrapper>
-            <S.LoadButton
-              className="bold18"
-              onClick={() => setLoadModalOpen(true)}
-            >
-              불러오기
-            </S.LoadButton>
-          </S.LoadWrapper>
-          <Spacer width="100%" height="10px" />
-        </>
-      )}
+      <S.LoadWrapper className="flex-row-between-center">
+        <S.LoadInfoWrapper className="flex-column-between">
+          <p className="bold20">거래 불러오기</p>
+          <p className="medium18">
+            이전에 진행했던 거래 내역 정보를 불러옵니다.
+          </p>
+        </S.LoadInfoWrapper>
+        <S.LoadButton className="bold18" onClick={() => setLoadModalOpen(true)}>
+          불러오기
+        </S.LoadButton>
+      </S.LoadWrapper>
+      <Spacer width="100%" height="10px" />
       <S.FormWrapper className="flex-column">
         <S.FormBodyWrapper>
           <S.FormTitle className="bold24">기본 정보</S.FormTitle>
