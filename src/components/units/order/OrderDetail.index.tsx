@@ -19,19 +19,8 @@ import { useToastify } from "@/src/lib/hooks/useToastify";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
-import { GetServerSideProps } from "next";
-import {
-  IOrderCommentsResponse,
-  IOrderDetailResponse,
-} from "@/src/lib/apis/order/detail/OrderDetail.types";
 
-const OrderDetail = ({
-  detail,
-  comments,
-}: {
-  detail: IOrderDetailResponse;
-  comments: IOrderCommentsResponse;
-}) => {
+export default function OrderDetai() {
   const router = useRouter();
   const { orderId } = router.query;
   const auth = useRecoilValue(authState);
@@ -41,7 +30,6 @@ const OrderDetail = ({
   const { data, isSuccess } = useQuery({
     queryKey: [`orderDetail/${orderId}`],
     queryFn: () => OrderDetailApi.GET_ORDER_DETAIL(String(orderId)),
-    initialData: detail,
   });
 
   useEffect(() => {
@@ -184,7 +172,6 @@ const OrderDetail = ({
         <OrderCommentMenu
           expanded={scrollArgs.menuExpanded}
           orderId={String(orderId)}
-          comments={comments}
         />
       </S.MenuWrapper>
       {/* 견적 승인하기, 고객이 견적서를 확인하고 클릭 -> 견적 대기 -> 견적 승인 */}
@@ -227,29 +214,4 @@ const OrderDetail = ({
       />
     </S.Wrapper>
   );
-};
-
-export default OrderDetail;
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { orderId } = context.params as unknown as { orderId: string };
-
-  try {
-    const detail = await OrderDetailApi.GET_ORDER_DETAIL(orderId);
-    const comments = await OrderDetailApi.GET_ORDER_COMMENTS(orderId);
-    return {
-      props: {
-        detail,
-        comments,
-        revalidate: 1,
-      },
-    };
-  } catch (error) {
-    return {
-      redirect: {
-        destination: `/`,
-        permanent: false,
-      },
-    };
-  }
-};
+}
