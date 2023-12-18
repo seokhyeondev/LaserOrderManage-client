@@ -3,7 +3,11 @@ import { Global } from "@emotion/react";
 import Layout from "@/src/components/commons/layout";
 import { globalStyles } from "@/src/styles/globalStyles";
 import { Roboto } from "next/font/google";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  HydrationBoundary,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { RecoilEnv, RecoilRoot } from "recoil";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -17,6 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <RecoilRoot>
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
+          <HydrationBoundary state={pageProps.dehydratedState} />
           <Global styles={globalStyles} />
           <Layout className={roboto.className}>
             <Component {...pageProps} />
