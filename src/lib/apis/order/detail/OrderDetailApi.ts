@@ -48,7 +48,7 @@ export const OrderDetailApi = {
     id: string;
     payload: IDetailUrgentRequest;
   }): Promise<IDetailUrgentResponse> => {
-    const response = await axiosPrivate.put(
+    const response = await axiosPrivate.patch(
       `/factory/order/${id}/urgent`,
       payload,
     );
@@ -61,7 +61,7 @@ export const OrderDetailApi = {
     id: string;
     payload: IDetailEditAddressRequest;
   }): Promise<IDetailEditAddressResponse> => {
-    const response = await axiosPrivate.put(
+    const response = await axiosPrivate.patch(
       `/customer/order/${id}/delivery-address`,
       payload,
     );
@@ -89,7 +89,7 @@ export const OrderDetailApi = {
     drawingId: number;
     payload: IDetailEditDrawingRequest;
   }): Promise<IDetailEditDrawingResponse> => {
-    const response = await axiosPrivate.put(
+    const response = await axiosPrivate.patch(
       `/customer/order/${id}/drawing/${drawingId}`,
       payload,
     );
@@ -114,7 +114,7 @@ export const OrderDetailApi = {
     id: string;
     payload: FormData;
   }): Promise<IDetailEditQuotationResponse> => {
-    const response = await axiosPrivate.put(
+    const response = await axiosPrivate.patch(
       `/factory/order/${id}/quotation`,
       payload,
       { headers: { "Content-Type": "multipart/form-data" } },
@@ -134,7 +134,7 @@ export const OrderDetailApi = {
     id: string;
     payload: IDetailEditPurchaseOrderRequest;
   }): Promise<IDetailEditPurchaseOrderResponse> => {
-    const response = await axiosPrivate.put(
+    const response = await axiosPrivate.patch(
       `/customer/order/${id}/purchase-order`,
       payload,
     );
@@ -151,7 +151,7 @@ export const OrderDetailApi = {
   PUT_ACCEPT_SHIPPING: async (
     id: string,
   ): Promise<IDetailAcceptShippingResponse> => {
-    const resposne = await axiosPrivate.put(
+    const resposne = await axiosPrivate.patch(
       `/factory/order/${id}/stage/shipping`,
     );
     return resposne.data;
@@ -159,7 +159,7 @@ export const OrderDetailApi = {
   PUT_ACCEPT_COMPLETED: async (
     id: string,
   ): Promise<IDetailAcceptCompletedResponse> => {
-    const resposne = await axiosPrivate.put(
+    const resposne = await axiosPrivate.patch(
       `/customer/order/${id}/stage/completed`,
     );
     return resposne.data;
