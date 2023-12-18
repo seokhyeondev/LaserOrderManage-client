@@ -3,6 +3,7 @@ import SendIcon from "../../icons/SendIcon.index";
 import {
   IOrderComment,
   IOrderCommentRequest,
+  IOrderCommentsResponse,
 } from "@/src/lib/apis/order/detail/OrderDetail.types";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { useInputWithMaxLength } from "@/src/lib/hooks/useInput";

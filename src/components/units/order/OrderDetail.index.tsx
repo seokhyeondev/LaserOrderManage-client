@@ -20,7 +20,7 @@ import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 
-export default function OrderDetail() {
+export default function OrderDetai() {
   const router = useRouter();
   const { orderId } = router.query;
   const auth = useRecoilValue(authState);
