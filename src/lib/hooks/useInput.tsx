@@ -84,15 +84,14 @@ export const useInputWithError = (
 
   return {
     value,
-    setValue,
-    onChange,
     isCorrect,
     error,
+    errorMessage,
     errorWithEmpty,
+    setValue,
+    onChange,
     showError,
     hideError,
-    errorMessage,
-    setErrorMessage,
     passError,
   } as const;
 };

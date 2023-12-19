@@ -7,7 +7,8 @@ export const Wrapper = styled.div`
 `;
 
 export const FormWrapper = styled.div`
-  padding: 70px 57px 80px 57px;
+  width: 564px;
+  padding: 70px 57px 36px 57px;
   background-color: var(--color-white);
   border: 1px solid var(--color-mediumGray);
   border-radius: var(--border-radius);
@@ -23,7 +24,7 @@ export const Result = styled.p`
 `;
 
 export const Button = styled.button`
-  width: 450px;
+  width: 100%;
   height: 55px;
   background-color: var(--color-primary);
   border-radius: var(--border-radius);
@@ -35,7 +36,7 @@ export const Button = styled.button`
 `;
 
 export const SubButton = styled.button`
-  width: 450px;
+  width: 100%;
   height: 55px;
   background-color: var(--color-lightGray);
   border-radius: var(--border-radius);

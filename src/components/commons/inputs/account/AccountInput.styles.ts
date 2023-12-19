@@ -7,7 +7,7 @@ interface IInputWrapper {
 }
 
 export const InputWrapper = styled.div<IInputWrapper>`
-  width: 450px;
+  width: 100%;
   height: 55px;
   padding: 0 ${(props) => (props.hasTail ? "11px" : "25px")} 0 25px;
   border: 1px solid

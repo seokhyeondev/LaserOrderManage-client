@@ -10,12 +10,12 @@ import { useSetRecoilState } from "recoil";
 import { authState } from "@/src/store/auth";
 
 export const axiosPublic = axios.create({
-  baseURL: "http://13.209.132.215",
+  baseURL: "https://api.kumoh.org",
   headers: { "Content-Type": "application/json" },
 });
 
 export const axiosPrivate = axios.create({
-  baseURL: "http://13.209.132.215",
+  baseURL: "https://api.kumoh.org",
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });

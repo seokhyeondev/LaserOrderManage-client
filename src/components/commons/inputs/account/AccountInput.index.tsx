@@ -9,6 +9,7 @@ interface IAccountInputProps {
   value?: string;
   hideValue?: string;
   disabled?: boolean;
+  maxLength?: number;
   tailButtonTitle?: string;
   tailButtonValidate?: boolean;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -31,6 +32,7 @@ export default function AccountInput(props: IAccountInputProps) {
           value={props.value}
           disabled={props.disabled}
           type={props.hideValue ? "password" : "text"}
+          maxLength={props.maxLength}
           onChange={props.onChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}

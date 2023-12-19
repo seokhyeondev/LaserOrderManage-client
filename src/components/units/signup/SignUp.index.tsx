@@ -1,4 +1,8 @@
-import { useInput, useInputWithError, useInputWithMaxLength } from "@/src/lib/hooks/useInput";
+import {
+  useInput,
+  useInputWithError,
+  useInputWithMaxLength,
+} from "@/src/lib/hooks/useInput";
 import SignUpInput from "../../commons/inputs/signup/SingUpInput.index";
 import Spacer from "../../commons/spacer/Spacer.index";
 import * as S from "./SignUp.styles";
@@ -20,33 +24,32 @@ import { useToastify } from "@/src/lib/hooks/useToastify";
 import { IJoinRequest } from "@/src/lib/apis/user/User.types";
 
 export default function SignUp() {
-  
   const [sendCode, setSendCode] = useState(false);
   const [codeSending, setCodeSending] = useState(false);
   const [sentEmail, setSentEmail] = useState("");
   const emailInputArgs = useInputWithError(
-    "이메일을 인증해주세요.", 
-    (value: string) => emailRegex.test(value), 
-    (value: string) => sendCode && emailRegex.test(value)
+    "이메일을 인증해주세요.",
+    (value: string) => emailRegex.test(value),
+    (value: string) => sendCode && emailRegex.test(value),
   );
 
   const [codeChecked, setCodeChecked] = useState(false);
   const codeInputArgs = useInputWithError(
     "인증 코드를 다시 확인해주세요.",
     (value: string) => value.length === 6,
-    (value: string) => sendCode && codeChecked && value.length === 6
+    (value: string) => sendCode && codeChecked && value.length === 6,
   );
 
   const passwordInputArgs = useInputWithError(
     "영문, 숫자, 특수문자를 조합하여 8자리 이상 입력해주세요.",
     (value: string) => passwordRegex.test(value),
-    (value: string) => passwordRegex.test(value)
+    (value: string) => passwordRegex.test(value),
   );
   const rePasswordInputArgs = useInputWithError(
     "비밀번호가 일치하지 않습니다.",
     (value: string) => value === passwordInputArgs.value,
-    (value: string) => value !== "" && value === passwordInputArgs.value
-  )
+    (value: string) => value !== "" && value === passwordInputArgs.value,
+  );
 
   const nameInputArgs = useInputWithError(
     "이름을 입력해주세요.",
@@ -67,8 +70,8 @@ export default function SignUp() {
   const addressInputArgs = useInputWithError(
     "주소를 입력해주세요.",
     (value: string) => value !== "",
-    (value: string) => value !== ""
-  )
+    (value: string) => value !== "",
+  );
   const [detailAddress, onChangeDetailAddress] = useInput();
   const addressCallback = (data: Address) => {
     setZoneCode(data.zonecode);
@@ -83,13 +86,13 @@ export default function SignUp() {
     mutationFn: UserApi.REQUEST_VERIFY,
     onSuccess: (data) => {
       setCodeSending(false);
-      if(data.status === "001" && data.email) {
+      if (data.status === "001" && data.email) {
         //이메일 중복인 경우 => 이미 회원인 경우
         emailInputArgs.showError("이미 존재하는 회원입니다.");
         return;
       }
-      if(data.status === "002") {
-        setToast({comment: "메일로 인증 코드를 전송했어요"});
+      if (data.status === "002") {
+        setToast({ comment: "메일로 인증 코드를 전송했어요" });
         setSendCode(true);
         emailInputArgs.hideError();
         codeInputArgs.hideError();
@@ -97,75 +100,81 @@ export default function SignUp() {
     },
     onError: (error: AxiosError) => {
       setCodeSending(false);
-      if(error.response) {
+      if (error.response) {
         const status = error.response.data as IHttpStatus;
-        if(status.errorCode === "-005") {//이메일 형식에 맞지 않을 때
+        if (status.errorCode === "-005") {
+          //이메일 형식에 맞지 않을 때
           emailInputArgs.showError(status.message);
-        } 
-        if(status.errorCode === "-502") { //이메일에 전송이 불가능할 때
+        }
+        if (status.errorCode === "-502") {
+          //이메일에 전송이 불가능할 때
           emailInputArgs.showError("해당 메일로 전송이 불가능해요");
         }
       }
-    }
+    },
   });
 
   const verifyEmailMutate = useMutation({
     mutationFn: UserApi.VERIFY_EMAIL,
     onSuccess: (data) => {
-      if(data.status === "002") {
-        setToast({comment: "메일 인증을 성공했어요"});
+      if (data.status === "002") {
+        setToast({ comment: "메일 인증을 성공했어요" });
         emailInputArgs.setValue(sentEmail);
         setCodeChecked(true);
         codeInputArgs.hideError();
       }
     },
     onError: (error: AxiosError) => {
-      if(error.response) {
+      if (error.response) {
         const status = error.response.data as IHttpStatus;
-        if(status.errorCode === "-107") {// 코드가 잘못됐을 때,
+        if (status.errorCode === "-107") {
+          // 코드가 잘못됐을 때,
           codeInputArgs.showError();
         }
-        if(status.errorCode === "-401") {//이메일에 해당하는 인증 코드가 없을때
+        if (status.errorCode === "-401") {
+          //이메일에 해당하는 인증 코드가 없을때
           codeInputArgs.showError("인증 코드를 재전송해주세요.");
-        } 
-        if(status.errorCode === "-005") {//이메일이나 인증코드 형식이 맞지 않을 때,
+        }
+        if (status.errorCode === "-005") {
+          //이메일이나 인증코드 형식이 맞지 않을 때,
         }
       }
-    }
+    },
   });
 
   const joinMutate = useMutation({
     mutationFn: UserApi.JOIN,
     onSuccess: (data) => {
-      if(data.status === "003") {
-        setToast({comment: "회원가입을 완료했어요"});
+      if (data.status === "003") {
+        setToast({ comment: "회원가입을 완료했어요" });
         router.push("/login");
       }
     },
     onError: (error: AxiosError) => {
-      if(error.response) {
+      if (error.response) {
         const status = error.response.data as IHttpStatus;
-        if(status.errorCode === "-005") {} // 각종 실패
+        if (status.errorCode === "-005") {
+        } // 각종 실패
       }
-    }
-  })
+    },
+  });
 
   const sendCodeToEmail = () => {
     if (!emailInputArgs.isCorrect) {
       emailInputArgs.showError();
       return;
     }
-    if(!codeSending) {
+    if (!codeSending) {
       setCodeSending(true);
       setSentEmail(emailInputArgs.value);
-      setToast({comment: "인증 코드 전송중..."});
+      setToast({ comment: "인증 코드 전송중..." });
       requestVerifyMutate.mutate(emailInputArgs.value);
     }
   };
 
   const checkEmailCode = () => {
     if (codeInputArgs.isCorrect) {
-      verifyEmailMutate.mutate({email: sentEmail, code: codeInputArgs.value});
+      verifyEmailMutate.mutate({ email: sentEmail, code: codeInputArgs.value });
     }
   };
 
@@ -177,21 +186,30 @@ export default function SignUp() {
     const namePass = nameInputArgs.passError();
     const phonePass = phoneInputArgs.passError();
     const addressPass = addressInputArgs.passError();
-    if (!(emailPass && codePass && passwordPass &&
-      rePasswordPass && namePass && phonePass && addressPass)
-      ) {
+    if (
+      !(
+        emailPass &&
+        codePass &&
+        passwordPass &&
+        rePasswordPass &&
+        namePass &&
+        phonePass &&
+        addressPass
+      )
+    ) {
       return;
     }
     const payload: IJoinRequest = {
       email: emailInputArgs.value,
       password: passwordInputArgs.value,
       name: nameInputArgs.value,
-      companyName: companyInputArgs.value !== "" ? companyInputArgs.value : null,
+      companyName:
+        companyInputArgs.value !== "" ? companyInputArgs.value : null,
       phone: phoneInputArgs.value,
       zipCode: zoneCode,
       address: addressInputArgs.value,
-      detailAddress: detailAddress !== "" ? detailAddress : null
-    }
+      detailAddress: detailAddress !== "" ? detailAddress : null,
+    };
     joinMutate.mutate(payload);
   };
 
@@ -205,10 +223,16 @@ export default function SignUp() {
           isError={emailInputArgs.error}
           needDefaultSpace={false}
           errorMessage={emailInputArgs.errorMessage}
-          tailButtonTitle={codeChecked ? "인증완료" : sendCode ? "재요청" : "인증요청"}
-          tailButtonValidate={emailRegex.test(emailInputArgs.value) && !codeChecked}
+          tailButtonTitle={
+            codeChecked ? "인증완료" : sendCode ? "재요청" : "인증요청"
+          }
+          tailButtonValidate={
+            emailRegex.test(emailInputArgs.value) && !codeChecked
+          }
           onChange={emailInputArgs.onChange}
-          onKeyDown={(e) => {if(e.key === "Enter") sendCodeToEmail()}}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") sendCodeToEmail();
+          }}
           onClickTailButton={sendCodeToEmail}
         />
         {sendCode && !codeChecked ? (
@@ -222,7 +246,9 @@ export default function SignUp() {
             tailButtonTitle="확인"
             tailButtonValidate={codeInputArgs.isCorrect}
             onChange={codeInputArgs.onChange}
-            onKeyDown={(e) => {if(e.key === "Enter") checkEmailCode()}}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") checkEmailCode();
+            }}
             onClickTailButton={checkEmailCode}
           />
         ) : (
@@ -242,7 +268,8 @@ export default function SignUp() {
           hideInput={true}
           editable={true}
           isError={
-            (passwordInputArgs.value !== "" && rePasswordInputArgs.errorWithEmpty) ||
+            (passwordInputArgs.value !== "" &&
+              rePasswordInputArgs.errorWithEmpty) ||
             rePasswordInputArgs.error
           }
           errorMessage={rePasswordInputArgs.errorMessage}
@@ -254,7 +281,7 @@ export default function SignUp() {
           editable={true}
           value={nameInputArgs.value}
           isError={nameInputArgs.error}
-          errorMessage="이름을 입력해주세요."
+          errorMessage={nameInputArgs.errorMessage}
           needDefaultSpace={true}
           maxLength={10}
           onChange={nameInputArgs.onChange}
