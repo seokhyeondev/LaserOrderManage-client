@@ -3,7 +3,7 @@ import { IQuotationModalProps } from "./DetailModal.types";
 import * as S from "./DetailModal.styles";
 import Spacer from "../../spacer/Spacer.index";
 import UploadIcon from "../../icons/UploadIcon.index";
-import CalenderIcon from "../../icons/CalenderIcon.index";
+import CalendarIcon from "../../icons/CalendarIcon.index";
 import { useInputWithRegex } from "@/src/lib/hooks/useInput";
 import { numberRegex } from "@/src/lib/constants/regex";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
@@ -139,7 +139,7 @@ export default function QuotationModal({
               value={dateArgs.date}
               readOnly
             />
-            <CalenderIcon size={16} />
+            <CalendarIcon size={16} />
           </S.InputWrapper>
           <S.CalendarWrapper isOpen={dateArgs.show}>
             <Calendar locale="ko" onChange={dateArgs.onDate} />

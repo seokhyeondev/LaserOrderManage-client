@@ -1,8 +1,6 @@
-interface IUploadIconProps {
-  size: number;
-}
+import { IIconProps } from "./Icon.types";
 
-export default function UploadIcon({ size }: IUploadIconProps) {
+export default function UploadIcon({ size }: IIconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

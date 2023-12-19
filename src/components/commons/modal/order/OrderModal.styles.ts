@@ -12,10 +12,6 @@ export const ModalHeader = styled.div`
   margin-bottom: 10px;
 `;
 
-export const ModalCloseIcon = styled.div`
-  cursor: pointer;
-`;
-
 export const ModalProjectName = styled.p`
   color: var(--color-darkGray);
   margin-bottom: 21px;

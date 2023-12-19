@@ -17,11 +17,16 @@ export default function HistoryPagination(props: IHistoryPaginationProps) {
         <div className="flex-center">
           <div className="flex-row-align-center">
             <LeftIcon
+              size={36}
               isActive={props.hasBefore}
               onClick={props.onClickBefore}
             />
             <Spacer width="20px" height="100%" />
-            <RightIcon isActive={props.hasNext} onClick={props.onClickNext} />
+            <RightIcon
+              size={36}
+              isActive={props.hasNext}
+              onClick={props.onClickNext}
+            />
           </div>
         </div>
       )}

@@ -1,6 +1,7 @@
 import * as S from "./OrderFilter.styles";
-import Image from "next/image";
 import { IOrderFilterProps } from "./OrderFilter.types";
+import RedoIcon from "../../icons/RedoIcon.index";
+import Spacer from "../../spacer/Spacer.index";
 
 export default function OrderFilter(props: IOrderFilterProps) {
   return (
@@ -8,14 +9,8 @@ export default function OrderFilter(props: IOrderFilterProps) {
       <S.HeaderWrapper className="flex-row-between">
         <p className="bold16">검색 필터</p>
         <a className="flex-row-center">
-          <S.RedoIconWrapper>
-            <Image
-              width={16}
-              height={16}
-              src="/images/redo.svg"
-              alt="초기화 아이콘"
-            />
-          </S.RedoIconWrapper>
+          <RedoIcon size={16} />
+          <Spacer width="5px" height="100%" />
           <p className="medium16" onClick={() => props.onResetFilter()}>
             필터 초기화
           </p>

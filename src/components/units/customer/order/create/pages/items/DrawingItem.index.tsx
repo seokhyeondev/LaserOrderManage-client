@@ -5,6 +5,7 @@ import { useState, ChangeEvent } from "react";
 import { getFileSize } from "@/src/lib/utils/utils";
 import LoadingBox from "@/src/components/commons/loading/LoadingBox.index";
 import { INGREDIENTS, MAX_THICKNESS } from "@/src/lib/constants/constant";
+import TrashIcon from "@/src/components/commons/icons/TrashIcon.index";
 
 export interface IDrawingItem {
   thumbnailUrl: string;
@@ -136,12 +137,8 @@ export default function DrawingItem(props: IDrawingItemProps) {
           </div>
         </S.DetailWrapper>
       </S.InfoWrapper>
-      <Image
-        src="/images/trash.svg"
-        width={20}
-        height={20}
-        alt=""
-        style={S.DeleteIcon}
+      <TrashIcon
+        size={20}
         onClick={() => props.onDelete(props.data.fileName)}
       />
     </S.Wrapper>
