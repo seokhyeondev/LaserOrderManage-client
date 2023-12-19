@@ -3,10 +3,13 @@ import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "@/src/components/units/account/Accout.styles";
 import { numberRegex, phoneRegex } from "@/src/lib/constants/regex";
 import { useInputWithError } from "@/src/lib/hooks/useInput";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function FindEmail() {
   const [find, setFind] = useState(false);
+  const [result, setResult] = useState<string | null>("user1@gmail.com");
+  const router = useRouter();
 
   const nameInputArgs = useInputWithError(
     "이름은 두 글자 이상입니다",
@@ -56,13 +59,28 @@ export default function FindEmail() {
             </S.Button>
           </>
         )}
-        {find && (
+        {find && result && (
           <>
+            <S.ResultWrapper>
+              <p className="regular14">{`${nameInputArgs.value}님의 이메일`}</p>
+              <Spacer width="100%" height="20px" />
+              <S.Result className="bold18">{result}</S.Result>
+            </S.ResultWrapper>
             <Spacer width="100%" height="40px" />
             <div className="flex-row">
-              <S.SubButton className="bold18">비밀번호 찾기</S.SubButton>
+              <S.SubButton
+                className="bold18"
+                onClick={() => router.replace("/find-password")}
+              >
+                비밀번호 찾기
+              </S.SubButton>
               <Spacer width="10px" height="100%" />
-              <S.Button className="bold18">로그인</S.Button>
+              <S.Button
+                className="bold18"
+                onClick={() => router.replace("/login")}
+              >
+                로그인
+              </S.Button>
             </div>
           </>
         )}

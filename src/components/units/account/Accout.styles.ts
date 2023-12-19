@@ -19,6 +19,12 @@ export const Title = styled.p`
   text-align: center;
 `;
 
+export const ResultWrapper = styled.div`
+  width: 100%;
+  height: 124px;
+  text-align: center;
+`;
+
 export const Result = styled.p`
   color: var(--color-primary);
 `;
