@@ -1,9 +1,10 @@
 import { jsx } from "@emotion/react";
 
-export type MyPageMenu = "Account" | "Delivery" | "MangerList";
+export type IMyPageMenu = "Account" | "Delivery" | "MangerList";
 
-export interface IMenuItemTitleProps {
-  isActive: boolean;
+export interface IMyPageMenuProps {
+  currentPage: IMyPageMenu;
+  onChangePage: (page: IMyPageMenu) => void;
 }
 
 export interface IMyPageMenuItemProps {
@@ -11,4 +12,8 @@ export interface IMyPageMenuItemProps {
   isActive: boolean;
   children: jsx.JSX.Element;
   onClick: () => void;
+}
+
+export interface IMenuItemTitleProps {
+  isActive: boolean;
 }

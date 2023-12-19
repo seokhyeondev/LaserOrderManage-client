@@ -4,9 +4,12 @@ import TruckIcon from "../../icons/TruckIcon.index";
 import UserIcon from "../../icons/UserIcon.index";
 import Spacer from "../../spacer/Spacer.index";
 import * as S from "./MyPageMenu.styles";
-import { IMyPageMenuItemProps } from "./MyPageMenu.types";
+import { IMyPageMenuItemProps, IMyPageMenuProps } from "./MyPageMenu.types";
 
-export default function MyPageMenu() {
+export default function MyPageMenu({
+  currentPage,
+  onChangePage,
+}: IMyPageMenuProps) {
   return (
     <S.Wrapper className="flex-column">
       <S.BodyWrapper>
@@ -15,18 +18,26 @@ export default function MyPageMenu() {
         <S.Company className="medium16">금오엠티 (주)</S.Company>
         <Spacer width="100%" height="56px" />
         <div>
-          <MyPageMenuItem title="계정" isActive={true} onClick={() => {}}>
-            <UserIcon size={24} isActive={true} />
+          <MyPageMenuItem
+            title="계정"
+            isActive={currentPage === "Account"}
+            onClick={() => onChangePage("Account")}
+          >
+            <UserIcon size={24} isActive={currentPage === "Account"} />
           </MyPageMenuItem>
-          <MyPageMenuItem title="배송지" isActive={true} onClick={() => {}}>
-            <TruckIcon size={24} isActive={true} />
+          <MyPageMenuItem
+            title="배송지"
+            isActive={currentPage === "Delivery"}
+            onClick={() => onChangePage("Delivery")}
+          >
+            <TruckIcon size={24} isActive={currentPage === "Delivery"} />
           </MyPageMenuItem>
           <MyPageMenuItem
             title="담당자 관리"
-            isActive={true}
-            onClick={() => {}}
+            isActive={currentPage === "MangerList"}
+            onClick={() => onChangePage("MangerList")}
           >
-            <ClipBoardIcon size={24} isActive={true} />
+            <ClipBoardIcon size={24} isActive={currentPage === "MangerList"} />
           </MyPageMenuItem>
         </div>
       </S.BodyWrapper>
