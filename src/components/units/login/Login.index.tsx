@@ -82,7 +82,7 @@ export default function Login() {
           로그인
         </S.LoginButton>
         <S.MenuWrapper className="flex-center regular14">
-          <a>이메일 찾기</a>
+          <a onClick={() => router.push("/find-email")}>이메일 찾기</a>
           <S.MenuDivider>|</S.MenuDivider>
           <a>비밀번호 찾기</a>
           <S.MenuDivider>|</S.MenuDivider>
