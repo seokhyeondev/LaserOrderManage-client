@@ -7,8 +7,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function FindEmail() {
-  const [find, setFind] = useState(false);
-  const [result, setResult] = useState<string | null>("user1@gmail.com");
+  const [result, setResult] = useState<string | null>(null);
   const router = useRouter();
 
   const nameInputArgs = useInputWithError(
@@ -28,7 +27,7 @@ export default function FindEmail() {
     const namePass = nameInputArgs.passError();
     const phonePass = phoneInputArgs.passError();
     if (!(namePass && phonePass)) return;
-    setFind(true);
+    setResult("user1@gmail.com");
   };
 
   return (
@@ -36,7 +35,7 @@ export default function FindEmail() {
       <S.FormWrapper>
         <S.Title className="bold28">이메일 찾기</S.Title>
         <Spacer width="100%" height="52px" />
-        {!find && (
+        {result === null && (
           <>
             <AccountInput
               placeholder="이름"
@@ -59,7 +58,7 @@ export default function FindEmail() {
             </S.Button>
           </>
         )}
-        {find && result && (
+        {result && (
           <>
             <S.ResultWrapper>
               <p className="regular14">{`${nameInputArgs.value}님의 이메일`}</p>

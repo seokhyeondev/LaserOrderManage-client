@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useState } from "react";
 import * as S from "./AccountInput.styles";
 import Spacer from "../../spacer/Spacer.index";
 
@@ -7,12 +7,13 @@ interface IAccountInputProps {
   isError: boolean;
   errorMessage: string;
   value?: string;
-  hideValue?: string;
+  hideValue?: boolean;
   disabled?: boolean;
   maxLength?: number;
   tailButtonTitle?: string;
   tailButtonValidate?: boolean;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
   onClickTailButton?: () => void;
 }
 
@@ -34,6 +35,7 @@ export default function AccountInput(props: IAccountInputProps) {
           type={props.hideValue ? "password" : "text"}
           maxLength={props.maxLength}
           onChange={props.onChange}
+          onKeyDown={props.onKeyDown}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
         />

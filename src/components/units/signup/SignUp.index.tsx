@@ -226,9 +226,7 @@ export default function SignUp() {
           tailButtonTitle={
             codeChecked ? "인증완료" : sendCode ? "재요청" : "인증요청"
           }
-          tailButtonValidate={
-            emailRegex.test(emailInputArgs.value) && !codeChecked
-          }
+          tailButtonValidate={emailInputArgs.isCorrect && !codeChecked}
           onChange={emailInputArgs.onChange}
           onKeyDown={(e) => {
             if (e.key === "Enter") sendCodeToEmail();
