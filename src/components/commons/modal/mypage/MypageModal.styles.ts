@@ -30,6 +30,18 @@ export const Input = styled.input`
   }
 `;
 
+export const ErrorMessage = styled.p`
+  margin-top: 12px;
+  margin-left: 3px;
+  color: var(--color-alert);
+`;
+
+export const Announce = styled.p`
+  margin-top: 12px;
+  margin-left: 3px;
+  color: var(--color-darkGray);
+`;
+
 export const SubmitButton = styled.button`
   flex-grow: 1;
   height: 50px;

@@ -17,7 +17,7 @@ export default function ManagerModal({ isOpen, onClose }: IMangerModalProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <S.Wrapper>
-        <S.Title className="bold18">담당자 추가/수정</S.Title>
+        <S.Title className="bold18">담당자 등록</S.Title>
         <Spacer width="100%" height="30px" />
         <div className="flex-row">
           <S.Label className="medium16">담당자명</S.Label>
@@ -31,12 +31,12 @@ export default function ManagerModal({ isOpen, onClose }: IMangerModalProps) {
         />
         <Spacer width="100%" height="24px" />
         <div className="flex-row">
-          <S.Label className="medium16">담당자 휴대폰 번호</S.Label>
+          <S.Label className="medium16">담당자 번호</S.Label>
           <S.Required className="medium16">*</S.Required>
         </div>
         <Spacer width="100%" height="10px" />
         <S.Input
-          placeholder="담당자 휴대폰 번호를 입력하세요"
+          placeholder="휴대폰 번호 (숫자만)"
           value={phone}
           onChange={onChangePhone}
         />
