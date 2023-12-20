@@ -63,4 +63,5 @@ export const AddWrapper = styled.p`
   background-color: var(--color-mediumGray);
   border-radius: var(--border-radius);
   color: var(--color-darkGray);
+  cursor: pointer;
 `;

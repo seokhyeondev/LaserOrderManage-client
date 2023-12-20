@@ -15,6 +15,9 @@ import AddDrawingModal from "@/src/components/commons/modal/detail/AddDrawingMod
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { useMutation } from "@tanstack/react-query";
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
+import ItemMenus, {
+  ItemMenuTitle,
+} from "@/src/components/commons/menu/item/ItemMenus.index";
 
 export default function DrawingInfoSection({
   sectionRef,
@@ -180,42 +183,36 @@ function DrawingInfoItem({
           </div>
         </ItemInfoTextWrapper>
       </ItemInfoWrapper>
-      <ItemMenuWrapper ref={menuRef} onClick={() => setShowMenu(!showMenu)}>
-        <ItemMenuBox className="flex-center">
-          <MenuIcon size={24} />
-        </ItemMenuBox>
-        {showMenu && (
-          <ItemMenu>
-            <ItemMenuTitle
-              className="regular14"
-              href={data.fileUrl}
-              download={true}
-              isAlert={false}
-            >
-              다운로드
-            </ItemMenuTitle>
-            {role === "ROLE_CUSTOMER" &&
-              !(status === "배송 중" || status === "거래 완료") && (
-                <>
-                  <ItemMenuTitle
-                    className="regular14"
-                    isAlert={false}
-                    onClick={onEdit}
-                  >
-                    수정하기
-                  </ItemMenuTitle>
-                  <ItemMenuTitle
-                    className="regular14"
-                    isAlert={true}
-                    onClick={onDeleteDrawing}
-                  >
-                    삭제하기
-                  </ItemMenuTitle>
-                </>
-              )}
-          </ItemMenu>
-        )}
-      </ItemMenuWrapper>
+      <ItemMenus
+        show={showMenu}
+        menuRef={menuRef}
+        toggleMenu={() => setShowMenu(!showMenu)}
+      >
+        <>
+          <ItemMenuTitle
+            className="regular14"
+            href={data.fileUrl}
+            download={true}
+          >
+            다운로드
+          </ItemMenuTitle>
+          {role === "ROLE_CUSTOMER" &&
+            !(status === "배송 중" || status === "거래 완료") && (
+              <>
+                <ItemMenuTitle className="regular14" onClick={onEdit}>
+                  수정하기
+                </ItemMenuTitle>
+                <ItemMenuTitle
+                  className="regular14"
+                  isAlert={true}
+                  onClick={onDeleteDrawing}
+                >
+                  삭제하기
+                </ItemMenuTitle>
+              </>
+            )}
+        </>
+      </ItemMenus>
     </ItemWrapper>
   );
 }
@@ -243,43 +240,4 @@ const ItemInfoTextWrapper = styled.div`
 const ItemLabel = styled.p`
   width: 44px;
   color: var(--color-darkGray);
-`;
-
-const ItemMenuWrapper = styled.div`
-  position: relative;
-`;
-
-const ItemMenuBox = styled.div`
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all ease 0.3s;
-  &:hover {
-    background-color: var(--color-lightGray);
-  }
-`;
-
-const ItemMenu = styled.div`
-  position: absolute;
-  top: 28px;
-  right: 0px;
-  padding: 6px 5px;
-  border: 1px solid var(--color-mediumGray);
-  border-radius: var(--border-radius);
-`;
-
-interface IItemMenuTitleProps {
-  isAlert: boolean;
-}
-
-const ItemMenuTitle = styled.a<IItemMenuTitleProps>`
-  display: block;
-  width: 90px;
-  padding: 8px 10px;
-  transition: all ease 0.3s;
-  cursor: pointer;
-  color: ${(props) =>
-    props.isAlert ? "var(--color-alert)" : "var(--color-black)"};
-  &:hover {
-    background-color: var(--color-lightGray);
-  }
 `;

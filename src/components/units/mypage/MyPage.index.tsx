@@ -5,6 +5,7 @@ import { IMyPageMenu } from "@/src/components/commons/menu/mypage/MyPageMenu.typ
 import { useRecoilValue } from "recoil";
 import { authState } from "@/src/store/auth";
 import AccountPage from "./pages/AccoutPage.index";
+import DeliveryPage from "./pages/DeliveryPage.index";
 
 export default function MyPage() {
   const [currentPage, setCurrentPage] = useState<IMyPageMenu>("Account");
@@ -24,6 +25,7 @@ export default function MyPage() {
         onChangePage={onChangePage}
       />
       {currentPage === "Account" && <AccountPage role={auth.role} />}
+      {currentPage === "Delivery" && <DeliveryPage />}
     </Wrapper>
   );
 }
