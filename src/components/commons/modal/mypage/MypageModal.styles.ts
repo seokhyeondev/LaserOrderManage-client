@@ -30,42 +30,6 @@ export const Input = styled.input`
   }
 `;
 
-export const AddressInputWrapper = styled.div`
-  width: 100%;
-  height: 45px;
-  padding: 0 10px 0 15px;
-  border: 1px solid var(--color-mediumGray);
-  border-radius: var(--border-radius);
-`;
-
-export const AddressInput = styled.input`
-  width: 100%;
-  ::placeholder {
-    color: var(--color-normalGray);
-  }
-`;
-
-export const SearchButton = styled.button`
-  width: 70px;
-  height: 35px;
-  color: var(--color-white);
-  background-color: var(--color-primary);
-  border-radius: var(--border-radius);
-`;
-
-export const CheckArea = styled.div`
-  cursor: pointer;
-`;
-
-interface ICheckLabelProps {
-  isChecked: boolean;
-}
-
-export const CheckLabel = styled.p<ICheckLabelProps>`
-  color: ${(props) =>
-    props.isChecked ? "var(--color-primary)" : "var(--color-normalGray)"};
-`;
-
 export const SubmitButton = styled.button`
   flex-grow: 1;
   height: 50px;

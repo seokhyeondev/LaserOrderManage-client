@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 import { authState } from "@/src/store/auth";
 import AccountPage from "./pages/AccoutPage.index";
 import DeliveryPage from "./pages/DeliveryPage.index";
+import ManagerListPage from "./pages/MangerListPage.index";
 
 export default function MyPage() {
   const [currentPage, setCurrentPage] = useState<IMyPageMenu>("Account");
@@ -26,6 +27,7 @@ export default function MyPage() {
       />
       {currentPage === "Account" && <AccountPage role={auth.role} />}
       {currentPage === "Delivery" && <DeliveryPage />}
+      {currentPage === "MangerList" && <ManagerListPage />}
     </Wrapper>
   );
 }
