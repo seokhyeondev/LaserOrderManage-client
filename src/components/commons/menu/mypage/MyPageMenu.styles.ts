@@ -29,7 +29,6 @@ export const MenuItemWrapper = styled.div`
   padding: 16px 14px;
   margin-bottom: 18px;
   transition: all ease 0.5s;
-  border-radius: var(--border-radius);
   cursor: pointer;
 
   &:last-of-type {

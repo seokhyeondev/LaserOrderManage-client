@@ -4,6 +4,7 @@ import { useState } from "react";
 import { IMyPageMenu } from "@/src/components/commons/menu/mypage/MyPageMenu.types";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/src/store/auth";
+import AccountPage from "./pages/AccoutPage.index";
 
 export default function MyPage() {
   const [currentPage, setCurrentPage] = useState<IMyPageMenu>("Account");
@@ -22,6 +23,7 @@ export default function MyPage() {
         role={auth.role}
         onChangePage={onChangePage}
       />
+      {currentPage === "Account" && <AccountPage role={auth.role} />}
     </Wrapper>
   );
 }
