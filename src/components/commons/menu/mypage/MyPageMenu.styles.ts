@@ -32,9 +32,6 @@ export const MenuItemWrapper = styled.div`
   border-radius: var(--border-radius);
   cursor: pointer;
 
-  &:hover {
-    background-color: var(--color-lightGray);
-  }
   &:last-of-type {
     margin-bottom: 0;
   }

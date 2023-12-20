@@ -8,6 +8,7 @@ import { IMyPageMenuItemProps, IMyPageMenuProps } from "./MyPageMenu.types";
 
 export default function MyPageMenu({
   currentPage,
+  role,
   onChangePage,
 }: IMyPageMenuProps) {
   return (
@@ -25,20 +26,27 @@ export default function MyPageMenu({
           >
             <UserIcon size={24} isActive={currentPage === "Account"} />
           </MyPageMenuItem>
-          <MyPageMenuItem
-            title="배송지"
-            isActive={currentPage === "Delivery"}
-            onClick={() => onChangePage("Delivery")}
-          >
-            <TruckIcon size={24} isActive={currentPage === "Delivery"} />
-          </MyPageMenuItem>
-          <MyPageMenuItem
-            title="담당자 관리"
-            isActive={currentPage === "MangerList"}
-            onClick={() => onChangePage("MangerList")}
-          >
-            <ClipBoardIcon size={24} isActive={currentPage === "MangerList"} />
-          </MyPageMenuItem>
+          {role && (
+            <MyPageMenuItem
+              title="배송지"
+              isActive={currentPage === "Delivery"}
+              onClick={() => onChangePage("Delivery")}
+            >
+              <TruckIcon size={24} isActive={currentPage === "Delivery"} />
+            </MyPageMenuItem>
+          )}
+          {role && (
+            <MyPageMenuItem
+              title="담당자 관리"
+              isActive={currentPage === "MangerList"}
+              onClick={() => onChangePage("MangerList")}
+            >
+              <ClipBoardIcon
+                size={24}
+                isActive={currentPage === "MangerList"}
+              />
+            </MyPageMenuItem>
+          )}
         </div>
       </S.BodyWrapper>
       <S.SignoutWrapper className="flex-center">

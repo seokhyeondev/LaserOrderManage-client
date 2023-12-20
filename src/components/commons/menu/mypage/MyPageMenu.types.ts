@@ -1,9 +1,11 @@
+import { UserType } from "@/src/store/auth";
 import { jsx } from "@emotion/react";
 
 export type IMyPageMenu = "Account" | "Delivery" | "MangerList";
 
 export interface IMyPageMenuProps {
   currentPage: IMyPageMenu;
+  role: UserType;
   onChangePage: (page: IMyPageMenu) => void;
 }
 
