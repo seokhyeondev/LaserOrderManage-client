@@ -60,7 +60,7 @@ export type IFindEmail = {
   email: string;
 };
 
-export type IFindEmailRespose = IBaseListSimpleResponse<IFindEmail>;
+export type IFindEmailResponse = IBaseListSimpleResponse<IFindEmail>;
 
 export type IFindPasswordRequest = {
   eamil: string;
