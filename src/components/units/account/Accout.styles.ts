@@ -21,8 +21,19 @@ export const Title = styled.p`
 
 export const ResultWrapper = styled.div`
   width: 100%;
-  height: 124px;
   text-align: center;
+`;
+
+export const ResultItem = styled.div`
+  width: 100%;
+  padding-block: 20px;
+  background-color: var(--color-lightGray);
+  border-radius: var(--border-radius);
+  margin-bottom: 10px;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 `;
 
 export const Result = styled.p`

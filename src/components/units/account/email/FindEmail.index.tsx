@@ -63,7 +63,14 @@ export default function FindEmail() {
             <S.ResultWrapper>
               <p className="regular14">{`${nameInputArgs.value}님의 이메일`}</p>
               <Spacer width="100%" height="20px" />
-              <S.Result className="bold18">{result}</S.Result>
+              <div>
+                <S.ResultItem>
+                  <S.Result className="bold18">{result}</S.Result>
+                </S.ResultItem>
+                <S.ResultItem>
+                  <S.Result className="bold18">{result}</S.Result>
+                </S.ResultItem>
+              </div>
             </S.ResultWrapper>
             <Spacer width="100%" height="40px" />
             <div className="flex-row">
