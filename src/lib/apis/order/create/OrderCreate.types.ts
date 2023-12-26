@@ -43,7 +43,7 @@ export type IOrderHistoryResponse = {
   deliveryAddress: IDeliveryAddress;
 };
 
-export type IOrderHistoryListResponse = IBaseListResponse<IOrderHistory> & {};
+export type IOrderHistoryListResponse = IBaseListResponse<IOrderHistory>;
 
 export type IOrderHistory = {
   id: number;

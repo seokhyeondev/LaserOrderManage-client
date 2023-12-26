@@ -1,7 +1,7 @@
-export type IDeliveryAddressListResponse = {
-  contents: IDeliveryAddress[];
-  totalElements: number;
-};
+import { IBaseListSimpleResponse } from "@/src/lib/apis/base/base.types";
+
+export type IDeliveryAddressListResponse =
+  IBaseListSimpleResponse<IDeliveryAddress>;
 
 export type IDeliveryAddressRequest = {
   deliveryName: string;
