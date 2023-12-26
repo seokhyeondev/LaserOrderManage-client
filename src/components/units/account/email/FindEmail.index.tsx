@@ -79,7 +79,7 @@ export default function FindEmail() {
             </S.Button>
           </>
         )}
-        {result && (
+        {result && result.totalElements !== 0 && (
           <>
             <S.ResultWrapper>
               <p className="regular14">{`${nameInputArgs.value}님의 이메일`}</p>
@@ -108,6 +108,26 @@ export default function FindEmail() {
                 로그인
               </S.Button>
             </div>
+          </>
+        )}
+        {result && result.totalElements === 0 && (
+          <>
+            <S.ResultWrapper>
+              <p className="medium16">가입한 내역이 없습니다</p>
+              <Spacer width="100%" height="60px" />
+              <div className="flex-row">
+                <S.SubButton className="bold18" onClick={() => setResult(null)}>
+                  다시 찾기
+                </S.SubButton>
+                <Spacer width="10px" height="100%" />
+                <S.Button
+                  className="bold18"
+                  onClick={() => router.replace("/login")}
+                >
+                  로그인
+                </S.Button>
+              </div>
+            </S.ResultWrapper>
           </>
         )}
       </S.FormWrapper>
