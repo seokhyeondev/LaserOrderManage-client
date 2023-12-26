@@ -12,12 +12,6 @@ export const HeaderWrapper = styled.div`
   margin-bottom: 14px;
 `;
 
-export const RedoIconWrapper = styled.div`
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-`;
-
 export const FilterWrapper = styled.div`
   width: 100%;
   padding: 16px 0;

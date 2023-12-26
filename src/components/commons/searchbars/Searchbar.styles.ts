@@ -28,8 +28,6 @@ export const SearchbarInput = styled.input<ISearchbarInputProps>`
 
 export const IconWrapper = styled.div`
   position: absolute;
-  width: 24px;
-  height: 24px;
   right: 16px;
   top: 13px;
   cursor: pointer;

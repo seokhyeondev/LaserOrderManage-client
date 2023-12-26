@@ -1,10 +1,10 @@
-import Image from "next/image";
 import * as S from "./OrderDateInput.styles";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useState } from "react";
 import { IOrderDateInputProps } from "./OrderDateInput.types";
 import { DateValue } from "@/src/lib/hooks/useDate";
+import CalendarIcon from "../../icons/CalendarIcon.index";
 
 export default function OrderDateInput(props: IOrderDateInputProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +30,7 @@ export default function OrderDateInput(props: IOrderDateInputProps) {
           value={props.date}
           readOnly
         />
-        <Image width={18} height={18} src="/images/calender.svg" alt="달력" />
+        <CalendarIcon size={16} />
       </S.InputWrapper>
       <S.CalendarWrapper isOpen={isOpen}>
         <Calendar onChange={handleDateChange} locale="ko" />

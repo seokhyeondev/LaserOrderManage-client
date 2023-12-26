@@ -157,7 +157,6 @@ export default function AddressModal(props: IAddressModalProps) {
           <Spacer width="10px" height="100%" />
           <S.SubmitButton
             className="bold16"
-            isActive={submitAvailable}
             onClick={onSubmit}
             disabled={!submitAvailable}
           >

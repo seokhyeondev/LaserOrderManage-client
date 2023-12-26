@@ -1,16 +1,6 @@
 import { useRef, MouseEvent, useEffect } from "react";
 import styled from "@emotion/styled";
 
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 2;
-`;
-
 interface ICommonModalProps extends IModalProps {
   children: JSX.Element;
 }
@@ -20,24 +10,28 @@ export interface IModalProps {
   onClose: () => void;
 }
 
-export default function Modal(props: ICommonModalProps) {
+export default function Modal({
+  isOpen,
+  children,
+  onClose,
+}: ICommonModalProps) {
   const modalRef = useRef(null);
 
   const handleOutsideClick = (event: MouseEvent<HTMLElement>) => {
     if (modalRef.current === event.target) {
-      props.onClose();
+      onClose();
     }
   };
 
   useEffect(() => {
-    if (props.isOpen) {
+    if (isOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-  }, [props.isOpen]);
+  }, [isOpen]);
 
-  if (!props.isOpen) {
+  if (!isOpen) {
     return null;
   }
 
@@ -47,7 +41,17 @@ export default function Modal(props: ICommonModalProps) {
       onClick={handleOutsideClick}
       ref={modalRef}
     >
-      {props.children}
+      {children}
     </ModalOverlay>
   );
 }
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+`;

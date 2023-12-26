@@ -1,8 +1,6 @@
-interface ICalenderIconProps {
-  size: number;
-}
+import { IIconProps } from "./Icon.types";
 
-export default function CalenderIcon({ size }: ICalenderIconProps) {
+export default function CalendarIcon({ size }: IIconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

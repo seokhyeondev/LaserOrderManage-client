@@ -1,15 +1,16 @@
-interface ISendIconProps {
-  size: number;
+import { IIconProps } from "./Icon.types";
+
+interface ISendIconProps extends IIconProps {
   onSend: () => void;
 }
 
-export default function SendIcon(props: ISendIconProps) {
+export default function SendIcon({ size, onSend }: ISendIconProps) {
   return (
-    <a onClick={props.onSend}>
+    <a onClick={onSend}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={props.size}
-        height={props.size}
+        width={size}
+        height={size}
         viewBox="0 0 24 24"
         id="message"
       >

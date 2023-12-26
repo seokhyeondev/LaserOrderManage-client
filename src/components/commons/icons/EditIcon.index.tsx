@@ -1,13 +1,11 @@
-interface IEditIconProps {
-  size: number;
-}
+import { IIconProps } from "./Icon.types";
 
-export default function EditIcon(props: IEditIconProps) {
+export default function EditIcon({ size }: IIconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={props.size}
-      height={props.size}
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       id="pen"
     >

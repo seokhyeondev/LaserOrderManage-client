@@ -2,6 +2,7 @@ import * as S from "./OrderModal.styles";
 import Image from "next/image";
 import { IOrderModalProps } from "./OrderModal.types";
 import Modal from "../Modal.index";
+import XIcon from "../../icons/XIcon.index";
 
 export default function OrderModal(props: IOrderModalProps) {
   return (
@@ -9,14 +10,7 @@ export default function OrderModal(props: IOrderModalProps) {
       <S.ModalWrapper>
         <S.ModalHeader className="flex-row-between">
           <p className="bold24">요청사항</p>
-          <S.ModalCloseIcon onClick={props.onClose}>
-            <Image
-              src="/images/multiply.svg"
-              width={20}
-              height={20}
-              alt="닫기"
-            />
-          </S.ModalCloseIcon>
+          <XIcon size={20} onClick={props.onClose} />
         </S.ModalHeader>
         <S.ModalProjectName className="medium18">
           {props.content.name}

@@ -2,7 +2,7 @@ import Spacer from "../../spacer/Spacer.index";
 import Modal from "../Modal.index";
 import { IPurchaseOrderModalProps } from "./DetailModal.types";
 import * as S from "./DetailModal.styles";
-import CalenderIcon from "../../icons/CalenderIcon.index";
+import CalendarIcon from "../../icons/CalendarIcon.index";
 import { useCalendar } from "@/src/lib/hooks/useDate";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -89,7 +89,7 @@ export default function PurchaseOrderModal({
               value={paymentDateArgs.date}
               readOnly
             />
-            <CalenderIcon size={16} />
+            <CalendarIcon size={16} />
           </S.InputWrapper>
           <S.CalendarWrapper isOpen={paymentDateArgs.show}>
             <Calendar
@@ -115,7 +115,7 @@ export default function PurchaseOrderModal({
               value={inspectionDateArgs.date}
               readOnly
             />
-            <CalenderIcon size={16} />
+            <CalendarIcon size={16} />
           </S.InputWrapper>
           <S.CalendarWrapper isOpen={inspectionDateArgs.show}>
             <Calendar

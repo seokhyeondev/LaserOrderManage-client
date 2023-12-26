@@ -1,6 +1,5 @@
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "../CreateOrder.styles";
-import Image from "next/image";
 import { ChangeEvent, useRef, useState, useEffect } from "react";
 import DrawingItem, { IDrawingItem } from "./items/DrawingItem.index";
 import { ICreateOrderPageProps } from "../CreateOrder.types";
@@ -14,6 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { IHttpStatus } from "@/src/lib/apis/axios";
 import { useToastify } from "@/src/lib/hooks/useToastify";
+import UploadFileIcon from "@/src/components/commons/icons/UploadFileIcon.index";
 
 export default function DrawingInfo(props: ICreateOrderPageProps) {
   const hiddenFileInput = useRef<HTMLInputElement>(null);
@@ -209,7 +209,7 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
         />
         <S.UploadArea className="flex-center" onClick={onUpload}>
           <div className="flex-column-center">
-            <Image src="/images/upload.svg" width={60} height={60} alt="" />
+            <UploadFileIcon size={60} />
             <Spacer width="100%" height="16px" />
             <p className="medium16">도면을 추가해주세요</p>
           </div>

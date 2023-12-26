@@ -3,6 +3,8 @@ import * as S from "./OrderFilter.styles";
 import Image from "next/image";
 import { DATE_FILTER } from "./OrderFilterQueries";
 import { IOrderFilterWithDateProps } from "./OrderFilter.types";
+import RedoIcon from "../../icons/RedoIcon.index";
+import Spacer from "../../spacer/Spacer.index";
 
 export default function OrderFilterWithDate(props: IOrderFilterWithDateProps) {
   return (
@@ -10,14 +12,8 @@ export default function OrderFilterWithDate(props: IOrderFilterWithDateProps) {
       <S.HeaderWrapper className="flex-row-between">
         <p className="bold16">검색 필터</p>
         <a className="flex-row-center">
-          <S.RedoIconWrapper>
-            <Image
-              width={16}
-              height={16}
-              src="/images/redo.svg"
-              alt="초기화 아이콘"
-            />
-          </S.RedoIconWrapper>
+          <RedoIcon size={16} />
+          <Spacer width="5px" height="100%" />
           <p className="medium16" onClick={props.onResetFilter}>
             필터 초기화
           </p>

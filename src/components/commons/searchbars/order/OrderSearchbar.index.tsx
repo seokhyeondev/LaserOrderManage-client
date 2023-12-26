@@ -1,6 +1,6 @@
 import { ISearchbarProps } from "../Searchbar.types";
 import { IconWrapper, Searchbar, SearchbarInput } from "../Searchbar.styles";
-import Image from "next/image";
+import SearchIcon from "../../icons/SearchIcon.index";
 
 export default function OrderSearchbar(props: ISearchbarProps) {
   return (
@@ -13,12 +13,7 @@ export default function OrderSearchbar(props: ISearchbarProps) {
         onKeyDown={props.onActiveEnter}
       />
       <IconWrapper onClick={props.onSearchKeyword}>
-        <Image
-          src="/images/search.svg"
-          width={24}
-          height={24}
-          alt="검색 아이콘"
-        />
+        <SearchIcon size={24} />
       </IconWrapper>
     </Searchbar>
   );

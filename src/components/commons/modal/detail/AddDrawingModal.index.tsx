@@ -4,7 +4,6 @@ import * as S from "./DetailModal.styles";
 import { AVAILABLE_FILE_TYPE } from "@/src/lib/constants/constant";
 import Spacer from "../../spacer/Spacer.index";
 import { useRef, ChangeEvent, useState } from "react";
-import Image from "next/image";
 import DrawingItem, {
   IDrawingItem,
 } from "@/src/components/units/customer/order/create/pages/items/DrawingItem.index";
@@ -16,6 +15,7 @@ import { OrderCreateApi } from "@/src/lib/apis/order/create/OrderCreateApi";
 import { AxiosError } from "axios";
 import { IHttpStatus } from "@/src/lib/apis/axios";
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
+import UploadFileIcon from "../../icons/UploadFileIcon.index";
 
 export default function AddDrawingModal({
   isOpen,
@@ -194,7 +194,7 @@ export default function AddDrawingModal({
         {drawing === undefined && (
           <S.UploadArea className="flex-center" onClick={onUpload}>
             <div className="flex-column-center">
-              <Image src="/images/upload.svg" width={60} height={60} alt="" />
+              <UploadFileIcon size={60} />
               <Spacer width="100%" height="16px" />
               <p className="medium16">도면을 추가해주세요</p>
             </div>

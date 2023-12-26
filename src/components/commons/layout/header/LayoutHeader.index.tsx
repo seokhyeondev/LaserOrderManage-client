@@ -53,16 +53,22 @@ export default function LayoutHeader() {
               ))}
         </S.MenuWrapper>
       </S.InnerWrapper>
-      <S.HeaderButton
-        className="bold16"
-        onClick={
-          auth.isAuthenticated
-            ? onClickMoveToPage("/login")
-            : onClickMoveToPage("/login")
-        }
-      >
-        {auth.isAuthenticated ? "마이페이지" : "로그인"}
-      </S.HeaderButton>
+      {!auth.isAuthenticated && (
+        <S.HeaderButton
+          className="bold16"
+          onClick={onClickMoveToPage("/login")}
+        >
+          로그인
+        </S.HeaderButton>
+      )}
+      {auth.isAuthenticated && (
+        <S.HeaderButton
+          className="bold16"
+          onClick={onClickMoveWithAuth("/mypage", auth)}
+        >
+          마이페이지
+        </S.HeaderButton>
+      )}
     </S.Wrapper>
   );
 }

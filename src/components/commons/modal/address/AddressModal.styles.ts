@@ -62,20 +62,20 @@ interface ICheckLabelProps {
 }
 
 export const CheckLabel = styled.p<ICheckLabelProps>`
-  color: ${(props) => props.isChecked ? "var(--color-primary)" : "var(--color-normalGray)"};
-`
+  color: ${(props) =>
+    props.isChecked ? "var(--color-primary)" : "var(--color-normalGray)"};
+`;
 
-interface ISubmitButtonProps {
-  isActive: boolean;
-}
-
-export const SubmitButton = styled.button<ISubmitButtonProps>`
+export const SubmitButton = styled.button`
   flex-grow: 1;
   height: 50px;
   color: var(--color-white);
-  background-color: ${(props) =>
-    props.isActive ? "var(--color-primary)" : "var(--color-mediumGray)"};
+  background-color: var(--color-primary);
   border-radius: var(--border-radius);
+
+  &:disabled {
+    background-color: var(--color-mediumGray);
+  }
 `;
 
 export const CancelButton = styled.button`
