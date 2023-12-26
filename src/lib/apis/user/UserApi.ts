@@ -54,14 +54,14 @@ export const UserApi = {
   FIND_PASSWORD_WITHOUT_AUTH: async (
     payload: IFindPasswordRequest,
   ): Promise<IFindPasswordResponse> => {
-    const response = await axiosPublic.get(
+    const response = await axiosPublic.post(
       "/user/password/email-link/without-auth",
-      { params: payload },
+      payload,
     );
     return response.data;
   },
   FIND_PASSWORD: async (url: string): Promise<IFindPasswordResponse> => {
-    const response = await axiosPrivate.get(
+    const response = await axiosPrivate.post(
       `/user/password/email-link?base-url=${url}`,
     );
     return response.data;
