@@ -122,7 +122,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
                 label="주소"
                 value="[01212] 경기도 안산시 단원구, 상세 주소"
                 needEdit={true}
-                onEdit={() => {}}
+                onEdit={() => setShowAddressModal(true)}
               />
             </S.InfosWrapper>
           )}
