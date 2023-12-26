@@ -9,7 +9,6 @@ import { useState } from "react";
 export default function FindPassword() {
   const [sendCode, setSendCode] = useState(false);
   const [codeSending, setCodeSending] = useState(false);
-  const [result, setResult] = useState<string | null>(null);
   const router = useRouter();
 
   const emailInputArgs = useInputWithError(
@@ -18,18 +17,8 @@ export default function FindPassword() {
     (value: string) => sendCode && emailRegex.test(value),
   );
 
-  const codeInputArgs = useInputWithError(
-    "인증 코드를 다시 확인해주세요.",
-    (value: string) => value.length === 6,
-    (value: string) => sendCode && value.length === 6,
-  );
-
   const sendCodeToEmail = () => {
     setSendCode(true);
-  };
-
-  const checkCode = () => {
-    setResult("user1-password");
   };
 
   return (
@@ -37,13 +26,13 @@ export default function FindPassword() {
       <S.FormWrapper>
         <S.Title className="bold28">비밀번호 찾기</S.Title>
         <Spacer width="100%" height="52px" />
-        {result === null && (
+        {!sendCode && (
           <>
             <AccountInput
               placeholder="이메일"
               isError={emailInputArgs.error}
               errorMessage={emailInputArgs.errorMessage}
-              tailButtonTitle={sendCode ? "재요청" : "인증요청"}
+              tailButtonTitle="메일전송"
               tailButtonValidate={emailInputArgs.isCorrect}
               disabled={codeSending}
               onChange={emailInputArgs.onChange}
@@ -52,35 +41,15 @@ export default function FindPassword() {
               }}
               onClickTailButton={sendCodeToEmail}
             />
-            {sendCode && (
-              <>
-                <Spacer width="100%" height="14px" />
-                <AccountInput
-                  placeholder="이메일 인증 코드"
-                  isError={codeInputArgs.error}
-                  errorMessage={codeInputArgs.errorMessage}
-                  hideValue={true}
-                  tailButtonTitle="확인"
-                  tailButtonValidate={codeInputArgs.isCorrect}
-                  onChange={codeInputArgs.onChange}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") checkCode();
-                  }}
-                  onClickTailButton={checkCode}
-                />
-              </>
-            )}
             <Spacer width="100%" height="40px" />
           </>
         )}
-        {result && (
+        {sendCode && (
           <>
             <S.ResultWrapper>
-              <p className="regular14">회원님의 비밀번호</p>
-              <Spacer width="100%" height="20px" />
-              <S.Result className="bold18">{result}</S.Result>
+              <p className="regular16">{`회원님의 이메일 "${emailInputArgs.value}"에서 비밀번호를 변경해주세요`}</p>
             </S.ResultWrapper>
-            <Spacer width="100%" height="40px" />
+            <Spacer width="100%" height="60px" />
             <S.Button
               className="bold18"
               onClick={() => router.replace("/login")}
