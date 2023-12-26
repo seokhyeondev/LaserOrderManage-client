@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { IAccoutPageProps } from "./MyPagePages.types";
 import EditPasswordModal from "@/src/components/commons/modal/mypage/EditPasswordModal.index";
 import EditAddressModal from "@/src/components/commons/modal/mypage/EditAddressModal.index";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { CustomerApi } from "@/src/lib/apis/user/customer/CustomerApi";
 import { FactoryApi } from "@/src/lib/apis/user/factory/FactoryApi";
 import {
@@ -17,6 +17,8 @@ import { numberRegex } from "@/src/lib/constants/regex";
 import { getFullAddress } from "@/src/lib/utils/utils";
 import { useSetRecoilState } from "recoil";
 import { myInfoState } from "@/src/store/myInfo";
+import { UserApi } from "@/src/lib/apis/user/UserApi";
+import { useToastify } from "@/src/lib/hooks/useToastify";
 
 export default function AccountPage({ role }: IAccoutPageProps) {
   const nameArgs = useInputWithMaxLength(20);
@@ -29,7 +31,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
   const [notify, setNotify] = useState(false);
 
   const setMyInfo = useSetRecoilState(myInfoState);
-
+  const { setToast } = useToastify();
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
 
@@ -78,8 +80,23 @@ export default function AccountPage({ role }: IAccoutPageProps) {
     }
   }, [factorySuccess]);
 
+  const { mutate } = useMutation({
+    mutationFn: UserApi.PATCH_NOTIFICATION,
+    onError: () => {
+      setToast({ comment: "알림 설정 변경에 실패했어요" });
+    },
+  });
+
   const toggleNotify = () => {
-    setNotify(!notify);
+    const newStatus = !notify;
+    mutate(newStatus, {
+      onSuccess: () => {
+        setNotify(newStatus);
+        setToast({
+          comment: newStatus ? "알림을 설정했어요" : "알림을 해제했어요",
+        });
+      },
+    });
   };
   return (
     <>
