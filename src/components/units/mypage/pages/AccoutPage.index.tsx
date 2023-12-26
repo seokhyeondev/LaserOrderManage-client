@@ -144,12 +144,10 @@ export default function AccountPage({ role }: IAccoutPageProps) {
           </S.InfoWrapper>
         </S.BodyWrapper>
       </S.Wrapper>
-      {showPasswordModal && (
-        <EditPasswordModal
-          isOpen={showPasswordModal}
-          onClose={() => setShowPasswordModal(false)}
-        />
-      )}
+      <EditPasswordModal
+        isOpen={showPasswordModal}
+        onClose={() => setShowPasswordModal(false)}
+      />
     </>
   );
 }

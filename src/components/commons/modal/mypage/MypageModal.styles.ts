@@ -37,9 +37,8 @@ export const ErrorMessage = styled.p`
 `;
 
 export const Announce = styled.p`
-  margin-top: 12px;
-  margin-left: 3px;
-  color: var(--color-darkGray);
+  width: 100%;
+  text-align: center;
 `;
 
 export const SubmitButton = styled.button`
