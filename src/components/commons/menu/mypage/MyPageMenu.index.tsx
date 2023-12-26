@@ -1,3 +1,4 @@
+import { useRecoilValue } from "recoil";
 import ClipBoardIcon from "../../icons/ClipBoardIcon.index";
 import SignoutIcon from "../../icons/SignoutIcon.index";
 import TruckIcon from "../../icons/TruckIcon.index";
@@ -5,18 +6,21 @@ import UserIcon from "../../icons/UserIcon.index";
 import Spacer from "../../spacer/Spacer.index";
 import * as S from "./MyPageMenu.styles";
 import { IMyPageMenuItemProps, IMyPageMenuProps } from "./MyPageMenu.types";
+import { myInfoState } from "@/src/store/myInfo";
 
 export default function MyPageMenu({
   currentPage,
   role,
   onChangePage,
 }: IMyPageMenuProps) {
+  const myInfo = useRecoilValue(myInfoState);
+
   return (
     <S.Wrapper className="flex-column">
       <S.BodyWrapper>
-        <S.Name className="medium24">김우리 님</S.Name>
+        <S.Name className="medium24">{`${myInfo.name} 님`}</S.Name>
         <Spacer width="100%" height="8px" />
-        <S.Company className="medium16">금오엠티 (주)</S.Company>
+        <S.Company className="medium16">{myInfo.company ?? "-"}</S.Company>
         <Spacer width="100%" height="56px" />
         <div>
           <MyPageMenuItem
