@@ -19,14 +19,19 @@ import { useSetRecoilState } from "recoil";
 import { myInfoState } from "@/src/store/myInfo";
 import { UserApi } from "@/src/lib/apis/user/UserApi";
 import { useToastify } from "@/src/lib/hooks/useToastify";
+import {
+  ICustomerUser,
+  IEditCustomerAccountRequest,
+} from "@/src/lib/apis/user/customer/Customer.types";
+import { IEditFactoryRequest } from "@/src/lib/apis/user/factory/Factory.types";
 
 export default function AccountPage({ role }: IAccoutPageProps) {
-  const nameArgs = useInputWithMaxLength(20);
+  const nameArgs = useInputWithMaxLength(10);
   const [phone, onChangePhone, setPhone] = useInputWithRegex(numberRegex, "");
   const [zoneCode, setZoneCode] = useState("");
   const [address, setAddress] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
-  const [company, onChangeCompany, setCompany] = useInput();
+  const companyArgs = useInputWithMaxLength(20);
   const [fax, onChangeFax, setFax] = useInput();
   const [notify, setNotify] = useState(false);
 
@@ -48,7 +53,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
       setZoneCode(customerAccount.zipCode);
       setAddress(customerAccount.address);
       setDetailAddress(customerAccount.detailAddress ?? "");
-      setCompany(customerAccount.companyName ?? "");
+      companyArgs.setValue(customerAccount.companyName ?? "");
       setNotify(customerAccount.emailNotifiaction);
       setMyInfo({
         name: customerAccount.name,
@@ -65,7 +70,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
 
   useEffect(() => {
     if (factoryAccount) {
-      setCompany(factoryAccount.companyName);
+      companyArgs.setValue(factoryAccount.companyName);
       nameArgs.setValue(factoryAccount.representative);
       setPhone(factoryAccount.phone);
       setFax(factoryAccount.fax);
@@ -80,7 +85,70 @@ export default function AccountPage({ role }: IAccoutPageProps) {
     }
   }, [factorySuccess]);
 
-  const { mutate } = useMutation({
+  const { mutate: patchCustomerAccount } = useMutation({
+    mutationFn: CustomerApi.EDIT_ACCOUNT_INFO,
+  });
+
+  const onEditCustomerAccount = (label: string) => {
+    const customerUser: ICustomerUser = {
+      phone: phone.trim(),
+      zipCode: zoneCode,
+      address: address,
+      detailAddress: detailAddress !== "" ? detailAddress.trim() : null,
+    };
+    const payload: IEditCustomerAccountRequest = {
+      name: nameArgs.value.trim(),
+      companyName: companyArgs.value.trim(),
+      user: customerUser,
+    };
+    const diffCnt = countDiffCustomerAccount(payload);
+    patchCustomerAccount(payload, {
+      onSuccess: () => {
+        setToast({
+          comment:
+            diffCnt > 1
+              ? `${label} 외 ${diffCnt - 1}개를 변경했어요`
+              : `${label}을 변경했어요`,
+        });
+        setMyInfo({
+          name: payload.name,
+          company: payload.companyName,
+        });
+      },
+      onError: () => {
+        setToast({
+          comment:
+            diffCnt > 1
+              ? `${label} 외 ${diffCnt - 1}개 변경에 실패했어요`
+              : `${label} 변경에 실패했어요`,
+        });
+      },
+    });
+  };
+
+  const countDiffCustomerAccount = (payload: IEditCustomerAccountRequest) => {
+    let count = 0;
+    const account = customerAccount!!;
+    if (account.name !== payload.name) count++;
+    if (account.companyName !== payload.companyName) count++;
+    if (account.phone !== payload.user.phone) count++;
+    if (
+      account.zipCode !== payload.user.zipCode ||
+      account.address !== payload.user.address ||
+      (account.detailAddress !== null &&
+        account.detailAddress !== payload.user.detailAddress)
+    )
+      count++;
+    return count;
+  };
+
+  const { mutate: patchFactoryAccount } = useMutation({
+    mutationFn: FactoryApi.EDIT_ACCOUNT_INFO,
+  });
+
+  const onEditFactoryAccount = (label: string) => {};
+
+  const { mutate: patchNotify } = useMutation({
     mutationFn: UserApi.PATCH_NOTIFICATION,
     onError: () => {
       setToast({ comment: "알림 설정 변경에 실패했어요" });
@@ -89,7 +157,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
 
   const toggleNotify = () => {
     const newStatus = !notify;
-    mutate(newStatus, {
+    patchNotify(newStatus, {
       onSuccess: () => {
         setNotify(newStatus);
         setToast({
@@ -142,7 +210,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
                 needEdit={true}
                 placeHolder="이름을 입력하세요"
                 onChange={nameArgs.onChange}
-                onSubmit={() => {}}
+                onSubmit={() => onEditCustomerAccount("이름")}
               />
               <Spacer width="100%" height="24px" />
               <InfoInputItem
@@ -151,7 +219,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
                 needEdit={true}
                 placeHolder="휴대폰 번호를 입력하세요"
                 onChange={onChangePhone}
-                onSubmit={() => {}}
+                onSubmit={() => onEditCustomerAccount("휴대폰 번호")}
               />
               <Spacer width="100%" height="24px" />
               <InfoInputItem
@@ -163,11 +231,11 @@ export default function AccountPage({ role }: IAccoutPageProps) {
               <Spacer width="100%" height="24px" />
               <InfoInputItem
                 label="업체명"
-                value={company}
+                value={companyArgs.value}
                 needEdit={true}
                 placeHolder="업체명을 입력하세요"
-                onChange={onChangeCompany}
-                onSubmit={() => {}}
+                onChange={companyArgs.onChange}
+                onSubmit={() => onEditCustomerAccount("업체명")}
               />
             </S.InfosWrapper>
           )}
@@ -177,10 +245,10 @@ export default function AccountPage({ role }: IAccoutPageProps) {
               <Spacer width="100%" height="24px" />
               <InfoInputItem
                 label="상호"
-                value={company}
+                value={companyArgs.value}
                 needEdit={true}
                 placeHolder="상호를 입력하세요"
-                onChange={onChangeCompany}
+                onChange={companyArgs.onChange}
                 onSubmit={() => {}}
               />
               <Spacer width="100%" height="24px" />

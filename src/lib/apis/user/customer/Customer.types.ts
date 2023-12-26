@@ -43,11 +43,15 @@ export type ICustomerAccountResponse = {
   emailNotifiaction: boolean;
 };
 
-export type IEditCustomerAccountRequest = {
-  name: string;
+export type ICustomerUser = {
   phone: string;
   zipCode: string;
   address: string;
   detailAddress: string | null;
+};
+
+export type IEditCustomerAccountRequest = {
+  name: string;
   companyName: string | null;
+  user: ICustomerUser;
 };

@@ -12,14 +12,18 @@ export type IFactoryResponse = {
   emailNotification: boolean;
 };
 
-export type IEditFactoryRequest = {
-  companyName: string;
-  representative: string;
+export type IFactoryUser = {
   phone: string;
-  fax: string;
   zipCode: string;
   address: string;
   detailAddress: string | null;
+};
+
+export type IEditFactoryRequest = {
+  companyName: string;
+  representative: string;
+  user: IFactoryUser;
+  fax: string;
 };
 
 export type IEditFactoryResponse = {};
