@@ -1,7 +1,10 @@
+import { useMutation } from "@tanstack/react-query";
 import Spacer from "../../spacer/Spacer.index";
 import Modal, { IModalProps } from "../Modal.index";
 import * as S from "./MypageModal.styles";
 import { useToastify } from "@/src/lib/hooks/useToastify";
+import { UserApi } from "@/src/lib/apis/user/UserApi";
+import { EDIT_PASSWORD_URL } from "@/src/lib/constants/constant";
 
 interface IEditPasswordModalProps extends IModalProps {}
 
@@ -11,9 +14,20 @@ export default function EditPasswordModal({
 }: IEditPasswordModalProps) {
   const { setToast } = useToastify();
 
+  const { mutate } = useMutation({
+    mutationFn: UserApi.FIND_PASSWORD,
+    onSuccess: () => {
+      setToast({ comment: "변경 메일을 발송했어요" });
+      onClose();
+    },
+    onError: () => {
+      setToast({ comment: "메일 전송에 실패했어요" });
+      onClose();
+    },
+  });
+
   const onSubmit = () => {
-    setToast({ comment: "비밀번호를 변경했어요" });
-    onClose();
+    mutate(EDIT_PASSWORD_URL);
   };
 
   return (
