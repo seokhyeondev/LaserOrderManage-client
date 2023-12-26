@@ -22,8 +22,8 @@ export type IFactoryUser = {
 export type IEditFactoryRequest = {
   companyName: string;
   representative: string;
-  user: IFactoryUser;
   fax: string;
+  user: IFactoryUser;
 };
 
 export type IEditFactoryResponse = {};

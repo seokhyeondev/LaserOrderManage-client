@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Spacer from "../../spacer/Spacer.index";
 import Modal, { IModalProps } from "../Modal.index";
 import * as S from "./MypageModal.styles";
@@ -6,15 +6,32 @@ import { useInput } from "@/src/lib/hooks/useInput";
 import { Address } from "react-daum-postcode";
 import { useDaumPostPopup } from "@/src/lib/hooks/useDaumPostPopup";
 
-interface IEditAddressModalProps extends IModalProps {}
+export interface IModalAddress {
+  zoneCode: string;
+  address: string;
+  detailAddress: string;
+}
+
+interface IEditAddressModalProps extends IModalProps {
+  initAddress: IModalAddress;
+  callback: (address: IModalAddress) => void;
+}
 
 export default function EditAddressModal({
   isOpen,
+  initAddress,
   onClose,
+  callback,
 }: IEditAddressModalProps) {
   const [zoneCode, setZoneCode] = useState("");
   const [address, setAddress] = useState("");
-  const [detailAddress, onChangeDetailAddress] = useInput();
+  const [detailAddress, onChangeDetailAddress, setDetailAddress] = useInput();
+
+  useEffect(() => {
+    setZoneCode(initAddress.zoneCode);
+    setAddress(initAddress.address);
+    setDetailAddress(initAddress.detailAddress);
+  }, [isOpen]);
 
   const addressCallback = (data: Address) => {
     setZoneCode(data.zonecode);
@@ -23,6 +40,11 @@ export default function EditAddressModal({
   const openPostPopup = useDaumPostPopup(addressCallback);
 
   const onSubmit = () => {
+    callback({
+      zoneCode: zoneCode,
+      address: address,
+      detailAddress: detailAddress.trim(),
+    });
     onClose();
   };
   return (

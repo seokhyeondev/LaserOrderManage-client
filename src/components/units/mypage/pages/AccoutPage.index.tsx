@@ -4,12 +4,13 @@ import InfoInputItem from "./items/InfoInputItem.index";
 import { useEffect, useState } from "react";
 import { IAccoutPageProps } from "./MyPagePages.types";
 import EditPasswordModal from "@/src/components/commons/modal/mypage/EditPasswordModal.index";
-import EditAddressModal from "@/src/components/commons/modal/mypage/EditAddressModal.index";
+import EditAddressModal, {
+  IModalAddress,
+} from "@/src/components/commons/modal/mypage/EditAddressModal.index";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CustomerApi } from "@/src/lib/apis/user/customer/CustomerApi";
 import { FactoryApi } from "@/src/lib/apis/user/factory/FactoryApi";
 import {
-  useInput,
   useInputWithMaxLength,
   useInputWithRegex,
 } from "@/src/lib/hooks/useInput";
@@ -23,7 +24,10 @@ import {
   ICustomerUser,
   IEditCustomerAccountRequest,
 } from "@/src/lib/apis/user/customer/Customer.types";
-import { IEditFactoryRequest } from "@/src/lib/apis/user/factory/Factory.types";
+import {
+  IEditFactoryRequest,
+  IFactoryUser,
+} from "@/src/lib/apis/user/factory/Factory.types";
 
 export default function AccountPage({ role }: IAccoutPageProps) {
   const nameArgs = useInputWithMaxLength(10);
@@ -32,7 +36,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
   const [address, setAddress] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
   const companyArgs = useInputWithMaxLength(20);
-  const [fax, onChangeFax, setFax] = useInput();
+  const [fax, onChangeFax, setFax] = useInputWithRegex(numberRegex, "");
   const [notify, setNotify] = useState(false);
 
   const setMyInfo = useSetRecoilState(myInfoState);
@@ -135,8 +139,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
     if (
       account.zipCode !== payload.user.zipCode ||
       account.address !== payload.user.address ||
-      (account.detailAddress !== null &&
-        account.detailAddress !== payload.user.detailAddress)
+      account.detailAddress !== payload.user.detailAddress
     )
       count++;
     return count;
@@ -146,7 +149,66 @@ export default function AccountPage({ role }: IAccoutPageProps) {
     mutationFn: FactoryApi.EDIT_ACCOUNT_INFO,
   });
 
-  const onEditFactoryAccount = (label: string) => {};
+  const onEditFactoryAccount = (label: string) => {
+    const factoryAccount: IFactoryUser = {
+      phone: phone.trim(),
+      zipCode: zoneCode,
+      address: address,
+      detailAddress: detailAddress !== "" ? detailAddress.trim() : null,
+    };
+    const payload: IEditFactoryRequest = {
+      companyName: companyArgs.value.trim(),
+      representative: nameArgs.value.trim(),
+      fax: fax.trim(),
+      user: factoryAccount,
+    };
+    const diffCnt = countDiffFactoryAccount(payload);
+    patchFactoryAccount(payload, {
+      onSuccess: () => {
+        setToast({
+          comment:
+            diffCnt > 1
+              ? `${label} 외 ${diffCnt - 1}개를 변경했어요`
+              : `${label}을 변경했어요`,
+        });
+        setMyInfo({
+          name: "관리자",
+          company: payload.companyName,
+        });
+      },
+      onError: () => {
+        setToast({
+          comment:
+            diffCnt > 1
+              ? `${label} 외 ${diffCnt - 1}개 변경에 실패했어요`
+              : `${label} 변경에 실패했어요`,
+        });
+      },
+    });
+  };
+
+  const countDiffFactoryAccount = (payload: IEditFactoryRequest) => {
+    let count = 0;
+    const account = factoryAccount!!;
+    if (account.companyName !== payload.companyName) count++;
+    if (account.representative !== payload.representative) count++;
+    if (account.fax !== payload.fax) count++;
+    if (
+      account.zipCode !== payload.user.zipCode ||
+      account.address !== payload.user.address ||
+      account.detailAddress !== payload.user.detailAddress
+    )
+      count++;
+    return count;
+  };
+
+  const editAddressCallback = (address: IModalAddress) => {
+    setZoneCode(address.zoneCode);
+    setAddress(address.address);
+    setDetailAddress(address.detailAddress);
+    if (role === "ROLE_CUSTOMER") onEditCustomerAccount("주소");
+    if (role === "ROLE_FACTORY") onEditFactoryAccount("주소");
+  };
 
   const { mutate: patchNotify } = useMutation({
     mutationFn: UserApi.PATCH_NOTIFICATION,
@@ -249,7 +311,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
                 needEdit={true}
                 placeHolder="상호를 입력하세요"
                 onChange={companyArgs.onChange}
-                onSubmit={() => {}}
+                onSubmit={() => onEditFactoryAccount("상호")}
               />
               <Spacer width="100%" height="24px" />
               <InfoInputItem
@@ -258,7 +320,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
                 needEdit={true}
                 placeHolder="대표자 이름을 입력하세요"
                 onChange={nameArgs.onChange}
-                onSubmit={() => {}}
+                onSubmit={() => onEditFactoryAccount("대표자 이름")}
               />
               <Spacer width="100%" height="24px" />
               <InfoInputItem
@@ -267,7 +329,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
                 needEdit={true}
                 placeHolder="대표자 번호를 입력하세요"
                 onChange={onChangePhone}
-                onSubmit={() => {}}
+                onSubmit={() => onEditFactoryAccount("대표자 번호")}
               />
               <Spacer width="100%" height="24px" />
               <InfoInputItem
@@ -276,7 +338,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
                 needEdit={true}
                 placeHolder="FAX 번호를 입력하세요"
                 onChange={onChangeFax}
-                onSubmit={() => {}}
+                onSubmit={() => onEditFactoryAccount("FAX 번호")}
               />
               <Spacer width="100%" height="24px" />
               <InfoInputItem
@@ -313,6 +375,12 @@ export default function AccountPage({ role }: IAccoutPageProps) {
       />
       <EditAddressModal
         isOpen={showAddressModal}
+        initAddress={{
+          zoneCode: zoneCode,
+          address: address,
+          detailAddress: detailAddress,
+        }}
+        callback={editAddressCallback}
         onClose={() => setShowAddressModal(false)}
       />
     </>
