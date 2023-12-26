@@ -4,10 +4,12 @@ import InfoInputItem from "./items/InfoInputItem.index";
 import { useState } from "react";
 import { IAccoutPageProps } from "./MyPagePages.types";
 import EditPasswordModal from "@/src/components/commons/modal/mypage/EditPasswordModal.index";
+import EditAddressModal from "@/src/components/commons/modal/mypage/EditAddressModal.index";
 
 export default function AccountPage({ role }: IAccoutPageProps) {
   const [notify, setNotify] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showAddressModal, setShowAddressModal] = useState(false);
 
   const toggleNotify = () => {
     setNotify(!notify);
@@ -63,7 +65,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
                 label="주소"
                 value="[01212] 경기도 안산시 단원구, 상세 주소"
                 needEdit={true}
-                onEdit={() => {}}
+                onEdit={() => setShowAddressModal(true)}
               />
               <Spacer width="100%" height="24px" />
               <InfoInputItem
@@ -147,6 +149,10 @@ export default function AccountPage({ role }: IAccoutPageProps) {
       <EditPasswordModal
         isOpen={showPasswordModal}
         onClose={() => setShowPasswordModal(false)}
+      />
+      <EditAddressModal
+        isOpen={showAddressModal}
+        onClose={() => setShowAddressModal(false)}
       />
     </>
   );
