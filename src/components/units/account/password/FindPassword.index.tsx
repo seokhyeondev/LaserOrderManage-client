@@ -1,8 +1,14 @@
 import AccountInput from "@/src/components/commons/inputs/account/AccountInput.index";
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "@/src/components/units/account/Accout.styles";
+import { IHttpStatus } from "@/src/lib/apis/axios";
+import { UserApi } from "@/src/lib/apis/user/UserApi";
+import { EDIT_PASSWORD_URL } from "@/src/lib/constants/constant";
 import { emailRegex } from "@/src/lib/constants/regex";
 import { useInputWithError } from "@/src/lib/hooks/useInput";
+import { useToastify } from "@/src/lib/hooks/useToastify";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -10,6 +16,7 @@ export default function FindPassword() {
   const [sendCode, setSendCode] = useState(false);
   const [codeSending, setCodeSending] = useState(false);
   const router = useRouter();
+  const { setToast } = useToastify();
 
   const emailInputArgs = useInputWithError(
     "이메일을 인증해주세요.",
@@ -17,8 +24,30 @@ export default function FindPassword() {
     (value: string) => sendCode && emailRegex.test(value),
   );
 
+  const { mutate } = useMutation({
+    mutationFn: UserApi.FIND_PASSWORD_WITHOUT_AUTH,
+    onSuccess: () => {
+      setSendCode(true);
+      setCodeSending(false);
+    },
+    onError: (error: AxiosError) => {
+      if (error.response) {
+        const status = error.response.data as IHttpStatus;
+        if (status.errorCode === "-402") {
+          emailInputArgs.showError("존재하지 않은 회원입니다.");
+          return;
+        }
+        if (status.errorCode === "-502") {
+          setToast({ comment: "메일 전송이 불가능해요" });
+          return;
+        }
+      }
+    },
+  });
+
   const sendCodeToEmail = () => {
-    setSendCode(true);
+    setCodeSending(true);
+    mutate({ email: emailInputArgs.value.trim(), baseUrl: EDIT_PASSWORD_URL });
   };
 
   return (
