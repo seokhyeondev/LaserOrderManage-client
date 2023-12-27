@@ -219,7 +219,7 @@ export default function SignUp() {
         <S.Header className="bold28">회원가입</S.Header>
         <SignUpInput
           placeHolder="이메일"
-          editable={!codeChecked || !codeSending}
+          editable={!codeChecked && !codeSending}
           isError={emailInputArgs.error}
           needDefaultSpace={false}
           errorMessage={emailInputArgs.errorMessage}

@@ -66,10 +66,16 @@ export const UserApi = {
     );
     return response.data;
   },
-  EDIT_PASSWORD: async (
-    payload: IEditPasswordRequest,
-  ): Promise<IEditPasswordResponse> => {
-    const response = await axiosPrivate.patch("/user/password", payload);
+  EDIT_PASSWORD: async ({
+    payload,
+    token,
+  }: {
+    payload: IEditPasswordRequest;
+    token: string;
+  }): Promise<IEditPasswordResponse> => {
+    const response = await axiosPrivate.patch("/user/password", payload, {
+      headers: { Authorization: `bearer ${token}` },
+    });
     return response.data;
   },
   PATCH_NOTIFICATION: async (
