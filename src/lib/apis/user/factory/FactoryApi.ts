@@ -3,12 +3,11 @@ import {
   IDeleteOrderManagerResponse,
   IEditFactoryRequest,
   IEditFactoryResponse,
-  IEditOrderManagerRequest,
   IEditOrderManagerResponse,
   IFactoryResponse,
   IOrderMangerListResponse,
+  IOrderMangerRequest,
   IPostOrderManagerResponse,
-  IPostOrderMangerRequest,
 } from "./Factory.types";
 
 export const FactoryApi = {
@@ -27,7 +26,7 @@ export const FactoryApi = {
     return response.data;
   },
   POST_ORDER_MANAGER: async (
-    payload: IPostOrderMangerRequest,
+    payload: IOrderMangerRequest,
   ): Promise<IPostOrderManagerResponse> => {
     const resposne = await axiosPrivate.post("/factory/order-manager", payload);
     return resposne.data;
@@ -37,7 +36,7 @@ export const FactoryApi = {
     payload,
   }: {
     id: number;
-    payload: IEditOrderManagerRequest;
+    payload: IOrderMangerRequest;
   }): Promise<IEditOrderManagerResponse> => {
     const response = await axiosPrivate.put(
       `/factory/order-manager/${id}`,
