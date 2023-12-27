@@ -9,9 +9,15 @@ import { getPhoneNumber } from "@/src/lib/utils/utils";
 
 interface IMangerItemProps {
   data: IOrderManager;
+  onEdit: (data: IOrderManager) => void;
+  onDelete: () => void;
 }
 
-export default function ManagerItem({ data }: IMangerItemProps) {
+export default function ManagerItem({
+  data,
+  onEdit,
+  onDelete,
+}: IMangerItemProps) {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -34,8 +40,14 @@ export default function ManagerItem({ data }: IMangerItemProps) {
         toggleMenu={() => setShowMenu(!showMenu)}
       >
         <>
-          <ItemMenuTitle className="regular14">수정하기</ItemMenuTitle>
-          <ItemMenuTitle className="regular14" isAlert={true}>
+          <ItemMenuTitle className="regular14" onClick={() => onEdit(data)}>
+            수정하기
+          </ItemMenuTitle>
+          <ItemMenuTitle
+            className="regular14"
+            isAlert={true}
+            onClick={onDelete}
+          >
             삭제하기
           </ItemMenuTitle>
         </>

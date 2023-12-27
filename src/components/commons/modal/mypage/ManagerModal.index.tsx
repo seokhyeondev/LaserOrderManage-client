@@ -6,13 +6,81 @@ import Spacer from "../../spacer/Spacer.index";
 import Modal, { IModalProps } from "../Modal.index";
 import * as S from "./MypageModal.styles";
 import { numberRegex, phoneRegex } from "@/src/lib/constants/regex";
+import {
+  IEditOrderManagerRequest,
+  IOrderManager,
+  IPostOrderMangerRequest,
+} from "@/src/lib/apis/user/factory/Factory.types";
+import { useEffect } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { FactoryApi } from "@/src/lib/apis/user/factory/FactoryApi";
+import { useToastify } from "@/src/lib/hooks/useToastify";
 
-interface IMangerModalProps extends IModalProps {}
+interface IMangerModalProps extends IModalProps {
+  initData?: IOrderManager;
+  refetch: () => void;
+}
 
-export default function ManagerModal({ isOpen, onClose }: IMangerModalProps) {
+export default function ManagerModal({
+  isOpen,
+  initData,
+  onClose,
+  refetch,
+}: IMangerModalProps) {
   const nameArgs = useInputWithMaxLength(10);
-  const [phone, onChangePhone] = useInputWithRegex(numberRegex, "");
+  const [phone, onChangePhone, setPhone] = useInputWithRegex(numberRegex, "");
   const submitAvailable = nameArgs.value.length > 1 && phoneRegex.test(phone);
+  const { setToast } = useToastify();
+
+  useEffect(() => {
+    if (initData) {
+      nameArgs.setValue(initData.name);
+      setPhone(initData.phone);
+    } else {
+      nameArgs.setValue("");
+      setPhone("");
+    }
+  }, [isOpen]);
+
+  const { mutate: postMutate } = useMutation({
+    mutationFn: FactoryApi.POST_ORDER_MANAGER,
+    onSuccess: () => {
+      setToast({ comment: "담당자를 추가했어요" });
+      onClose();
+      refetch();
+    },
+    onError: () => {
+      setToast({ comment: "담당자를 추가에 실패했어요" });
+    },
+  });
+
+  const { mutate: editMutate } = useMutation({
+    mutationFn: FactoryApi.EDIT_ORDER_MANAGER,
+    onSuccess: () => {
+      setToast({ comment: "담당자를 수정했어요" });
+      onClose();
+      refetch();
+    },
+    onError: () => {
+      setToast({ comment: "담당자를 수정에 실패했어요" });
+    },
+  });
+
+  const onSubmit = () => {
+    if (initData) {
+      const payload: IEditOrderManagerRequest = {
+        name: nameArgs.value.trim(),
+        phone: phone.trim(),
+      };
+      editMutate({ id: initData.id, payload: payload });
+    } else {
+      const payload: IPostOrderMangerRequest = {
+        name: nameArgs.value.trim(),
+        phone: phone.trim(),
+      };
+      postMutate(payload);
+    }
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -28,6 +96,9 @@ export default function ManagerModal({ isOpen, onClose }: IMangerModalProps) {
           placeholder="담당자명을 입력하세요"
           value={nameArgs.value}
           onChange={nameArgs.onChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") onSubmit();
+          }}
         />
         <Spacer width="100%" height="24px" />
         <div className="flex-row">
@@ -39,6 +110,9 @@ export default function ManagerModal({ isOpen, onClose }: IMangerModalProps) {
           placeholder="휴대폰 번호 (숫자만)"
           value={phone}
           onChange={onChangePhone}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") onSubmit();
+          }}
         />
         <Spacer width="100%" height="30px" />
         <div className="flex-row">
@@ -46,7 +120,11 @@ export default function ManagerModal({ isOpen, onClose }: IMangerModalProps) {
             취소
           </S.CancelButton>
           <Spacer width="10px" height="100%" />
-          <S.SubmitButton className="bold16" disabled={!submitAvailable}>
+          <S.SubmitButton
+            className="bold16"
+            disabled={!submitAvailable}
+            onClick={onSubmit}
+          >
             등록하기
           </S.SubmitButton>
         </div>
