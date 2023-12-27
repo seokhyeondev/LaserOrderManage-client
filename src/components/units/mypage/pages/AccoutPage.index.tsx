@@ -4,9 +4,7 @@ import InfoInputItem from "./items/InfoInputItem.index";
 import { useEffect, useState } from "react";
 import { IAccoutPageProps } from "./MyPagePages.types";
 import EditPasswordModal from "@/src/components/commons/modal/mypage/EditPasswordModal.index";
-import EditAddressModal, {
-  IModalAddress,
-} from "@/src/components/commons/modal/mypage/EditAddressModal.index";
+import EditAddressModal from "@/src/components/commons/modal/mypage/EditAddressModal.index";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CustomerApi } from "@/src/lib/apis/user/customer/CustomerApi";
 import { FactoryApi } from "@/src/lib/apis/user/factory/FactoryApi";
@@ -58,7 +56,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
       setAddress(customerAccount.address);
       setDetailAddress(customerAccount.detailAddress ?? "");
       companyArgs.setValue(customerAccount.companyName ?? "");
-      setNotify(customerAccount.emailNotifiaction);
+      setNotify(customerAccount.emailNotification);
       setMyInfo({
         name: customerAccount.name,
         company: customerAccount.companyName,
@@ -87,13 +85,13 @@ export default function AccountPage({ role }: IAccoutPageProps) {
         company: factoryAccount.companyName,
       });
     }
-  }, [factorySuccess]);
+  }, [factorySuccess, factoryAccount]);
 
   const { mutate: patchCustomerAccount } = useMutation({
     mutationFn: CustomerApi.EDIT_ACCOUNT_INFO,
   });
 
-  const onEditCustomerAccount = (label: string) => {
+  const onEditCustomerAccount = (label: string, user?: ICustomerUser) => {
     const customerUser: ICustomerUser = {
       phone: phone.trim(),
       zipCode: zoneCode,
@@ -103,7 +101,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
     const payload: IEditCustomerAccountRequest = {
       name: nameArgs.value.trim(),
       companyName: companyArgs.value.trim(),
-      user: customerUser,
+      user: user ?? customerUser,
     };
     const diffCnt = countDiffCustomerAccount(payload);
     patchCustomerAccount(payload, {
@@ -114,6 +112,9 @@ export default function AccountPage({ role }: IAccoutPageProps) {
               ? `${label} 외 ${diffCnt - 1}개를 변경했어요`
               : `${label}을 변경했어요`,
         });
+        setZoneCode(payload.user.zipCode);
+        setAddress(payload.user.address);
+        setDetailAddress(payload.user.detailAddress ?? "");
         setMyInfo({
           name: payload.name,
           company: payload.companyName,
@@ -149,8 +150,8 @@ export default function AccountPage({ role }: IAccoutPageProps) {
     mutationFn: FactoryApi.EDIT_ACCOUNT_INFO,
   });
 
-  const onEditFactoryAccount = (label: string) => {
-    const factoryAccount: IFactoryUser = {
+  const onEditFactoryAccount = (label: string, user?: IFactoryUser) => {
+    const factoryUser: IFactoryUser = {
       phone: phone.trim(),
       zipCode: zoneCode,
       address: address,
@@ -160,7 +161,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
       companyName: companyArgs.value.trim(),
       representative: nameArgs.value.trim(),
       fax: fax.trim(),
-      user: factoryAccount,
+      user: user ?? factoryUser,
     };
     const diffCnt = countDiffFactoryAccount(payload);
     patchFactoryAccount(payload, {
@@ -171,6 +172,9 @@ export default function AccountPage({ role }: IAccoutPageProps) {
               ? `${label} 외 ${diffCnt - 1}개를 변경했어요`
               : `${label}을 변경했어요`,
         });
+        setZoneCode(payload.user.zipCode);
+        setAddress(payload.user.address);
+        setDetailAddress(payload.user.detailAddress ?? "");
         setMyInfo({
           name: "관리자",
           company: payload.companyName,
@@ -202,12 +206,29 @@ export default function AccountPage({ role }: IAccoutPageProps) {
     return count;
   };
 
-  const editAddressCallback = (address: IModalAddress) => {
-    setZoneCode(address.zoneCode);
-    setAddress(address.address);
-    setDetailAddress(address.detailAddress);
-    if (role === "ROLE_CUSTOMER") onEditCustomerAccount("주소");
-    if (role === "ROLE_FACTORY") onEditFactoryAccount("주소");
+  const onEditAddress = (
+    zoneCode: string,
+    address: string,
+    detailAddress: string,
+  ) => {
+    if (role === "ROLE_CUSTOMER") {
+      const user: ICustomerUser = {
+        phone: phone.trim(),
+        zipCode: zoneCode,
+        address: address,
+        detailAddress: detailAddress !== "" ? detailAddress.trim() : null,
+      };
+      onEditCustomerAccount("주소", user);
+    }
+    if (role === "ROLE_FACTORY") {
+      const user: IFactoryUser = {
+        phone: phone.trim(),
+        zipCode: zoneCode,
+        address: address,
+        detailAddress: detailAddress !== "" ? detailAddress.trim() : null,
+      };
+      onEditFactoryAccount("주소", user);
+    }
   };
 
   const { mutate: patchNotify } = useMutation({
@@ -228,6 +249,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
       },
     });
   };
+
   return (
     <>
       <S.Wrapper>
@@ -375,13 +397,13 @@ export default function AccountPage({ role }: IAccoutPageProps) {
       />
       <EditAddressModal
         isOpen={showAddressModal}
-        initAddress={{
+        initData={{
           zoneCode: zoneCode,
           address: address,
           detailAddress: detailAddress,
         }}
-        callback={editAddressCallback}
         onClose={() => setShowAddressModal(false)}
+        onEdit={onEditAddress}
       />
     </>
   );

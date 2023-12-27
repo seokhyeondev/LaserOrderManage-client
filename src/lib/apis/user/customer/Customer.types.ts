@@ -40,7 +40,7 @@ export type ICustomerAccountResponse = {
   address: string;
   detailAddress: string | null;
   companyName: string | null;
-  emailNotifiaction: boolean;
+  emailNotification: boolean;
 };
 
 export type ICustomerUser = {
