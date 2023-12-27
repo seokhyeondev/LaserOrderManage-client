@@ -50,7 +50,7 @@ export default function ManagerListPage() {
               <ManagerItem
                 key={el.id}
                 data={el}
-                onEdit={showModalWithData}
+                onEdit={() => showModalWithData(el)}
                 onDelete={() => deleteMutate(el.id)}
               />
             ))}

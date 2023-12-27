@@ -9,7 +9,7 @@ import { getPhoneNumber } from "@/src/lib/utils/utils";
 
 interface IMangerItemProps {
   data: IOrderManager;
-  onEdit: (data: IOrderManager) => void;
+  onEdit: () => void;
   onDelete: () => void;
 }
 
@@ -40,7 +40,7 @@ export default function ManagerItem({
         toggleMenu={() => setShowMenu(!showMenu)}
       >
         <>
-          <ItemMenuTitle className="regular14" onClick={() => onEdit(data)}>
+          <ItemMenuTitle className="regular14" onClick={onEdit}>
             수정하기
           </ItemMenuTitle>
           <ItemMenuTitle

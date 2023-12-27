@@ -7,9 +7,8 @@ import Modal, { IModalProps } from "../Modal.index";
 import * as S from "./MypageModal.styles";
 import { numberRegex, phoneRegex } from "@/src/lib/constants/regex";
 import {
-  IEditOrderManagerRequest,
+  IOrderMangerRequest,
   IOrderManager,
-  IPostOrderMangerRequest,
 } from "@/src/lib/apis/user/factory/Factory.types";
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
@@ -67,17 +66,13 @@ export default function ManagerModal({
   });
 
   const onSubmit = () => {
+    const payload: IOrderMangerRequest = {
+      name: nameArgs.value.trim(),
+      phone: phone.trim(),
+    };
     if (initData) {
-      const payload: IEditOrderManagerRequest = {
-        name: nameArgs.value.trim(),
-        phone: phone.trim(),
-      };
       editMutate({ id: initData.id, payload: payload });
     } else {
-      const payload: IPostOrderMangerRequest = {
-        name: nameArgs.value.trim(),
-        phone: phone.trim(),
-      };
       postMutate(payload);
     }
   };

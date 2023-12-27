@@ -9,9 +9,15 @@ import { getFullAddress, getPhoneNumber } from "@/src/lib/utils/utils";
 
 interface IDeliveryItemProps {
   data: IDeliveryAddress;
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
-export default function DeliveryItem({ data }: IDeliveryItemProps) {
+export default function DeliveryItem({
+  data,
+  onEdit,
+  onDelete,
+}: IDeliveryItemProps) {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -63,8 +69,14 @@ export default function DeliveryItem({ data }: IDeliveryItemProps) {
         toggleMenu={() => setShowMenu(!showMenu)}
       >
         <>
-          <ItemMenuTitle className="regular14">수정하기</ItemMenuTitle>
-          <ItemMenuTitle className="regular14" isAlert={true}>
+          <ItemMenuTitle className="regular14" onClick={onEdit}>
+            수정하기
+          </ItemMenuTitle>
+          <ItemMenuTitle
+            className="regular14"
+            isAlert={true}
+            onClick={onDelete}
+          >
             삭제하기
           </ItemMenuTitle>
         </>

@@ -36,17 +36,12 @@ export type IOrderManager = {
 
 export type IOrderMangerListResponse = IBaseListSimpleResponse<IOrderManager>;
 
-export type IPostOrderMangerRequest = {
+export type IOrderMangerRequest = {
   name: string;
   phone: string;
 };
 
 export type IPostOrderManagerResponse = {};
-
-export type IEditOrderManagerRequest = {
-  name: string;
-  phone: string;
-};
 
 export type IEditOrderManagerResponse = {};
 
