@@ -1,35 +1,35 @@
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "../CreateOrder.styles";
-import { useEffect } from "react"
+import { useEffect } from "react";
 import { useInputWithMaxLength } from "@/src/lib/hooks/useInput";
 import { ICreateOrderPageProps } from "../CreateOrder.types";
 import { useRecoilState } from "recoil";
-import { createOrderState } from "@/src/store/createOrder"
+import { createOrderState } from "@/src/store/createOrder";
 
 export default function RequestInfo(props: ICreateOrderPageProps) {
   const requestArgs = useInputWithMaxLength(200);
   const [orderState, setOrderState] = useRecoilState(createOrderState);
 
-  useEffect(() =>{
+  useEffect(() => {
     requestArgs.setValue(orderState.request);
   }, []);
 
   const setCreateOrderState = () => {
     setOrderState({
       ...orderState,
-      request: requestArgs.value
+      request: requestArgs.value.trim(),
     });
-  }
+  };
 
   const onNext = () => {
     setCreateOrderState();
-    if(props.onNext) props.onNext();
-  }
+    if (props.onNext) props.onNext();
+  };
 
   const onBefore = () => {
     setCreateOrderState();
-    if(props.onBefore) props.onBefore();
-  }
+    if (props.onBefore) props.onBefore();
+  };
 
   return (
     <S.FormWrapper className="flex-column">
@@ -53,11 +53,7 @@ export default function RequestInfo(props: ICreateOrderPageProps) {
           <S.BackButton className="bold20" onClick={onBefore}>
             이전
           </S.BackButton>
-          <S.NextButton
-            className="bold20"
-            enabled={true}
-            onClick={onNext}
-          >
+          <S.NextButton className="bold20" onClick={onNext}>
             다음
           </S.NextButton>
         </div>

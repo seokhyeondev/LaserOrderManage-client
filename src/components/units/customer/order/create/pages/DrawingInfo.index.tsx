@@ -235,9 +235,8 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
           </S.BackButton>
           <S.NextButton
             className="bold20"
-            enabled={nextStepAvailable}
-            onClick={onNext}
             disabled={!nextStepAvailable}
+            onClick={onNext}
           >
             다음
           </S.NextButton>

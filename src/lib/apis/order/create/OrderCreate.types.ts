@@ -8,7 +8,7 @@ export type IOrderCreateRequest = {
   postProcessing: PostProcessing[];
   drawingList: IDrawing[];
   request: string;
-  deliveryAddressId: number;
+  deliveryAddress: IOrderDeliveryAddress;
   isNewIssue: boolean;
 };
 
@@ -33,6 +33,16 @@ export type IDrawingResponse = {
   fileUrl: string;
 };
 
+export type IOrderDeliveryAddress = {
+  name: string;
+  zipCode: string;
+  address: string;
+  detailAddress: string | null;
+  receiver: string;
+  phone1: string;
+  phone2: string | null;
+};
+
 export type IOrderHistoryResponse = {
   id: number;
   name: string;
@@ -40,7 +50,7 @@ export type IOrderHistoryResponse = {
   postProcessingList: PostProcessing[] | null;
   drawingList: IDrawing[];
   request: string | null;
-  deliveryAddress: IDeliveryAddress;
+  deliveryAddress: IOrderDeliveryAddress;
 };
 
 export type IOrderHistoryListResponse = IBaseListResponse<IOrderHistory>;
