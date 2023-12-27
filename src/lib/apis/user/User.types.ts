@@ -11,6 +11,8 @@ export type IToken = {
   grantType: string;
   accessToken: string;
   accessTokenExpirationTime: string;
+  refreshToken: string;
+  refreshTokenExpirationTime: string;
 };
 
 export type IRequestVerifyResponse = {
