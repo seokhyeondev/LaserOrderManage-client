@@ -73,8 +73,9 @@ export const UserApi = {
     payload: IEditPasswordRequest;
     token: string;
   }): Promise<IEditPasswordResponse> => {
-    const response = await axiosPrivate.patch("/user/password", payload, {
+    const response = await axiosPublic.patch("/user/password", payload, {
       headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true,
     });
     return response.data;
   },
