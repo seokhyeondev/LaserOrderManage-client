@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
 export const BodyWrapper = styled.div``;
 
 export const MainWrapper = styled.div`
-  width: 100%;
+  flex-grow: 1;
 `;
 
 export const LoadWrapper = styled.div`

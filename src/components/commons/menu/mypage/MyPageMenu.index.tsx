@@ -15,6 +15,10 @@ export default function MyPageMenu({
 }: IMyPageMenuProps) {
   const myInfo = useRecoilValue(myInfoState);
 
+  const signOut = () => {
+    //TODO
+  };
+
   return (
     <S.Wrapper className="flex-column">
       <S.BodyWrapper>
@@ -30,7 +34,7 @@ export default function MyPageMenu({
           >
             <UserIcon size={24} isActive={currentPage === "Account"} />
           </MyPageMenuItem>
-          {role && (
+          {role === "ROLE_CUSTOMER" && (
             <MyPageMenuItem
               title="배송지"
               isActive={currentPage === "Delivery"}
@@ -39,7 +43,7 @@ export default function MyPageMenu({
               <TruckIcon size={24} isActive={currentPage === "Delivery"} />
             </MyPageMenuItem>
           )}
-          {role && (
+          {role === "ROLE_FACTORY" && (
             <MyPageMenuItem
               title="담당자 관리"
               isActive={currentPage === "MangerList"}
@@ -57,7 +61,9 @@ export default function MyPageMenu({
         <div className="flex-row-align-center">
           <SignoutIcon size={24} />
           <Spacer width="6px" height="100%" />
-          <S.SignoutTitle className="medium14">로그아웃</S.SignoutTitle>
+          <S.SignoutTitle className="medium14" onClick={signOut}>
+            로그아웃
+          </S.SignoutTitle>
         </div>
       </S.SignoutWrapper>
     </S.Wrapper>

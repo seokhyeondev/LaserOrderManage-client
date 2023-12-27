@@ -58,7 +58,7 @@ export const SelectWrapper = styled.div`
 `;
 
 export const Select = styled.select`
-  width: 280px;
+  width: 200px;
   height: 32px;
   border: 1px solid var(--color-mediumGray);
   border-radius: var(--border-radius);

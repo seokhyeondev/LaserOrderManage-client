@@ -107,8 +107,8 @@ const Name = styled.p``;
 const BasicLabel = styled.p`
   width: 60px;
   height: 20px;
-  background-color: var(--color-primary);
-  color: var(--color-white);
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
   border-radius: var(--border-radius);
 `;
 

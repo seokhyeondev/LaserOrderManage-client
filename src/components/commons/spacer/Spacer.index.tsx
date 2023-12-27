@@ -8,6 +8,7 @@ interface ISpacerProps {
 const Space = styled.div`
   width: ${(props: ISpacerProps) => props.width};
   height: ${(props: ISpacerProps) => props.height};
+  flex-shrink: 0;
 `;
 
 export default function Spacer(props: ISpacerProps) {
