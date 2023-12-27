@@ -12,10 +12,6 @@ export interface IFormSelectProps {
   isSelect: boolean;
 }
 
-export interface INextButtonProps {
-  enabled: boolean;
-}
-
 export interface IManufacturingSelect {
   name: string;
   key: Manufacturing;

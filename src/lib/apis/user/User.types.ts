@@ -1,4 +1,5 @@
 import { UserType } from "@/src/store/auth";
+import { IBaseListSimpleResponse } from "@/src/lib/apis/base/base.types";
 
 export type ILoginRequest = {
   email: string;
@@ -48,3 +49,30 @@ export type IJoinResponse = {
   createdAt: any;
   status: string;
 };
+
+export type IFindEmailRequest = {
+  name: string;
+  phone: string;
+};
+
+export type IFindEmail = {
+  name: string;
+  email: string;
+};
+
+export type IFindEmailResponse = IBaseListSimpleResponse<IFindEmail>;
+
+export type IFindPasswordRequest = {
+  email: string;
+  baseUrl: string;
+};
+
+export type IFindPasswordResponse = {};
+
+export type IEditPasswordRequest = {
+  password: string;
+};
+
+export type IEditPasswordResponse = {};
+
+export type INotificationResponse = {};

@@ -1,12 +1,6 @@
-export type ICustomerOrderResponse = {
-  contents: ICustomerOrder[];
-  page: number;
-  size: number;
-  totalElements: number;
-  totalPages: number;
-  first: boolean;
-  last: boolean;
-};
+import { IBaseListResponse } from "@/src/lib/apis/base/base.types";
+
+export type ICustomerOrderResponse = IBaseListResponse<ICustomerOrder>;
 
 export type OrderStatus =
   | "견적 대기"
@@ -32,15 +26,7 @@ export type ICustomerOrder = {
   request: string | null;
 };
 
-export type IFactoryNewOrderResponse = {
-  contents: IFactoryNewOrder[];
-  page: number;
-  size: number;
-  totalElements: number;
-  totalPages: number;
-  first: boolean;
-  last: boolean;
-};
+export type IFactoryNewOrderResponse = IBaseListResponse<IFactoryNewOrder>;
 
 export type IFactoryNewOrder = {
   id: number;
@@ -58,15 +44,7 @@ export type IFactoryNewOrder = {
   request: string | null;
 };
 
-export type IFactoryOrderResponse = {
-  contents: IFactoryOrder[];
-  page: number;
-  size: number;
-  totalElements: number;
-  totalPages: number;
-  first: boolean;
-  last: boolean;
-};
+export type IFactoryOrderResponse = IBaseListResponse<IFactoryOrder>;
 
 export type IFactoryOrder = {
   id: number;

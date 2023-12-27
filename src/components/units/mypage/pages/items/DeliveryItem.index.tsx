@@ -4,8 +4,20 @@ import ItemMenus, {
   ItemMenuTitle,
 } from "@/src/components/commons/menu/item/ItemMenus.index";
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
+import { IDeliveryAddress } from "@/src/lib/apis/user/customer/Customer.types";
+import { getFullAddress, getPhoneNumber } from "@/src/lib/utils/utils";
 
-export default function DeliveryItem() {
+interface IDeliveryItemProps {
+  data: IDeliveryAddress;
+  onEdit: () => void;
+  onDelete: () => void;
+}
+
+export default function DeliveryItem({
+  data,
+  onEdit,
+  onDelete,
+}: IDeliveryItemProps) {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -15,21 +27,40 @@ export default function DeliveryItem() {
     }
   };
 
+  const getReceiverInfos = (
+    receiver: string,
+    phone1: string,
+    phone2: string | null,
+  ) => {
+    if (phone2) {
+      return `${receiver} · ${getPhoneNumber(phone1)} · ${getPhoneNumber(
+        phone2,
+      )}`;
+    }
+    return `${receiver} · ${getPhoneNumber(phone1)}`;
+  };
+
   return (
     <Wrapper className="flex-row" onClick={onMenuOutside}>
       <BodyWrapper>
         <div className="flex-row-align-center">
-          <Name className="bold14">회원 주소</Name>
-          <Spacer width="10px" height="100%" />
-          <BasicLabel className="bold10 flex-center">기본 배송지</BasicLabel>
+          <Name className="bold14">{data.name}</Name>
+          {data.isDefault && (
+            <>
+              <Spacer width="10px" height="100%" />
+              <BasicLabel className="bold10 flex-center">
+                기본 배송지
+              </BasicLabel>
+            </>
+          )}
         </div>
         <Spacer width="100%" height="12px" />
         <p className="regular14">
-          [01234] 서울시 마포구 성미산로 100, 상세 주소
+          {getFullAddress(data.zipCode, data.address, data.detailAddress)}
         </p>
         <Spacer width="100%" height="10px" />
         <Infos className="regular12">
-          김우리 · 010-1111-1111 · 010-2222-2222
+          {getReceiverInfos(data.receiver, data.phone1, data.phone2)}
         </Infos>
       </BodyWrapper>
       <ItemMenus
@@ -38,8 +69,14 @@ export default function DeliveryItem() {
         toggleMenu={() => setShowMenu(!showMenu)}
       >
         <>
-          <ItemMenuTitle className="regular14">수정하기</ItemMenuTitle>
-          <ItemMenuTitle className="regular14" isAlert={true}>
+          <ItemMenuTitle className="regular14" onClick={onEdit}>
+            수정하기
+          </ItemMenuTitle>
+          <ItemMenuTitle
+            className="regular14"
+            isAlert={true}
+            onClick={onDelete}
+          >
             삭제하기
           </ItemMenuTitle>
         </>
@@ -70,8 +107,8 @@ const Name = styled.p``;
 const BasicLabel = styled.p`
   width: 60px;
   height: 20px;
-  background-color: var(--color-primary);
-  color: var(--color-white);
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
   border-radius: var(--border-radius);
 `;
 

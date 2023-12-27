@@ -12,14 +12,19 @@ import { CustomerApi } from "@/src/lib/apis/user/customer/CustomerApi";
 import { OrderCreateApi } from "@/src/lib/apis/order/create/OrderCreateApi";
 import { AxiosError } from "axios";
 import { IHttpStatus } from "@/src/lib/apis/axios";
-import { IOrderCreateRequest } from "@/src/lib/apis/order/create/OrderCreate.types";
+import {
+  IOrderCreateRequest,
+  IOrderDeliveryAddress,
+} from "@/src/lib/apis/order/create/OrderCreate.types";
 import { useRouter } from "next/router";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 
 export default function DeliveryInfo(props: ICreateOrderPageProps) {
   const [addressModalOpen, setAddressModalOpen] = useState(false);
-  const [selectedAddressId, setSelectedAddressId] = useState<number>();
   const [orderState, setOrderState] = useRecoilState(createOrderState);
+  const [selectedAddress, setSelectedAddress] =
+    useState<IOrderDeliveryAddress | null>(null);
+
   const { data, refetch } = useQuery({
     queryKey: ["deliveryAddress"],
     queryFn: () => CustomerApi.GET_DELIVERY_ADDRESS(),
@@ -48,13 +53,15 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
   });
 
   useEffect(() => {
-    setSelectedAddressId(orderState.deliveryAddressId);
+    if (selectedAddress === null) {
+      setSelectedAddress(orderState.prevAddress);
+    }
   }, []);
 
   const onBefore = () => {
     setOrderState({
       ...orderState,
-      deliveryAddressId: selectedAddressId,
+      deliveryAddress: selectedAddress,
     });
     if (props.onBefore) props.onBefore();
   };
@@ -62,7 +69,7 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
   const onSubmit = () => {
     const payload: IOrderCreateRequest = {
       ...orderState,
-      deliveryAddressId: selectedAddressId!!,
+      deliveryAddress: selectedAddress!!,
     };
     mutate(payload);
   };
@@ -73,6 +80,24 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
         <S.FormBodyWrapper>
           <S.FormTitle className="bold24">배송 정보</S.FormTitle>
           <Spacer width="100%" height="50px" />
+          {!orderState.isNewIssue && (
+            <>
+              <S.FormLabel className="medium20">이전 배송지</S.FormLabel>
+              <Spacer width="100%" height="30px" />
+              {orderState.prevAddress && (
+                <AddressItem
+                  data={{
+                    id: 0,
+                    isDefault: false,
+                    ...orderState.prevAddress,
+                  }}
+                  isSelect={orderState.prevAddress === selectedAddress}
+                  onSelect={() => setSelectedAddress(orderState.prevAddress)}
+                />
+              )}
+              <Spacer width="100%" height="30px" />
+            </>
+          )}
           <div className="flex-row">
             <S.FormLabel className="medium20">
               배송지를 선택해주세요
@@ -85,8 +110,8 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
               <AddressItem
                 key={el.id}
                 data={el}
-                selectedId={selectedAddressId}
-                onSelect={(id: number) => setSelectedAddressId(id)}
+                isSelect={el === selectedAddress}
+                onSelect={() => setSelectedAddress(el)}
               />
             ))}
           </div>
@@ -105,8 +130,7 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
             </S.BackButton>
             <S.NextButton
               className="bold20"
-              enabled={selectedAddressId !== undefined}
-              disabled={selectedAddressId === undefined}
+              disabled={selectedAddress === null}
               onClick={onSubmit}
             >
               견적 요청하기

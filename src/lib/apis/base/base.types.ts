@@ -7,3 +7,8 @@ export type IBaseListResponse<T> = {
   first: boolean;
   last: boolean;
 };
+
+export type IBaseListSimpleResponse<T> = {
+  contents: T[];
+  totalElements: number;
+};

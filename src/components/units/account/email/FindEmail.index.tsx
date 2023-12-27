@@ -1,13 +1,16 @@
 import AccountInput from "@/src/components/commons/inputs/account/AccountInput.index";
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "@/src/components/units/account/Accout.styles";
+import { IFindEmailResponse } from "@/src/lib/apis/user/User.types";
+import { UserApi } from "@/src/lib/apis/user/UserApi";
 import { numberRegex, phoneRegex } from "@/src/lib/constants/regex";
 import { useInputWithError } from "@/src/lib/hooks/useInput";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function FindEmail() {
-  const [result, setResult] = useState<string | null>(null);
+  const [result, setResult] = useState<IFindEmailResponse | null>(null);
   const router = useRouter();
 
   const nameInputArgs = useInputWithError(
@@ -23,11 +26,22 @@ export default function FindEmail() {
     numberRegex,
   );
 
+  const { mutate } = useMutation({
+    mutationFn: UserApi.FIND_EMAIL,
+    onSuccess: (data) => {
+      setResult(data);
+    },
+    onError: () => {},
+  });
+
   const findEmail = () => {
     const namePass = nameInputArgs.passError();
     const phonePass = phoneInputArgs.passError();
     if (!(namePass && phonePass)) return;
-    setResult("user1@gmail.com");
+    mutate({
+      name: nameInputArgs.value.trim(),
+      phone: phoneInputArgs.value.trim(),
+    });
   };
 
   return (
@@ -39,10 +53,14 @@ export default function FindEmail() {
           <>
             <AccountInput
               placeholder="이름"
+              maxLength={20}
               value={nameInputArgs.value}
               isError={nameInputArgs.error}
               errorMessage={nameInputArgs.errorMessage}
               onChange={nameInputArgs.onChange}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") findEmail();
+              }}
             />
             <Spacer width="100%" height="14px" />
             <AccountInput
@@ -51,6 +69,9 @@ export default function FindEmail() {
               isError={phoneInputArgs.error}
               errorMessage={phoneInputArgs.errorMessage}
               onChange={phoneInputArgs.onChange}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") findEmail();
+              }}
             />
             <Spacer width="100%" height="40px" />
             <S.Button className="bold18" onClick={findEmail}>
@@ -58,18 +79,17 @@ export default function FindEmail() {
             </S.Button>
           </>
         )}
-        {result && (
+        {result && result.totalElements !== 0 && (
           <>
             <S.ResultWrapper>
               <p className="regular14">{`${nameInputArgs.value}님의 이메일`}</p>
               <Spacer width="100%" height="20px" />
               <div>
-                <S.ResultItem>
-                  <S.Result className="bold18">{result}</S.Result>
-                </S.ResultItem>
-                <S.ResultItem>
-                  <S.Result className="bold18">{result}</S.Result>
-                </S.ResultItem>
+                {result.contents.map((el) => (
+                  <S.ResultItem key={el.email}>
+                    <S.Result className="bold18">{el.email}</S.Result>
+                  </S.ResultItem>
+                ))}
               </div>
             </S.ResultWrapper>
             <Spacer width="100%" height="40px" />
@@ -88,6 +108,26 @@ export default function FindEmail() {
                 로그인
               </S.Button>
             </div>
+          </>
+        )}
+        {result && result.totalElements === 0 && (
+          <>
+            <S.ResultWrapper>
+              <p className="medium16">가입한 내역이 없습니다</p>
+              <Spacer width="100%" height="60px" />
+              <div className="flex-row">
+                <S.SubButton className="bold18" onClick={() => setResult(null)}>
+                  다시 찾기
+                </S.SubButton>
+                <Spacer width="10px" height="100%" />
+                <S.Button
+                  className="bold18"
+                  onClick={() => router.replace("/login")}
+                >
+                  로그인
+                </S.Button>
+              </div>
+            </S.ResultWrapper>
           </>
         )}
       </S.FormWrapper>

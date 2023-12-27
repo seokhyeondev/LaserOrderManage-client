@@ -1,5 +1,8 @@
 import { atom } from "recoil";
-import { IDrawing } from "../lib/apis/order/create/OrderCreate.types";
+import {
+  IDrawing,
+  IOrderDeliveryAddress,
+} from "../lib/apis/order/create/OrderCreate.types";
 import { Manufacturing, PostProcessing } from "../lib/apis/order/Order.types";
 
 export interface ICreateOrderState {
@@ -8,7 +11,8 @@ export interface ICreateOrderState {
   postProcessing: PostProcessing[];
   drawingList: IDrawing[];
   request: string;
-  deliveryAddressId: number | undefined;
+  deliveryAddress: IOrderDeliveryAddress | null;
+  prevAddress: IOrderDeliveryAddress | null;
   isNewIssue: boolean;
 }
 
@@ -18,7 +22,8 @@ export const initialState: ICreateOrderState = {
   postProcessing: [],
   drawingList: [],
   request: "",
-  deliveryAddressId: undefined,
+  deliveryAddress: null,
+  prevAddress: null,
   isNewIssue: true,
 };
 

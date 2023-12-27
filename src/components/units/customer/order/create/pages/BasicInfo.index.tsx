@@ -41,7 +41,8 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
       postProcessing: callback.postProcessingList ?? [],
       drawingList: callback.drawingList,
       request: callback.request ?? "",
-      deliveryAddressId: callback.deliveryAddress.id,
+      deliveryAddress: null,
+      prevAddress: callback.deliveryAddress,
       isNewIssue: true,
     });
     nameArgs.setValue(callback.name);
@@ -53,7 +54,7 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
   const onNext = () => {
     setOrderState({
       ...orderState,
-      name: nameArgs.value,
+      name: nameArgs.value.trim(),
       manufacturing: manufacturingArgs.selected,
       postProcessing: postProcessingArgs.selected,
       isNewIssue: !editMode,
@@ -132,7 +133,6 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
         <S.FormButtonWrapper className="flex-column-end">
           <S.NextButton
             className="bold20"
-            enabled={nextStepAvailable}
             onClick={onNext}
             disabled={!nextStepAvailable}
           >

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { IFormSelectProps, INextButtonProps } from "./CreateOrder.types";
+import { IFormSelectProps } from "./CreateOrder.types";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
 export const BodyWrapper = styled.div``;
 
 export const MainWrapper = styled.div`
-  width: 100%;
+  flex-grow: 1;
 `;
 
 export const LoadWrapper = styled.div`
@@ -139,14 +139,17 @@ export const FormButtonWrapper = styled.div`
   padding: 0 30px;
 `;
 
-export const NextButton = styled.button<INextButtonProps>`
+export const NextButton = styled.button`
   width: 200px;
   height: 60px;
   color: var(--color-white);
-  background-color: ${(props) =>
-    props.enabled ? "var(--color-primary)" : "var(--color-mediumGray)"};
+  background-color: var(--color-primary);
   border-radius: var(--border-radius);
   transition: all ease 0.3s;
+
+  &:disabled {
+    background-color: var(--color-mediumGray);
+  }
 `;
 
 export const BackButton = styled.button`

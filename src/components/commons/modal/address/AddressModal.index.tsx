@@ -7,27 +7,42 @@ import CheckIcon from "../../icons/CheckIcon.index";
 import Spacer from "../../spacer/Spacer.index";
 import Modal, { IModalProps } from "../Modal.index";
 import * as S from "./AddressModal.styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { numberRegex, phoneRegex } from "@/src/lib/constants/regex";
 import { useDaumPostPopup } from "@/src/lib/hooks/useDaumPostPopup";
 import { Address } from "react-daum-postcode";
-import { IDeliveryAddressRequest } from "@/src/lib/apis/user/customer/Customer.types";
+import {
+  IDeliveryAddress,
+  IDeliveryAddressRequest,
+} from "@/src/lib/apis/user/customer/Customer.types";
 import { useMutation } from "@tanstack/react-query";
 import { CustomerApi } from "@/src/lib/apis/user/customer/CustomerApi";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 
 interface IAddressModalProps extends IModalProps {
+  initData?: IDeliveryAddress;
   refetch: () => void;
 }
 
-export default function AddressModal(props: IAddressModalProps) {
+export default function AddressModal({
+  isOpen,
+  initData,
+  onClose,
+  refetch,
+}: IAddressModalProps) {
   const nameArgs = useInputWithMaxLength(20);
   const receiverArgs = useInputWithMaxLength(10);
   const [zoneCode, setZoneCode] = useState("");
   const [address, setAddress] = useState("");
-  const [detailAddress, onChangeDetailAddress] = useInput();
-  const [phone1, onChangePhone1] = useInputWithRegex(numberRegex, "");
-  const [phone2, onChangePhone2] = useInputWithRegex(numberRegex, "");
+  const [detailAddress, onChangeDetailAddress, setDetailAddress] = useInput();
+  const [phone1, onChangePhone1, setPhone1] = useInputWithRegex(
+    numberRegex,
+    "",
+  );
+  const [phone2, onChangePhone2, setPhone2] = useInputWithRegex(
+    numberRegex,
+    "",
+  );
   const [defaultCheck, setDefaultCheck] = useState(false);
   const submitAvailable =
     zoneCode.length === 5 &&
@@ -37,17 +52,39 @@ export default function AddressModal(props: IAddressModalProps) {
     (phone2 !== "" ? phoneRegex.test(phone2) : true);
   const { setToast } = useToastify();
 
+  useEffect(() => {
+    if (initData) {
+      nameArgs.setValue(initData.name);
+      receiverArgs.setValue(initData.receiver);
+      setZoneCode(initData.zipCode);
+      setAddress(initData.address);
+      setDetailAddress(initData.detailAddress ?? "");
+      setPhone1(initData.phone1);
+      setPhone2(initData.phone2 ?? "");
+      setDefaultCheck(initData.isDefault);
+    } else {
+      nameArgs.setValue("");
+      receiverArgs.setValue("");
+      setZoneCode("");
+      setAddress("");
+      setDetailAddress("");
+      setPhone1("");
+      setPhone2("");
+      setDefaultCheck(false);
+    }
+  }, [isOpen]);
+
   const addressCallback = (data: Address) => {
     setZoneCode(data.zonecode);
     setAddress(data.address);
   };
   const openPostPopup = useDaumPostPopup(addressCallback);
 
-  const { mutate } = useMutation({
+  const { mutate: postMutate } = useMutation({
     mutationFn: CustomerApi.POST_DELIVERY_ADDRESS,
     onSuccess: () => {
-      props.refetch();
-      props.onClose();
+      refetch();
+      onClose();
       setToast({ comment: "배송지를 추가했어요" });
     },
     onError: () => {
@@ -55,9 +92,21 @@ export default function AddressModal(props: IAddressModalProps) {
     },
   });
 
+  const { mutate: editMutate } = useMutation({
+    mutationFn: CustomerApi.EDIT_DELIVERY_ADDRESS,
+    onSuccess: () => {
+      refetch();
+      onClose();
+      setToast({ comment: "배송지를 수정했어요" });
+    },
+    onError: () => {
+      setToast({ comment: "배송지 수정에 실패했어요" });
+    },
+  });
+
   const onSubmit = () => {
     const payload: IDeliveryAddressRequest = {
-      deliveryName: nameArgs.value !== "" ? nameArgs.value : receiverArgs.value,
+      name: nameArgs.value !== "" ? nameArgs.value : receiverArgs.value,
       zipCode: zoneCode,
       address: address,
       detailAddress: detailAddress,
@@ -66,11 +115,15 @@ export default function AddressModal(props: IAddressModalProps) {
       phone2: phone2 !== "" ? phone2 : null,
       isDefault: defaultCheck,
     };
-    mutate(payload);
+    if (initData) {
+      editMutate({ id: initData.id, payload: payload });
+    } else {
+      postMutate(payload);
+    }
   };
 
   return (
-    <Modal isOpen={props.isOpen} onClose={props.onClose}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <S.Wrapper>
         <S.Title className="bold18">배송지 등록</S.Title>
         <Spacer width="100%" height="30px" />
@@ -115,7 +168,11 @@ export default function AddressModal(props: IAddressModalProps) {
           readOnly
         />
         <Spacer width="100%" height="5px" />
-        <S.Input placeholder="상세 주소" onChange={onChangeDetailAddress} />
+        <S.Input
+          placeholder="상세 주소"
+          value={detailAddress}
+          onChange={onChangeDetailAddress}
+        />
         <Spacer width="100%" height="24px" />
         <div className="flex-row">
           <S.Label className="medium16">연락처1</S.Label>
@@ -151,7 +208,7 @@ export default function AddressModal(props: IAddressModalProps) {
         </S.CheckArea>
         <Spacer width="100%" height="30px" />
         <div className="flex-row">
-          <S.CancelButton className="bold16" onClick={props.onClose}>
+          <S.CancelButton className="bold16" onClick={onClose}>
             취소
           </S.CancelButton>
           <Spacer width="10px" height="100%" />

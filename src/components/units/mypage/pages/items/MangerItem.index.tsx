@@ -4,8 +4,20 @@ import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import ItemMenus, {
   ItemMenuTitle,
 } from "@/src/components/commons/menu/item/ItemMenus.index";
+import { IOrderManager } from "@/src/lib/apis/user/factory/Factory.types";
+import { getPhoneNumber } from "@/src/lib/utils/utils";
 
-export default function ManagerItem() {
+interface IMangerItemProps {
+  data: IOrderManager;
+  onEdit: () => void;
+  onDelete: () => void;
+}
+
+export default function ManagerItem({
+  data,
+  onEdit,
+  onDelete,
+}: IMangerItemProps) {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -18,9 +30,9 @@ export default function ManagerItem() {
   return (
     <Wrapper className="flex-row" onClick={onMenuOutside}>
       <BodyWrapper>
-        <Name className="bold14">김진태</Name>
+        <Name className="bold14">{data.name}</Name>
         <Spacer width="100%" height="12px" />
-        <Phone className="regular14">010-3333-3333</Phone>
+        <Phone className="regular14">{getPhoneNumber(data.phone)}</Phone>
       </BodyWrapper>
       <ItemMenus
         show={showMenu}
@@ -28,8 +40,14 @@ export default function ManagerItem() {
         toggleMenu={() => setShowMenu(!showMenu)}
       >
         <>
-          <ItemMenuTitle className="regular14">수정하기</ItemMenuTitle>
-          <ItemMenuTitle className="regular14" isAlert={true}>
+          <ItemMenuTitle className="regular14" onClick={onEdit}>
+            수정하기
+          </ItemMenuTitle>
+          <ItemMenuTitle
+            className="regular14"
+            isAlert={true}
+            onClick={onDelete}
+          >
             삭제하기
           </ItemMenuTitle>
         </>

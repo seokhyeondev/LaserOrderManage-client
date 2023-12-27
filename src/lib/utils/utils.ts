@@ -70,7 +70,19 @@ export const getAddress = (
 ): string => {
   if (detailAddress) {
     return `(${address}, ${detailAddress})`;
-  } else return `(${address})`;
+  }
+  return `(${address})`;
+};
+
+export const getFullAddress = (
+  zoneCode: string,
+  address: string,
+  detailAddress: string | null,
+): string => {
+  if (detailAddress && detailAddress !== "") {
+    return `[${zoneCode}] ${address}, ${detailAddress}`;
+  }
+  return `[${zoneCode}] ${address}`;
 };
 
 export const getPhoneNumber = (phone: string): string => {

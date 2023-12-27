@@ -1,5 +1,6 @@
 import { IDeliveryAddress } from "../../user/customer/Customer.types";
 import { Manufacturing, OrderStatus, PostProcessing } from "../Order.types";
+import { IBaseListSimpleResponse } from "@/src/lib/apis/base/base.types";
 
 export type IOrderDetailResponse = {
   customer: IDetailCustomer;
@@ -58,10 +59,7 @@ export type IDetailPurchaseOrder = {
   createdAt: any;
 };
 
-export type IOrderCommentsResponse = {
-  contents: IOrderComment[];
-  totalElements: number;
-};
+export type IOrderCommentsResponse = IBaseListSimpleResponse<IOrderComment>;
 
 export type IOrderComment = {
   id: number;
