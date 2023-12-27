@@ -77,9 +77,9 @@ export const getAddress = (
 export const getFullAddress = (
   zoneCode: string,
   address: string,
-  detailAddress: string,
+  detailAddress: string | null,
 ): string => {
-  if (detailAddress !== "") {
+  if (detailAddress && detailAddress !== "") {
     return `[${zoneCode}] ${address}, ${detailAddress}`;
   }
   return `[${zoneCode}] ${address}`;

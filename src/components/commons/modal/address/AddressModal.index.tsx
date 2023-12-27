@@ -57,7 +57,7 @@ export default function AddressModal(props: IAddressModalProps) {
 
   const onSubmit = () => {
     const payload: IDeliveryAddressRequest = {
-      deliveryName: nameArgs.value !== "" ? nameArgs.value : receiverArgs.value,
+      name: nameArgs.value !== "" ? nameArgs.value : receiverArgs.value,
       zipCode: zoneCode,
       address: address,
       detailAddress: detailAddress,

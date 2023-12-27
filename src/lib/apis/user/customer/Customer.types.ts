@@ -4,7 +4,7 @@ export type IDeliveryAddressListResponse =
   IBaseListSimpleResponse<IDeliveryAddress>;
 
 export type IDeliveryAddressRequest = {
-  deliveryName: string;
+  name: string;
   zipCode: string;
   address: string;
   detailAddress: string;

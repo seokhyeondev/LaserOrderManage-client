@@ -3,9 +3,15 @@ import * as S from "./MyPagePages.styles";
 import DeliveryItem from "./items/DeliveryItem.index";
 import { useState } from "react";
 import AddressModal from "@/src/components/commons/modal/address/AddressModal.index";
+import { useQuery } from "@tanstack/react-query";
+import { CustomerApi } from "@/src/lib/apis/user/customer/CustomerApi";
 
 export default function DeliveryPage() {
   const [showModal, setShowModal] = useState(false);
+  const { data, refetch } = useQuery({
+    queryKey: ["getDeliveryAddress"],
+    queryFn: () => CustomerApi.GET_DELIVERY_ADDRESS(),
+  });
 
   return (
     <>
@@ -13,7 +19,7 @@ export default function DeliveryPage() {
         <S.Title className="bold24">배송지 설정</S.Title>
         <S.BodyWrapper>
           <div>
-            <DeliveryItem />
+            {data?.contents.map((el) => <DeliveryItem key={el.id} data={el} />)}
           </div>
           <Spacer width="100%" height="16px" />
           <S.AddWrapper
