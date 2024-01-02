@@ -3,6 +3,7 @@ import * as S from "./LayoutHeader.styles";
 import Image from "next/image";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/src/store/auth";
+import { UserApi } from "@/src/lib/apis/user/UserApi";
 
 const NAVIGATION_MENU_DEFAULT = [
   { name: "견적 요청하기", page: "/customer/order/create" },
@@ -18,6 +19,10 @@ export default function LayoutHeader() {
   const auth = useRecoilValue(authState);
   const { onClickMoveToPage, onClickMoveWithAuth } = useMoveToPage();
 
+  const reissue = async () => {
+    await UserApi.REISSUE();
+  };
+
   return (
     <S.Wrapper>
       <S.InnerWrapper>
@@ -27,7 +32,7 @@ export default function LayoutHeader() {
             height={33}
             src="/images/mainLogo.png"
             alt="메인 로고"
-            onClick={onClickMoveToPage("/")}
+            onClick={reissue}
             priority={true}
           />
         </S.LogoWrapper>

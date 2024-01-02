@@ -10,7 +10,9 @@ export type IToken = {
   role: UserType;
   grantType: string;
   accessToken: string;
-  accessTokenExpirationTime: string;
+  accessTokenExpirationTime: number;
+  refreshToken: string;
+  refreshTokenExpirationTime: number;
 };
 
 export type IRequestVerifyResponse = {

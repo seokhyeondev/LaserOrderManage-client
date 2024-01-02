@@ -6,8 +6,6 @@ import axios, {
 } from "axios";
 import { UserApi } from "./user/UserApi";
 import { setCredentials } from "../utils/setCredentials";
-import { useSetRecoilState } from "recoil";
-import { authState } from "@/src/store/auth";
 
 export const axiosPublic = axios.create({
   baseURL: "https://api.kumoh.org",
@@ -18,14 +16,6 @@ export const axiosPrivate = axios.create({
   baseURL: "https://api.kumoh.org",
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
-});
-
-axiosPrivate.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem("accessToken");
-  if (accessToken) {
-    config.headers["Authorization"] = `Bearer ${accessToken}`;
-  }
-  return config;
 });
 
 axiosPrivate.interceptors.response.use(
@@ -39,12 +29,13 @@ axiosPrivate.interceptors.response.use(
 
     const status = Number(error.response?.status);
     const origin = error.config as AxiosRequestConfig;
-    const setAuth = useSetRecoilState(authState);
 
     if (status === 401) {
       const newToken = await UserApi.REISSUE();
-      setAuth({ isAuthenticated: true, ...newToken });
       setCredentials(newToken);
+      const cookieString = `refreshToken=${newToken.refreshToken}; Path=/; max-age=${newToken.refreshToken}; secure=true; SameSite=None`;
+      axiosPrivate.defaults.headers.Cookie = cookieString;
+      (origin.headers as AxiosHeaders).set("Set-Cookie", cookieString);
       (origin.headers as AxiosHeaders).set(
         "Authorization",
         `${newToken.grantType} ${newToken.accessToken}`,

@@ -62,7 +62,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
         company: customerAccount.companyName,
       });
     }
-  }, [customerSuccess]);
+  }, [customerSuccess, customerAccount]);
 
   const { data: factoryAccount, isSuccess: factorySuccess } = useQuery({
     queryKey: ["factoryAccount"],
