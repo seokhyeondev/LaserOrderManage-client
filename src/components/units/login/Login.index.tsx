@@ -10,6 +10,7 @@ import { setCredentials } from "@/src/lib/utils/setCredentials";
 import { useRouter } from "next/router";
 import { useInput } from "@/src/lib/hooks/useInput";
 import { emailRegex, passwordRegex } from "@/src/lib/constants/regex";
+import { getCookie } from "cookies-next";
 
 export default function Login() {
   const [email, onChangeEmail] = useInput();
