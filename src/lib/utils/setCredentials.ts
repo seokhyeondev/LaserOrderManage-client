@@ -7,16 +7,20 @@ export const setCredentials = (token: IToken) => {
     "Authorization"
   ] = `${token.grantType} ${token.accessToken}`;
 
-  setCookie("refreshToken", token.refreshToken, {
-    maxAge: token.refreshTokenExpirationTime,
-    domain: ".kumoh.org",
-    secure: true,
-    sameSite: "none",
-    path: "/",
-  });
+  if (process.env.NODE_ENV === "development") {
+    setCookie("refreshToken", token.refreshToken, {
+      maxAge: token.refreshTokenExpirationTime,
+      domain: ".kumoh.org",
+      secure: true,
+      sameSite: "none",
+      path: "/",
+    });
+  }
 };
 
 export const resetCredentials = () => {
   axiosPrivate.defaults.headers.common["Authorization"] = "";
-  deleteCookie("refreshToken");
+  if (process.env.NODE_ENV === "development") {
+    deleteCookie("refreshToken");
+  }
 };

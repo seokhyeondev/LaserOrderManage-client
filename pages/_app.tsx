@@ -66,12 +66,12 @@ MyApp.getInitialProps = async (context: AppContext) => {
   let loginData: IToken | null;
 
   try {
-    if (ctx.req && ctx.res) {
+    if (ctx.req) {
       const cookie = ctx.req.headers.cookie;
       axiosPrivate.defaults.headers.Cookie = cookie || "";
       const token = await UserApi.REISSUE();
       loginData = token;
-      ctx.res.setHeader("set-cookie", makeCookieString(token));
+      ctx.res?.setHeader("set-cookie", makeCookieString(token));
     } else throw new Error("isClient");
   } catch (error) {
     loginData = null;
