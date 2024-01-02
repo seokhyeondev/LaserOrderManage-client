@@ -48,11 +48,12 @@ function MyApp({ Component, pageProps, loginData }: MyAppProps) {
       <RecoilRoot initializeState={initializer}>
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
-          <HydrationBoundary state={pageProps.dehydratedState} />
-          <Global styles={globalStyles} />
-          <Layout className={roboto.className}>
-            <Component {...pageProps} />
-          </Layout>
+          <HydrationBoundary state={pageProps.dehydratedState}>
+            <Global styles={globalStyles} />
+            <Layout className={roboto.className}>
+              <Component {...pageProps} />
+            </Layout>
+          </HydrationBoundary>
         </QueryClientProvider>
       </RecoilRoot>
     </>
@@ -65,12 +66,12 @@ MyApp.getInitialProps = async (context: AppContext) => {
   let loginData: IToken | null;
 
   try {
-    if (ctx.req) {
+    if (ctx.req && ctx.res) {
       const cookie = ctx.req.headers.cookie;
       axiosPrivate.defaults.headers.Cookie = cookie || "";
       const token = await UserApi.REISSUE();
       loginData = token;
-      ctx.res?.setHeader("set-cookie", makeCookieString(token));
+      ctx.res.setHeader("set-cookie", makeCookieString(token));
     } else throw new Error("isClient");
   } catch (error) {
     loginData = null;
