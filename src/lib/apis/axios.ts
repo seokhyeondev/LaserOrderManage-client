@@ -7,13 +7,15 @@ import axios, {
 import { UserApi } from "./user/UserApi";
 import { setCredentials } from "../utils/setCredentials";
 
+const BASE_URL = "https://api.kumoh.org";
+
 export const axiosPublic = axios.create({
-  baseURL: "https://api.kumoh.org",
+  baseURL: BASE_URL,
   headers: { "Content-Type": "application/json" },
 });
 
 export const axiosPrivate = axios.create({
-  baseURL: "https://api.kumoh.org",
+  baseURL: BASE_URL,
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });
