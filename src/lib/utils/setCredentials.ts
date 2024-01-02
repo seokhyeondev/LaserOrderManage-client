@@ -7,7 +7,10 @@ export const setCredentials = (token: IToken) => {
     "Authorization"
   ] = `${token.grantType} ${token.accessToken}`;
 
-  setCookie("refreshToken", token.refreshToken);
+  setCookie("refreshToken", token.refreshToken, {
+    maxAge: token.refreshTokenExpirationTime,
+    domain: ".kumoh.org",
+  });
 };
 
 export const resetCredentials = () => {
