@@ -35,7 +35,7 @@ axiosPrivate.interceptors.response.use(
     if (status === 401) {
       const newToken = await UserApi.REISSUE();
       setCredentials(newToken);
-      const cookieString = `refreshToken=${newToken.refreshToken}; Path=/; max-age=${newToken.refreshToken}; secure=true; SameSite=None`;
+      const cookieString = `refreshToken=${newToken.refreshToken}; Path=/; domain:.kumoh.org; max-age=${newToken.refreshToken}; secure=true; SameSite=None`;
       axiosPrivate.defaults.headers.Cookie = cookieString;
       (origin.headers as AxiosHeaders).set("Set-Cookie", cookieString);
       (origin.headers as AxiosHeaders).set(
