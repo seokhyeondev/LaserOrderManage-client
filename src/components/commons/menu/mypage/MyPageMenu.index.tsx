@@ -1,4 +1,4 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import ClipBoardIcon from "../../icons/ClipBoardIcon.index";
 import SignoutIcon from "../../icons/SignoutIcon.index";
 import TruckIcon from "../../icons/TruckIcon.index";
@@ -7,6 +7,9 @@ import Spacer from "../../spacer/Spacer.index";
 import * as S from "./MyPageMenu.styles";
 import { IMyPageMenuItemProps, IMyPageMenuProps } from "./MyPageMenu.types";
 import { myInfoState } from "@/src/store/myInfo";
+import { authState } from "@/src/store/auth";
+import { resetCredentials } from "@/src/lib/utils/setCredentials";
+import { useRouter } from "next/router";
 
 export default function MyPageMenu({
   currentPage,
@@ -14,9 +17,13 @@ export default function MyPageMenu({
   onChangePage,
 }: IMyPageMenuProps) {
   const myInfo = useRecoilValue(myInfoState);
+  const resetAuthState = useResetRecoilState(authState);
+  const router = useRouter();
 
   const signOut = () => {
-    //TODO
+    resetAuthState();
+    resetCredentials();
+    router.replace("/");
   };
 
   return (
@@ -57,13 +64,11 @@ export default function MyPageMenu({
           )}
         </div>
       </S.BodyWrapper>
-      <S.SignoutWrapper className="flex-center">
+      <S.SignoutWrapper className="flex-center" onClick={signOut}>
         <div className="flex-row-align-center">
           <SignoutIcon size={24} />
           <Spacer width="6px" height="100%" />
-          <S.SignoutTitle className="medium14" onClick={signOut}>
-            로그아웃
-          </S.SignoutTitle>
+          <S.SignoutTitle className="medium14">로그아웃</S.SignoutTitle>
         </div>
       </S.SignoutWrapper>
     </S.Wrapper>

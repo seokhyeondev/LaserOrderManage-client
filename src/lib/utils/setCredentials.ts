@@ -10,6 +10,9 @@ export const setCredentials = (token: IToken) => {
   setCookie("refreshToken", token.refreshToken, {
     maxAge: token.refreshTokenExpirationTime,
     domain: ".kumoh.org",
+    secure: true,
+    sameSite: "none",
+    path: "/",
   });
 };
 

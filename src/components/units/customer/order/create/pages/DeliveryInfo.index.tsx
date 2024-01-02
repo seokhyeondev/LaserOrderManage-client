@@ -5,8 +5,8 @@ import AddressItem from "./items/AddressItem.index";
 import AddressModal from "@/src/components/commons/modal/address/AddressModal.index";
 import { useState } from "react";
 import { ICreateOrderPageProps } from "../CreateOrder.types";
-import { useRecoilState } from "recoil";
-import { createOrderState, initialState } from "@/src/store/createOrder";
+import { useRecoilState, useResetRecoilState } from "recoil";
+import { createOrderState } from "@/src/store/createOrder";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CustomerApi } from "@/src/lib/apis/user/customer/CustomerApi";
 import { OrderCreateApi } from "@/src/lib/apis/order/create/OrderCreateApi";
@@ -22,6 +22,7 @@ import { useToastify } from "@/src/lib/hooks/useToastify";
 export default function DeliveryInfo(props: ICreateOrderPageProps) {
   const [addressModalOpen, setAddressModalOpen] = useState(false);
   const [orderState, setOrderState] = useRecoilState(createOrderState);
+  const resetOrderState = useResetRecoilState(createOrderState);
   const [selectedAddress, setSelectedAddress] =
     useState<IOrderDeliveryAddress | null>(null);
 
@@ -37,7 +38,7 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
     onSuccess: () => {
       setToast({ comment: "새 거래를 생성했어요" });
       router.replace("/customer/order");
-      setOrderState(initialState);
+      resetOrderState();
     },
     onError: (error: AxiosError) => {
       if (error.response) {
