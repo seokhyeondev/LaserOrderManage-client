@@ -30,26 +30,21 @@ axiosPrivate.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    if (error.response) {
-      const origin = error.config as AxiosRequestConfig;
-      const status = Number(error.response.status);
-      const errorData = error.response.data as IHttpStatus;
-      if (
-        status === 401 ||
-        (status === 400 && errorData.errorCode === "-001")
-      ) {
-        const newToken = await UserApi.REISSUE();
-        setCredentials(newToken);
-        const cookieString = makeCookieString(newToken);
-        axiosPrivate.defaults.headers.Cookie = cookieString;
-        (origin.headers as AxiosHeaders).set("set-cookie", cookieString);
-        (origin.headers as AxiosHeaders).set(
-          "Authorization",
-          `${newToken.grantType} ${newToken.accessToken}`,
-        );
+    const origin = error.config as AxiosRequestConfig;
+    const status = Number(error.response?.status);
 
-        return axios(origin);
-      }
+    if (status === 401) {
+      const newToken = await UserApi.REISSUE();
+      setCredentials(newToken);
+      const cookieString = makeCookieString(newToken);
+      axiosPrivate.defaults.headers.Cookie = cookieString;
+      (origin.headers as AxiosHeaders).set("set-cookie", cookieString);
+      (origin.headers as AxiosHeaders).set(
+        "Authorization",
+        `${newToken.grantType} ${newToken.accessToken}`,
+      );
+
+      return axios(origin);
     }
 
     return Promise.reject(error);

@@ -21,7 +21,7 @@ export default function Order() {
   const orderModalArgs = useOrderModal();
 
   const { data, refetch } = useQuery({
-    queryKey: ["customerOrder", filterArgs.filterMap],
+    queryKey: ["customerOrder"],
     queryFn: () =>
       OrderApi.GET_CUSTOMER_ORDER(
         paginationArgs.activedPage,

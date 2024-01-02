@@ -16,6 +16,7 @@ import { UserApi } from "@/src/lib/apis/user/UserApi";
 import { IAuthState, authState } from "@/src/store/auth";
 import { setCredentials } from "@/src/lib/utils/setCredentials";
 import App from "next/app";
+import { axiosPrivate, makeCookieString } from "@/src/lib/apis/axios";
 
 const roboto = Roboto({ weight: ["400", "500", "700"], subsets: ["latin"] });
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
@@ -47,11 +48,12 @@ function MyApp({ Component, pageProps, loginData }: MyAppProps) {
       <RecoilRoot initializeState={initializer}>
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
-          <HydrationBoundary state={pageProps.dehydratedState} />
-          <Global styles={globalStyles} />
-          <Layout className={roboto.className}>
-            <Component {...pageProps} />
-          </Layout>
+          <HydrationBoundary state={pageProps.dehydratedState}>
+            <Global styles={globalStyles} />
+            <Layout className={roboto.className}>
+              <Component {...pageProps} />
+            </Layout>
+          </HydrationBoundary>
         </QueryClientProvider>
       </RecoilRoot>
     </>
@@ -60,11 +62,17 @@ function MyApp({ Component, pageProps, loginData }: MyAppProps) {
 
 MyApp.getInitialProps = async (context: AppContext) => {
   const appProps = await App.getInitialProps(context);
+  const { ctx } = context;
   let loginData: IToken | null;
 
   try {
-    const token = await UserApi.REISSUE();
-    loginData = token;
+    if (ctx.req && ctx.res) {
+      const cookie = ctx.req.headers.cookie;
+      axiosPrivate.defaults.headers.Cookie = cookie || "";
+      const token = await UserApi.REISSUE();
+      loginData = token;
+      ctx.res.setHeader("set-cookie", makeCookieString(token));
+    } else throw new Error("isClient");
   } catch (error) {
     loginData = null;
   }
