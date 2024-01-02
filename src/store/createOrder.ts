@@ -16,7 +16,7 @@ export interface ICreateOrderState {
   isNewIssue: boolean;
 }
 
-export const initialState: ICreateOrderState = {
+const initialState: ICreateOrderState = {
   name: "",
   manufacturing: [],
   postProcessing: [],
