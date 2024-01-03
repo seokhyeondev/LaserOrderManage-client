@@ -7,7 +7,7 @@ import { useOrderSelectFilter } from "@/src/lib/hooks/useFilter";
 import { useOrderTab } from "@/src/lib/hooks/useTab";
 import { useOrderModal } from "@/src/lib/hooks/useModal";
 import FactoryNewOrderList from "./List/OrderList.index";
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import { OrderApi } from "@/src/lib/apis/order/OrderApi";
 import {
   CUSTOMER,
@@ -16,6 +16,8 @@ import {
 } from "@/src/components/commons/filters/order/OrderFilterQueries";
 import { usePagination } from "@/src/lib/hooks/usePagination";
 import OrderPagination from "@/src/components/commons/paginations/order/OrderPagination.index";
+import { GetServerSideProps } from "next";
+import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 
 export default function Order() {
   const [tab, onTabClick] = useOrderTab(NEW_ORDER_TAB[0]);
@@ -23,7 +25,7 @@ export default function Order() {
   const modalArgs = useOrderModal();
 
   const { data, refetch } = useQuery({
-    queryKey: ["factoryNewOrder", tab, filterArgs.filterMap],
+    queryKey: ["factoryNewOrder", tab.value],
     queryFn:
       tab === NEW_ORDER_TAB[0]
         ? () =>
@@ -69,3 +71,27 @@ export default function Order() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const queryClient = new QueryClient();
+  const { cookies } = context.req;
+  try {
+    setSsrAxiosHeader(cookies);
+    await queryClient.prefetchQuery({
+      queryKey: ["factoryNewOrder", "new-issue"],
+      queryFn: () => OrderApi.GET_FACTORY_NEWISSUE_ORDER(1, 5, "", "", ""),
+    });
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+      },
+    };
+  } catch (error) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+};
