@@ -35,7 +35,9 @@ export default function LayoutHeader() {
         <S.MenuWrapper className="flex-row-align-center">
           {auth.role === null &&
             NAVIGATION_MENU_DEFAULT.map((el) => (
-              <Link href={"/login"} key={el.page} />
+              <Link href={"/login"} key={el.page} className="medium20">
+                {el.name}
+              </Link>
             ))}
           {auth.role === "ROLE_CUSTOMER" &&
             NAVIGATION_MENU_DEFAULT.map((el) => (
