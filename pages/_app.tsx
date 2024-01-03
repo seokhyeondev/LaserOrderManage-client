@@ -1,6 +1,6 @@
 import type { AppContext, AppProps } from "next/app";
 import { Global } from "@emotion/react";
-import Layout from "@/src/components/commons/layout";
+import Layout from "@/src/components/shared/layout";
 import { globalStyles } from "@/src/styles/globalStyles";
 import { Roboto } from "next/font/google";
 import {
@@ -16,7 +16,7 @@ import { UserApi } from "@/src/lib/apis/user/UserApi";
 import { authState } from "@/src/store/auth";
 import { setCredentials } from "@/src/lib/utils/setCredentials";
 import { axiosPrivate, makeCookieString } from "@/src/lib/apis/axios";
-import AuthInitializer from "@/src/components/units/auth/AuthInitializer.index";
+import AuthInitializer from "@/src/components/shared/auth/AuthInitializer.index";
 
 const roboto = Roboto({ weight: ["400", "500", "700"], subsets: ["latin"] });
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;

@@ -104,6 +104,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
       user: user ?? customerUser,
     };
     const diffCnt = countDiffCustomerAccount(payload);
+    if (diffCnt === 0) return;
     patchCustomerAccount(payload, {
       onSuccess: () => {
         setToast({
@@ -164,6 +165,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
       user: user ?? factoryUser,
     };
     const diffCnt = countDiffFactoryAccount(payload);
+    if (diffCnt === 0) return;
     patchFactoryAccount(payload, {
       onSuccess: () => {
         setToast({
