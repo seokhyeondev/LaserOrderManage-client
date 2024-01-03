@@ -15,14 +15,14 @@ export default function AuthInitializer({ children }: IAuthInitializerProps) {
     const accessToken = getCookie("accessToken");
     const role = getCookie("role");
     if (accessToken && role) {
+      axiosPrivate.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${accessToken}`;
       setAuth({
         isAuthenticated: true,
         accessToken: accessToken,
         role: role as UserType,
       });
-      axiosPrivate.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${accessToken}`;
     }
   }, [setAuth]);
 

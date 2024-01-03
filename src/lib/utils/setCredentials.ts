@@ -8,14 +8,14 @@ export const setCredentials = (token: IToken) => {
   ] = `${token.grantType} ${token.accessToken}`;
 
   setCookie("refreshToken", token.refreshToken, {
-    maxAge: token.refreshTokenExpirationTime,
+    maxAge: token.refreshTokenExpirationTime / 1000,
     domain: ".kumoh.org",
     secure: true,
     sameSite: "none",
     path: "/",
   });
   setCookie("accessToken", token.accessToken, {
-    maxAge: token.accessTokenExpirationTime,
+    maxAge: token.accessTokenExpirationTime / 1000,
   });
   setCookie("role", token.role);
 };

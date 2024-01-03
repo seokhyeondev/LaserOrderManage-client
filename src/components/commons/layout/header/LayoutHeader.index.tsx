@@ -3,6 +3,7 @@ import * as S from "./LayoutHeader.styles";
 import Image from "next/image";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/src/store/auth";
+import Link from "next/link";
 
 const NAVIGATION_MENU_DEFAULT = [
   { name: "견적 요청하기", page: "/customer/order/create" },
@@ -19,8 +20,8 @@ export default function LayoutHeader() {
   const { onClickMoveToPage, onClickMoveWithAuth } = useMoveToPage();
 
   return (
-    <S.Wrapper>
-      <S.InnerWrapper>
+    <S.Wrapper className="flex-row-between-center">
+      <S.InnerWrapper className="flex-row">
         <S.LogoWrapper>
           <Image
             width={180}
@@ -31,26 +32,23 @@ export default function LayoutHeader() {
             priority={true}
           />
         </S.LogoWrapper>
-        <S.MenuWrapper>
-          {auth.role !== "ROLE_FACTORY"
-            ? NAVIGATION_MENU_DEFAULT.map((el) => (
-                <S.MenuItem
-                  key={el.page}
-                  className="medium20"
-                  onClick={onClickMoveWithAuth(el.page, auth)}
-                >
-                  {el.name}
-                </S.MenuItem>
-              ))
-            : NAVIGATION_MENU_FACTORY.map((el) => (
-                <S.MenuItem
-                  key={el.page}
-                  className="medium20"
-                  onClick={onClickMoveWithAuth(el.page, auth)}
-                >
-                  {el.name}
-                </S.MenuItem>
-              ))}
+        <S.MenuWrapper className="flex-row-align-center">
+          {auth.role === null &&
+            NAVIGATION_MENU_DEFAULT.map((el) => (
+              <Link href={"/login"} key={el.page} />
+            ))}
+          {auth.role === "ROLE_CUSTOMER" &&
+            NAVIGATION_MENU_DEFAULT.map((el) => (
+              <Link href={el.page} key={el.page} className="medium20">
+                {el.name}
+              </Link>
+            ))}
+          {auth.role === "ROLE_FACTORY" &&
+            NAVIGATION_MENU_FACTORY.map((el) => (
+              <Link href={el.page} key={el.page} className="medium20">
+                {el.name}
+              </Link>
+            ))}
         </S.MenuWrapper>
       </S.InnerWrapper>
       {!auth.isAuthenticated && (
