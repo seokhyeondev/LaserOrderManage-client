@@ -7,6 +7,7 @@ import axios, {
 import { UserApi } from "./user/UserApi";
 import { setCredentials } from "../utils/setCredentials";
 import { IToken } from "./user/User.types";
+import { getCookie } from "cookies-next";
 
 const BASE_URL = "https://api.kumoh.org";
 
@@ -19,6 +20,14 @@ export const axiosPrivate = axios.create({
   baseURL: BASE_URL,
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
+});
+
+axiosPrivate.interceptors.request.use((config) => {
+  const token = getCookie("accessToken");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 axiosPrivate.interceptors.response.use(
