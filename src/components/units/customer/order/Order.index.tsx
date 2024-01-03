@@ -65,7 +65,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { cookies } = context.req;
   try {
     setSsrAxiosHeader(cookies);
-    await queryClient.fetchQuery({
+    await queryClient.prefetchQuery({
       queryKey: ["customerOrder"],
       queryFn: () => OrderApi.GET_CUSTOMER_ORDER(1, 5, "", "", ""),
     });
