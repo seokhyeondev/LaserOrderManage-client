@@ -1,1 +1,4 @@
-export { default } from "@/src/components/units/factory/order/Order.index";
+export {
+  default,
+  getServerSideProps,
+} from "@/src/components/units/factory/order/Order.index";

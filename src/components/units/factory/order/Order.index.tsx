@@ -9,13 +9,15 @@ import { useOrderSelectFilter } from "@/src/lib/hooks/useFilter";
 import { useOrderTab } from "@/src/lib/hooks/useTab";
 import { useSearchbar } from "@/src/lib/hooks/useSearchBar";
 import { useOrderModal } from "@/src/lib/hooks/useModal";
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import { OrderApi } from "@/src/lib/apis/order/OrderApi";
 import { ORDER_TYPE } from "@/src/components/commons/filters/order/OrderFilterQueries";
 import { useOrderDate } from "@/src/lib/hooks/useDate";
 import { getParamDate } from "@/src/lib/utils/utils";
 import { usePagination } from "@/src/lib/hooks/usePagination";
 import OrderPagination from "@/src/components/commons/paginations/order/OrderPagination.index";
+import { GetServerSideProps } from "next";
+import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 
 export default function Order() {
   const [tab, onTabClick] = useOrderTab(ORDER_TAB[0]);
@@ -25,15 +27,7 @@ export default function Order() {
   const modalArgs = useOrderModal();
 
   const { data, refetch } = useQuery({
-    queryKey: [
-      "factoryOrder",
-      tab,
-      {
-        dateFilter: dateArgs.dateFilter,
-        startDate: dateArgs.startDate,
-        endDate: dateArgs.endDate,
-      },
-    ],
+    queryKey: ["factoryOrder", tab.value],
     queryFn: () =>
       OrderApi.GET_FACTORY_ORDER(
         paginationArgs.activedPage,
@@ -78,3 +72,28 @@ export default function Order() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const queryClinet = new QueryClient();
+  const { cookies } = context.req;
+  try {
+    setSsrAxiosHeader(cookies);
+    await queryClinet.prefetchQuery({
+      queryKey: ["factoryOrder", "false"],
+      queryFn: () =>
+        OrderApi.GET_FACTORY_ORDER(1, 5, "false", "", "", "", "", ""),
+    });
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClinet),
+      },
+    };
+  } catch (error) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+};

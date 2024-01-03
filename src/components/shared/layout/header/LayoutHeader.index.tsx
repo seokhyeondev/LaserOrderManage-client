@@ -1,9 +1,9 @@
-import { useMoveToPage } from "@/src/lib/hooks/useMoveToPage";
 import * as S from "./LayoutHeader.styles";
 import Image from "next/image";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/src/store/auth";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const NAVIGATION_MENU_DEFAULT = [
   { name: "견적 요청하기", page: "/customer/order/create" },
@@ -17,7 +17,7 @@ const NAVIGATION_MENU_FACTORY = [
 
 export default function LayoutHeader() {
   const auth = useRecoilValue(authState);
-  const { onClickMoveToPage, onClickMoveWithAuth } = useMoveToPage();
+  const router = useRouter();
 
   return (
     <S.Wrapper className="flex-row-between-center">
@@ -28,14 +28,15 @@ export default function LayoutHeader() {
             height={33}
             src="/images/mainLogo.png"
             alt="메인 로고"
-            onClick={onClickMoveToPage("/")}
-            priority={true}
+            onClick={() => router.push("/")}
           />
         </S.LogoWrapper>
         <S.MenuWrapper className="flex-row-align-center">
           {auth.role === null &&
             NAVIGATION_MENU_DEFAULT.map((el) => (
-              <Link href={"/login"} key={el.page} />
+              <Link href={"/login"} key={el.page} className="medium20">
+                {el.name}
+              </Link>
             ))}
           {auth.role === "ROLE_CUSTOMER" &&
             NAVIGATION_MENU_DEFAULT.map((el) => (
@@ -52,20 +53,14 @@ export default function LayoutHeader() {
         </S.MenuWrapper>
       </S.InnerWrapper>
       {!auth.isAuthenticated && (
-        <S.HeaderButton
-          className="bold16"
-          onClick={onClickMoveToPage("/login")}
-        >
-          로그인
-        </S.HeaderButton>
+        <Link href={"/login"}>
+          <S.HeaderButton className="bold16">로그인</S.HeaderButton>
+        </Link>
       )}
       {auth.isAuthenticated && (
-        <S.HeaderButton
-          className="bold16"
-          onClick={onClickMoveWithAuth("/mypage", auth)}
-        >
-          마이페이지
-        </S.HeaderButton>
+        <Link href={"/mypage"}>
+          <S.HeaderButton className="bold16">마이페이지</S.HeaderButton>
+        </Link>
       )}
     </S.Wrapper>
   );

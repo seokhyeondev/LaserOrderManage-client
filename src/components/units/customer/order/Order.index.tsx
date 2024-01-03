@@ -12,8 +12,10 @@ import OrderPagination from "@/src/components/commons/paginations/order/OrderPag
 import { useSearchbar } from "@/src/lib/hooks/useSearchBar";
 import { useOrderModal } from "@/src/lib/hooks/useModal";
 import { usePagination } from "@/src/lib/hooks/usePagination";
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import { OrderApi } from "@/src/lib/apis/order/OrderApi";
+import { GetServerSideProps } from "next";
+import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 
 export default function Order() {
   const searchBarArgs = useSearchbar(() => refetch());
@@ -57,3 +59,27 @@ export default function Order() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const queryClient = new QueryClient();
+  const { cookies } = context.req;
+  try {
+    setSsrAxiosHeader(cookies);
+    await queryClient.prefetchQuery({
+      queryKey: ["customerOrder"],
+      queryFn: () => OrderApi.GET_CUSTOMER_ORDER(1, 5, "", "", ""),
+    });
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+      },
+    };
+  } catch (error) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+};

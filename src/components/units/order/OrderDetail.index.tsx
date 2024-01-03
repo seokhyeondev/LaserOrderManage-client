@@ -17,8 +17,15 @@ import { useOrderDetailScroll } from "@/src/lib/hooks/useScroll";
 import { OrderStatus } from "@/src/lib/apis/order/Order.types";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { useRouter } from "next/router";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  QueryClient,
+  dehydrate,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
+import { GetServerSideProps } from "next";
+import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 
 export default function OrderDetai() {
   const router = useRouter();
@@ -215,3 +222,35 @@ export default function OrderDetai() {
     </S.Wrapper>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const queryClient = new QueryClient();
+  const { cookies } = context.req;
+  const { orderId } = context.params as unknown as { orderId: string };
+  try {
+    setSsrAxiosHeader(cookies);
+
+    await queryClient.prefetchQuery({
+      queryKey: [`orderDetail/${orderId}`],
+      queryFn: () => OrderDetailApi.GET_ORDER_DETAIL(orderId),
+    });
+
+    await queryClient.prefetchQuery({
+      queryKey: [`orderDetailComments/${orderId}`],
+      queryFn: () => OrderDetailApi.GET_ORDER_COMMENTS(orderId),
+    });
+
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+      },
+    };
+  } catch (error) {
+    return {
+      redirect: {
+        destination: "login",
+        permanent: false,
+      },
+    };
+  }
+};

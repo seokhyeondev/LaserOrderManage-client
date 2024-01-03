@@ -1,1 +1,4 @@
-export { default } from "@/src/components/units/mypage/MyPage.index";
+export {
+  default,
+  getServerSideProps,
+} from "@/src/components/units/mypage/MyPage.index";
