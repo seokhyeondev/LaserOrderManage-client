@@ -26,8 +26,6 @@ export type IEditFactoryRequest = {
   user: IFactoryUser;
 };
 
-export type IEditFactoryResponse = {};
-
 export type IOrderManager = {
   id: number;
   name: string;
@@ -40,9 +38,3 @@ export type IOrderMangerRequest = {
   name: string;
   phone: string;
 };
-
-export type IPostOrderManagerResponse = {};
-
-export type IEditOrderManagerResponse = {};
-
-export type IDeleteOrderManagerResponse = {};

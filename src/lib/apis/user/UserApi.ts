@@ -1,15 +1,12 @@
 import { axiosPrivate, axiosPublic } from "../axios";
 import {
   IEditPasswordRequest,
-  IEditPasswordResponse,
   IFindEmailRequest,
   IFindEmailResponse,
   IFindPasswordRequest,
-  IFindPasswordResponse,
   IJoinRequest,
   IJoinResponse,
   ILoginRequest,
-  INotificationResponse,
   IRequestVerifyResponse,
   IToken,
   IVerifyEmailRequest,
@@ -53,14 +50,14 @@ export const UserApi = {
   },
   FIND_PASSWORD_WITHOUT_AUTH: async (
     payload: IFindPasswordRequest,
-  ): Promise<IFindPasswordResponse> => {
+  ): Promise<null> => {
     const response = await axiosPublic.post(
       "/user/password/email-link/without-auth",
       payload,
     );
     return response.data;
   },
-  FIND_PASSWORD: async (url: string): Promise<IFindPasswordResponse> => {
+  FIND_PASSWORD: async (url: string): Promise<null> => {
     const response = await axiosPrivate.post(
       `/user/password/email-link?base-url=${url}`,
     );
@@ -72,16 +69,14 @@ export const UserApi = {
   }: {
     payload: IEditPasswordRequest;
     token: string;
-  }): Promise<IEditPasswordResponse> => {
+  }): Promise<null> => {
     const response = await axiosPublic.patch("/user/password", payload, {
       headers: { Authorization: `Bearer ${token}` },
       withCredentials: true,
     });
     return response.data;
   },
-  PATCH_NOTIFICATION: async (
-    isActive: boolean,
-  ): Promise<INotificationResponse> => {
+  PATCH_NOTIFICATION: async (isActive: boolean): Promise<null> => {
     const response = await axiosPrivate.patch(
       `/user/email-notification?is-activate=${isActive}`,
     );

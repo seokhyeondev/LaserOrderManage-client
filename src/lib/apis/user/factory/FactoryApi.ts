@@ -1,13 +1,9 @@
 import { axiosPrivate } from "../../axios";
 import {
-  IDeleteOrderManagerResponse,
   IEditFactoryRequest,
-  IEditFactoryResponse,
-  IEditOrderManagerResponse,
   IFactoryResponse,
   IOrderMangerListResponse,
   IOrderMangerRequest,
-  IPostOrderManagerResponse,
 } from "./Factory.types";
 
 export const FactoryApi = {
@@ -15,9 +11,7 @@ export const FactoryApi = {
     const response = await axiosPrivate.get("/factory/user");
     return response.data;
   },
-  EDIT_ACCOUNT_INFO: async (
-    payload: IEditFactoryRequest,
-  ): Promise<IEditFactoryResponse> => {
+  EDIT_ACCOUNT_INFO: async (payload: IEditFactoryRequest): Promise<null> => {
     const response = await axiosPrivate.patch("/factory/user", payload);
     return response.data;
   },
@@ -25,9 +19,7 @@ export const FactoryApi = {
     const response = await axiosPrivate.get("/factory/order-manager");
     return response.data;
   },
-  POST_ORDER_MANAGER: async (
-    payload: IOrderMangerRequest,
-  ): Promise<IPostOrderManagerResponse> => {
+  POST_ORDER_MANAGER: async (payload: IOrderMangerRequest): Promise<null> => {
     const resposne = await axiosPrivate.post("/factory/order-manager", payload);
     return resposne.data;
   },
@@ -37,16 +29,14 @@ export const FactoryApi = {
   }: {
     id: number;
     payload: IOrderMangerRequest;
-  }): Promise<IEditOrderManagerResponse> => {
+  }): Promise<null> => {
     const response = await axiosPrivate.put(
       `/factory/order-manager/${id}`,
       payload,
     );
     return response.data;
   },
-  DELETE_ORDER_MANAGER: async (
-    id: number,
-  ): Promise<IDeleteOrderManagerResponse> => {
+  DELETE_ORDER_MANAGER: async (id: number): Promise<null> => {
     const response = await axiosPrivate.delete(`/factory/order-manager/${id}`);
     return response.data;
   },

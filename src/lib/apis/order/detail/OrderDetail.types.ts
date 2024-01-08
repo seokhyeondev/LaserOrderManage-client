@@ -74,13 +74,9 @@ export type IOrderCommentRequest = {
   content: string;
 };
 
-export type IOrderCommentResponse = {};
-
 export type IDetailUrgentRequest = {
   isUrgent: boolean;
 };
-
-export type IDetailUrgentResponse = {};
 
 export type IDetailEditAddressRequest = {
   deliveryAddressId: number;
@@ -109,26 +105,14 @@ export type IDetailEditDrawingRequest = {
   thickness: number;
 };
 
-export type IDetailEditDrawingResponse = {};
-
-export type IDetailDeleteDrawingResponse = {};
-
 export type IDetailEditQuotationResponse = {
   id: number;
   fileName: string;
   fileUrl: string;
 };
 
-export type IDetailAcceptQuotationResponse = {};
-
 export type IDetailEditPurchaseOrderResponse = {
   id: number;
   fileName: string;
   fileUrl: string;
 };
-
-export type IDetailAcceptPurchaseOrderResponse = {};
-
-export type IDetailAcceptShippingResponse = {};
-
-export type IDetailAcceptCompletedResponse = {};

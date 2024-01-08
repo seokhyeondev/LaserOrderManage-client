@@ -1,5 +1,4 @@
 import { IBaseListResponse } from "@/src/lib/apis/base/base.types";
-import { IDeliveryAddress } from "@/src/lib/apis/user/customer/Customer.types";
 import { Manufacturing, PostProcessing } from "../Order.types";
 
 export type IOrderCreateRequest = {
@@ -11,8 +10,6 @@ export type IOrderCreateRequest = {
   deliveryAddress: IOrderDeliveryAddress;
   isNewIssue: boolean;
 };
-
-export type IOrderCreateResponse = {};
 
 export type IDrawing = {
   thumbnailUrl: string;
