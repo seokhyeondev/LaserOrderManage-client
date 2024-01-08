@@ -15,7 +15,6 @@ import {
   IDetailDeleteDrawingResponse,
   IDetailEditQuotationResponse,
   IDetailAcceptQuotationResponse,
-  IDetailEditPurchaseOrderRequest,
   IDetailEditPurchaseOrderResponse,
   IDetailAcceptPurchaseOrderResponse,
   IDetailAcceptShippingResponse,
@@ -132,7 +131,7 @@ export const OrderDetailApi = {
     payload,
   }: {
     id: string;
-    payload: IDetailEditPurchaseOrderRequest;
+    payload: FormData;
   }): Promise<IDetailEditPurchaseOrderResponse> => {
     const response = await axiosPrivate.patch(
       `/customer/order/${id}/purchase-order`,

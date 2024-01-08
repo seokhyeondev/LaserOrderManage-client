@@ -50,9 +50,15 @@ export default function PurchaseOrderInfoSection({
             </EmptyPurchaseOrder>
           ) : (
             <>
-              <PurchaseOrder className="regular16">
-                {purchaseOrder.inspectionCondition}
-              </PurchaseOrder>
+              <PurchaseOrderName
+                className="medium20 flex-column"
+                href={purchaseOrder.fileUrl}
+                download={true}
+                target="_blank"
+              >
+                {purchaseOrder.fileName}
+              </PurchaseOrderName>
+
               <S.SideWrapper>
                 <S.SideBox>
                   <S.SideLabel className="regular14">발행 일자</S.SideLabel>
@@ -76,6 +82,15 @@ export default function PurchaseOrderInfoSection({
             </>
           )}
         </S.Section>
+        {purchaseOrder && (
+          <PurchaseOrderWrapper>
+            <p className="bold16">검수 조건</p>
+            <Spacer width="100%" height="16px" />
+            <PurchaseOrder className="regular16">
+              {purchaseOrder.inspectionCondition}
+            </PurchaseOrder>
+          </PurchaseOrderWrapper>
+        )}
       </S.Wrapper>
       <PurchaseOrderModal
         isOpen={showModal}
@@ -99,11 +114,21 @@ export default function PurchaseOrderInfoSection({
   );
 }
 
-const PurchaseOrder = styled.p`
+const PurchaseOrderName = styled.a`
   flex-grow: 1;
-  padding-block: 24px;
   padding-right: 24px;
+  text-decoration: underline;
+  border-bottom: 1px solid var(--color-mediumGray);
 `;
+
+const PurchaseOrderWrapper = styled.div`
+  width: 100%;
+  min-height: 200px;
+  padding-block: 24px;
+  border-bottom: 2px solid var(--color-mediumGray);
+`;
+
+const PurchaseOrder = styled.p``;
 
 const EmptyPurchaseOrder = styled.p`
   width: 100%;

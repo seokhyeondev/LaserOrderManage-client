@@ -7,13 +7,18 @@ import { useCalendar } from "@/src/lib/hooks/useDate";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useInput } from "@/src/lib/hooks/useInput";
-import { IDetailEditPurchaseOrderRequest } from "@/src/lib/apis/order/detail/OrderDetail.types";
 import { getParamDate } from "@/src/lib/utils/utils";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { useMutation } from "@tanstack/react-query";
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import UploadIcon from "../../icons/UploadIcon.index";
+
+type PurchaseOrder = {
+  inspectionPeriod: any;
+  inspectionCondition: string;
+  paymentDate: any;
+};
 
 export default function PurchaseOrderModal({
   isOpen,
@@ -35,7 +40,7 @@ export default function PurchaseOrderModal({
     if (isOpen) {
       if (data) {
         setFile(undefined);
-        setFileName(""); /**TODO: 파일명 받아오기 */
+        setFileName(data.fileName);
         paymentDateArgs.setDateValue(new Date(data.paymentDate));
         inspectionDateArgs.setDateValue(new Date(data.inspectionPeriod));
         setCondition(data.inspectionCondition);
@@ -63,20 +68,28 @@ export default function PurchaseOrderModal({
   });
 
   const onSubmit = () => {
-    const payload: IDetailEditPurchaseOrderRequest = {
+    const payload = new FormData();
+    if (file) payload.append("file", file);
+    const purchaseOrder: PurchaseOrder = {
       inspectionPeriod: getParamDate(inspectionDateArgs.date),
       inspectionCondition: condition,
       paymentDate: getParamDate(paymentDateArgs.date),
     };
+    const blob = new Blob([JSON.stringify(purchaseOrder)], {
+      type: "application/json",
+    });
+    payload.append("purchaseOrder", blob);
     mutate(
       { id: orderId, payload: payload },
       {
         onSuccess: (res) => {
           callback({
             id: res.id,
-            inspectionPeriod: payload.inspectionPeriod,
-            inspectionCondition: payload.inspectionCondition,
-            paymentDate: payload.paymentDate,
+            fileName: res.fileName,
+            fileUrl: res.fileUrl,
+            inspectionPeriod: purchaseOrder.inspectionPeriod,
+            inspectionCondition: purchaseOrder.inspectionCondition,
+            paymentDate: purchaseOrder.paymentDate,
             createdAt: new Date(),
           });
           setToast({

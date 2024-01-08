@@ -53,6 +53,8 @@ export type IDetailQuotation = {
 
 export type IDetailPurchaseOrder = {
   id: number;
+  fileName: string;
+  fileUrl: string;
   inspectionPeriod: any;
   inspectionCondition: string;
   paymentDate: any;
@@ -119,14 +121,10 @@ export type IDetailEditQuotationResponse = {
 
 export type IDetailAcceptQuotationResponse = {};
 
-export type IDetailEditPurchaseOrderRequest = {
-  inspectionPeriod: string;
-  inspectionCondition: string;
-  paymentDate: string;
-};
-
 export type IDetailEditPurchaseOrderResponse = {
   id: number;
+  fileName: string;
+  fileUrl: string;
 };
 
 export type IDetailAcceptPurchaseOrderResponse = {};

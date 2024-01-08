@@ -71,10 +71,10 @@ export default function QuotationModal({
       totalCost: cost,
       deliveryDate: getParamDate(dateArgs.date),
     };
-    const quotationBlob = new Blob([JSON.stringify(quotation)], {
+    const blob = new Blob([JSON.stringify(quotation)], {
       type: "application/json",
     });
-    payload.append("quotation", quotationBlob);
+    payload.append("quotation", blob);
     mutate(
       { id: orderId, payload: payload },
       {
@@ -83,8 +83,8 @@ export default function QuotationModal({
             id: res.id,
             fileName: res.fileName,
             fileUrl: res.fileUrl,
-            totalCost: Number(cost),
-            deliveryDate: getParamDate(dateArgs.date),
+            totalCost: Number(quotation.totalCost),
+            deliveryDate: quotation.deliveryDate,
             createdAt: new Date(),
           });
           setToast({
