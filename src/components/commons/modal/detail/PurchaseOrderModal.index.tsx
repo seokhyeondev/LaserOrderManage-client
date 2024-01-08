@@ -12,7 +12,8 @@ import { getParamDate } from "@/src/lib/utils/utils";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { useMutation } from "@tanstack/react-query";
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
-import { useEffect } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import UploadIcon from "../../icons/UploadIcon.index";
 
 export default function PurchaseOrderModal({
   isOpen,
@@ -22,20 +23,37 @@ export default function PurchaseOrderModal({
   callback,
   onClose,
 }: IPurchaseOrderModalProps) {
+  const [file, setFile] = useState<File>();
+  const [fileName, setFileName] = useState("");
   const paymentDateArgs = useCalendar();
   const inspectionDateArgs = useCalendar();
   const [condition, onChangeCondition, setCondition] = useInput();
+  const hiddenFileInput = useRef<HTMLInputElement>(null);
   const { setToast } = useToastify();
 
   useEffect(() => {
     if (isOpen) {
       if (data) {
+        setFile(undefined);
+        setFileName(""); /**TODO: 파일명 받아오기 */
         paymentDateArgs.setDateValue(new Date(data.paymentDate));
         inspectionDateArgs.setDateValue(new Date(data.inspectionPeriod));
         setCondition(data.inspectionCondition);
       }
     }
   }, [isOpen]);
+
+  const onUpload = () => {
+    hiddenFileInput?.current?.click();
+  };
+
+  const onUploadCallback = (event: ChangeEvent<HTMLInputElement>) => {
+    const newFile = event.target.files?.[0];
+    if (newFile) {
+      setFile(newFile);
+      setFileName(newFile.name);
+    }
+  };
 
   const { mutate } = useMutation({
     mutationFn: OrderDetailApi.PUT_ORDER_PURCHASE_ORDER,
@@ -69,62 +87,92 @@ export default function PurchaseOrderModal({
       },
     );
   };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <S.Wrapper width={400}>
+      <S.Wrapper width={600}>
         <S.Title className="bold20">발주서 작성하기</S.Title>
         <S.LabelWrapper className="flex-row">
-          <S.Label className="regular14">지급일 선택</S.Label>
+          <S.Label className="regular14">발주서 업로드</S.Label>
           <S.Required className="regular14">*</S.Required>
         </S.LabelWrapper>
-        <S.CalendarInputWrapper>
-          <S.InputWrapper
-            className="flex-row-align-center"
-            focusable={true}
-            onClick={paymentDateArgs.toggle}
-          >
-            <S.Input
-              className="regular14"
-              placeholder="지급일을 선택해주세요"
-              value={paymentDateArgs.date}
-              readOnly
-            />
-            <CalendarIcon size={16} />
-          </S.InputWrapper>
-          <S.CalendarWrapper isOpen={paymentDateArgs.show}>
-            <Calendar
-              locale="ko"
-              minDate={minDate ? new Date(minDate) : undefined}
-              onChange={paymentDateArgs.onDate}
-            />
-          </S.CalendarWrapper>
-        </S.CalendarInputWrapper>
-        <S.LabelWrapper className="flex-row">
-          <S.Label className="regular14">검수 기간 선택</S.Label>
-          <S.Required className="regular14">*</S.Required>
-        </S.LabelWrapper>
-        <S.CalendarInputWrapper>
-          <S.InputWrapper
-            className="flex-row-align-center"
-            focusable={true}
-            onClick={inspectionDateArgs.toggle}
-          >
-            <S.Input
-              className="regular14"
-              placeholder="검수 기간을 선택해주세요"
-              value={inspectionDateArgs.date}
-              readOnly
-            />
-            <CalendarIcon size={16} />
-          </S.InputWrapper>
-          <S.CalendarWrapper isOpen={inspectionDateArgs.show}>
-            <Calendar
-              locale="ko"
-              minDate={minDate ? new Date(minDate) : undefined}
-              onChange={inspectionDateArgs.onDate}
-            />
-          </S.CalendarWrapper>
-        </S.CalendarInputWrapper>
+        <S.UploadInput
+          type="file"
+          ref={hiddenFileInput}
+          onChange={onUploadCallback}
+        />
+        <S.InputWrapper
+          className="flex-row-align-center"
+          focusable={true}
+          onClick={onUpload}
+        >
+          <S.Input
+            className="regular14"
+            placeholder="발주서를 업로드해주세요"
+            underline={fileName !== ""}
+            value={fileName}
+            readOnly
+          />
+          <UploadIcon size={16} />
+        </S.InputWrapper>
+        <S.RowWrapper className="flex-row">
+          <S.CalendarBoxWrapper>
+            <S.LabelWrapper className="flex-row">
+              <S.Label className="regular14">지급일 선택</S.Label>
+              <S.Required className="regular14">*</S.Required>
+            </S.LabelWrapper>
+            <S.CalendarInputWrapper>
+              <S.InputWrapper
+                className="flex-row-align-center"
+                focusable={true}
+                onClick={paymentDateArgs.toggle}
+              >
+                <S.Input
+                  className="regular14"
+                  placeholder="지급일을 선택해주세요"
+                  value={paymentDateArgs.date}
+                  readOnly
+                />
+                <CalendarIcon size={16} />
+              </S.InputWrapper>
+              <S.CalendarWrapper isOpen={paymentDateArgs.show}>
+                <Calendar
+                  locale="ko"
+                  minDate={minDate ? new Date(minDate) : undefined}
+                  onChange={paymentDateArgs.onDate}
+                />
+              </S.CalendarWrapper>
+            </S.CalendarInputWrapper>
+          </S.CalendarBoxWrapper>
+          <S.CalendarBoxWrapper>
+            <S.LabelWrapper className="flex-row">
+              <S.Label className="regular14">검수 기간 선택</S.Label>
+              <S.Required className="regular14">*</S.Required>
+            </S.LabelWrapper>
+            <S.CalendarInputWrapper>
+              <S.InputWrapper
+                className="flex-row-align-center"
+                focusable={true}
+                onClick={inspectionDateArgs.toggle}
+              >
+                <S.Input
+                  className="regular14"
+                  placeholder="검수 기간을 선택해주세요"
+                  value={inspectionDateArgs.date}
+                  readOnly
+                />
+                <CalendarIcon size={16} />
+              </S.InputWrapper>
+              <S.CalendarWrapper isOpen={inspectionDateArgs.show}>
+                <Calendar
+                  locale="ko"
+                  minDate={minDate ? new Date(minDate) : undefined}
+                  onChange={inspectionDateArgs.onDate}
+                />
+              </S.CalendarWrapper>
+            </S.CalendarInputWrapper>
+          </S.CalendarBoxWrapper>
+        </S.RowWrapper>
         <S.LabelWrapper className="flex-row">
           <S.Label className="regular14">검수 조건</S.Label>
           <S.Required className="regular14">*</S.Required>
@@ -144,6 +192,7 @@ export default function PurchaseOrderModal({
           <S.SubmitButton
             className="bold14"
             disabled={
+              fileName === "" ||
               paymentDateArgs.date === "" ||
               inspectionDateArgs.date === "" ||
               condition === ""

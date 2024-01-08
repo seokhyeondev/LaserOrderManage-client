@@ -3,7 +3,7 @@ import * as S from "./OrderDetailSection.styles";
 import EditIcon from "@/src/components/commons/icons/EditIcon.index";
 import styled from "@emotion/styled";
 import { getDate } from "@/src/lib/utils/utils";
-import { IPurchaseOrderInfoSectionProps } from "./DetailSection.types";
+import { IPurchaseOrderInfoSectionProps } from "./OrderDetailSection.types";
 import { useState } from "react";
 import PurchaseOrderModal from "@/src/components/commons/modal/detail/PurchaseOrderModal.index";
 import { IDetailPurchaseOrder } from "@/src/lib/apis/order/detail/OrderDetail.types";

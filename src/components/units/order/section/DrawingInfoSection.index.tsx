@@ -3,13 +3,12 @@ import * as S from "./OrderDetailSection.styles";
 import EditIcon from "@/src/components/commons/icons/EditIcon.index";
 import Image from "next/image";
 import styled from "@emotion/styled";
-import MenuIcon from "@/src/components/commons/icons/MenuIcon.index";
 import { useRef, useState, MouseEvent } from "react";
 import { IDetailDrawing } from "@/src/lib/apis/order/detail/OrderDetail.types";
 import {
   IDrawingInfoItemProps,
   IDrawingInfoSectionProps,
-} from "./DetailSection.types";
+} from "./OrderDetailSection.types";
 import EditDrawingModal from "@/src/components/commons/modal/detail/EditDrawingModal.index";
 import AddDrawingModal from "@/src/components/commons/modal/detail/AddDrawingModal.index";
 import { useToastify } from "@/src/lib/hooks/useToastify";

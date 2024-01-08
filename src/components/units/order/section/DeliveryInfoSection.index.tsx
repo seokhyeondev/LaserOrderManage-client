@@ -1,7 +1,7 @@
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "./OrderDetailSection.styles";
 import EditIcon from "@/src/components/commons/icons/EditIcon.index";
-import { IDeliveryInfoSectionProps } from "./DetailSection.types";
+import { IDeliveryInfoSectionProps } from "./OrderDetailSection.types";
 import { getPhoneNumber } from "@/src/lib/utils/utils";
 import { useState } from "react";
 import AddressModal from "@/src/components/commons/modal/detail/AddressModal.index";

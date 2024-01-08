@@ -171,6 +171,15 @@ export const UploadInput = styled.input`
 
 export const UploadDrawingsWrapper = styled.div``;
 
+export const RowWrapper = styled.div`
+  width: 100%;
+  gap: 20px;
+`;
+
+export const CalendarBoxWrapper = styled.div`
+  flex-grow: 1;
+`;
+
 export const CalendarInputWrapper = styled.div`
   position: relative;
   margin-bottom: 44px;
