@@ -63,18 +63,15 @@ export default function Order() {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
   const { cookies } = context.req;
-  try {
-    setSsrAxiosHeader(cookies);
-    await queryClient.prefetchQuery({
-      queryKey: ["customerOrder"],
-      queryFn: () => OrderApi.GET_CUSTOMER_ORDER(1, 5, "", "", ""),
-    });
-    return {
-      props: {
-        dehydratedState: dehydrate(queryClient),
-      },
-    };
-  } catch (error) {
+
+  setSsrAxiosHeader(cookies);
+  await queryClient.prefetchQuery({
+    queryKey: ["customerOrder"],
+    queryFn: () => OrderApi.GET_CUSTOMER_ORDER(1, 5, "", "", ""),
+  });
+
+  const queryState = queryClient.getQueryState(["customerOrder"]);
+  if (queryState?.status === "error") {
     return {
       redirect: {
         destination: "/login",
@@ -82,4 +79,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   }
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
 };
