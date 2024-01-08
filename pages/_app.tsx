@@ -1,4 +1,4 @@
-import type { AppContext, AppProps } from "next/app";
+import type { AppProps } from "next/app";
 import { Global } from "@emotion/react";
 import Layout from "@/src/components/shared/layout";
 import { globalStyles } from "@/src/styles/globalStyles";
@@ -8,38 +8,29 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import { MutableSnapshot, RecoilEnv, RecoilRoot } from "recoil";
+import { RecoilEnv, RecoilRoot } from "recoil";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { useEffect, useState } from "react";
-import { IToken } from "@/src/lib/apis/user/User.types";
-import { UserApi } from "@/src/lib/apis/user/UserApi";
-import { authState } from "@/src/store/auth";
-import { setCredentials } from "@/src/lib/utils/setCredentials";
-import { axiosPrivate, makeCookieString } from "@/src/lib/apis/axios";
+import { useState } from "react";
 import AuthInitializer from "@/src/components/shared/auth/AuthInitializer.index";
 
 const roboto = Roboto({ weight: ["400", "500", "700"], subsets: ["latin"] });
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
-type MyAppProps = AppProps & {
-  loginData: IToken | null;
-};
+function MyApp({ Component, pageProps }: AppProps) {
+  // const initializer = ({ set }: MutableSnapshot) => {
+  //   if (loginData) {
+  //     const auth = {
+  //       isAuthenticated: true,
+  //       accessToken: loginData.accessToken,
+  //       role: loginData.role,
+  //     };
+  //     set(authState, auth);
+  //   }
+  // };
 
-function MyApp({ Component, pageProps, loginData }: MyAppProps) {
-  const initializer = ({ set }: MutableSnapshot) => {
-    if (loginData) {
-      const auth = {
-        isAuthenticated: true,
-        accessToken: loginData.accessToken,
-        role: loginData.role,
-      };
-      set(authState, auth);
-    }
-  };
-
-  useEffect(() => {
-    loginData && setCredentials(loginData);
-  }, [loginData]);
+  // useEffect(() => {
+  //   loginData && setCredentials(loginData);
+  // }, [loginData]);
 
   const [queryClient] = useState(() => new QueryClient());
   queryClient.setDefaultOptions({
@@ -49,7 +40,7 @@ function MyApp({ Component, pageProps, loginData }: MyAppProps) {
 
   return (
     <>
-      <RecoilRoot initializeState={initializer}>
+      <RecoilRoot>
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
           <HydrationBoundary state={pageProps.dehydratedState}>
@@ -66,28 +57,28 @@ function MyApp({ Component, pageProps, loginData }: MyAppProps) {
   );
 }
 
-MyApp.getInitialProps = async (context: AppContext) => {
-  const { ctx, Component } = context;
-  let loginData: IToken | null;
-  let pageProps = {};
+// MyApp.getInitialProps = async (context: AppContext) => {
+//   const { ctx, Component } = context;
+//   let loginData: IToken | null;
+//   let pageProps = {};
 
-  try {
-    if (ctx.req) {
-      const cookie = ctx.req.headers.cookie;
-      axiosPrivate.defaults.headers.Cookie = cookie || "";
-      const token = await UserApi.REISSUE();
-      loginData = token;
-      ctx.res?.setHeader("set-cookie", makeCookieString(token));
-    } else throw new Error("isClient");
-  } catch (error) {
-    loginData = null;
-  }
+//   try {
+//     if (ctx.req) {
+//       const cookie = ctx.req.headers.cookie;
+//       axiosPrivate.defaults.headers.Cookie = cookie || "";
+//       const token = await UserApi.REISSUE();
+//       loginData = token;
+//       ctx.res?.setHeader("set-cookie", makeCookieString(token));
+//     } else throw new Error("isClient");
+//   } catch (error) {
+//     loginData = null;
+//   }
 
-  if (Component.getInitialProps) {
-    pageProps = await Component.getInitialProps(ctx);
-  }
+//   if (Component.getInitialProps) {
+//     pageProps = await Component.getInitialProps(ctx);
+//   }
 
-  return { pageProps, loginData };
-};
+//   return { pageProps, loginData };
+// };
 
 export default MyApp;
