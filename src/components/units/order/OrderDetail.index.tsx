@@ -227,30 +227,30 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
   const { cookies } = context.req;
   const { orderId } = context.params as unknown as { orderId: string };
-  try {
-    setSsrAxiosHeader(cookies);
 
-    await queryClient.prefetchQuery({
-      queryKey: [`orderDetail/${orderId}`],
-      queryFn: () => OrderDetailApi.GET_ORDER_DETAIL(orderId),
-    });
+  setSsrAxiosHeader(cookies);
+  await queryClient.prefetchQuery({
+    queryKey: [`orderDetail/${orderId}`],
+    queryFn: () => OrderDetailApi.GET_ORDER_DETAIL(orderId),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [`orderDetailComments/${orderId}`],
+    queryFn: () => OrderDetailApi.GET_ORDER_COMMENTS(orderId),
+  });
 
-    await queryClient.prefetchQuery({
-      queryKey: [`orderDetailComments/${orderId}`],
-      queryFn: () => OrderDetailApi.GET_ORDER_COMMENTS(orderId),
-    });
-
-    return {
-      props: {
-        dehydratedState: dehydrate(queryClient),
-      },
-    };
-  } catch (error) {
+  const queryState = queryClient.getQueryState([`orderDetail/${orderId}`]);
+  if (queryState?.status === "error") {
     return {
       redirect: {
-        destination: "login",
+        destination: "/login",
         permanent: false,
       },
     };
   }
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
 };

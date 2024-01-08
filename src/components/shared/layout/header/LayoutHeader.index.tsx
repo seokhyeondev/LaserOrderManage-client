@@ -29,6 +29,7 @@ export default function LayoutHeader() {
             src="/images/mainLogo.png"
             alt="메인 로고"
             onClick={() => router.push("/")}
+            priority
           />
         </S.LogoWrapper>
         <S.MenuWrapper className="flex-row-align-center">

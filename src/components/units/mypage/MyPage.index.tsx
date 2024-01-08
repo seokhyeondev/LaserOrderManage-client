@@ -41,41 +41,53 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
   const { cookies } = context.req;
   const role = cookies.role as UserType;
-  try {
-    setSsrAxiosHeader(cookies);
-    if (role === "ROLE_CUSTOMER") {
-      await queryClient.prefetchQuery({
-        queryKey: ["customerAccount"],
-        queryFn: () => CustomerApi.GET_ACCOUNT_INFO(),
-      });
-      await queryClient.prefetchQuery({
-        queryKey: ["getDeliveryAddress"],
-        queryFn: () => CustomerApi.GET_DELIVERY_ADDRESS(),
-      });
+
+  setSsrAxiosHeader(cookies);
+  if (role === "ROLE_CUSTOMER") {
+    await queryClient.prefetchQuery({
+      queryKey: ["customerAccount"],
+      queryFn: () => CustomerApi.GET_ACCOUNT_INFO(),
+    });
+    await queryClient.prefetchQuery({
+      queryKey: ["getDeliveryAddress"],
+      queryFn: () => CustomerApi.GET_DELIVERY_ADDRESS(),
+    });
+    const queryState = queryClient.getQueryState(["customerAccount"]);
+    if (queryState?.status === "error") {
+      return {
+        redirect: {
+          destination: "/login",
+          permanent: false,
+        },
+      };
     }
-    if (role === "ROLE_FACTORY") {
-      await queryClient.prefetchQuery({
-        queryKey: ["factoryAccount"],
-        queryFn: () => FactoryApi.GET_ACCOUNT_INFO(),
-      });
-      await queryClient.prefetchQuery({
-        queryKey: ["getManagers"],
-        queryFn: () => FactoryApi.GET_ORDER_MANAGER(),
-      });
-    }
-    return {
-      props: {
-        dehydratedState: dehydrate(queryClient),
-      },
-    };
-  } catch (error) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
   }
+
+  if (role === "ROLE_FACTORY") {
+    await queryClient.prefetchQuery({
+      queryKey: ["factoryAccount"],
+      queryFn: () => FactoryApi.GET_ACCOUNT_INFO(),
+    });
+    await queryClient.prefetchQuery({
+      queryKey: ["getManagers"],
+      queryFn: () => FactoryApi.GET_ORDER_MANAGER(),
+    });
+    const queryState = queryClient.getQueryState(["factoryAccount"]);
+    if (queryState?.status === "error") {
+      return {
+        redirect: {
+          destination: "/login",
+          permanent: false,
+        },
+      };
+    }
+  }
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
 };
 
 const Wrapper = styled.div`
