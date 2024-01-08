@@ -6,8 +6,16 @@ export type OrderStatus =
   | "견적 대기"
   | "견적 승인"
   | "제작 중"
-  | "배송 중"
+  | "제작 완료"
   | "거래 완료";
+
+export type OrderStage =
+  | "new"
+  | "quote-approval"
+  | "in-production"
+  | "production-completed"
+  | "completed"
+  | "";
 
 export type Manufacturing = "laser-cutting" | "bending" | "welding-fabrication";
 

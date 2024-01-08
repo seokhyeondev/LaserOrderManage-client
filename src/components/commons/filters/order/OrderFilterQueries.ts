@@ -7,7 +7,7 @@ export const STAGE: IFilterGroup = {
     { name: "견적 대기", value: "new", percentage: "0%" },
     { name: "견적 승인", value: "quote-approval", percentage: "25%" },
     { name: "제작 중", value: "in-production", percentage: "50%" },
-    { name: "배송 중", value: "shipping", percentage: "75%" },
+    { name: "제작 완료", value: "production-completed", percentage: "75%" },
     { name: "거래 완료", value: "completed", percentage: "100%" },
   ],
 };
