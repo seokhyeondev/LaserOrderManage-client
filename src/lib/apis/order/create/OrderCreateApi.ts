@@ -3,7 +3,6 @@ import {
   IOrderHistoryResponse,
   IDrawingResponse,
   IOrderCreateRequest,
-  IOrderCreateResponse,
 } from "./OrderCreate.types";
 import { axiosPrivate } from "../../axios";
 
@@ -32,9 +31,7 @@ export const OrderCreateApi = {
     });
     return response.data;
   },
-  ORDER_CREATE: async (
-    payload: IOrderCreateRequest,
-  ): Promise<IOrderCreateResponse> => {
+  ORDER_CREATE: async (payload: IOrderCreateRequest): Promise<null> => {
     const response = await axiosPrivate.post("/customer/order", payload);
     return response.data;
   },

@@ -1,6 +1,6 @@
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "./OrderDetailSection.styles";
-import { ICustomerInfoSectionProps } from "./DetailSection.types";
+import { ICustomerInfoSectionProps } from "./OrderDetailSection.types";
 import { getPhoneNumber } from "@/src/lib/utils/utils";
 
 export default function CustomerInfoSection({

@@ -5,7 +5,7 @@ import {
   getManufacurings,
   getPostprocessings,
 } from "@/src/lib/utils/utils";
-import { IOrderInfoSectionProps } from "./DetailSection.types";
+import { IOrderInfoSectionProps } from "./OrderDetailSection.types";
 
 export default function OrderInfoSection({
   sectionRef,

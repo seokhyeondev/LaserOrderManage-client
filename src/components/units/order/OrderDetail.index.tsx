@@ -80,7 +80,7 @@ export default function OrderDetai() {
   const { mutate: acceptShipping } = useMutation({
     mutationFn: OrderDetailApi.PUT_ACCEPT_SHIPPING,
     onSuccess: () => {
-      onChangeStatus("배송 중", "제작이 완료됐어요");
+      onChangeStatus("제작 완료", "제작이 완료됐어요");
     },
     onError: () => {
       setToast({ comment: "제작 완료하기에 실패했어요" });
@@ -212,9 +212,9 @@ export default function OrderDetai() {
         buttonText="제작 완료"
         onButton={() => acceptShipping(String(orderId))}
       />
-      {/* 배송 완료, 고객이 배송을 받았다면 클릭 -> 배송 중 -> 거래 완료 */}
+      {/* 배송 완료, 고객이 배송을 받았다면 클릭 -> 제작 완료 -> 거래 완료 */}
       <OrderDetailBottombar
-        showCondition={auth.role === "ROLE_CUSTOMER" && status === "배송 중"}
+        showCondition={auth.role === "ROLE_CUSTOMER" && status === "제작 완료"}
         announce="상품이 잘 도착했나요?"
         buttonText="배송 완료"
         onButton={() => acceptCompleted(String(orderId))}

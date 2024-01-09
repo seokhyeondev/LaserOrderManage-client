@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { media } from "./theme";
 
 export const globalStyles = css`
   :root {
@@ -16,6 +17,12 @@ export const globalStyles = css`
     --color-alert: #d72323;
 
     --border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar {
+    ${media.mobile} {
+      display: none;
+    }
   }
 
   * {
@@ -122,6 +129,15 @@ export const globalStyles = css`
     font-size: 40px;
     font-weight: 700;
     margin-bottom: 43px;
+  }
+
+  /* signatuer canvas */
+  .signatureCanvas {
+    width: 100%;
+    height: 200px;
+    margin-top: 14px;
+    border: 1px solid var(--color-mediumGray);
+    border-radius: var(--border-radius);
   }
 
   /* flex 요소 */

@@ -69,12 +69,6 @@ export type IFindPasswordRequest = {
   baseUrl: string;
 };
 
-export type IFindPasswordResponse = {};
-
 export type IEditPasswordRequest = {
   password: string;
 };
-
-export type IEditPasswordResponse = {};
-
-export type INotificationResponse = {};

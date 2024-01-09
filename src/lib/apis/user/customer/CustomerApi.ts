@@ -1,18 +1,15 @@
 import {
   ICustomerAccountResponse,
-  IDeleteDeliveryAddressResponse,
   IDeliveryAddressListResponse,
   IDeliveryAddressRequest,
-  IDeliveryAddressResponse,
   IEditCustomerAccountRequest,
-  IEditDeliveryAddressResponse,
 } from "./Customer.types";
 import { axiosPrivate } from "../../axios";
 
 export const CustomerApi = {
   POST_DELIVERY_ADDRESS: async (
     payload: IDeliveryAddressRequest,
-  ): Promise<IDeliveryAddressResponse> => {
+  ): Promise<null> => {
     const response = await axiosPrivate.post(
       "/customer/delivery-address",
       payload,
@@ -29,16 +26,14 @@ export const CustomerApi = {
   }: {
     id: number;
     payload: IDeliveryAddressRequest;
-  }): Promise<IEditDeliveryAddressResponse> => {
+  }): Promise<null> => {
     const repsonse = await axiosPrivate.put(
       `/customer/delivery-address/${id}`,
       payload,
     );
     return repsonse.data;
   },
-  DELETE_DELIVERY_ADDRESS: async (
-    id: number,
-  ): Promise<IDeleteDeliveryAddressResponse> => {
+  DELETE_DELIVERY_ADDRESS: async (id: number): Promise<null> => {
     const response = await axiosPrivate.delete(
       `/customer/delivery-address/${id}`,
     );
@@ -50,7 +45,7 @@ export const CustomerApi = {
   },
   EDIT_ACCOUNT_INFO: async (
     payload: IEditCustomerAccountRequest,
-  ): Promise<IEditDeliveryAddressResponse> => {
+  ): Promise<null> => {
     const response = await axiosPrivate.patch("/customer/user", payload);
     return response.data;
   },

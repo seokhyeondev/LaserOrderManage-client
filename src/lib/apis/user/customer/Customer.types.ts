@@ -14,12 +14,6 @@ export type IDeliveryAddressRequest = {
   isDefault: boolean;
 };
 
-export type IDeliveryAddressResponse = {};
-
-export type IEditDeliveryAddressResponse = {};
-
-export type IDeleteDeliveryAddressResponse = {};
-
 export type IDeliveryAddress = {
   id: number;
   name: string;

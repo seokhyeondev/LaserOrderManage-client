@@ -1,25 +1,16 @@
 import { axiosPrivate } from "../../axios";
 import {
   IOrderCommentRequest,
-  IOrderCommentResponse,
   IOrderCommentsResponse,
   IOrderDetailResponse,
   IDetailUrgentRequest,
-  IDetailUrgentResponse,
   IDetailEditAddressRequest,
   IDetailEditAddressResponse,
   IDetailAddDrawingRequest,
   IDetailAddDrawingResponse,
   IDetailEditDrawingRequest,
-  IDetailEditDrawingResponse,
-  IDetailDeleteDrawingResponse,
   IDetailEditQuotationResponse,
-  IDetailAcceptQuotationResponse,
-  IDetailEditPurchaseOrderRequest,
   IDetailEditPurchaseOrderResponse,
-  IDetailAcceptPurchaseOrderResponse,
-  IDetailAcceptShippingResponse,
-  IDetailAcceptCompletedResponse,
 } from "./OrderDetail.types";
 
 export const OrderDetailApi = {
@@ -37,7 +28,7 @@ export const OrderDetailApi = {
   }: {
     id: string;
     paylod: IOrderCommentRequest;
-  }): Promise<IOrderCommentResponse> => {
+  }): Promise<null> => {
     const response = await axiosPrivate.post(`/order/${id}/comment`, paylod);
     return response.data;
   },
@@ -47,7 +38,7 @@ export const OrderDetailApi = {
   }: {
     id: string;
     payload: IDetailUrgentRequest;
-  }): Promise<IDetailUrgentResponse> => {
+  }): Promise<null> => {
     const response = await axiosPrivate.patch(
       `/factory/order/${id}/urgent`,
       payload,
@@ -88,7 +79,7 @@ export const OrderDetailApi = {
     id: string;
     drawingId: number;
     payload: IDetailEditDrawingRequest;
-  }): Promise<IDetailEditDrawingResponse> => {
+  }): Promise<null> => {
     const response = await axiosPrivate.patch(
       `/customer/order/${id}/drawing/${drawingId}`,
       payload,
@@ -101,7 +92,7 @@ export const OrderDetailApi = {
   }: {
     id: string;
     drawingId: number;
-  }): Promise<IDetailDeleteDrawingResponse> => {
+  }): Promise<null> => {
     const response = await axiosPrivate.delete(
       `/customer/order/${id}/drawing/${drawingId}`,
     );
@@ -121,9 +112,7 @@ export const OrderDetailApi = {
     );
     return response.data;
   },
-  PUT_ACCEPT_QUOTATION: async (
-    id: string,
-  ): Promise<IDetailAcceptQuotationResponse> => {
+  PUT_ACCEPT_QUOTATION: async (id: string): Promise<null> => {
     const response = await axiosPrivate.put(`/customer/order/${id}/quotation`);
     return response.data;
   },
@@ -132,7 +121,7 @@ export const OrderDetailApi = {
     payload,
   }: {
     id: string;
-    payload: IDetailEditPurchaseOrderRequest;
+    payload: FormData;
   }): Promise<IDetailEditPurchaseOrderResponse> => {
     const response = await axiosPrivate.patch(
       `/customer/order/${id}/purchase-order`,
@@ -140,25 +129,19 @@ export const OrderDetailApi = {
     );
     return response.data;
   },
-  PUT_ACCEPT_PURCHASE_ORDER: async (
-    id: string,
-  ): Promise<IDetailAcceptPurchaseOrderResponse> => {
+  PUT_ACCEPT_PURCHASE_ORDER: async (id: string): Promise<null> => {
     const response = await axiosPrivate.put(
       `/factory/order/${id}/purchase-order`,
     );
     return response.data;
   },
-  PUT_ACCEPT_SHIPPING: async (
-    id: string,
-  ): Promise<IDetailAcceptShippingResponse> => {
+  PUT_ACCEPT_SHIPPING: async (id: string): Promise<null> => {
     const resposne = await axiosPrivate.patch(
       `/factory/order/${id}/stage/shipping`,
     );
     return resposne.data;
   },
-  PUT_ACCEPT_COMPLETED: async (
-    id: string,
-  ): Promise<IDetailAcceptCompletedResponse> => {
+  PUT_ACCEPT_COMPLETED: async (id: string): Promise<null> => {
     const resposne = await axiosPrivate.patch(
       `/customer/order/${id}/stage/completed`,
     );

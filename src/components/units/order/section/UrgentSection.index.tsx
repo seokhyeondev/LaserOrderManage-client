@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as S from "./OrderDetailSection.styles";
 import styled from "@emotion/styled";
-import { IUrgentSectionProps } from "./DetailSection.types";
+import { IUrgentSectionProps } from "./OrderDetailSection.types";
 import { IDetailUrgentRequest } from "@/src/lib/apis/order/detail/OrderDetail.types";
 import { useMutation } from "@tanstack/react-query";
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
