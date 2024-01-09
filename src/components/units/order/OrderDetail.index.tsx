@@ -26,6 +26,7 @@ import {
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 import { GetServerSideProps } from "next";
 import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
+import { AppPages } from "@/src/lib/constants/appPages";
 
 export default function OrderDetai() {
   const router = useRouter();
@@ -240,7 +241,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (queryState?.status === "error") {
     return {
       redirect: {
-        destination: "/login",
+        destination: AppPages.LOGIN,
         permanent: false,
       },
     };

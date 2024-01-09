@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useMutation } from "@tanstack/react-query";
 import { UserApi } from "@/src/lib/apis/user/UserApi";
 import { useToastify } from "@/src/lib/hooks/useToastify";
+import { AppPages } from "@/src/lib/constants/appPages";
 
 export default function EditPassword() {
   const searchParams = useSearchParams();
@@ -90,7 +91,7 @@ export default function EditPassword() {
             <Spacer width="100%" height="60px" />
             <S.Button
               className="bold18"
-              onClick={() => router.replace("/login")}
+              onClick={() => router.replace(AppPages.LOGIN)}
             >
               로그인
             </S.Button>

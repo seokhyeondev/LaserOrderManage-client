@@ -9,6 +9,7 @@ import {
 } from "@/src/lib/utils/utils";
 import { useRouter } from "next/router";
 import { useRef, MouseEvent } from "react";
+import { AppPages } from "@/src/lib/constants/appPages";
 
 export default function FactoryNewOrderItem(props: IOrderItemProps) {
   const router = useRouter();
@@ -17,7 +18,7 @@ export default function FactoryNewOrderItem(props: IOrderItemProps) {
   const onItem = (id: number, event: MouseEvent<HTMLElement>) => {
     if (requestRef.current && requestRef.current.contains(event.target as Node))
       return;
-    router.push(`/order/${id}`);
+    router.push(`${AppPages.ORDER_DETAIL}/${id}`);
   };
 
   return (

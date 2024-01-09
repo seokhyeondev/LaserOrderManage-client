@@ -12,6 +12,7 @@ import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 import { CustomerApi } from "@/src/lib/apis/user/customer/CustomerApi";
 import { FactoryApi } from "@/src/lib/apis/user/factory/FactoryApi";
+import { AppPages } from "@/src/lib/constants/appPages";
 
 export default function MyPage() {
   const [currentPage, setCurrentPage] = useState<IMyPageMenu>("Account");
@@ -56,7 +57,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     if (queryState?.status === "error") {
       return {
         redirect: {
-          destination: "/login",
+          destination: AppPages.LOGIN,
           permanent: false,
         },
       };
@@ -76,7 +77,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     if (queryState?.status === "error") {
       return {
         redirect: {
-          destination: "/login",
+          destination: AppPages.LOGIN,
           permanent: false,
         },
       };

@@ -18,6 +18,7 @@ import {
 } from "@/src/lib/apis/order/create/OrderCreate.types";
 import { useRouter } from "next/router";
 import { useToastify } from "@/src/lib/hooks/useToastify";
+import { AppPages } from "@/src/lib/constants/appPages";
 
 export default function DeliveryInfo(props: ICreateOrderPageProps) {
   const [addressModalOpen, setAddressModalOpen] = useState(false);
@@ -37,7 +38,7 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
     mutationFn: OrderCreateApi.ORDER_CREATE,
     onSuccess: () => {
       setToast({ comment: "새 거래를 생성했어요" });
-      router.replace("/customer/order");
+      router.replace(AppPages.CUSTOMER_ORDER_LIST);
       resetOrderState();
     },
     onError: (error: AxiosError) => {

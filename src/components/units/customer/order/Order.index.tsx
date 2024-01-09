@@ -16,6 +16,7 @@ import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import { OrderApi } from "@/src/lib/apis/order/OrderApi";
 import { GetServerSideProps } from "next";
 import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
+import { AppPages } from "@/src/lib/constants/appPages";
 
 export default function Order() {
   const searchBarArgs = useSearchbar(() => refetch());
@@ -74,7 +75,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (queryState?.status === "error") {
     return {
       redirect: {
-        destination: "/login",
+        destination: AppPages.LOGIN,
         permanent: false,
       },
     };

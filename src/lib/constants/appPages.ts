@@ -1,4 +1,5 @@
 export const AppPages = {
+  HOME: "/",
   LOGIN: "/login",
   SIGN_UP: "/signup",
   FIND_EMAIL: "/find-email",

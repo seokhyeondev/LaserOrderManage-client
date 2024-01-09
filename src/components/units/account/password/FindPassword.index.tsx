@@ -85,7 +85,7 @@ export default function FindPassword() {
             <Spacer width="100%" height="60px" />
             <S.Button
               className="bold18"
-              onClick={() => router.replace("/login")}
+              onClick={() => router.replace(AppPages.LOGIN)}
             >
               로그인
             </S.Button>
