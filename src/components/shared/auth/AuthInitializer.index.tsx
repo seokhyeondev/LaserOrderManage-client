@@ -1,5 +1,6 @@
 import { axiosPrivate } from "@/src/lib/apis/axios";
-import { UserType, authState } from "@/src/store/auth";
+import { UserType } from "@/src/lib/apis/user/User.types";
+import { authState } from "@/src/store/auth";
 import { getCookie } from "cookies-next";
 import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";

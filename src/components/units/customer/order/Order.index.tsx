@@ -75,7 +75,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (queryState?.status === "error") {
     return {
       redirect: {
-        destination: AppPages.LOGIN,
+        destination: `${AppPages.LOGIN}?redirect=${encodeURIComponent(
+          context.resolvedUrl,
+        )}`,
         permanent: false,
       },
     };

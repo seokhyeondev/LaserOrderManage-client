@@ -18,6 +18,7 @@ import { usePagination } from "@/src/lib/hooks/usePagination";
 import OrderPagination from "@/src/components/commons/paginations/order/OrderPagination.index";
 import { GetServerSideProps } from "next";
 import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
+import { AppPages } from "@/src/lib/constants/appPages";
 
 export default function Order() {
   const [tab, onTabClick] = useOrderTab(NEW_ORDER_TAB[0]);
@@ -89,7 +90,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (queryState?.status === "error") {
     return {
       redirect: {
-        destination: "/login",
+        destination: `${AppPages.LOGIN}?redirect=${encodeURIComponent(
+          context.resolvedUrl,
+        )}`,
         permanent: false,
       },
     };
