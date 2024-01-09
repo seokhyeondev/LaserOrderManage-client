@@ -16,22 +16,7 @@ import AuthInitializer from "@/src/components/shared/auth/AuthInitializer.index"
 const roboto = Roboto({ weight: ["400", "500", "700"], subsets: ["latin"] });
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
-function MyApp({ Component, pageProps }: AppProps) {
-  // const initializer = ({ set }: MutableSnapshot) => {
-  //   if (loginData) {
-  //     const auth = {
-  //       isAuthenticated: true,
-  //       accessToken: loginData.accessToken,
-  //       role: loginData.role,
-  //     };
-  //     set(authState, auth);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   loginData && setCredentials(loginData);
-  // }, [loginData]);
-
+export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
   queryClient.setDefaultOptions({
     queries: { retry: false },
@@ -56,29 +41,3 @@ function MyApp({ Component, pageProps }: AppProps) {
     </>
   );
 }
-
-// MyApp.getInitialProps = async (context: AppContext) => {
-//   const { ctx, Component } = context;
-//   let loginData: IToken | null;
-//   let pageProps = {};
-
-//   try {
-//     if (ctx.req) {
-//       const cookie = ctx.req.headers.cookie;
-//       axiosPrivate.defaults.headers.Cookie = cookie || "";
-//       const token = await UserApi.REISSUE();
-//       loginData = token;
-//       ctx.res?.setHeader("set-cookie", makeCookieString(token));
-//     } else throw new Error("isClient");
-//   } catch (error) {
-//     loginData = null;
-//   }
-
-//   if (Component.getInitialProps) {
-//     pageProps = await Component.getInitialProps(ctx);
-//   }
-
-//   return { pageProps, loginData };
-// };
-
-export default MyApp;
