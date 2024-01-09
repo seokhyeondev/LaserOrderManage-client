@@ -26,7 +26,7 @@ export default function DeliveryInfoSection({
         <S.TitleWrapper className="flex-row-between">
           <S.Title className="bold18">배송 정보</S.Title>
           {role === "ROLE_CUSTOMER" &&
-            !(status === "배송 중" || status === "거래 완료") && (
+            !(status === "제작 완료" || status === "거래 완료") && (
               <S.EditBox
                 className="flex-row"
                 onClick={() => setShowModal(true)}

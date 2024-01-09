@@ -78,7 +78,7 @@ export default function DrawingInfoSection({
         <S.TitleWrapper className="flex-row-between">
           <S.Title className="bold18">도면 정보</S.Title>
           {role === "ROLE_CUSTOMER" &&
-            !(status === "배송 중" || status === "거래 완료") && (
+            !(status === "제작 완료" || status === "거래 완료") && (
               <S.EditBox
                 className="flex-row"
                 onClick={() => setShowAddModal(true)}
@@ -196,7 +196,7 @@ function DrawingInfoItem({
             다운로드
           </ItemMenuTitle>
           {role === "ROLE_CUSTOMER" &&
-            !(status === "배송 중" || status === "거래 완료") && (
+            !(status === "제작 완료" || status === "거래 완료") && (
               <>
                 <ItemMenuTitle className="regular14" onClick={onEdit}>
                   수정하기

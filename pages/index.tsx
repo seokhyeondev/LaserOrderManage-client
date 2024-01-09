@@ -1,1 +1,3 @@
-export { default } from "@/src/components/units/acquirer/Acquirer.index";
+export default function Home() {
+  return <div>hi</div>;
+}
