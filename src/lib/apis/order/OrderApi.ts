@@ -2,6 +2,7 @@ import {
   ICustomerOrderResponse,
   IFactoryNewOrderResponse,
   IFactoryOrderResponse,
+  IPurchaseOrderResponse,
 } from "./Order.types";
 import { axiosPrivate } from "../axios";
 
@@ -54,6 +55,10 @@ export const OrderApi = {
     const response = await axiosPrivate.get(
       `/factory/order?page=${page}&size=${size}&is-completed=${isCompleted}&is-urgent=${isUrgent}&date-criterion=${dateCriterion}&start-date=${startDate}&end-date=${endDate}&query=${keyword}`,
     );
+    return response.data;
+  },
+  GET_PURCHASE_ORDER: async (id: string): Promise<IPurchaseOrderResponse> => {
+    const response = await axiosPrivate.get(`/order/${id}/purchase-order`);
     return response.data;
   },
 };

@@ -1,6 +1,5 @@
 import { atom } from "recoil";
-
-export type UserType = "ROLE_CUSTOMER" | "ROLE_FACTORY" | null;
+import { UserType } from "../lib/apis/user/User.types";
 
 export interface IAuthState {
   isAuthenticated: boolean;

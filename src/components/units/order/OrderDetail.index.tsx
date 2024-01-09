@@ -26,6 +26,7 @@ import {
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 import { GetServerSideProps } from "next";
 import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
+import { AppPages } from "@/src/lib/constants/appPages";
 
 export default function OrderDetai() {
   const router = useRouter();
@@ -33,6 +34,7 @@ export default function OrderDetai() {
   const auth = useRecoilValue(authState);
   const [status, setStatus] = useState<OrderStatus>();
   const scrollArgs = useOrderDetailScroll();
+  const [sendMail, setSendMail] = useState(false);
   const { setToast } = useToastify();
   const { data, isSuccess } = useQuery({
     queryKey: [`orderDetail/${orderId}`],
@@ -77,8 +79,8 @@ export default function OrderDetai() {
     },
   });
 
-  const { mutate: acceptShipping } = useMutation({
-    mutationFn: OrderDetailApi.PUT_ACCEPT_SHIPPING,
+  const { mutate: acceptPrdouction } = useMutation({
+    mutationFn: OrderDetailApi.PUT_ACCEPT_PRODUCTION_COMPLETED,
     onSuccess: () => {
       onChangeStatus("제작 완료", "제작이 완료됐어요");
     },
@@ -87,13 +89,14 @@ export default function OrderDetai() {
     },
   });
 
-  const { mutate: acceptCompleted } = useMutation({
-    mutationFn: OrderDetailApi.PUT_ACCEPT_COMPLETED,
+  const { mutate: sendAcquirerEmail } = useMutation({
+    mutationFn: OrderDetailApi.POST_ACQUIRER_EMAIL,
     onSuccess: () => {
-      onChangeStatus("거래 완료", "거래가 완료됐어요");
+      setSendMail(true);
+      setToast({ comment: "링크를 메일로 전송했어요" });
     },
     onError: () => {
-      setToast({ comment: "거래 완료하기에 실패했어요" });
+      setToast({ comment: "메일 전송에 실패했어요" });
     },
   });
 
@@ -205,19 +208,21 @@ export default function OrderDetai() {
         buttonText="발주 승인하기"
         onButton={() => acceptPurchaseOrder(String(orderId))}
       />
-      {/* 제작 완료, 회사가 제작을 마치고 클릭 -> 제작 중 -> 배송 중 */}
+      {/* 제작 완료, 회사가 제작을 마치고 클릭 -> 제작 중 -> 제작 완료 */}
       <OrderDetailBottombar
         showCondition={auth.role === "ROLE_FACTORY" && status === "제작 중"}
         announce="제작이 끝났다면 배송을 시작해주세요"
         buttonText="제작 완료"
-        onButton={() => acceptShipping(String(orderId))}
+        onButton={() => acceptPrdouction(String(orderId))}
       />
       {/* 배송 완료, 고객이 배송을 받았다면 클릭 -> 제작 완료 -> 거래 완료 */}
       <OrderDetailBottombar
-        showCondition={auth.role === "ROLE_CUSTOMER" && status === "제작 완료"}
-        announce="상품이 잘 도착했나요?"
-        buttonText="배송 완료"
-        onButton={() => acceptCompleted(String(orderId))}
+        showCondition={
+          auth.role === "ROLE_FACTORY" && status === "제작 완료" && !sendMail
+        }
+        announce="인수자 서명 링크를 메일로 보낼까요?"
+        buttonText="메일 전송"
+        onButton={() => sendAcquirerEmail(String(orderId))}
       />
     </S.Wrapper>
   );
@@ -242,7 +247,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (queryState?.status === "error") {
     return {
       redirect: {
-        destination: "/login",
+        destination: `${AppPages.LOGIN}?redirect=${encodeURIComponent(
+          context.resolvedUrl,
+        )}`,
         permanent: false,
       },
     };

@@ -12,10 +12,6 @@ export const InnerWrapper = styled.div`
   flex-shrink: 0;
 `;
 
-export const LogoWrapper = styled.a`
-  cursor: pointer;
-`;
-
 export const MenuWrapper = styled.div`
   margin-left: 60px;
   gap: 50px;

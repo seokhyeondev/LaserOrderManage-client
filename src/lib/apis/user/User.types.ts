@@ -1,5 +1,6 @@
-import { UserType } from "@/src/store/auth";
 import { IBaseListSimpleResponse } from "@/src/lib/apis/base/base.types";
+
+export type UserType = "ROLE_CUSTOMER" | "ROLE_FACTORY" | null;
 
 export type ILoginRequest = {
   email: string;

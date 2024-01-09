@@ -45,4 +45,5 @@ export const INGREDIENTS: IIngredient[] = [
 
 export const MAX_THICKNESS = 19;
 
-export const EDIT_PASSWORD_URL = "https://www.kumoh.org/edit-password";
+export const BASE_URL = "https://api.kumoh.org";
+export const WEB_URL = "https://www.kumoh.org";

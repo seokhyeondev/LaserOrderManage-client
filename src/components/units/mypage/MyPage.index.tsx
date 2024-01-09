@@ -3,7 +3,7 @@ import MyPageMenu from "@/src/components/commons/menu/mypage/MyPageMenu.index";
 import { useState } from "react";
 import { IMyPageMenu } from "@/src/components/commons/menu/mypage/MyPageMenu.types";
 import { useRecoilValue } from "recoil";
-import { UserType, authState } from "@/src/store/auth";
+import { authState } from "@/src/store/auth";
 import AccountPage from "./pages/AccoutPage.index";
 import DeliveryPage from "./pages/DeliveryPage.index";
 import ManagerListPage from "./pages/MangerListPage.index";
@@ -12,6 +12,8 @@ import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 import { CustomerApi } from "@/src/lib/apis/user/customer/CustomerApi";
 import { FactoryApi } from "@/src/lib/apis/user/factory/FactoryApi";
+import { AppPages } from "@/src/lib/constants/appPages";
+import { UserType } from "@/src/lib/apis/user/User.types";
 
 export default function MyPage() {
   const [currentPage, setCurrentPage] = useState<IMyPageMenu>("Account");
@@ -56,7 +58,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     if (queryState?.status === "error") {
       return {
         redirect: {
-          destination: "/login",
+          destination: `${AppPages.LOGIN}?redirect=${encodeURIComponent(
+            context.resolvedUrl,
+          )}`,
           permanent: false,
         },
       };
@@ -76,7 +80,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     if (queryState?.status === "error") {
       return {
         redirect: {
-          destination: "/login",
+          destination: `${AppPages.LOGIN}?redirect=${encodeURIComponent(
+            context.resolvedUrl,
+          )}`,
           permanent: false,
         },
       };

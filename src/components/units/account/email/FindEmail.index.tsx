@@ -3,6 +3,7 @@ import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "@/src/components/units/account/Accout.styles";
 import { IFindEmailResponse } from "@/src/lib/apis/user/User.types";
 import { UserApi } from "@/src/lib/apis/user/UserApi";
+import { AppPages } from "@/src/lib/constants/appPages";
 import { numberRegex, phoneRegex } from "@/src/lib/constants/regex";
 import { useInputWithError } from "@/src/lib/hooks/useInput";
 import { useMutation } from "@tanstack/react-query";
@@ -96,14 +97,14 @@ export default function FindEmail() {
             <div className="flex-row">
               <S.SubButton
                 className="bold18"
-                onClick={() => router.replace("/find-password")}
+                onClick={() => router.replace(AppPages.FIND_PASSWORD)}
               >
                 비밀번호 찾기
               </S.SubButton>
               <Spacer width="10px" height="100%" />
               <S.Button
                 className="bold18"
-                onClick={() => router.replace("/login")}
+                onClick={() => router.replace(AppPages.LOGIN)}
               >
                 로그인
               </S.Button>
@@ -122,7 +123,7 @@ export default function FindEmail() {
                 <Spacer width="10px" height="100%" />
                 <S.Button
                   className="bold18"
-                  onClick={() => router.replace("/login")}
+                  onClick={() => router.replace(AppPages.LOGIN)}
                 >
                   로그인
                 </S.Button>

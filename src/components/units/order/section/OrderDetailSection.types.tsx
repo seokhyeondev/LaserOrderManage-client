@@ -1,4 +1,3 @@
-import { UserType } from "@/src/store/auth";
 import { OrderStatus } from "@/src/lib/apis/order/Order.types";
 import {
   IDetailCustomer,
@@ -7,6 +6,7 @@ import {
   IDetailPurchaseOrder,
   IDetailQuotation,
 } from "@/src/lib/apis/order/detail/OrderDetail.types";
+import { UserType } from "@/src/lib/apis/user/User.types";
 import { IDeliveryAddress } from "@/src/lib/apis/user/customer/Customer.types";
 import { RefObject } from "react";
 

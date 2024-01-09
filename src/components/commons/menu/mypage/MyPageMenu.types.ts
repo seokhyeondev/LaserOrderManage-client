@@ -1,4 +1,4 @@
-import { UserType } from "@/src/store/auth";
+import { UserType } from "@/src/lib/apis/user/User.types";
 import { jsx } from "@emotion/react";
 
 export type IMyPageMenu = "Account" | "Delivery" | "MangerList";

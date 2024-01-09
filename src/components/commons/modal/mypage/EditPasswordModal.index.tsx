@@ -4,7 +4,6 @@ import Modal, { IModalProps } from "../Modal.index";
 import * as S from "./MypageModal.styles";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { UserApi } from "@/src/lib/apis/user/UserApi";
-import { EDIT_PASSWORD_URL } from "@/src/lib/constants/constant";
 
 interface IEditPasswordModalProps extends IModalProps {}
 
@@ -27,7 +26,7 @@ export default function EditPasswordModal({
   });
 
   const onSubmit = () => {
-    mutate(EDIT_PASSWORD_URL);
+    mutate();
   };
 
   return (

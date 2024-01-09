@@ -10,6 +10,7 @@ import { setCredentials } from "@/src/lib/utils/setCredentials";
 import { useRouter } from "next/router";
 import { useInput } from "@/src/lib/hooks/useInput";
 import { emailRegex, passwordRegex } from "@/src/lib/constants/regex";
+import { AppPages } from "@/src/lib/constants/appPages";
 
 export default function Login() {
   const [email, onChangeEmail] = useInput();
@@ -17,13 +18,14 @@ export default function Login() {
   const [errorMsg, setErrorMsg] = useState("");
   const setAuth = useSetRecoilState(authState);
   const router = useRouter();
+  const { redirect } = router.query;
 
   const { mutate } = useMutation({
     mutationFn: UserApi.LOGIN,
     onSuccess: (data) => {
       setCredentials(data);
       setAuth({ isAuthenticated: true, ...data });
-      router.replace("/");
+      router.replace(String(redirect) || AppPages.HOME);
     },
     onError: (error: AxiosError) => {
       if (error.response) {
@@ -82,11 +84,13 @@ export default function Login() {
           로그인
         </S.LoginButton>
         <S.MenuWrapper className="flex-center regular14">
-          <a onClick={() => router.push("/find-email")}>이메일 찾기</a>
+          <a onClick={() => router.push(AppPages.FIND_EMAIL)}>이메일 찾기</a>
           <S.MenuDivider>|</S.MenuDivider>
-          <a onClick={() => router.push("/find-password")}>비밀번호 찾기</a>
+          <a onClick={() => router.push(AppPages.FIND_PASSWORD)}>
+            비밀번호 찾기
+          </a>
           <S.MenuDivider>|</S.MenuDivider>
-          <a onClick={() => router.push("/signup")}>회원가입</a>
+          <a onClick={() => router.push(AppPages.SIGN_UP)}>회원가입</a>
         </S.MenuWrapper>
       </S.FormWrapper>
     </S.Wrapper>

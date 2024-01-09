@@ -22,6 +22,7 @@ import { AxiosError } from "axios";
 import { IHttpStatus } from "@/src/lib/apis/axios";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { IJoinRequest } from "@/src/lib/apis/user/User.types";
+import { AppPages } from "@/src/lib/constants/appPages";
 
 export default function SignUp() {
   const [sendCode, setSendCode] = useState(false);
@@ -147,7 +148,7 @@ export default function SignUp() {
     onSuccess: (data) => {
       if (data.status === "003") {
         setToast({ comment: "회원가입을 완료했어요" });
-        router.push("/login");
+        router.replace(AppPages.LOGIN);
       }
     },
     onError: (error: AxiosError) => {
