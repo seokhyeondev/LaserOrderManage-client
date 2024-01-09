@@ -34,6 +34,7 @@ export default function OrderDetai() {
   const auth = useRecoilValue(authState);
   const [status, setStatus] = useState<OrderStatus>();
   const scrollArgs = useOrderDetailScroll();
+  const [sendMail, setSendMail] = useState(false);
   const { setToast } = useToastify();
   const { data, isSuccess } = useQuery({
     queryKey: [`orderDetail/${orderId}`],
@@ -90,9 +91,12 @@ export default function OrderDetai() {
 
   const { mutate: sendAcquirerEmail } = useMutation({
     mutationFn: OrderDetailApi.POST_ACQUIRER_EMAIL,
-    onSuccess: () => {},
+    onSuccess: () => {
+      setSendMail(true);
+      setToast({ comment: "링크를 메일로 전송했어요" });
+    },
     onError: () => {
-      setToast({ comment: "서명 링크 전송에 실패했어요" });
+      setToast({ comment: "메일 전송에 실패했어요" });
     },
   });
 
@@ -213,9 +217,11 @@ export default function OrderDetai() {
       />
       {/* 배송 완료, 고객이 배송을 받았다면 클릭 -> 제작 완료 -> 거래 완료 */}
       <OrderDetailBottombar
-        showCondition={auth.role === "ROLE_FACTORY" && status === "제작 완료"}
-        announce="상품이 잘 도착했나요?"
-        buttonText="배송 완료"
+        showCondition={
+          auth.role === "ROLE_FACTORY" && status === "제작 완료" && !sendMail
+        }
+        announce="인수자 서명 링크를 메일로 보낼까요?"
+        buttonText="메일 전송"
         onButton={() => sendAcquirerEmail(String(orderId))}
       />
     </S.Wrapper>
