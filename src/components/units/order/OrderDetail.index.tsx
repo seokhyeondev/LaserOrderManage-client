@@ -77,8 +77,8 @@ export default function OrderDetai() {
     },
   });
 
-  const { mutate: acceptShipping } = useMutation({
-    mutationFn: OrderDetailApi.PUT_ACCEPT_SHIPPING,
+  const { mutate: acceptPrdouction } = useMutation({
+    mutationFn: OrderDetailApi.PUT_ACCEPT_PRODUCTION_COMPLETED,
     onSuccess: () => {
       onChangeStatus("제작 완료", "제작이 완료됐어요");
     },
@@ -87,13 +87,11 @@ export default function OrderDetai() {
     },
   });
 
-  const { mutate: acceptCompleted } = useMutation({
-    mutationFn: OrderDetailApi.PUT_ACCEPT_COMPLETED,
-    onSuccess: () => {
-      onChangeStatus("거래 완료", "거래가 완료됐어요");
-    },
+  const { mutate: sendAcquirerEmail } = useMutation({
+    mutationFn: OrderDetailApi.POST_ACQUIRER_EMAIL,
+    onSuccess: () => {},
     onError: () => {
-      setToast({ comment: "거래 완료하기에 실패했어요" });
+      setToast({ comment: "서명 링크 전송에 실패했어요" });
     },
   });
 
@@ -205,19 +203,19 @@ export default function OrderDetai() {
         buttonText="발주 승인하기"
         onButton={() => acceptPurchaseOrder(String(orderId))}
       />
-      {/* 제작 완료, 회사가 제작을 마치고 클릭 -> 제작 중 -> 배송 중 */}
+      {/* 제작 완료, 회사가 제작을 마치고 클릭 -> 제작 중 -> 제작 완료 */}
       <OrderDetailBottombar
         showCondition={auth.role === "ROLE_FACTORY" && status === "제작 중"}
         announce="제작이 끝났다면 배송을 시작해주세요"
         buttonText="제작 완료"
-        onButton={() => acceptShipping(String(orderId))}
+        onButton={() => acceptPrdouction(String(orderId))}
       />
       {/* 배송 완료, 고객이 배송을 받았다면 클릭 -> 제작 완료 -> 거래 완료 */}
       <OrderDetailBottombar
-        showCondition={auth.role === "ROLE_CUSTOMER" && status === "제작 완료"}
+        showCondition={auth.role === "ROLE_FACTORY" && status === "제작 완료"}
         announce="상품이 잘 도착했나요?"
         buttonText="배송 완료"
-        onButton={() => acceptCompleted(String(orderId))}
+        onButton={() => sendAcquirerEmail(String(orderId))}
       />
     </S.Wrapper>
   );

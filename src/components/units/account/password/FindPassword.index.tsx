@@ -3,7 +3,8 @@ import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "@/src/components/units/account/Accout.styles";
 import { IHttpStatus } from "@/src/lib/apis/axios";
 import { UserApi } from "@/src/lib/apis/user/UserApi";
-import { EDIT_PASSWORD_URL } from "@/src/lib/constants/constant";
+import { AppPages } from "@/src/lib/constants/appPages";
+import { WEB_URL } from "@/src/lib/constants/constant";
 import { emailRegex } from "@/src/lib/constants/regex";
 import { useInputWithError } from "@/src/lib/hooks/useInput";
 import { useToastify } from "@/src/lib/hooks/useToastify";
@@ -47,7 +48,10 @@ export default function FindPassword() {
 
   const sendCodeToEmail = () => {
     setCodeSending(true);
-    mutate({ email: emailInputArgs.value.trim(), baseUrl: EDIT_PASSWORD_URL });
+    mutate({
+      email: emailInputArgs.value.trim(),
+      baseUrl: `${WEB_URL}${AppPages.EDIT_PASSWORD}`,
+    });
   };
 
   return (

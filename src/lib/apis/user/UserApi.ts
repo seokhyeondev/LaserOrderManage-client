@@ -1,3 +1,5 @@
+import { AppPages } from "../../constants/appPages";
+import { WEB_URL } from "../../constants/constant";
 import { axiosPrivate, axiosPublic } from "../axios";
 import {
   IEditPasswordRequest,
@@ -57,9 +59,9 @@ export const UserApi = {
     );
     return response.data;
   },
-  FIND_PASSWORD: async (url: string): Promise<null> => {
+  FIND_PASSWORD: async (): Promise<null> => {
     const response = await axiosPrivate.post(
-      `/user/password/email-link?base-url=${url}`,
+      `/user/password/email-link?base-url=${WEB_URL}${AppPages.EDIT_PASSWORD}`,
     );
     return response.data;
   },

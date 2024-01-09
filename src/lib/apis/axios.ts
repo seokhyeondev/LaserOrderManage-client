@@ -8,8 +8,7 @@ import { UserApi } from "./user/UserApi";
 import { setCredentials } from "../utils/setCredentials";
 import { IToken } from "./user/User.types";
 import { getCookie } from "cookies-next";
-
-const BASE_URL = "https://api.kumoh.org";
+import { BASE_URL } from "../constants/constant";
 
 export const axiosPublic = axios.create({
   baseURL: BASE_URL,

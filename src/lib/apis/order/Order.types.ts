@@ -68,3 +68,9 @@ export type IFactoryOrder = {
   cost: number | null;
   request: string | null;
 };
+
+export type IPurchaseOrderResponse = {
+  id: number;
+  fileName: string;
+  fileUrl: string;
+};

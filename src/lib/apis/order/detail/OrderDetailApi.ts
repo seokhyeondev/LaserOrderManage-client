@@ -1,3 +1,4 @@
+import { WEB_URL } from "@/src/lib/constants/constant";
 import { axiosPrivate } from "../../axios";
 import {
   IOrderCommentRequest,
@@ -12,6 +13,7 @@ import {
   IDetailEditQuotationResponse,
   IDetailEditPurchaseOrderResponse,
 } from "./OrderDetail.types";
+import { AppPages } from "@/src/lib/constants/appPages";
 
 export const OrderDetailApi = {
   GET_ORDER_DETAIL: async (id: string): Promise<IOrderDetailResponse> => {
@@ -135,16 +137,29 @@ export const OrderDetailApi = {
     );
     return response.data;
   },
-  PUT_ACCEPT_SHIPPING: async (id: string): Promise<null> => {
+  PUT_ACCEPT_PRODUCTION_COMPLETED: async (id: string): Promise<null> => {
     const resposne = await axiosPrivate.patch(
-      `/factory/order/${id}/stage/shipping`,
+      `/factory/order/${id}/stage/production-completed`,
     );
     return resposne.data;
   },
-  PUT_ACCEPT_COMPLETED: async (id: string): Promise<null> => {
-    const resposne = await axiosPrivate.patch(
-      `/customer/order/${id}/stage/completed`,
+  POST_ACCEPT_COMPLETED: async ({
+    id,
+    payload,
+  }: {
+    id: string;
+    payload: FormData;
+  }): Promise<null> => {
+    const resposne = await axiosPrivate.post(
+      `/factory/order/${id}/stage/completed`,
+      payload,
     );
     return resposne.data;
+  },
+  POST_ACQUIRER_EMAIL: async (id: string): Promise<null> => {
+    const response = await axiosPrivate.post(
+      `/factory/order/${id}/acquirer/email-link?base-url=${WEB_URL}${AppPages.ACQUIRER}/${id}`,
+    );
+    return response.data;
   },
 };
