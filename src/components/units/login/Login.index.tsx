@@ -18,13 +18,14 @@ export default function Login() {
   const [errorMsg, setErrorMsg] = useState("");
   const setAuth = useSetRecoilState(authState);
   const router = useRouter();
+  const { redirect } = router.query;
 
   const { mutate } = useMutation({
     mutationFn: UserApi.LOGIN,
     onSuccess: (data) => {
       setCredentials(data);
       setAuth({ isAuthenticated: true, ...data });
-      router.replace(AppPages.HOME);
+      router.replace(String(redirect) || AppPages.HOME);
     },
     onError: (error: AxiosError) => {
       if (error.response) {

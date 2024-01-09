@@ -25,4 +25,5 @@ export const resetCredentials = () => {
   deleteCookie("refreshToken");
   deleteCookie("accessToken");
   deleteCookie("role");
+  deleteCookie("redirectUrl");
 };

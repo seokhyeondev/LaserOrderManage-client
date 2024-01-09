@@ -162,11 +162,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     queryFn: () => OrderApi.GET_PURCHASE_ORDER(String(orderId)),
   });
 
-  const queryState = queryClient.getQueryState([`orderDetail/${orderId}`]);
+  const queryState = queryClient.getQueryState([
+    `order/${orderId}/purchase-order`,
+  ]);
   if (queryState?.status === "error") {
     return {
       redirect: {
-        destination: AppPages.LOGIN,
+        destination: `${AppPages.LOGIN}?redirect=${encodeURIComponent(
+          context.resolvedUrl,
+        )}`,
         permanent: false,
       },
     };
