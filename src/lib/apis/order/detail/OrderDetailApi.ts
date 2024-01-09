@@ -128,6 +128,7 @@ export const OrderDetailApi = {
     const response = await axiosPrivate.patch(
       `/customer/order/${id}/purchase-order`,
       payload,
+      { headers: { "Content-Type": "multipart/form-data" } },
     );
     return response.data;
   },
@@ -153,12 +154,13 @@ export const OrderDetailApi = {
     const resposne = await axiosPrivate.post(
       `/factory/order/${id}/stage/completed`,
       payload,
+      { headers: { "Content-Type": "multipart/form-data" } },
     );
     return resposne.data;
   },
   POST_ACQUIRER_EMAIL: async (id: string): Promise<null> => {
     const response = await axiosPrivate.post(
-      `/factory/order/${id}/acquirer/email-link?base-url=${WEB_URL}${AppPages.ACQUIRER}/${id}`,
+      `/factory/order/${id}/acquirer/email-link?base-url=${WEB_URL}${AppPages.ACQUIRER}`,
     );
     return response.data;
   },

@@ -7,11 +7,17 @@ import { useInput, useInputWithRegex } from "@/src/lib/hooks/useInput";
 import { numberRegex, phoneRegex } from "@/src/lib/constants/regex";
 import { useRouter } from "next/router";
 import { useToastify } from "@/src/lib/hooks/useToastify";
-import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
+import {
+  QueryClient,
+  dehydrate,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
 import { OrderApi } from "@/src/lib/apis/order/OrderApi";
 import { GetServerSideProps } from "next";
 import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 import { AppPages } from "@/src/lib/constants/appPages";
+import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 
 type Acquirer = {
   name: string;
@@ -25,6 +31,7 @@ export default function Acquirer() {
   const [phone, onChangePhone] = useInputWithRegex(numberRegex, "");
   const canvasRef = useRef<any>(null);
   const [isSigned, setIsSign] = useState(false);
+  const [submitClicked, setSubmitClicked] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const { setToast } = useToastify();
   const isSubmitAvailable =
@@ -47,11 +54,12 @@ export default function Acquirer() {
     }
   };
 
-  const createSignatureBlob = () => {
+  const createSignatureFile = () => {
     const dataURL = canvasRef.current.toDataURL("image/png");
     const decodedURL = dataURL.replace(/^data:image\/\w+;base64,/, "");
     const buf = Buffer.from(decodedURL, "base64");
-    return new Blob([buf], { type: "image/png" });
+    const blob = new Blob([buf], { type: "image/png" });
+    return new File([blob], `${encodeURI(name)}.png`, { type: "image/png" });
   };
 
   const createAcquirerBlob = () => {
@@ -64,13 +72,28 @@ export default function Acquirer() {
     });
   };
 
+  const { mutate } = useMutation({
+    mutationFn: OrderDetailApi.POST_ACCEPT_COMPLETED,
+    onSuccess: () => {
+      setSubmitClicked(false);
+      setIsSubmit(true);
+      canvasRef.current.off();
+      setToast({ comment: "서명을 완료했어요" });
+    },
+    onError: () => {
+      setSubmitClicked(false);
+      setToast({ comment: "서명에 실패했어요" });
+    },
+  });
+
   const onSubmit = () => {
-    const payload = new FormData();
-    payload.append("file", createSignatureBlob());
-    payload.append("acquire", createAcquirerBlob());
-    setIsSubmit(true);
-    canvasRef.current.off();
-    setToast({ comment: "서명을 완료했어요" });
+    if (!submitClicked) {
+      setSubmitClicked(true);
+      const payload = new FormData();
+      payload.append("file", createSignatureFile());
+      payload.append("acquirer", createAcquirerBlob());
+      mutate({ id: String(orderId), payload: payload });
+    }
   };
 
   return (
@@ -115,6 +138,7 @@ export default function Acquirer() {
       <S.Input
         className="medium18"
         placeholder="휴대폰 번호를 입력하세요 (숫자만)"
+        type="tel"
         value={phone}
         onChange={onChangePhone}
         disabled={isSubmit}
