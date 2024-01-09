@@ -7,6 +7,11 @@ import { useInput, useInputWithRegex } from "@/src/lib/hooks/useInput";
 import { numberRegex, phoneRegex } from "@/src/lib/constants/regex";
 import { useRouter } from "next/router";
 import { useToastify } from "@/src/lib/hooks/useToastify";
+import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
+import { OrderApi } from "@/src/lib/apis/order/OrderApi";
+import { GetServerSideProps } from "next";
+import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
+import { AppPages } from "@/src/lib/constants/appPages";
 
 type Acquirer = {
   name: string;
@@ -29,6 +34,11 @@ export default function Acquirer() {
     phoneRegex.test(phone) &&
     isSigned &&
     !isSubmit;
+
+  const { data } = useQuery({
+    queryKey: [`order/${orderId}/purchase-order`],
+    queryFn: () => OrderApi.GET_PURCHASE_ORDER(String(orderId)),
+  });
 
   const onResetSignature = () => {
     if (!isSubmit) {
@@ -67,16 +77,25 @@ export default function Acquirer() {
     <S.Wrapper>
       <S.Title className="bold24">인수자 서명하기</S.Title>
       <Spacer width="100%" height="64px" />
-      <S.Label className="regular16">거래명</S.Label>
-      <S.Content className="medium20">기계 시스템 제작 프로젝트</S.Content>
-      <S.Label className="regular16">고객 정보</S.Label>
-      <S.Content className="medium20">김우리 · 우리 기술 (주)</S.Content>
-      <S.Label className="regular16">고객 휴대폰 번호</S.Label>
-      <S.Content className="medium20">010-1234-1234</S.Content>
-      <S.Label className="regular16">발주서 정보</S.Label>
-      <S.FileName className="medium16 flex-column">
-        기계 시스템 제작 발주서.pdf
-      </S.FileName>
+      {data && (
+        <>
+          <S.Label className="regular16">거래명</S.Label>
+          <S.Content className="medium20">기계 시스템 제작 프로젝트</S.Content>
+          <S.Label className="regular16">고객 정보</S.Label>
+          <S.Content className="medium20">김우리 · 우리 기술 (주)</S.Content>
+          <S.Label className="regular16">고객 휴대폰 번호</S.Label>
+          <S.Content className="medium20">010-1234-1234</S.Content>
+          <S.Label className="regular16">발주서 정보</S.Label>
+          <S.FileName
+            className="medium16 flex-column"
+            href={data.fileUrl}
+            download={true}
+            target="_blank"
+          >
+            {data.fileName}
+          </S.FileName>
+        </>
+      )}
       <div className="flex-row">
         <S.Label className="regular16">인수자 이름</S.Label>
         <S.Required className="regular16">*</S.Required>
@@ -131,3 +150,31 @@ export default function Acquirer() {
     </S.Wrapper>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const queryClient = new QueryClient();
+  const { cookies } = context.req;
+  const { orderId } = context.params as unknown as { orderId: string };
+
+  setSsrAxiosHeader(cookies);
+  await queryClient.prefetchQuery({
+    queryKey: [`order/${orderId}/purchase-order`],
+    queryFn: () => OrderApi.GET_PURCHASE_ORDER(String(orderId)),
+  });
+
+  const queryState = queryClient.getQueryState([`orderDetail/${orderId}`]);
+  if (queryState?.status === "error") {
+    return {
+      redirect: {
+        destination: AppPages.LOGIN,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
