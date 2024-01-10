@@ -31,7 +31,7 @@ export default function LayoutHeader() {
       <S.Wrapper className="flex-row-between-center" isHome={isHome}>
         <MainLogo isHome={isHome} />
         <S.PcMenu className="flex-row">
-          <S.MenuWrapper className="flex-row-align-center" isHome={isHome}>
+          <S.MenuWrapper className="flex-row-align-center" isHome={false}>
             {auth.role === null &&
               NAVIGATION_DEFAULT_MENU.map((el) => (
                 <Link href={AppPages.LOGIN} key={el.page} className="bold18">
@@ -64,7 +64,7 @@ export default function LayoutHeader() {
         </S.PcMenu>
         {!showMenu && (
           <S.MenuIconWrapper onClick={() => setShowMenu(true)}>
-            <HeaderMenuIcon size={32} isHome={isHome} />
+            <HeaderMenuIcon size={32} isHome={false} />
           </S.MenuIconWrapper>
         )}
       </S.Wrapper>

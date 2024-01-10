@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import LayoutHeader from "./header/LayoutHeader.index";
 import { useToastify } from "@/src/lib/hooks/useToastify";
+import LayoutFooter from "./footer/LayoutFooter.index";
 
 const Body = styled.main`
   display: flex;
@@ -20,6 +21,7 @@ export default function Layout(props: ILayoutProps) {
       <Toast />
       <LayoutHeader />
       <Body>{props.children}</Body>
+      <LayoutFooter />
     </div>
   );
 }

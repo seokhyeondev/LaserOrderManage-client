@@ -3,7 +3,7 @@ import { IMenuItemTitleProps } from "./MyPageMenu.types";
 
 export const Wrapper = styled.div`
   width: 360px;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 50px);
   flex-shrink: 0;
   padding: 60px 34px;
   box-shadow: 4px 0 4px rgba(0, 0, 0, 0.1);
