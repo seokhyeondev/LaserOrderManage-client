@@ -1,10 +1,10 @@
 import { IIconProps } from "./Icon.types";
 
 interface IHeaderMenuIcon extends IIconProps {
-  isHome: boolean;
+  transparent: boolean;
 }
 
-export default function HeaderMenuIcon({ size, isHome }: IHeaderMenuIcon) {
+export default function HeaderMenuIcon({ size, transparent }: IHeaderMenuIcon) {
   return (
     <svg
       width={size}
@@ -17,13 +17,13 @@ export default function HeaderMenuIcon({ size, isHome }: IHeaderMenuIcon) {
         y="8"
         width="32"
         height="2"
-        fill={isHome ? "var(--color-white)" : "var(--color-black)"}
+        fill={transparent ? "var(--color-white)" : "var(--color-black)"}
       />
       <rect
         y="22"
         width="32"
         height="2"
-        fill={isHome ? "var(--color-white)" : "var(--color-black)"}
+        fill={transparent ? "var(--color-white)" : "var(--color-black)"}
       />
     </svg>
   );

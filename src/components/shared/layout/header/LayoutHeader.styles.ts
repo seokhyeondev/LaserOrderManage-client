@@ -2,15 +2,17 @@ import styled from "@emotion/styled";
 import { media } from "@/src/styles/theme";
 
 interface IHeaderProps {
-  isHome: boolean;
+  transparent: boolean;
 }
 
 export const Wrapper = styled.div<IHeaderProps>`
+  position: relative;
   margin: 0 auto;
-  height: 80px;
+  height: 100px;
+  z-index: 2;
   border-bottom: 1px solid var(--color-white);
   background-color: ${(props) =>
-    props.isHome ? "transparent" : "var(--color-white)"};
+    props.transparent ? "transparent" : "var(--color-white)"};
   ${media.pc} {
     padding-inline: 240px;
   }
@@ -35,7 +37,7 @@ export const MenuWrapper = styled.div<IHeaderProps>`
 
   & > a {
     color: ${(props) =>
-      props.isHome ? "var(--color-white)" : "var(--color-black)"};
+      props.transparent ? "var(--color-white)" : "var(--color-black)"};
   }
 `;
 

@@ -5,11 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface IMainLogoProps {
-  isHome: boolean;
+  transparent: boolean;
   onClick?: () => void;
 }
 
-export default function MainLogo({ isHome, onClick }: IMainLogoProps) {
+export default function MainLogo({ transparent, onClick }: IMainLogoProps) {
   return (
     <>
       <PcLogo onClick={onClick}>
@@ -17,7 +17,9 @@ export default function MainLogo({ isHome, onClick }: IMainLogoProps) {
           <Image
             width={161}
             height={31}
-            src={isHome ? "/images/mainLogoGray.png" : "/images/mainLogo.png"}
+            src={
+              transparent ? "/images/mainLogoGray.png" : "/images/mainLogo.png"
+            }
             alt="메인 로고"
             priority
           />
@@ -28,7 +30,9 @@ export default function MainLogo({ isHome, onClick }: IMainLogoProps) {
           <Image
             width={107}
             height={20}
-            src={isHome ? "/images/mainLogoGray.png" : "/images/mainLogo.png"}
+            src={
+              transparent ? "/images/mainLogoGray.png" : "/images/mainLogo.png"
+            }
             alt="메인 로고"
             priority
           />

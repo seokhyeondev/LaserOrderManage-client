@@ -1,3 +1,1 @@
-export default function Home() {
-  return <div>hi</div>;
-}
+export { default } from "@/src/components/units/main/Main.index";

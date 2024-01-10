@@ -20,18 +20,23 @@ const NAVIGATION_FACTORY_MENU = [
   { name: "거래 내역", page: AppPages.FACTORY_ORDER_LIST },
 ];
 
-export default function LayoutHeader() {
+interface ILayoutHeaderProps {
+  transparent: boolean;
+}
+
+export default function LayoutHeader({ transparent }: ILayoutHeaderProps) {
   const auth = useRecoilValue(authState);
   const [showMenu, setShowMenu] = useState(false);
-  const { asPath } = useRouter();
-  const isHome = asPath === AppPages.HOME;
 
   return (
     <>
-      <S.Wrapper className="flex-row-between-center" isHome={isHome}>
-        <MainLogo isHome={isHome} />
+      <S.Wrapper className="flex-row-between-center" transparent={transparent}>
+        <MainLogo transparent={transparent} />
         <S.PcMenu className="flex-row">
-          <S.MenuWrapper className="flex-row-align-center" isHome={false}>
+          <S.MenuWrapper
+            className="flex-row-align-center"
+            transparent={transparent}
+          >
             {auth.role === null &&
               NAVIGATION_DEFAULT_MENU.map((el) => (
                 <Link href={AppPages.LOGIN} key={el.page} className="bold18">
@@ -64,7 +69,7 @@ export default function LayoutHeader() {
         </S.PcMenu>
         {!showMenu && (
           <S.MenuIconWrapper onClick={() => setShowMenu(true)}>
-            <HeaderMenuIcon size={32} isHome={false} />
+            <HeaderMenuIcon size={32} transparent={transparent} />
           </S.MenuIconWrapper>
         )}
       </S.Wrapper>
