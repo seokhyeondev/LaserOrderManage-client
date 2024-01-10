@@ -55,6 +55,10 @@ export const globalStyles = css`
     font-size: 40px;
     font-weight: 700;
   }
+  .bold32 {
+    font-size: 32px;
+    font-weight: 700;
+  }
   .bold28 {
     font-size: 28px;
     font-weight: 700;

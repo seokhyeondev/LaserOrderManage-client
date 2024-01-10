@@ -6,12 +6,13 @@ import Link from "next/link";
 
 interface IMainLogoProps {
   isHome: boolean;
+  onClick?: () => void;
 }
 
-export default function MainLogo({ isHome }: IMainLogoProps) {
+export default function MainLogo({ isHome, onClick }: IMainLogoProps) {
   return (
     <>
-      <PcLogo>
+      <PcLogo onClick={onClick}>
         <Link href={AppPages.HOME}>
           <Image
             width={161}
@@ -22,7 +23,7 @@ export default function MainLogo({ isHome }: IMainLogoProps) {
           />
         </Link>
       </PcLogo>
-      <MoblieLogo>
+      <MoblieLogo onClick={onClick}>
         <Link href={AppPages.HOME}>
           <Image
             width={107}
