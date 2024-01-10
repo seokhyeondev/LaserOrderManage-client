@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Spacer from "../../spacer/Spacer.index";
 import Modal, { IModalProps } from "../Modal.index";
 import * as S from "./MypageModal.styles";
@@ -23,11 +23,15 @@ export default function EditAddressModal({
   onClose,
   onEdit,
 }: IEditAddressModalProps) {
-  const [zoneCode, setZoneCode] = useState(initData.zoneCode);
-  const [address, setAddress] = useState(initData.address);
-  const [detailAddress, onChangeDetailAddress] = useInput(
-    initData.detailAddress,
-  );
+  const [zoneCode, setZoneCode] = useState("");
+  const [address, setAddress] = useState("");
+  const [detailAddress, onChangeDetailAddress, setDetailAddress] = useInput();
+
+  useEffect(() => {
+    setZoneCode(initData.zoneCode);
+    setAddress(initData.address);
+    setDetailAddress(initData.detailAddress);
+  }, [isOpen]);
 
   const addressCallback = (data: Address) => {
     setZoneCode(data.zonecode);
@@ -39,6 +43,7 @@ export default function EditAddressModal({
     onEdit(zoneCode, address, detailAddress);
     onClose();
   };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <S.Wrapper>

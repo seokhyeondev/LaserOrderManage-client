@@ -25,7 +25,7 @@ export default function Login() {
     onSuccess: (data) => {
       setCredentials(data);
       setAuth({ isAuthenticated: true, ...data });
-      router.replace(String(redirect) || AppPages.HOME);
+      router.replace(redirect ? String(redirect) : AppPages.HOME);
     },
     onError: (error: AxiosError) => {
       if (error.response) {
