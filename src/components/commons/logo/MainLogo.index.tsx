@@ -21,7 +21,10 @@ export default function MainLogo({ transparent, onClick }: IMainLogoProps) {
               transparent ? "/images/mainLogoGray.png" : "/images/mainLogo.png"
             }
             alt="메인 로고"
-            priority
+            placeholder="blur"
+            blurDataURL={
+              transparent ? "/images/mainLogoGray.png" : "/images/mainLogo.png"
+            }
           />
         </Link>
       </PcLogo>
@@ -34,7 +37,10 @@ export default function MainLogo({ transparent, onClick }: IMainLogoProps) {
               transparent ? "/images/mainLogoGray.png" : "/images/mainLogo.png"
             }
             alt="메인 로고"
-            priority
+            placeholder="blur"
+            blurDataURL={
+              transparent ? "/images/mainLogoGray.png" : "/images/mainLogo.png"
+            }
           />
         </Link>
       </MoblieLogo>

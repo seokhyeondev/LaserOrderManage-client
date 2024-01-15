@@ -17,9 +17,9 @@ const OrderProcessSection = () => {
       <InnerWrapper className="flex-column-center">
         <Title>온라인으로 거래를 요청하세요.</Title>
         <Announce>
-          {"원하는 파트너를 직접 찾아 상담 및 견적을 "}
+          {"1분 거래 생성을 통해서 "}
           <Br />
-          {"요청할 수 있습니다."}
+          {"빠른 견적을 받아볼 수 있습니다."}
         </Announce>
         <Button className="bold18" onClick={() => router.push(path)}>
           견적 요청하기

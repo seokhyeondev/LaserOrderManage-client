@@ -14,7 +14,8 @@ export default function MainLogoDark() {
             height={31}
             src="/images/mainLogoDark.png"
             alt="메인 로고"
-            priority
+            placeholder="blur"
+            blurDataURL="/images/mainLogoDark.png"
           />
         </Link>
       </PcLogo>
@@ -25,7 +26,8 @@ export default function MainLogoDark() {
             height={20}
             src="/images/mainLogoDark.png"
             alt="메인 로고"
-            priority
+            placeholder="blur"
+            blurDataURL="/images/mainLogoDark.png"
           />
         </Link>
       </MoblieLogo>
