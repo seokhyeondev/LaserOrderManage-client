@@ -4,6 +4,7 @@ const IntroSection = dynamic(() => import("./IntroSection"));
 const PartnerSection = dynamic(() => import("./PartnerSection"));
 const OrderProcessSection = dynamic(() => import("./OrderProcessSection"));
 const PortfolioSection = dynamic(() => import("./PortfolioSection"));
+const VideoSection = dynamic(() => import("./VideoSection"));
 
 export default function Main() {
   return (
@@ -12,6 +13,7 @@ export default function Main() {
       <PartnerSection />
       <OrderProcessSection />
       <PortfolioSection />
+      <VideoSection />
     </>
   );
 }

@@ -2,25 +2,6 @@ import { media } from "@/src/styles/theme";
 import styled from "@emotion/styled";
 import { useState } from "react";
 
-const PortfolioSection = () => {
-  return (
-    <Wrapper>
-      <ItemsWrapper>
-        {MANUFACTURING_ITEMS.map((el) => (
-          <ManufacuringItem key={el.id} data={el} />
-        ))}
-      </ItemsWrapper>
-      <PortfolioItem />
-    </Wrapper>
-  );
-};
-
-type IManufacturingItem = {
-  id: number;
-  title: string;
-  content: string;
-};
-
 const MANUFACTURING_ITEMS: IManufacturingItem[] = [
   {
     id: 1,
@@ -41,28 +22,6 @@ const MANUFACTURING_ITEMS: IManufacturingItem[] = [
       "업계 최고의 용접기술과 로봇 용접기를 통해\n깔끔하고 세밀한 제품으로 제공해 드리고 있습니다.",
   },
 ];
-
-interface IManufacturingItemProps {
-  data: IManufacturingItem;
-}
-
-const ManufacuringItem = ({ data }: IManufacturingItemProps) => {
-  return (
-    <ItemWrapper url={`/images/manufacturing${data.id}.png`}>
-      <ItemOverlay />
-      <ItemContentWrapper>
-        <ItemTitle>{data.title}</ItemTitle>
-        <ItemContent>{data.content}</ItemContent>
-      </ItemContentWrapper>
-    </ItemWrapper>
-  );
-};
-
-type IPortfolioItem = {
-  title: string;
-  content: string;
-  imgUrl: string;
-};
 
 const PORTFOLIO_ITEMS: IPortfolioItem[] = [
   {
@@ -91,6 +50,31 @@ const PORTFOLIO_ITEMS: IPortfolioItem[] = [
     imgUrl: "/images/portfolio5.png",
   },
 ];
+
+const PortfolioSection = () => {
+  return (
+    <Wrapper>
+      <ItemsWrapper>
+        {MANUFACTURING_ITEMS.map((el) => (
+          <ManufacuringItem key={el.id} data={el} />
+        ))}
+      </ItemsWrapper>
+      <PortfolioItem />
+    </Wrapper>
+  );
+};
+
+const ManufacuringItem = ({ data }: IManufacturingItemProps) => {
+  return (
+    <ItemWrapper url={`/images/manufacturing${data.id}.png`}>
+      <ItemOverlay />
+      <ItemContentWrapper>
+        <ItemTitle>{data.title}</ItemTitle>
+        <ItemContent>{data.content}</ItemContent>
+      </ItemContentWrapper>
+    </ItemWrapper>
+  );
+};
 
 const PortfolioItem = () => {
   const [index, setIndex] = useState(0);
@@ -131,6 +115,103 @@ const PortfolioItem = () => {
     </PortfolioWrapper>
   );
 };
+
+type IManufacturingItem = {
+  id: number;
+  title: string;
+  content: string;
+};
+
+interface IManufacturingItemProps {
+  data: IManufacturingItem;
+}
+
+type IPortfolioItem = {
+  title: string;
+  content: string;
+  imgUrl: string;
+};
+
+const Wrapper = styled.section`
+  width: 100%;
+`;
+
+const ItemsWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  ${media.mobile} {
+    flex-direction: column;
+  }
+`;
+
+interface IItemWrapperProps {
+  url: string;
+}
+
+const ItemWrapper = styled.div<IItemWrapperProps>`
+  flex: 1;
+  height: 800px;
+  position: relative;
+  background-image: url(${(props) => props.url});
+  background-size: cover;
+  background-repeat: no-repeat;
+  ${media.mobile} {
+    height: 330px;
+  }
+`;
+
+const ItemOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+`;
+
+const ItemContentWrapper = styled.div`
+  position: relative;
+  z-index: 2;
+  margin: 0 auto;
+  padding-block: 342px;
+  ${media.tablet} {
+    padding-inline: 20px;
+  }
+  ${media.mobile} {
+    padding-block: 114px;
+  }
+`;
+
+const ItemTitle = styled.h5`
+  font-size: 36px;
+  line-height: 36px;
+  margin-bottom: 24px;
+  text-align: center;
+  color: var(--color-white);
+  ${media.mobile} {
+    font-size: 24px;
+    line-height: 28px;
+  }
+`;
+
+const ItemContent = styled.p`
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  text-align: center;
+  white-space: pre-line;
+  color: rgba(255, 255, 255, 0.7);
+  ${media.tablet} {
+    font-size: 18px;
+    line-height: 26px;
+  }
+  ${media.mobile} {
+    font-size: 16px;
+    line-height: 24px;
+  }
+`;
 
 const PortfolioWrapper = styled.div`
   display: flex;
@@ -235,87 +316,6 @@ const PortfolioImg = styled.div<IPortfolioImgProps>`
     height: 550px;
     padding-block: 224px;
     padding-left: 52px;
-  }
-`;
-
-const Wrapper = styled.section`
-  width: 100%;
-`;
-
-const ItemsWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  ${media.mobile} {
-    flex-direction: column;
-  }
-`;
-
-interface IItemWrapperProps {
-  url: string;
-}
-
-const ItemWrapper = styled.div<IItemWrapperProps>`
-  flex: 1;
-  height: 800px;
-  position: relative;
-  background-image: url(${(props) => props.url});
-  background-size: cover;
-  background-repeat: no-repeat;
-  ${media.mobile} {
-    height: 330px;
-  }
-`;
-
-const ItemOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1;
-`;
-
-const ItemContentWrapper = styled.div`
-  position: relative;
-  z-index: 2;
-  margin: 0 auto;
-  padding-block: 342px;
-  ${media.tablet} {
-    padding-inline: 20px;
-  }
-  ${media.mobile} {
-    padding-block: 114px;
-  }
-`;
-
-const ItemTitle = styled.h5`
-  font-size: 36px;
-  line-height: 36px;
-  margin-bottom: 24px;
-  text-align: center;
-  color: var(--color-white);
-  ${media.mobile} {
-    font-size: 24px;
-    line-height: 28px;
-  }
-`;
-
-const ItemContent = styled.p`
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 28px;
-  text-align: center;
-  white-space: pre-line;
-  color: rgba(255, 255, 255, 0.7);
-  ${media.tablet} {
-    font-size: 18px;
-    line-height: 26px;
-  }
-  ${media.mobile} {
-    font-size: 16px;
-    line-height: 24px;
   }
 `;
 

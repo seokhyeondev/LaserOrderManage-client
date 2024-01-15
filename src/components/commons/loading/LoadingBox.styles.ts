@@ -12,6 +12,7 @@ const spin = keyframes`
 
 interface IRingProps {
   size: string;
+  backgroundColor: string;
 }
 
 export const Ring = styled.div<IRingProps>`
@@ -20,7 +21,7 @@ export const Ring = styled.div<IRingProps>`
   width: 120px;
   height: 120px;
   border-radius: var(--border-radius);
-  background-color: var(--color-mediumGray);
+  background-color: ${(props) => props.backgroundColor};
 
   div {
     box-sizing: border-box;

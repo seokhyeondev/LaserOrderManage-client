@@ -39,7 +39,7 @@ export default function DrawingItem(props: IDrawingItemProps) {
     <S.Wrapper className="flex-row-between">
       <S.InfoWrapper className="flex-row">
         {props.data.isLoading ? (
-          <LoadingBox />
+          <LoadingBox backgroundColor="var(--color-mediumGray)" />
         ) : (
           <Image
             src={props.data.thumbnailUrl}
