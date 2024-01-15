@@ -6,7 +6,6 @@ import ScrollDownIcon from "../../commons/icons/ScrollDownIcon.index";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/src/store/auth";
 import { AppPages } from "@/src/lib/constants/appPages";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 const IntroSection = () => {

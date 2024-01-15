@@ -4,7 +4,6 @@ import { AppPages } from "@/src/lib/constants/appPages";
 import { IAuthState } from "@/src/store/auth";
 import { media } from "@/src/styles/theme";
 import styled from "@emotion/styled";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 interface IMobileMenu {
@@ -44,7 +43,10 @@ export default function MobileMenu({ show, auth, onClose }: IMobileMenu) {
     <Wrapper>
       <InnerWrapper>
         <Header className="flex-row-between-center">
-          <MainLogo isHome={false} onClick={() => movePage(AppPages.HOME)} />
+          <MainLogo
+            transparent={false}
+            onClick={() => movePage(AppPages.HOME)}
+          />
           <CloseIcon size={32} onClick={onClose} />
         </Header>
         <MenuWrapper className="flex-column-center">
@@ -106,7 +108,7 @@ const InnerWrapper = styled.div`
 
 const Header = styled.div`
   margin: 0 auto;
-  height: 80px;
+  height: 100px;
   border-bottom: 1px solid transparent;
   ${media.tablet} {
     padding-inline: 80px;
