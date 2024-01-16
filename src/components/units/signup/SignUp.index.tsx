@@ -23,6 +23,7 @@ import { IHttpStatus } from "@/src/lib/apis/axios";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { IJoinRequest } from "@/src/lib/apis/user/User.types";
 import { AppPages } from "@/src/lib/constants/appPages";
+import KumohHead from "../../shared/layout/head/NextHead.index";
 
 export default function SignUp() {
   const [sendCode, setSendCode] = useState(false);
@@ -215,115 +216,120 @@ export default function SignUp() {
   };
 
   return (
-    <S.Wrapper className="flex-center">
-      <S.FormWrapper className="flex-column-center">
-        <S.Header className="bold28">회원가입</S.Header>
-        <SignUpInput
-          placeHolder="이메일"
-          editable={!codeChecked && !codeSending}
-          isError={emailInputArgs.error}
-          needDefaultSpace={false}
-          errorMessage={emailInputArgs.errorMessage}
-          tailButtonTitle={
-            codeChecked ? "인증완료" : sendCode ? "재요청" : "인증요청"
-          }
-          tailButtonValidate={emailInputArgs.isCorrect && !codeChecked}
-          onChange={emailInputArgs.onChange}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") sendCodeToEmail();
-          }}
-          onClickTailButton={sendCodeToEmail}
-        />
-        {sendCode && !codeChecked ? (
+    <>
+      <KumohHead title="회원가입 | 금오거래센터" />
+      <S.Wrapper className="flex-center">
+        <S.FormWrapper className="flex-column-center">
+          <S.Header className="bold28">회원가입</S.Header>
           <SignUpInput
-            placeHolder="이메일 인증 코드"
-            hideInput={true}
-            editable={!codeChecked}
-            isError={codeInputArgs.error}
-            needDefaultSpace={true}
-            errorMessage={codeInputArgs.errorMessage}
-            tailButtonTitle="확인"
-            tailButtonValidate={codeInputArgs.isCorrect}
-            onChange={codeInputArgs.onChange}
+            placeHolder="이메일"
+            editable={!codeChecked && !codeSending}
+            isError={emailInputArgs.error}
+            needDefaultSpace={false}
+            errorMessage={emailInputArgs.errorMessage}
+            tailButtonTitle={
+              codeChecked ? "인증완료" : sendCode ? "재요청" : "인증요청"
+            }
+            tailButtonValidate={emailInputArgs.isCorrect && !codeChecked}
+            onChange={emailInputArgs.onChange}
             onKeyDown={(e) => {
-              if (e.key === "Enter") checkEmailCode();
+              if (e.key === "Enter") sendCodeToEmail();
             }}
-            onClickTailButton={checkEmailCode}
+            onClickTailButton={sendCodeToEmail}
           />
-        ) : (
-          <Spacer width="100%" height="24px" />
-        )}
-        <SignUpInput
-          placeHolder="비밀번호"
-          hideInput={true}
-          editable={true}
-          isError={passwordInputArgs.errorWithEmpty || passwordInputArgs.error}
-          errorMessage={passwordInputArgs.errorMessage}
-          needDefaultSpace={true}
-          onChange={passwordInputArgs.onChange}
-        />
-        <SignUpInput
-          placeHolder="비밀번호 확인"
-          hideInput={true}
-          editable={true}
-          isError={
-            (passwordInputArgs.value !== "" &&
-              rePasswordInputArgs.errorWithEmpty) ||
-            rePasswordInputArgs.error
-          }
-          errorMessage={rePasswordInputArgs.errorMessage}
-          needDefaultSpace={true}
-          onChange={rePasswordInputArgs.onChange}
-        />
-        <SignUpInput
-          placeHolder="이름"
-          editable={true}
-          value={nameInputArgs.value}
-          isError={nameInputArgs.error}
-          errorMessage={nameInputArgs.errorMessage}
-          needDefaultSpace={true}
-          maxLength={10}
-          onChange={nameInputArgs.onChange}
-        />
-        <SignUpInput
-          placeHolder="휴대폰 번호 (숫자만 입력해주세요)"
-          value={phoneInputArgs.value}
-          editable={true}
-          isError={phoneInputArgs.error}
-          errorMessage={phoneInputArgs.errorMessage}
-          needDefaultSpace={true}
-          onChange={phoneInputArgs.onChange}
-        />
-        <SignUpInput
-          placeHolder="업체명 (선택)"
-          value={companyInputArgs.value}
-          editable={true}
-          needDefaultSpace={true}
-          maxLength={20}
-          onChange={companyInputArgs.onChange}
-        />
-        <SignUpInput
-          placeHolder="주소 (배송지)"
-          value={addressInputArgs.value}
-          editable={true}
-          readonly={true}
-          tailButtonTitle="검색하기"
-          isError={addressInputArgs.error}
-          errorMessage={addressInputArgs.errorMessage}
-          needDefaultSpace={false}
-          onClickInput={openPostPopup}
-        />
-        <SignUpInput
-          placeHolder="상세 주소 (선택)"
-          editable={true}
-          needDefaultSpace={false}
-          onChange={onChangeDetailAddress}
-        />
-        <Spacer width="100%" height="100px" />
-        <S.SignUpButton className="bold18" onClick={joinAccount}>
-          가입하기
-        </S.SignUpButton>
-      </S.FormWrapper>
-    </S.Wrapper>
+          {sendCode && !codeChecked ? (
+            <SignUpInput
+              placeHolder="이메일 인증 코드"
+              hideInput={true}
+              editable={!codeChecked}
+              isError={codeInputArgs.error}
+              needDefaultSpace={true}
+              errorMessage={codeInputArgs.errorMessage}
+              tailButtonTitle="확인"
+              tailButtonValidate={codeInputArgs.isCorrect}
+              onChange={codeInputArgs.onChange}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") checkEmailCode();
+              }}
+              onClickTailButton={checkEmailCode}
+            />
+          ) : (
+            <Spacer width="100%" height="24px" />
+          )}
+          <SignUpInput
+            placeHolder="비밀번호"
+            hideInput={true}
+            editable={true}
+            isError={
+              passwordInputArgs.errorWithEmpty || passwordInputArgs.error
+            }
+            errorMessage={passwordInputArgs.errorMessage}
+            needDefaultSpace={true}
+            onChange={passwordInputArgs.onChange}
+          />
+          <SignUpInput
+            placeHolder="비밀번호 확인"
+            hideInput={true}
+            editable={true}
+            isError={
+              (passwordInputArgs.value !== "" &&
+                rePasswordInputArgs.errorWithEmpty) ||
+              rePasswordInputArgs.error
+            }
+            errorMessage={rePasswordInputArgs.errorMessage}
+            needDefaultSpace={true}
+            onChange={rePasswordInputArgs.onChange}
+          />
+          <SignUpInput
+            placeHolder="이름"
+            editable={true}
+            value={nameInputArgs.value}
+            isError={nameInputArgs.error}
+            errorMessage={nameInputArgs.errorMessage}
+            needDefaultSpace={true}
+            maxLength={10}
+            onChange={nameInputArgs.onChange}
+          />
+          <SignUpInput
+            placeHolder="휴대폰 번호 (숫자만 입력해주세요)"
+            value={phoneInputArgs.value}
+            editable={true}
+            isError={phoneInputArgs.error}
+            errorMessage={phoneInputArgs.errorMessage}
+            needDefaultSpace={true}
+            onChange={phoneInputArgs.onChange}
+          />
+          <SignUpInput
+            placeHolder="업체명 (선택)"
+            value={companyInputArgs.value}
+            editable={true}
+            needDefaultSpace={true}
+            maxLength={20}
+            onChange={companyInputArgs.onChange}
+          />
+          <SignUpInput
+            placeHolder="주소 (배송지)"
+            value={addressInputArgs.value}
+            editable={true}
+            readonly={true}
+            tailButtonTitle="검색하기"
+            isError={addressInputArgs.error}
+            errorMessage={addressInputArgs.errorMessage}
+            needDefaultSpace={false}
+            onClickInput={openPostPopup}
+          />
+          <SignUpInput
+            placeHolder="상세 주소 (선택)"
+            editable={true}
+            needDefaultSpace={false}
+            onChange={onChangeDetailAddress}
+          />
+          <Spacer width="100%" height="100px" />
+          <S.SignUpButton className="bold18" onClick={joinAccount}>
+            가입하기
+          </S.SignUpButton>
+        </S.FormWrapper>
+      </S.Wrapper>
+    </>
   );
 }

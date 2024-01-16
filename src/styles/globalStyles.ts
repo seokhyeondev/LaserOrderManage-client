@@ -129,13 +129,6 @@ export const globalStyles = css`
     font-weight: 400;
   }
 
-  /* widget 요소 */
-  .page-title {
-    font-size: 40px;
-    font-weight: 700;
-    margin-bottom: 43px;
-  }
-
   /* signatuer canvas */
   .signatureCanvas {
     width: 100%;

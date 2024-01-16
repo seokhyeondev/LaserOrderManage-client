@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { useInput } from "@/src/lib/hooks/useInput";
 import { emailRegex, passwordRegex } from "@/src/lib/constants/regex";
 import { AppPages } from "@/src/lib/constants/appPages";
+import KumohHead from "../../shared/layout/head/NextHead.index";
 
 export default function Login() {
   const [email, onChangeEmail] = useInput();
@@ -62,37 +63,40 @@ export default function Login() {
   };
 
   return (
-    <S.Wrapper className="flex-center">
-      <S.FormWrapper className="flex-column-center">
-        <S.Header className="bold28">로그인</S.Header>
-        <S.LoginInput
-          className="medium18"
-          placeholder="이메일"
-          type="text"
-          onChange={onChangeEmail}
-          onKeyDown={onActiveEnter}
-        />
-        <S.LoginInput
-          className="medium18"
-          placeholder="비밀번호"
-          type="password"
-          onChange={onChangePassword}
-          onKeyDown={onActiveEnter}
-        />
-        <S.ErrorMessage className="regular14">{errorMsg}</S.ErrorMessage>
-        <S.LoginButton className="bold18" onClick={onClickLogin}>
-          로그인
-        </S.LoginButton>
-        <S.MenuWrapper className="flex-center regular14">
-          <a onClick={() => router.push(AppPages.FIND_EMAIL)}>이메일 찾기</a>
-          <S.MenuDivider>|</S.MenuDivider>
-          <a onClick={() => router.push(AppPages.FIND_PASSWORD)}>
-            비밀번호 찾기
-          </a>
-          <S.MenuDivider>|</S.MenuDivider>
-          <a onClick={() => router.push(AppPages.SIGN_UP)}>회원가입</a>
-        </S.MenuWrapper>
-      </S.FormWrapper>
-    </S.Wrapper>
+    <>
+      <KumohHead title="로그인 | 금오거래센터" />
+      <S.Wrapper className="flex-center">
+        <S.FormWrapper className="flex-column-center">
+          <S.Header className="bold28">로그인</S.Header>
+          <S.LoginInput
+            className="medium18"
+            placeholder="이메일"
+            type="text"
+            onChange={onChangeEmail}
+            onKeyDown={onActiveEnter}
+          />
+          <S.LoginInput
+            className="medium18"
+            placeholder="비밀번호"
+            type="password"
+            onChange={onChangePassword}
+            onKeyDown={onActiveEnter}
+          />
+          <S.ErrorMessage className="regular14">{errorMsg}</S.ErrorMessage>
+          <S.LoginButton className="bold18" onClick={onClickLogin}>
+            로그인
+          </S.LoginButton>
+          <S.MenuWrapper className="flex-center regular14">
+            <a onClick={() => router.push(AppPages.FIND_EMAIL)}>이메일 찾기</a>
+            <S.MenuDivider>|</S.MenuDivider>
+            <a onClick={() => router.push(AppPages.FIND_PASSWORD)}>
+              비밀번호 찾기
+            </a>
+            <S.MenuDivider>|</S.MenuDivider>
+            <a onClick={() => router.push(AppPages.SIGN_UP)}>회원가입</a>
+          </S.MenuWrapper>
+        </S.FormWrapper>
+      </S.Wrapper>
+    </>
   );
 }

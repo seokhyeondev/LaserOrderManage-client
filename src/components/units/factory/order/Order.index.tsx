@@ -1,7 +1,10 @@
 import OrderSearchbar from "@/src/components/commons/searchbars/order/OrderSearchbar.index";
 import OrderTab from "@/src/components/commons/tabs/order/OrderTab.index";
 import { ORDER_TAB } from "@/src/components/commons/tabs/order/OrderTabQueries";
-import { BodyWrapper } from "@/src/components/commons/wrapper/BodyWrapper.styles";
+import {
+  BodyWrapper,
+  PageTitle,
+} from "@/src/components/commons/wrapper/BodyWrapper.styles";
 import FactoryOrderList from "./List/OrderList.index";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
 import OrderFilterWithDate from "@/src/components/commons/filters/order/OrderFilterWithDate.index";
@@ -19,6 +22,7 @@ import OrderPagination from "@/src/components/commons/paginations/order/OrderPag
 import { GetServerSideProps } from "next";
 import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 import { AppPages } from "@/src/lib/constants/appPages";
+import KumohHead from "@/src/components/shared/layout/head/NextHead.index";
 
 export default function Order() {
   const [tab, onTabClick] = useOrderTab(ORDER_TAB[0]);
@@ -48,8 +52,9 @@ export default function Order() {
 
   return (
     <>
+      <KumohHead title="거래 내역 | 금오거래센터" />
       <BodyWrapper className="flex-column-center">
-        <p className="page-title">거래 내역</p>
+        <PageTitle className="bold40">거래 내역</PageTitle>
         <OrderTab tabs={ORDER_TAB} selectedTab={tab} onTabClick={onTabClick} />
         <OrderSearchbar
           placeholder="업체, 담당자, 거래 이름으로 검색하기"

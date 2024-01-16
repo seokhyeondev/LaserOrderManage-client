@@ -18,6 +18,7 @@ import { GetServerSideProps } from "next";
 import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 import { AppPages } from "@/src/lib/constants/appPages";
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
+import KumohHead from "../../shared/layout/head/NextHead.index";
 
 type Acquirer = {
   name: string;
@@ -97,81 +98,86 @@ export default function Acquirer() {
   };
 
   return (
-    <S.Wrapper>
-      <S.Title className="bold24">인수자 서명하기</S.Title>
-      <Spacer width="100%" height="64px" />
-      {data && (
-        <>
-          <S.Label className="regular16">거래명</S.Label>
-          <S.Content className="medium20">기계 시스템 제작 프로젝트</S.Content>
-          <S.Label className="regular16">고객 정보</S.Label>
-          <S.Content className="medium20">김우리 · 우리 기술 (주)</S.Content>
-          <S.Label className="regular16">고객 휴대폰 번호</S.Label>
-          <S.Content className="medium20">010-1234-1234</S.Content>
-          <S.Label className="regular16">발주서 정보</S.Label>
-          <S.FileName
-            className="medium16 flex-column"
-            href={data.fileUrl}
-            download={true}
-            target="_blank"
-          >
-            {data.fileName}
-          </S.FileName>
-        </>
-      )}
-      <div className="flex-row">
-        <S.Label className="regular16">인수자 이름</S.Label>
-        <S.Required className="regular16">*</S.Required>
-      </div>
-      <S.Input
-        className="medium18"
-        placeholder="이름을 입력하세요"
-        value={name}
-        onChange={onChangeName}
-        maxLength={10}
-        disabled={isSubmit}
-      />
-      <div className="flex-row">
-        <S.Label className="regular16">인수자 휴대폰 번호</S.Label>
-        <S.Required className="regular16">*</S.Required>
-      </div>
-      <S.Input
-        className="medium18"
-        placeholder="휴대폰 번호를 입력하세요 (숫자만)"
-        type="tel"
-        value={phone}
-        onChange={onChangePhone}
-        disabled={isSubmit}
-      />
-      <div className="flex-row-between-center">
+    <>
+      <KumohHead title="인수자 서명하기 | 금오거래센터" />
+      <S.Wrapper>
+        <S.Title className="bold24">인수자 서명하기</S.Title>
+        <Spacer width="100%" height="64px" />
+        {data && (
+          <>
+            <S.Label className="regular16">거래명</S.Label>
+            <S.Content className="medium20">
+              기계 시스템 제작 프로젝트
+            </S.Content>
+            <S.Label className="regular16">고객 정보</S.Label>
+            <S.Content className="medium20">김우리 · 우리 기술 (주)</S.Content>
+            <S.Label className="regular16">고객 휴대폰 번호</S.Label>
+            <S.Content className="medium20">010-1234-1234</S.Content>
+            <S.Label className="regular16">발주서 정보</S.Label>
+            <S.FileName
+              className="medium16 flex-column"
+              href={data.fileUrl}
+              download={true}
+              target="_blank"
+            >
+              {data.fileName}
+            </S.FileName>
+          </>
+        )}
         <div className="flex-row">
-          <S.Label className="regular16">인수자 서명</S.Label>
+          <S.Label className="regular16">인수자 이름</S.Label>
           <S.Required className="regular16">*</S.Required>
         </div>
-        <S.RedoWrapper
-          className="flex-row-align-center"
-          onClick={onResetSignature}
+        <S.Input
+          className="medium18"
+          placeholder="이름을 입력하세요"
+          value={name}
+          onChange={onChangeName}
+          maxLength={10}
+          disabled={isSubmit}
+        />
+        <div className="flex-row">
+          <S.Label className="regular16">인수자 휴대폰 번호</S.Label>
+          <S.Required className="regular16">*</S.Required>
+        </div>
+        <S.Input
+          className="medium18"
+          placeholder="휴대폰 번호를 입력하세요 (숫자만)"
+          type="tel"
+          value={phone}
+          onChange={onChangePhone}
+          disabled={isSubmit}
+        />
+        <div className="flex-row-between-center">
+          <div className="flex-row">
+            <S.Label className="regular16">인수자 서명</S.Label>
+            <S.Required className="regular16">*</S.Required>
+          </div>
+          <S.RedoWrapper
+            className="flex-row-align-center"
+            onClick={onResetSignature}
+          >
+            <RedoIcon size={16} />
+            <Spacer width="5px" height="100%" />
+            <S.Label className="medium16">서명 초기화</S.Label>
+          </S.RedoWrapper>
+        </div>
+        <SignitureCanvas
+          ref={canvasRef}
+          onBegin={() => setIsSign(true)}
+          clearOnResize={false}
+          canvasProps={{ className: "signatureCanvas" }}
+        />
+        <Spacer width="100%" height="180px" />
+        <S.Button
+          className="bold16"
+          disabled={!isSubmitAvailable}
+          onClick={onSubmit}
         >
-          <RedoIcon size={16} />
-          <Spacer width="5px" height="100%" />
-          <S.Label className="medium16">서명 초기화</S.Label>
-        </S.RedoWrapper>
-      </div>
-      <SignitureCanvas
-        ref={canvasRef}
-        onBegin={() => setIsSign(true)}
-        clearOnResize={false}
-        canvasProps={{ className: "signatureCanvas" }}
-      />
-      <Spacer width="100%" height="180px" />
-      <S.Button
-        className="bold16"
-        disabled={!isSubmitAvailable}
-        onClick={onSubmit}
-      >
-        {isSubmit ? "서명 완료" : "서명하기"}
-      </S.Button>
-    </S.Wrapper>
+          {isSubmit ? "서명 완료" : "서명하기"}
+        </S.Button>
+      </S.Wrapper>
+    </>
   );
 }
 

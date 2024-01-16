@@ -1,6 +1,9 @@
 import { NEW_ORDER_TAB } from "@/src/components/commons/tabs/order/OrderTabQueries";
 import OrderTab from "@/src/components/commons/tabs/order/OrderTab.index";
-import { BodyWrapper } from "@/src/components/commons/wrapper/BodyWrapper.styles";
+import {
+  BodyWrapper,
+  PageTitle,
+} from "@/src/components/commons/wrapper/BodyWrapper.styles";
 import OrderFilter from "@/src/components/commons/filters/order/OrderFilter.index";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
 import { useOrderSelectFilter } from "@/src/lib/hooks/useFilter";
@@ -19,6 +22,7 @@ import OrderPagination from "@/src/components/commons/paginations/order/OrderPag
 import { GetServerSideProps } from "next";
 import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 import { AppPages } from "@/src/lib/constants/appPages";
+import KumohHead from "@/src/components/shared/layout/head/NextHead.index";
 
 export default function Order() {
   const [tab, onTabClick] = useOrderTab(NEW_ORDER_TAB[0]);
@@ -52,8 +56,9 @@ export default function Order() {
 
   return (
     <>
+      <KumohHead title="신규 거래 목록 | 금오거래센터" />
       <BodyWrapper className="flex-column-center">
-        <p className="page-title">신규 거래 목록</p>
+        <PageTitle className="bold40">신규 거래 목록</PageTitle>
         <OrderTab
           tabs={NEW_ORDER_TAB}
           selectedTab={tab}
