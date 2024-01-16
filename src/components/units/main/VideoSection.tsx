@@ -33,7 +33,7 @@ const VideoSection = () => {
           <Video
             src="https://www.youtube.com/embed/7T146xdaREs"
             title="intro-video"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
             allowFullScreen
           />
         ) : (
@@ -56,7 +56,7 @@ const Wrapper = styled.section`
 const Title = styled.h2`
   font-size: 32px;
   line-height: 24px;
-  color: "#333";
+  color: #333;
   text-align: center;
   margin-bottom: 48px;
   ${media.mobile} {
