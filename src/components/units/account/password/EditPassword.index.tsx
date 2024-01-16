@@ -1,7 +1,7 @@
 import { useSearchParams } from "next/navigation";
 import * as S from "@/src/components/units/account/Accout.styles";
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AccountInput from "@/src/components/commons/inputs/account/AccountInput.index";
 import { useInputWithError } from "@/src/lib/hooks/useInput";
 import { passwordRegex } from "@/src/lib/constants/regex";
@@ -10,6 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { UserApi } from "@/src/lib/apis/user/UserApi";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { AppPages } from "@/src/lib/constants/appPages";
+import KumohHead from "@/src/components/shared/layout/head/NextHead.index";
 
 export default function EditPassword() {
   const searchParams = useSearchParams();
@@ -51,53 +52,56 @@ export default function EditPassword() {
   };
 
   return (
-    <S.Wrapper className="flex-center">
-      <S.FormWrapper>
-        <S.Title className="bold28">비밀번호 변경</S.Title>
-        <Spacer width="100%" height="52px" />
-        {!complete && (
-          <>
-            <AccountInput
-              placeholder="새 비밀번호"
-              value={passwordArgs.value}
-              isError={passwordArgs.error || passwordArgs.errorWithEmpty}
-              errorMessage={passwordArgs.errorMessage}
-              hideValue={true}
-              onChange={passwordArgs.onChange}
-            />
-            <Spacer width="100%" height="14px" />
-            <AccountInput
-              placeholder="새 비밀번호 확인"
-              value={rePasswordArgs.value}
-              isError={
-                rePasswordArgs.error ||
-                (passwordArgs.value !== "" && rePasswordArgs.errorWithEmpty)
-              }
-              errorMessage={rePasswordArgs.errorMessage}
-              hideValue={true}
-              onChange={rePasswordArgs.onChange}
-            />
-            <Spacer width="100%" height="40px" />
-            <S.Button className="bold18" onClick={onSubmit}>
-              비밀번호 변경
-            </S.Button>
-          </>
-        )}
-        {complete && (
-          <>
-            <S.ResultWrapper>
-              <p className="regular16">비밀번호가 변경됐습니다</p>
-            </S.ResultWrapper>
-            <Spacer width="100%" height="60px" />
-            <S.Button
-              className="bold18"
-              onClick={() => router.replace(AppPages.LOGIN)}
-            >
-              로그인
-            </S.Button>
-          </>
-        )}
-      </S.FormWrapper>
-    </S.Wrapper>
+    <>
+      <KumohHead title="비밀번호 변경 | 금오거래센터" />
+      <S.Wrapper className="flex-center">
+        <S.FormWrapper>
+          <S.Title className="bold28">비밀번호 변경</S.Title>
+          <Spacer width="100%" height="52px" />
+          {!complete && (
+            <>
+              <AccountInput
+                placeholder="새 비밀번호"
+                value={passwordArgs.value}
+                isError={passwordArgs.error || passwordArgs.errorWithEmpty}
+                errorMessage={passwordArgs.errorMessage}
+                hideValue={true}
+                onChange={passwordArgs.onChange}
+              />
+              <Spacer width="100%" height="14px" />
+              <AccountInput
+                placeholder="새 비밀번호 확인"
+                value={rePasswordArgs.value}
+                isError={
+                  rePasswordArgs.error ||
+                  (passwordArgs.value !== "" && rePasswordArgs.errorWithEmpty)
+                }
+                errorMessage={rePasswordArgs.errorMessage}
+                hideValue={true}
+                onChange={rePasswordArgs.onChange}
+              />
+              <Spacer width="100%" height="40px" />
+              <S.Button className="bold18" onClick={onSubmit}>
+                비밀번호 변경
+              </S.Button>
+            </>
+          )}
+          {complete && (
+            <>
+              <S.ResultWrapper>
+                <p className="regular16">비밀번호가 변경됐습니다</p>
+              </S.ResultWrapper>
+              <Spacer width="100%" height="60px" />
+              <S.Button
+                className="bold18"
+                onClick={() => router.replace(AppPages.LOGIN)}
+              >
+                로그인
+              </S.Button>
+            </>
+          )}
+        </S.FormWrapper>
+      </S.Wrapper>
+    </>
   );
 }

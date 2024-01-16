@@ -4,6 +4,6 @@ export const customeMediaQuery = (minWidth: number): string =>
 export const media = {
   custom: customeMediaQuery,
   pc: customeMediaQuery(1024),
-  tablet: customeMediaQuery(780),
+  tablet: `@media (max-width: 1023px)`,
   mobile: `@media (max-width: 779px)`,
 };

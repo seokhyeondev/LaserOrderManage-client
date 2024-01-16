@@ -14,6 +14,7 @@ import { CustomerApi } from "@/src/lib/apis/user/customer/CustomerApi";
 import { FactoryApi } from "@/src/lib/apis/user/factory/FactoryApi";
 import { AppPages } from "@/src/lib/constants/appPages";
 import { UserType } from "@/src/lib/apis/user/User.types";
+import KumohHead from "../../shared/layout/head/NextHead.index";
 
 export default function MyPage() {
   const [currentPage, setCurrentPage] = useState<IMyPageMenu>("Account");
@@ -26,16 +27,19 @@ export default function MyPage() {
   };
 
   return (
-    <Wrapper className="flex-row">
-      <MyPageMenu
-        currentPage={currentPage}
-        role={auth.role}
-        onChangePage={onChangePage}
-      />
-      {currentPage === "Account" && <AccountPage role={auth.role} />}
-      {currentPage === "Delivery" && <DeliveryPage />}
-      {currentPage === "MangerList" && <ManagerListPage />}
-    </Wrapper>
+    <>
+      <KumohHead title="마이페이지 | 금오거래센터" />
+      <Wrapper className="flex-row">
+        <MyPageMenu
+          currentPage={currentPage}
+          role={auth.role}
+          onChangePage={onChangePage}
+        />
+        {currentPage === "Account" && <AccountPage role={auth.role} />}
+        {currentPage === "Delivery" && <DeliveryPage />}
+        {currentPage === "MangerList" && <ManagerListPage />}
+      </Wrapper>
+    </>
   );
 }
 

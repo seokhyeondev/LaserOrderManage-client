@@ -18,6 +18,7 @@ import {
   ISubCreateProgressBar,
 } from "@/src/components/commons/progressbar/create/CreateProgressbar.types";
 import { first, last } from "@/src/lib/utils/extensions";
+import KumohHead from "@/src/components/shared/layout/head/NextHead.index";
 
 const CREATE_ORDER_PAGES = [BASIC_INFO, DETAIL_INFO, DELIVER_INFO];
 
@@ -80,27 +81,30 @@ export default function CreateOrder() {
   };
 
   return (
-    <S.Wrapper>
-      <S.BodyWrapper className="flex-row">
-        <CreateOrderMenu
-          pages={CREATE_ORDER_PAGES}
-          currentPageId={currentPage.id}
-          currentSubPageId={currentSubPage.id}
-        />
-        <Spacer width="15px" height="100%" />
-        <S.MainWrapper className="flex-column">
-          {currentPage === BASIC_INFO && <BasicInfo onNext={moveNextPage} />}
-          {currentPage === DETAIL_INFO && currentSubPage === DRAWING_INFO && (
-            <DrawingInfo onNext={moveNextPage} onBefore={moveBeforePage} />
-          )}
-          {currentPage === DETAIL_INFO && currentSubPage === REQUEST_INFO && (
-            <RequestInfo onNext={moveNextPage} onBefore={moveBeforePage} />
-          )}
-          {currentPage === DELIVER_INFO && (
-            <DeliveryInfo onBefore={moveBeforePage} />
-          )}
-        </S.MainWrapper>
-      </S.BodyWrapper>
-    </S.Wrapper>
+    <>
+      <KumohHead title="견적 요청하기 | 금오거래센터" />
+      <S.Wrapper>
+        <S.BodyWrapper className="flex-row">
+          <CreateOrderMenu
+            pages={CREATE_ORDER_PAGES}
+            currentPageId={currentPage.id}
+            currentSubPageId={currentSubPage.id}
+          />
+          <Spacer width="15px" height="100%" />
+          <S.MainWrapper className="flex-column">
+            {currentPage === BASIC_INFO && <BasicInfo onNext={moveNextPage} />}
+            {currentPage === DETAIL_INFO && currentSubPage === DRAWING_INFO && (
+              <DrawingInfo onNext={moveNextPage} onBefore={moveBeforePage} />
+            )}
+            {currentPage === DETAIL_INFO && currentSubPage === REQUEST_INFO && (
+              <RequestInfo onNext={moveNextPage} onBefore={moveBeforePage} />
+            )}
+            {currentPage === DELIVER_INFO && (
+              <DeliveryInfo onBefore={moveBeforePage} />
+            )}
+          </S.MainWrapper>
+        </S.BodyWrapper>
+      </S.Wrapper>
+    </>
   );
 }

@@ -1,5 +1,6 @@
 import AccountInput from "@/src/components/commons/inputs/account/AccountInput.index";
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
+import KumohHead from "@/src/components/shared/layout/head/NextHead.index";
 import * as S from "@/src/components/units/account/Accout.styles";
 import { IHttpStatus } from "@/src/lib/apis/axios";
 import { UserApi } from "@/src/lib/apis/user/UserApi";
@@ -55,43 +56,46 @@ export default function FindPassword() {
   };
 
   return (
-    <S.Wrapper className="flex-center">
-      <S.FormWrapper>
-        <S.Title className="bold28">비밀번호 찾기</S.Title>
-        <Spacer width="100%" height="52px" />
-        {!sendCode && (
-          <>
-            <AccountInput
-              placeholder="이메일"
-              isError={emailInputArgs.error}
-              errorMessage={emailInputArgs.errorMessage}
-              tailButtonTitle="메일전송"
-              tailButtonValidate={emailInputArgs.isCorrect}
-              disabled={codeSending}
-              onChange={emailInputArgs.onChange}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") sendCodeToEmail();
-              }}
-              onClickTailButton={sendCodeToEmail}
-            />
-            <Spacer width="100%" height="40px" />
-          </>
-        )}
-        {sendCode && (
-          <>
-            <S.ResultWrapper>
-              <p className="regular16">{`회원님의 이메일 "${emailInputArgs.value}"에서 비밀번호를 변경해주세요`}</p>
-            </S.ResultWrapper>
-            <Spacer width="100%" height="60px" />
-            <S.Button
-              className="bold18"
-              onClick={() => router.replace(AppPages.LOGIN)}
-            >
-              로그인
-            </S.Button>
-          </>
-        )}
-      </S.FormWrapper>
-    </S.Wrapper>
+    <>
+      <KumohHead title="비밀번호 찾기 | 금오거래센터" />
+      <S.Wrapper className="flex-center">
+        <S.FormWrapper>
+          <S.Title className="bold28">비밀번호 찾기</S.Title>
+          <Spacer width="100%" height="52px" />
+          {!sendCode && (
+            <>
+              <AccountInput
+                placeholder="이메일"
+                isError={emailInputArgs.error}
+                errorMessage={emailInputArgs.errorMessage}
+                tailButtonTitle="메일전송"
+                tailButtonValidate={emailInputArgs.isCorrect}
+                disabled={codeSending}
+                onChange={emailInputArgs.onChange}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") sendCodeToEmail();
+                }}
+                onClickTailButton={sendCodeToEmail}
+              />
+              <Spacer width="100%" height="40px" />
+            </>
+          )}
+          {sendCode && (
+            <>
+              <S.ResultWrapper>
+                <p className="regular16">{`회원님의 이메일 "${emailInputArgs.value}"에서 비밀번호를 변경해주세요`}</p>
+              </S.ResultWrapper>
+              <Spacer width="100%" height="60px" />
+              <S.Button
+                className="bold18"
+                onClick={() => router.replace(AppPages.LOGIN)}
+              >
+                로그인
+              </S.Button>
+            </>
+          )}
+        </S.FormWrapper>
+      </S.Wrapper>
+    </>
   );
 }

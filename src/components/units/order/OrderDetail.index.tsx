@@ -27,6 +27,7 @@ import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 import { GetServerSideProps } from "next";
 import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 import { AppPages } from "@/src/lib/constants/appPages";
+import KumohHead from "../../shared/layout/head/NextHead.index";
 
 export default function OrderDetai() {
   const router = useRouter();
@@ -101,130 +102,133 @@ export default function OrderDetai() {
   });
 
   return (
-    <S.Wrapper className="flex-row">
-      <S.BodyWrapper>
-        {data && (
-          <>
-            <OrderInfoSection
-              sectionRef={scrollArgs.orderInfoRef}
-              data={data.order}
-              status={status}
-            />
-            {auth.role === "ROLE_FACTORY" && status !== "거래 완료" && (
-              <>
-                <Spacer width="100%" height="48px" />
-                <UrgentSection
-                  isUrgent={data.order.isUrgent}
-                  orderId={String(orderId)}
-                />
-              </>
-            )}
-            <Spacer width="100%" height="60px" />
-            <CustomerInfoSection data={data.customer} />
-            <Spacer width="100%" height="60px" />
-            <DeliveryInfoSection
-              data={data.order.deliveryAddress}
-              role={auth.role}
-              status={status}
-              orderId={String(orderId)}
-            />
-            <Spacer width="100%" height="60px" />
-            <DrawingInfoSection
-              sectionRef={scrollArgs.drawingInfoRef}
-              data={data.order.drawingList}
-              role={auth.role}
-              status={status}
-              orderId={String(orderId)}
-            />
-            <Spacer width="100%" height="60px" />
-            <QuotationInfoSection
-              sectionRef={scrollArgs.quotationInfoRef}
-              data={data.quotation}
-              role={auth.role}
-              status={status}
-              orderId={String(orderId)}
-              scrollPage={() =>
-                scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
-              }
-            />
-            <Spacer width="100%" height="60px" />
-            <PurchaseOrderInfoSection
-              data={data.purchaseOrder}
-              name={data.customer.name}
-              role={auth.role}
-              status={status}
-              orderId={String(orderId)}
-              minDate={data.quotation?.deliveryDate}
-              scrollPage={() =>
-                scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
-              }
-            />
-          </>
-        )}
-      </S.BodyWrapper>
-      <S.MenuWrapper
-        className="flex-column-start"
-        expanded={scrollArgs.menuExpanded}
-      >
-        <OrderDetailMenu
-          focusedSection={scrollArgs.focusedSection}
-          onOrderInfo={() =>
-            scrollArgs.scrollToSection(scrollArgs.orderInfoRef)
-          }
-          onDrawingInfo={() =>
-            scrollArgs.scrollToSection(scrollArgs.drawingInfoRef)
-          }
-          onQuotationInfo={() =>
-            scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
-          }
-        />
-        <Spacer width="100%" height="10px" />
-        <OrderCommentMenu
+    <>
+      <KumohHead title={data?.order.name} />
+      <S.Wrapper className="flex-row">
+        <S.BodyWrapper>
+          {data && (
+            <>
+              <OrderInfoSection
+                sectionRef={scrollArgs.orderInfoRef}
+                data={data.order}
+                status={status}
+              />
+              {auth.role === "ROLE_FACTORY" && status !== "거래 완료" && (
+                <>
+                  <Spacer width="100%" height="48px" />
+                  <UrgentSection
+                    isUrgent={data.order.isUrgent}
+                    orderId={String(orderId)}
+                  />
+                </>
+              )}
+              <Spacer width="100%" height="60px" />
+              <CustomerInfoSection data={data.customer} />
+              <Spacer width="100%" height="60px" />
+              <DeliveryInfoSection
+                data={data.order.deliveryAddress}
+                role={auth.role}
+                status={status}
+                orderId={String(orderId)}
+              />
+              <Spacer width="100%" height="60px" />
+              <DrawingInfoSection
+                sectionRef={scrollArgs.drawingInfoRef}
+                data={data.order.drawingList}
+                role={auth.role}
+                status={status}
+                orderId={String(orderId)}
+              />
+              <Spacer width="100%" height="60px" />
+              <QuotationInfoSection
+                sectionRef={scrollArgs.quotationInfoRef}
+                data={data.quotation}
+                role={auth.role}
+                status={status}
+                orderId={String(orderId)}
+                scrollPage={() =>
+                  scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
+                }
+              />
+              <Spacer width="100%" height="60px" />
+              <PurchaseOrderInfoSection
+                data={data.purchaseOrder}
+                name={data.customer.name}
+                role={auth.role}
+                status={status}
+                orderId={String(orderId)}
+                minDate={data.quotation?.deliveryDate}
+                scrollPage={() =>
+                  scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
+                }
+              />
+            </>
+          )}
+        </S.BodyWrapper>
+        <S.MenuWrapper
+          className="flex-column-start"
           expanded={scrollArgs.menuExpanded}
-          orderId={String(orderId)}
+        >
+          <OrderDetailMenu
+            focusedSection={scrollArgs.focusedSection}
+            onOrderInfo={() =>
+              scrollArgs.scrollToSection(scrollArgs.orderInfoRef)
+            }
+            onDrawingInfo={() =>
+              scrollArgs.scrollToSection(scrollArgs.drawingInfoRef)
+            }
+            onQuotationInfo={() =>
+              scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
+            }
+          />
+          <Spacer width="100%" height="10px" />
+          <OrderCommentMenu
+            expanded={scrollArgs.menuExpanded}
+            orderId={String(orderId)}
+          />
+        </S.MenuWrapper>
+        {/* 견적 승인하기, 고객이 견적서를 확인하고 클릭 -> 견적 대기 -> 견적 승인 */}
+        <OrderDetailBottombar
+          showCondition={
+            auth.role === "ROLE_CUSTOMER" &&
+            status === "견적 대기" &&
+            data !== undefined &&
+            data.quotation !== null
+          }
+          announce="견적서를 확인하고 승인해주세요"
+          buttonText="견적 승인하기"
+          onButton={() => acceptQuotation(String(orderId))}
         />
-      </S.MenuWrapper>
-      {/* 견적 승인하기, 고객이 견적서를 확인하고 클릭 -> 견적 대기 -> 견적 승인 */}
-      <OrderDetailBottombar
-        showCondition={
-          auth.role === "ROLE_CUSTOMER" &&
-          status === "견적 대기" &&
-          data !== undefined &&
-          data.quotation !== null
-        }
-        announce="견적서를 확인하고 승인해주세요"
-        buttonText="견적 승인하기"
-        onButton={() => acceptQuotation(String(orderId))}
-      />
-      {/* 발주 승인하기, 회사가 발주서를 확인하고 클릭 -> 견적 승인 -> 제작 중 */}
-      <OrderDetailBottombar
-        showCondition={
-          auth.role === "ROLE_FACTORY" &&
-          status === "견적 승인" &&
-          data !== undefined &&
-          data.purchaseOrder !== null
-        }
-        announce="발주서를 확인하고 제작을 시작해주세요"
-        buttonText="발주 승인하기"
-        onButton={() => acceptPurchaseOrder(String(orderId))}
-      />
-      {/* 제작 완료, 회사가 제작을 마치고 클릭 -> 제작 중 -> 제작 완료 */}
-      <OrderDetailBottombar
-        showCondition={auth.role === "ROLE_FACTORY" && status === "제작 중"}
-        announce="제작이 끝났다면 배송을 시작해주세요"
-        buttonText="제작 완료"
-        onButton={() => acceptPrdouction(String(orderId))}
-      />
-      {/* 배송 완료, 고객이 배송을 받았다면 클릭 -> 제작 완료 -> 거래 완료 */}
-      <OrderDetailBottombar
-        showCondition={
-          auth.role === "ROLE_FACTORY" && status === "제작 완료" && !sendMail
-        }
-        announce="인수자 서명 링크를 메일로 보낼까요?"
-        buttonText="메일 전송"
-        onButton={() => sendAcquirerEmail(String(orderId))}
-      />
-    </S.Wrapper>
+        {/* 발주 승인하기, 회사가 발주서를 확인하고 클릭 -> 견적 승인 -> 제작 중 */}
+        <OrderDetailBottombar
+          showCondition={
+            auth.role === "ROLE_FACTORY" &&
+            status === "견적 승인" &&
+            data !== undefined &&
+            data.purchaseOrder !== null
+          }
+          announce="발주서를 확인하고 제작을 시작해주세요"
+          buttonText="발주 승인하기"
+          onButton={() => acceptPurchaseOrder(String(orderId))}
+        />
+        {/* 제작 완료, 회사가 제작을 마치고 클릭 -> 제작 중 -> 제작 완료 */}
+        <OrderDetailBottombar
+          showCondition={auth.role === "ROLE_FACTORY" && status === "제작 중"}
+          announce="제작이 끝났다면 배송을 시작해주세요"
+          buttonText="제작 완료"
+          onButton={() => acceptPrdouction(String(orderId))}
+        />
+        {/* 배송 완료, 고객이 배송을 받았다면 클릭 -> 제작 완료 -> 거래 완료 */}
+        <OrderDetailBottombar
+          showCondition={
+            auth.role === "ROLE_FACTORY" && status === "제작 완료" && !sendMail
+          }
+          announce="인수자 서명 링크를 메일로 보낼까요?"
+          buttonText="메일 전송"
+          onButton={() => sendAcquirerEmail(String(orderId))}
+        />
+      </S.Wrapper>
+    </>
   );
 }
 

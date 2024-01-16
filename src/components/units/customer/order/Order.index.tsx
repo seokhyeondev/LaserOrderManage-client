@@ -1,6 +1,9 @@
 import OrderFilter from "@/src/components/commons/filters/order/OrderFilter.index";
 import OrderSearchbar from "@/src/components/commons/searchbars/order/OrderSearchbar.index";
-import { BodyWrapper } from "@/src/components/commons/wrapper/BodyWrapper.styles";
+import {
+  BodyWrapper,
+  PageTitle,
+} from "@/src/components/commons/wrapper/BodyWrapper.styles";
 import CustomerOrderList from "./List/OrderList.index";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
 import {
@@ -17,6 +20,7 @@ import { OrderApi } from "@/src/lib/apis/order/OrderApi";
 import { GetServerSideProps } from "next";
 import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 import { AppPages } from "@/src/lib/constants/appPages";
+import KumohHead from "@/src/components/shared/layout/head/NextHead.index";
 
 export default function Order() {
   const searchBarArgs = useSearchbar(() => refetch());
@@ -41,8 +45,9 @@ export default function Order() {
 
   return (
     <>
+      <KumohHead title="거래 목록 | 금오거래센터" />
       <BodyWrapper className="flex-column-center">
-        <p className="page-title">거래 목록</p>
+        <PageTitle className="bold40">거래 목록</PageTitle>
         <OrderSearchbar
           placeholder="거래 이름으로 검색하기"
           {...searchBarArgs}

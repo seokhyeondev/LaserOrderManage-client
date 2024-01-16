@@ -6,6 +6,7 @@ export const globalStyles = css`
     --color-primary: #ea5455;
     --color-white: #ffffff;
     --color-black: #000000;
+    --color-grayBlack: #1d1d1d;
 
     --color-lightGray: #fafafa;
     --color-mediumGray: #e5e5e5;
@@ -53,6 +54,10 @@ export const globalStyles = css`
   /* font 요소 */
   .bold40 {
     font-size: 40px;
+    font-weight: 700;
+  }
+  .bold32 {
+    font-size: 32px;
     font-weight: 700;
   }
   .bold28 {
@@ -122,13 +127,6 @@ export const globalStyles = css`
   .regular10 {
     font-size: 10px;
     font-weight: 400;
-  }
-
-  /* widget 요소 */
-  .page-title {
-    font-size: 40px;
-    font-weight: 700;
-    margin-bottom: 43px;
   }
 
   /* signatuer canvas */

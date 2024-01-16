@@ -1,9 +1,14 @@
+import { media } from "@/src/styles/theme";
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
   width: 100%;
   height: calc(100vh - 80px);
   background-color: var(--color-lightGray);
+  ${media.mobile} {
+    background-color: var(--color-white);
+    height: fit-content;
+  }
 `;
 
 export const FormWrapper = styled.div`
@@ -11,6 +16,12 @@ export const FormWrapper = styled.div`
   background-color: var(--color-white);
   border: 1px solid var(--color-mediumGray);
   border-radius: var(--border-radius);
+  ${media.mobile} {
+    width: 100%;
+    padding-inline: 20px;
+    padding-block: 60px 240px;
+    border: 0;
+  }
 `;
 
 export const Header = styled.div`
@@ -25,6 +36,9 @@ export const LoginInput = styled.input`
   border-radius: var(--border-radius);
   color: var(--color-darkGray);
   margin-bottom: 15px;
+  ${media.mobile} {
+    width: 100%;
+  }
 
   ::placeholder {
     color: var(--color-normalGray);
@@ -49,6 +63,9 @@ export const LoginButton = styled.button`
   border-radius: var(--border-radius);
   color: var(--color-white);
   margin-bottom: 28px;
+  ${media.mobile} {
+    width: 100%;
+  }
 `;
 
 export const MenuWrapper = styled.div`
