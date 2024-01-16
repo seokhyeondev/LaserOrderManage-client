@@ -69,8 +69,22 @@ export type IFactoryOrder = {
   request: string | null;
 };
 
-export type IPurchaseOrderResponse = {
+export type IPurchaseOrderFileResponse = {
   id: number;
   fileName: string;
   fileUrl: string;
+};
+
+export type IOrderCustomerInfoResponse = {
+  orderId: number;
+  orderName: string;
+  customer: IOrderCustomerInfo;
+};
+
+export type IOrderCustomerInfo = {
+  id: number;
+  name: string;
+  company: string | null;
+  phone: string;
+  email: string;
 };
