@@ -3,18 +3,9 @@ import styled from "@emotion/styled";
 import LayoutHeader from "../../shared/layout/header/LayoutHeader.index";
 import { keyframes } from "@emotion/react";
 import ScrollDownIcon from "../../commons/icons/ScrollDownIcon.index";
-import { useRecoilValue } from "recoil";
-import { authState } from "@/src/store/auth";
-import { AppPages } from "@/src/lib/constants/appPages";
-import { useRouter } from "next/router";
+import { PORTFOLIO_LINK } from "@/src/lib/constants/constant";
 
 const IntroSection = () => {
-  const auth = useRecoilValue(authState);
-  const router = useRouter();
-  const path =
-    auth.role === "ROLE_CUSTOMER"
-      ? AppPages.CUSTOMER_CREATE_ORDER
-      : AppPages.LOGIN;
   return (
     <Wrapper>
       <Overlay />
@@ -30,8 +21,12 @@ const IntroSection = () => {
             언제나 고객의 소리에 귀기울이며, 고객 만족을 위해 최선을 다하는
             기업이 되겠습니다.
           </Intro>
-          <Button className="bold20" onClick={() => router.push(path)}>
-            견적 요청하기
+          <Button
+            className="bold20 flex-center"
+            href={PORTFOLIO_LINK}
+            target="_blank"
+          >
+            Portfolio
           </Button>
         </IntroContent>
       </IntroWapper>
@@ -117,9 +112,9 @@ const Intro = styled.h4`
   }
 `;
 
-const Button = styled.button`
-  width: 222px;
-  height: 72px;
+const Button = styled.a`
+  width: 210px;
+  height: 70px;
   margin-top: 40px;
   background-color: transparent;
   color: var(--color-white);

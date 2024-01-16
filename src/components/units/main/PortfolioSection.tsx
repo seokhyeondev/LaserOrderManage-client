@@ -25,29 +25,24 @@ const MANUFACTURING_ITEMS: IManufacturingItem[] = [
 
 const PORTFOLIO_ITEMS: IPortfolioItem[] = [
   {
-    title: "포트폴리오1",
+    title: "로봇 용접기",
     content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다1.",
     imgUrl: "/images/portfolio1.png",
   },
   {
-    title: "포트폴리오2",
+    title: "파이프 레이저 장비",
     content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다2.",
     imgUrl: "/images/portfolio2.png",
   },
   {
-    title: "포트폴리오3",
+    title: "레이저가공기",
     content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다3.",
     imgUrl: "/images/portfolio3.png",
   },
   {
-    title: "포트폴리오4",
+    title: "절곡기",
     content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다3.",
     imgUrl: "/images/portfolio4.png",
-  },
-  {
-    title: "포트폴리오5",
-    content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다3.",
-    imgUrl: "/images/portfolio5.png",
   },
 ];
 
@@ -91,7 +86,7 @@ const PortfolioItem = () => {
 
   return (
     <PortfolioWrapper>
-      <PortfolioContentWrapper>
+      <PortfolioContentWrapper background="var(--color-black)">
         <PortfolioTitle key={`title-${index}`}>
           {PORTFOLIO_ITEMS[index].title}
         </PortfolioTitle>
@@ -111,7 +106,13 @@ const PortfolioItem = () => {
           />
         </PortfolioButtonsWrapper>
       </PortfolioContentWrapper>
-      <PortfolioImg key={`img-${index}`} url={PORTFOLIO_ITEMS[index].imgUrl} />
+      <PortfolioContentWrapper background="#f9f9f9">
+        <PortfolioImg
+          key={`img-${index}`}
+          src={PORTFOLIO_ITEMS[index].imgUrl}
+          alt={`portfolio-${index}`}
+        />
+      </PortfolioContentWrapper>
     </PortfolioWrapper>
   );
 };
@@ -222,13 +223,17 @@ const PortfolioWrapper = styled.div`
   }
 `;
 
-const PortfolioContentWrapper = styled.div`
+interface IContentWrapperProps {
+  background: string;
+}
+
+const PortfolioContentWrapper = styled.div<IContentWrapperProps>`
   position: relative;
   flex: 1;
   height: 750px;
   padding-block: 322px;
   padding-left: 120px;
-  background-color: var(--color-black);
+  background-color: ${(props) => props.background};
   ${media.tablet} {
     flex: none;
     width: 100%;
@@ -296,27 +301,13 @@ const PortfolioButton = styled.img`
   }
 `;
 
-interface IPortfolioImgProps {
-  url: string;
-}
-
-const PortfolioImg = styled.div<IPortfolioImgProps>`
-  flex: 1;
-  height: 750px;
-  padding-block: 322px;
-  padding-left: 120px;
-  background-image: url(${(props) => props.url});
-  background-size: cover;
-  background-repeat: no-repeat;
-  ${media.tablet} {
-    flex: none;
-    width: 100%;
-  }
-  ${media.mobile} {
-    height: 550px;
-    padding-block: 224px;
-    padding-left: 52px;
-  }
+const PortfolioImg = styled.img`
+  position: absolute;
+  width: 100%;
+  height: fit-content;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 export default PortfolioSection;

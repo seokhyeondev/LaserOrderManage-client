@@ -47,3 +47,6 @@ export const MAX_THICKNESS = 19;
 
 export const BASE_URL = "https://api.kumoh.org";
 export const WEB_URL = "https://www.kumoh.org";
+
+export const PORTFOLIO_LINK =
+  "https://ordermanage.s3.ap-northeast-2.amazonaws.com/%E1%84%80%E1%85%B3%E1%86%B7%E1%84%8B%E1%85%A9IMT_%E1%84%8F%E1%85%A1%E1%84%90%E1%85%A1%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3.pdf";
