@@ -1,5 +1,6 @@
 import { OrderStatus } from "@/src/lib/apis/order/Order.types";
 import {
+  IDetailAcquirer,
   IDetailCustomer,
   IDetailDrawing,
   IDetailOrder,
@@ -61,4 +62,8 @@ export interface IPurchaseOrderInfoSectionProps extends IDetailSectionProps {
   name: string;
   minDate: string | null;
   scrollPage: () => void;
+}
+
+export interface IAcquirerInfoSectionProps {
+  data: IDetailAcquirer;
 }
