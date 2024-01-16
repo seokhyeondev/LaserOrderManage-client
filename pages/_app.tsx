@@ -12,6 +12,9 @@ import { RecoilEnv, RecoilRoot } from "recoil";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useState } from "react";
 import AuthInitializer from "@/src/components/shared/auth/AuthInitializer.index";
+import * as gtag from "@/src/lib/constants/gtags";
+import Head from "next/head";
+import Script from "next/script";
 
 const roboto = Roboto({ weight: ["400", "500", "700"], subsets: ["latin"] });
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
@@ -22,9 +25,33 @@ export default function App({ Component, pageProps }: AppProps) {
     queries: { retry: false },
     mutations: { retry: false },
   });
+  gtag.useGtag();
 
   return (
     <>
+      {process.env.NODE_ENV !== "development" && (
+        <>
+          {/* Global Site Tag (gtag.js) - Google Analytics */}
+          <Script
+            strategy="afterInteractive"
+            src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
+          />
+          <Script
+            id="gtag-init"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gtag.GA_TRACKING_ID}', {
+                  page_path: window.location.pathname,
+                });
+              `,
+            }}
+          />
+        </>
+      )}
       <RecoilRoot>
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
