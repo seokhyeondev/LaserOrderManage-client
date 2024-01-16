@@ -157,8 +157,13 @@ const ItemWrapper = styled.div<IItemWrapperProps>`
   background-image: url(${(props) => props.url});
   background-size: cover;
   background-repeat: no-repeat;
+  ${media.tablet} {
+    background-position-x: -300px;
+  }
   ${media.mobile} {
     height: 330px;
+    background-position-x: 0;
+    background-position-y: bottom;
   }
 `;
 

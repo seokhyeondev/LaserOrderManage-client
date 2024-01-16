@@ -17,7 +17,8 @@ export const FormWrapper = styled.div`
   border: 1px solid var(--color-mediumGray);
   border-radius: var(--border-radius);
   ${media.mobile} {
-    padding-inline: 0;
+    width: 100%;
+    padding-inline: 20px;
     padding-block: 60px 240px;
     border: 0;
   }
@@ -35,6 +36,9 @@ export const LoginInput = styled.input`
   border-radius: var(--border-radius);
   color: var(--color-darkGray);
   margin-bottom: 15px;
+  ${media.mobile} {
+    width: 100%;
+  }
 
   ::placeholder {
     color: var(--color-normalGray);
@@ -59,6 +63,9 @@ export const LoginButton = styled.button`
   border-radius: var(--border-radius);
   color: var(--color-white);
   margin-bottom: 28px;
+  ${media.mobile} {
+    width: 100%;
+  }
 `;
 
 export const MenuWrapper = styled.div`

@@ -47,6 +47,9 @@ const Wrapper = styled.section`
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;
+  ${media.tablet} {
+    background-position-x: -320px;
+  }
   ${media.mobile} {
     height: 670px;
   }
