@@ -4,10 +4,19 @@ import LayoutHeader from "../../shared/layout/header/LayoutHeader.index";
 import { keyframes } from "@emotion/react";
 import ScrollDownIcon from "../../commons/icons/ScrollDownIcon.index";
 import { PORTFOLIO_LINK } from "@/src/lib/constants/constant";
+import introImg from "@/public/images/introImage.webp";
+import ResponsiveImage from "../../commons/image/ResponsiveImage.index";
 
 const IntroSection = () => {
   return (
     <Wrapper>
+      <ResponsiveImage
+        src={introImg}
+        alt="introImg"
+        Container={BackgroundContinaer}
+        position="absolute"
+        priority
+      />
       <Overlay />
       <LayoutHeader transparent />
       <IntroWapper>
@@ -43,16 +52,13 @@ const IntroSection = () => {
 const Wrapper = styled.section`
   width: 100%;
   height: 940px;
-  background-image: url("/images/introImage.webp");
-  background-size: cover;
-  background-repeat: no-repeat;
   position: relative;
-  ${media.tablet} {
-    background-position-x: -320px;
-  }
-  ${media.mobile} {
-    height: 670px;
-  }
+`;
+
+const BackgroundContinaer = styled.div`
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 `;
 
 const Overlay = styled.div`
@@ -62,12 +68,12 @@ const Overlay = styled.div`
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.6);
-  z-index: 1;
+  z-index: 2;
 `;
 
 const IntroWapper = styled.div`
   position: relative;
-  z-index: 2;
+  z-index: 3;
   ${media.pc} {
     padding-inline: 240px;
   }

@@ -28,8 +28,8 @@ export type ICustomerOrder = {
   stage: OrderStatus;
   isUrgent: boolean;
   manufacturingList: Manufacturing[];
-  createdAt: any;
-  deliveryAt: any | null;
+  createdAt: string;
+  deliveryAt: string | null;
   cost: number | null;
   request: string | null;
 };
@@ -46,8 +46,8 @@ export type IFactoryNewOrder = {
   imgUrl: string;
   isUrgent: boolean;
   manufacturingList: Manufacturing[];
-  createdAt: any;
-  deliveryAt: any | null;
+  createdAt: string;
+  deliveryAt: string | null;
   cost: number | null;
   request: string | null;
 };
@@ -63,8 +63,8 @@ export type IFactoryOrder = {
   stage: string;
   isUrgent: string;
   manufacturingList: Manufacturing[];
-  createdAt: any;
-  deliveryAt: any | null;
+  createdAt: string;
+  deliveryAt: string | null;
   cost: number | null;
   request: string | null;
 };

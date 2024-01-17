@@ -1,6 +1,15 @@
 import { media } from "@/src/styles/theme";
 import styled from "@emotion/styled";
 import { useState } from "react";
+import manufacturingImg1 from "@/public/images/manufacturing1.webp";
+import manufacturingImg2 from "@/public/images/manufacturing2.webp";
+import manufacturingImg3 from "@/public/images/manufacturing3.webp";
+import portfolioImg1 from "@/public/images/portfolio1.webp";
+import portfolioImg2 from "@/public/images/portfolio2.webp";
+import portfolioImg3 from "@/public/images/portfolio3.webp";
+import portfolioImg4 from "@/public/images/portfolio4.webp";
+import { StaticImageData } from "next/image";
+import ResponsiveImage from "../../commons/image/ResponsiveImage.index";
 
 const MANUFACTURING_ITEMS: IManufacturingItem[] = [
   {
@@ -8,18 +17,21 @@ const MANUFACTURING_ITEMS: IManufacturingItem[] = [
     title: "레이저 가공",
     content:
       "평판부터 3D 원형, 사각형 파이프 가공을\n대량의 MAZAK 레이저 기기를 통해 제공합니다.",
+    image: manufacturingImg1,
   },
   {
     id: 2,
     title: "절곡",
     content:
       "AMADA와 TOYOKOKI의 하이엔드 절곡기 머신과\n업계 최고의 절곡 기술을 보유하고 있습니다.",
+    image: manufacturingImg2,
   },
   {
     id: 3,
     title: "용접 및 후처리",
     content:
       "업계 최고의 용접기술과 로봇 용접기를 통해\n깔끔하고 세밀한 제품으로 제공해 드리고 있습니다.",
+    image: manufacturingImg3,
   },
 ];
 
@@ -27,22 +39,22 @@ const PORTFOLIO_ITEMS: IPortfolioItem[] = [
   {
     title: "로봇 용접기",
     content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다1.",
-    imgUrl: "/images/portfolio1.webp",
+    image: "/images/portfolio1.webp",
   },
   {
     title: "파이프 레이저 장비",
     content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다2.",
-    imgUrl: "/images/portfolio2.webp",
+    image: "/images/portfolio2.webp",
   },
   {
     title: "레이저가공기",
     content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다3.",
-    imgUrl: "/images/portfolio3.webp",
+    image: "/images/portfolio3.webp",
   },
   {
     title: "절곡기",
     content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다3.",
-    imgUrl: "/images/portfolio4.webp",
+    image: "/images/portfolio4.webp",
   },
 ];
 
@@ -61,7 +73,13 @@ const PortfolioSection = () => {
 
 const ManufacuringItem = ({ data }: IManufacturingItemProps) => {
   return (
-    <ItemWrapper url={`/images/manufacturing${data.id}.webp`}>
+    <ItemWrapper>
+      <ResponsiveImage
+        src={data.image}
+        alt={`manufacturing${data.id}`}
+        Container={ItemBackgoundContainer}
+        position="absolute"
+      />
       <ItemOverlay />
       <ItemContentWrapper>
         <ItemTitle>{data.title}</ItemTitle>
@@ -109,7 +127,7 @@ const PortfolioItem = () => {
       <PortfolioContentWrapper background="#f9f9f9">
         <PortfolioImg
           key={`img-${index}`}
-          src={PORTFOLIO_ITEMS[index].imgUrl}
+          src={PORTFOLIO_ITEMS[index].image}
           alt={`portfolio-${index}`}
         />
       </PortfolioContentWrapper>
@@ -121,6 +139,7 @@ type IManufacturingItem = {
   id: number;
   title: string;
   content: string;
+  image: StaticImageData;
 };
 
 interface IManufacturingItemProps {
@@ -130,7 +149,7 @@ interface IManufacturingItemProps {
 type IPortfolioItem = {
   title: string;
   content: string;
-  imgUrl: string;
+  image: string;
 };
 
 const Wrapper = styled.section`
@@ -146,25 +165,18 @@ const ItemsWrapper = styled.div`
   }
 `;
 
-interface IItemWrapperProps {
-  url: string;
-}
-
-const ItemWrapper = styled.div<IItemWrapperProps>`
+const ItemWrapper = styled.div`
   flex: 1;
   height: 800px;
   position: relative;
-  background-image: url(${(props) => props.url});
-  background-size: cover;
-  background-repeat: no-repeat;
-  ${media.tablet} {
-    background-position-x: -300px;
-  }
   ${media.mobile} {
     height: 330px;
-    background-position-x: 0;
-    background-position-y: bottom;
   }
+`;
+
+const ItemBackgoundContainer = styled.div`
+  width: 100%;
+  height: 100%;
 `;
 
 const ItemOverlay = styled.div`
@@ -174,12 +186,12 @@ const ItemOverlay = styled.div`
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1;
+  z-index: 2;
 `;
 
 const ItemContentWrapper = styled.div`
   position: relative;
-  z-index: 2;
+  z-index: 3;
   margin: 0 auto;
   padding-block: 342px;
   ${media.tablet} {

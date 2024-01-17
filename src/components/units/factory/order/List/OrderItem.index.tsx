@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/router";
 import { useRef, MouseEvent } from "react";
 import { AppPages } from "@/src/lib/constants/appPages";
+import { BLUR_URL_1_1 } from "@/src/lib/constants/constant";
 
 export default function FactoryOrderItem(props: IOrderItemProps) {
   const router = useRouter();
@@ -29,6 +30,8 @@ export default function FactoryOrderItem(props: IOrderItemProps) {
         src={props.data.imgUrl}
         alt="리스트 이미지"
         style={S.ImageWrapper}
+        placeholder="blur"
+        blurDataURL={BLUR_URL_1_1}
       />
       <S.InfoWrapper className="flex-column-between">
         <div>
@@ -74,7 +77,7 @@ export default function FactoryOrderItem(props: IOrderItemProps) {
               <S.InfoLabel className="regular16">거래 생성일</S.InfoLabel>
               <p className="regular16">{getDate(props.data.createdAt)}</p>
             </S.InfoContentWrapper>
-            {typeof props.data.deliveryAt !== "undefined" && (
+            {props.data.deliveryAt && (
               <S.InfoContentWrapper className="flex-row">
                 <S.InfoLabel className="regular16">납기일</S.InfoLabel>
                 <p className="regular16">{getDate(props.data.deliveryAt)}</p>

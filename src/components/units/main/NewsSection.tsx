@@ -2,6 +2,9 @@ import { getDate } from "@/src/lib/utils/utils";
 import { media } from "@/src/styles/theme";
 import styled from "@emotion/styled";
 import Spacer from "../../commons/spacer/Spacer.index";
+import ResponsiveImage from "../../commons/image/ResponsiveImage.index";
+import newsImage from "@/public/images/order_process1.webp";
+import { StaticImageData } from "next/image";
 
 type INews = {
   id: number;
@@ -9,7 +12,7 @@ type INews = {
   content: string;
   sort: string;
   createdAt: string;
-  imgUrl: string;
+  imgUrl: StaticImageData;
 };
 
 const NEWS_ITEMS: INews[] = [
@@ -21,7 +24,7 @@ const NEWS_ITEMS: INews[] = [
       "뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다.",
     sort: "시사뉴스",
     createdAt: "2024-05-27",
-    imgUrl: "/images/order_process4.webp",
+    imgUrl: newsImage,
   },
   {
     id: 1,
@@ -31,7 +34,7 @@ const NEWS_ITEMS: INews[] = [
       "뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다.",
     sort: "시사뉴스",
     createdAt: "2024-05-27",
-    imgUrl: "/images/order_process4.webp",
+    imgUrl: newsImage,
   },
   {
     id: 2,
@@ -41,7 +44,7 @@ const NEWS_ITEMS: INews[] = [
       "뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다.",
     sort: "시사뉴스",
     createdAt: "2024-05-27",
-    imgUrl: "/images/order_process4.webp",
+    imgUrl: newsImage,
   },
 ];
 
@@ -76,7 +79,12 @@ const NewsItem = ({ data }: INewsItemProps) => {
         <ItemTitle>{data.title}</ItemTitle>
         <ItemContent>{data.content}</ItemContent>
       </ItemContentWrapper>
-      <ItemImg src={data.imgUrl} alt={data.imgUrl} />
+      <ResponsiveImage
+        src={data.imgUrl}
+        alt={`news${data.id}`}
+        Container={ItemImgContainer}
+        placeholder={undefined}
+      />
     </ItemWrapper>
   );
 };
@@ -154,7 +162,7 @@ const ItemContentWrapper = styled.div`
   overflow: hidden;
 `;
 
-const ItemImg = styled.img`
+const ItemImgContainer = styled.div`
   width: 290px;
   height: 180px;
   flex-shrink: 0;

@@ -1,5 +1,23 @@
 import { media } from "@/src/styles/theme";
 import styled from "@emotion/styled";
+import ResponsiveImage from "../../commons/image/ResponsiveImage.index";
+import partner1 from "@/public/images/partner_logo1.webp";
+import partner2 from "@/public/images/partner_logo2.webp";
+import partner3 from "@/public/images/partner_logo3.webp";
+import partner4 from "@/public/images/partner_logo4.webp";
+import partner5 from "@/public/images/partner_logo5.webp";
+import partner6 from "@/public/images/partner_logo6.webp";
+import partner7 from "@/public/images/partner_logo7.webp";
+
+const PARTNERS = [
+  partner1,
+  partner2,
+  partner3,
+  partner4,
+  partner5,
+  partner6,
+  partner7,
+];
 
 const PartnerSection = () => {
   return (
@@ -16,11 +34,12 @@ const PartnerSection = () => {
           {"고객에게 최상의 서비스를 제공합니다."}
         </Announce>
         <LogosWrapper>
-          {Array.from({ length: 7 }, (_, i) => i + 1).map((el) => (
-            <Logo
-              key={el}
-              src={`/images/partner_logo${el}.webp`}
-              alt={`partner_logo${el}`}
+          {PARTNERS.map((el, idx) => (
+            <ResponsiveImage
+              key={idx}
+              src={el}
+              alt={`partner_logo${idx}`}
+              Container={LogoContainer}
             />
           ))}
         </LogosWrapper>
@@ -91,7 +110,7 @@ const LogosWrapper = styled.div`
   }
 `;
 
-const Logo = styled.img`
+const LogoContainer = styled.div`
   width: fit-content;
   height: 80px;
   ${media.mobile} {

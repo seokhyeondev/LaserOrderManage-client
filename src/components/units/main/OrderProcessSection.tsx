@@ -4,6 +4,12 @@ import { media } from "@/src/styles/theme";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
+import orderProcess1 from "@/public/images/order_process1.webp";
+import orderProcess2 from "@/public/images/order_process2.webp";
+import orderProcess3 from "@/public/images/order_process3.webp";
+import orderProcess4 from "@/public/images/order_process4.webp";
+import { StaticImageData } from "next/image";
+import ResponsiveImage from "../../commons/image/ResponsiveImage.index";
 
 const OrderProcessSection = () => {
   const auth = useRecoilValue(authState);
@@ -38,6 +44,7 @@ type IOrderProcessItem = {
   id: number;
   title: string;
   content: string;
+  image: StaticImageData;
 };
 
 const ORDER_PROCESS_ITEMS: IOrderProcessItem[] = [
@@ -45,21 +52,25 @@ const ORDER_PROCESS_ITEMS: IOrderProcessItem[] = [
     id: 1,
     title: "거래 생성",
     content: "거래를 생성하기 위해서\n도면과 재질, 수량을 업로드 해주세요.",
+    image: orderProcess1,
   },
   {
     id: 2,
     title: "견적",
     content: "담당자와의 실시간 채팅을 통해서\n빠른 견적을 받아보세요.",
+    image: orderProcess2,
   },
   {
     id: 3,
     title: "발주",
     content: "검수조건과 견적내용을 기반으로\n발주서를 업로드 해주세요.",
+    image: orderProcess3,
   },
   {
     id: 4,
     title: "제작",
     content: "최고 품질의 제품을\n신속하게 제작하여 제공해 드립니다.",
+    image: orderProcess4,
   },
 ];
 
@@ -70,9 +81,10 @@ interface IOrderProcessItemProps {
 const OrderProcessItem = ({ data }: IOrderProcessItemProps) => {
   return (
     <ItemWrapper>
-      <ItemImg
-        src={`/images/order_process${data.id}.webp`}
+      <ResponsiveImage
+        src={data.image}
         alt={`order_process${data.id}`}
+        Container={ItemImgContainer}
       />
       <ItemContentWrapper>
         <ItemTitle className="bold20">{data.title}</ItemTitle>
@@ -165,7 +177,7 @@ const ItemWrapper = styled.div`
   }
 `;
 
-const ItemImg = styled.img`
+const ItemImgContainer = styled.div`
   width: 100%;
   height: 240px;
   border-top-left-radius: 8px;

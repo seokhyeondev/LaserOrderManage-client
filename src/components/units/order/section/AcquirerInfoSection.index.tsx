@@ -3,6 +3,7 @@ import * as S from "./OrderDetailSection.styles";
 import { IAcquirerInfoSectionProps } from "./OrderDetailSection.types";
 import { getPhoneNumber } from "@/src/lib/utils/utils";
 import Image from "next/image";
+import { BLUR_URL_2_1 } from "@/src/lib/constants/constant";
 
 export default function AcquierInfoSection({
   data,
@@ -31,6 +32,8 @@ export default function AcquierInfoSection({
             src={data.signatureFileUrl}
             alt={data.signatureFileName}
             fill
+            placeholder="blur"
+            blurDataURL={BLUR_URL_2_1}
           />
         </S.ImageWrapper>
       </S.Section>

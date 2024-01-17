@@ -9,7 +9,7 @@ export const Wrapper = styled.div<IHeaderProps>`
   position: relative;
   margin: 0 auto;
   height: 100px;
-  z-index: 2;
+  z-index: 3;
   border-bottom: 1px solid var(--color-white);
   background-color: ${(props) =>
     props.transparent ? "transparent" : "var(--color-white)"};

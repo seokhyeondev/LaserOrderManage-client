@@ -9,11 +9,9 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { RecoilEnv, RecoilRoot } from "recoil";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useState } from "react";
 import AuthInitializer from "@/src/components/shared/auth/AuthInitializer.index";
 import * as gtag from "@/src/lib/constants/gtags";
-import Head from "next/head";
 import Script from "next/script";
 
 const roboto = Roboto({ weight: ["400", "500", "700"], subsets: ["latin"] });
@@ -54,7 +52,6 @@ export default function App({ Component, pageProps }: AppProps) {
       )}
       <RecoilRoot>
         <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools initialIsOpen={false} />
           <HydrationBoundary state={pageProps.dehydratedState}>
             <Global styles={globalStyles} />
             <AuthInitializer>
