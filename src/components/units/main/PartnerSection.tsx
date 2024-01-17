@@ -1,5 +1,6 @@
 import { media } from "@/src/styles/theme";
 import styled from "@emotion/styled";
+import ResponsiveImage from "../../commons/image/ResponsiveImage.index";
 
 const PartnerSection = () => {
   return (
@@ -17,10 +18,11 @@ const PartnerSection = () => {
         </Announce>
         <LogosWrapper>
           {Array.from({ length: 7 }, (_, i) => i + 1).map((el) => (
-            <Logo
+            <ResponsiveImage
               key={el}
               src={`/images/partner_logo${el}.webp`}
               alt={`partner_logo${el}`}
+              Container={LogoContainer}
             />
           ))}
         </LogosWrapper>
@@ -91,7 +93,7 @@ const LogosWrapper = styled.div`
   }
 `;
 
-const Logo = styled.img`
+const LogoContainer = styled.div`
   width: fit-content;
   height: 80px;
   ${media.mobile} {

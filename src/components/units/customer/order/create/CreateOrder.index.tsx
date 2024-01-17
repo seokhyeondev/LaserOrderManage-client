@@ -8,7 +8,7 @@ import {
   DRAWING_INFO,
   REQUEST_INFO,
 } from "@/src/components/commons/menu/create/CreateOrderMenu.types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BasicInfo from "./pages/BasicInfo.index";
 import RequestInfo from "./pages/RequestInfo.index";
 import DeliveryInfo from "./pages/DeliveryInfo.index";
@@ -19,6 +19,8 @@ import {
 } from "@/src/components/commons/progressbar/create/CreateProgressbar.types";
 import { first, last } from "@/src/lib/utils/extensions";
 import KumohHead from "@/src/components/shared/layout/head/NextHead.index";
+import { useResetRecoilState } from "recoil";
+import { createOrderState } from "@/src/store/createOrder";
 
 const CREATE_ORDER_PAGES = [BASIC_INFO, DETAIL_INFO, DELIVER_INFO];
 
@@ -27,27 +29,32 @@ export default function CreateOrder() {
     useState<ICreateProgressBar>(BASIC_INFO);
   const [currentSubPage, setCurrentSubPage] = useState<ISubCreateProgressBar>({
     id: 0,
-    title: "empty_menu",
+    title: "",
   });
+  const resetOrderState = useResetRecoilState(createOrderState);
+
+  useEffect(() => {
+    resetOrderState();
+  }, []);
 
   const moveNextPage = () => {
     const currentPageId = currentPage.id;
 
     if (
       currentPage.subMenus &&
-      currentSubPage.id < last(currentPage.subMenus)!!.id
+      currentSubPage.id < last(currentPage.subMenus).id
     ) {
       setCurrentSubPage(currentPage.subMenus[currentSubPage.id + 1]);
       return;
     }
-    if (currentPageId < last(CREATE_ORDER_PAGES)!!.id) {
+    if (currentPageId < last(CREATE_ORDER_PAGES).id) {
       if (
         !currentPage.subMenus &&
         CREATE_ORDER_PAGES[currentPageId + 1].subMenus
       ) {
         setCurrentPage(CREATE_ORDER_PAGES[currentPageId + 1]);
         setCurrentSubPage(
-          first(CREATE_ORDER_PAGES[currentPageId + 1].subMenus!!)!!,
+          first(CREATE_ORDER_PAGES[currentPageId + 1].subMenus!!),
         );
       } else {
         setCurrentPage(CREATE_ORDER_PAGES[currentPageId + 1]);
@@ -58,21 +65,21 @@ export default function CreateOrder() {
   const moveBeforePage = () => {
     if (
       currentPage.subMenus &&
-      currentSubPage.id > first(currentPage.subMenus)!!.id
+      currentSubPage.id > first(currentPage.subMenus).id
     ) {
       setCurrentSubPage(currentPage.subMenus[currentSubPage.id - 1]);
       return;
     }
 
     const currentPageId = currentPage.id;
-    if (currentPageId > first(CREATE_ORDER_PAGES)!!.id) {
+    if (currentPageId > first(CREATE_ORDER_PAGES).id) {
       if (
         !currentPage.subMenus &&
         CREATE_ORDER_PAGES[currentPageId - 1].subMenus
       ) {
         setCurrentPage(CREATE_ORDER_PAGES[currentPageId - 1]);
         setCurrentSubPage(
-          last(CREATE_ORDER_PAGES[currentPageId - 1].subMenus!!)!!,
+          last(CREATE_ORDER_PAGES[currentPageId - 1].subMenus!!),
         );
       } else {
         setCurrentPage(CREATE_ORDER_PAGES[currentPageId - 1]);
