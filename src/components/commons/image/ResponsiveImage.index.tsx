@@ -1,4 +1,3 @@
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
@@ -22,9 +21,9 @@ const StyledImage = styled(Image)`
 const ResponsiveImage = ({
   src,
   alt,
-  Container,
   priority,
   position = "relative",
+  Container,
 }: IResponsiveImageProps) => {
   const StyledContinaer = styled(Container)`
     position: ${position};

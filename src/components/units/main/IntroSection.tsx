@@ -15,6 +15,7 @@ const IntroSection = () => {
         alt="introImg"
         Container={BackgroundContinaer}
         position="absolute"
+        priority
       />
       <Overlay />
       <LayoutHeader transparent />
@@ -52,12 +53,6 @@ const Wrapper = styled.section`
   width: 100%;
   height: 940px;
   position: relative;
-  ${media.tablet} {
-    background-position-x: -320px;
-  }
-  ${media.mobile} {
-    height: 670px;
-  }
 `;
 
 const BackgroundContinaer = styled.div`
