@@ -17,6 +17,7 @@ import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 import ItemMenus, {
   ItemMenuTitle,
 } from "@/src/components/commons/menu/item/ItemMenus.index";
+import { BLUR_URL_1_1 } from "@/src/lib/constants/constant";
 
 export default function DrawingInfoSection({
   sectionRef,
@@ -162,6 +163,8 @@ function DrawingInfoItem({
           height={120}
           style={ItemImage}
           alt={data.thumbnailUrl}
+          placeholder="blur"
+          blurDataURL={BLUR_URL_1_1}
         />
         <ItemInfoTextWrapper>
           <p className="bold16">{data.fileName}</p>

@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/router";
 import { useRef, MouseEvent } from "react";
 import { AppPages } from "@/src/lib/constants/appPages";
+import { BLUR_URL_1_1 } from "@/src/lib/constants/constant";
 
 export default function FactoryOrderItem(props: IOrderItemProps) {
   const router = useRouter();
@@ -29,6 +30,8 @@ export default function FactoryOrderItem(props: IOrderItemProps) {
         src={props.data.imgUrl}
         alt="리스트 이미지"
         style={S.ImageWrapper}
+        placeholder="blur"
+        blurDataURL={BLUR_URL_1_1}
       />
       <S.InfoWrapper className="flex-column-between">
         <div>

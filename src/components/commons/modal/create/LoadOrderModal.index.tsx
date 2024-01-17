@@ -13,6 +13,7 @@ import { OrderCreateApi } from "@/src/lib/apis/order/create/OrderCreateApi";
 import { useSimplePagination } from "@/src/lib/hooks/usePagination";
 import HistoryPagination from "../../paginations/create/HistoryPagination.index";
 import { useToastify } from "@/src/lib/hooks/useToastify";
+import { BLUR_URL_1_1 } from "@/src/lib/constants/constant";
 
 interface ILoadOrderModalProps extends IModalProps {
   callback: (response: IOrderHistoryResponse) => void;
@@ -81,6 +82,8 @@ export default function LoadOrderModal(props: ILoadOrderModalProps) {
                   src={el.imgUrl}
                   alt=""
                   style={S.LoadOrderItemImage}
+                  placeholder="blur"
+                  blurDataURL={BLUR_URL_1_1}
                 />
                 <div>
                   <S.LoadOrderItemTitle
