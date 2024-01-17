@@ -12,7 +12,6 @@ export default function Main() {
   return (
     <>
       <KumohHead
-        title="금오거래센터"
         additional={
           <meta property="og:image" content="/images/order_process4.png" />
         }
