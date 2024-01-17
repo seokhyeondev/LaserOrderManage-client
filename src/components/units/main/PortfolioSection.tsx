@@ -39,22 +39,22 @@ const PORTFOLIO_ITEMS: IPortfolioItem[] = [
   {
     title: "로봇 용접기",
     content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다1.",
-    image: portfolioImg1,
+    image: "/images/portfolio1.webp",
   },
   {
     title: "파이프 레이저 장비",
     content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다2.",
-    image: portfolioImg2,
+    image: "/images/portfolio2.webp",
   },
   {
     title: "레이저가공기",
     content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다3.",
-    image: portfolioImg3,
+    image: "/images/portfolio3.webp",
   },
   {
     title: "절곡기",
     content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다3.",
-    image: portfolioImg4,
+    image: "/images/portfolio4.webp",
   },
 ];
 
@@ -125,11 +125,10 @@ const PortfolioItem = () => {
         </PortfolioButtonsWrapper>
       </PortfolioContentWrapper>
       <PortfolioContentWrapper background="#f9f9f9">
-        <ResponsiveImage
+        <PortfolioImg
           key={`img-${index}`}
           src={PORTFOLIO_ITEMS[index].image}
           alt={`portfolio-${index}`}
-          Container={PortfolioImgContainer}
         />
       </PortfolioContentWrapper>
     </PortfolioWrapper>
@@ -150,7 +149,7 @@ interface IManufacturingItemProps {
 type IPortfolioItem = {
   title: string;
   content: string;
-  image: StaticImageData;
+  image: string;
 };
 
 const Wrapper = styled.section`
@@ -319,7 +318,8 @@ const PortfolioButton = styled.img`
   }
 `;
 
-const PortfolioImgContainer = styled.div`
+const PortfolioImg = styled.img`
+  position: absolute;
   width: 100%;
   height: fit-content;
   top: 50%;

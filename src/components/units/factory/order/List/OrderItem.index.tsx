@@ -77,7 +77,7 @@ export default function FactoryOrderItem(props: IOrderItemProps) {
               <S.InfoLabel className="regular16">거래 생성일</S.InfoLabel>
               <p className="regular16">{getDate(props.data.createdAt)}</p>
             </S.InfoContentWrapper>
-            {typeof props.data.deliveryAt !== "undefined" && (
+            {props.data.deliveryAt && (
               <S.InfoContentWrapper className="flex-row">
                 <S.InfoLabel className="regular16">납기일</S.InfoLabel>
                 <p className="regular16">{getDate(props.data.deliveryAt)}</p>

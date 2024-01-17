@@ -49,6 +49,7 @@ export default function FactoryNewOrderItem(props: IOrderItemProps) {
             {props.data.request && (
               <S.OrderRequest
                 className="regular14"
+                ref={requestRef}
                 onClick={() =>
                   props.onOpenModal({
                     name: props.data.name,

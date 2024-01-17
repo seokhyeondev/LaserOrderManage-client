@@ -8,14 +8,19 @@ interface IResponsiveImageProps {
   alt: string;
   priority?: boolean;
   position?: IResponsiveContainerPosition;
+  placeholder?: IStyledImagePlaceholder;
   Container: React.ComponentType<{ children: ReactNode }>;
 }
 
 type IResponsiveContainerPosition = "relative" | "absolute";
+type IStyledImagePlaceholder =
+  | "blur"
+  | "empty"
+  | `data:image/${string}`
+  | undefined;
 
 const StyledImage = styled(Image)`
   position: relative !important;
-  object-fit: cover;
 `;
 
 const ResponsiveImage = ({
@@ -23,6 +28,7 @@ const ResponsiveImage = ({
   alt,
   priority,
   position = "relative",
+  placeholder = "blur",
   Container,
 }: IResponsiveImageProps) => {
   const StyledContinaer = styled(Container)`
@@ -35,7 +41,7 @@ const ResponsiveImage = ({
         alt={alt}
         fill
         priority={priority}
-        placeholder="blur"
+        placeholder={placeholder}
       />
     </StyledContinaer>
   );
