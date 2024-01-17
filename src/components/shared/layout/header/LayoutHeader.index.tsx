@@ -4,7 +4,6 @@ import { authState } from "@/src/store/auth";
 import Link from "next/link";
 
 import { AppPages } from "@/src/lib/constants/appPages";
-import { useRouter } from "next/router";
 import HeaderMenuIcon from "@/src/components/commons/icons/HeaderMenuIcon.index";
 import MainLogo from "@/src/components/commons/logo/MainLogo.index";
 import MobileMenu from "../mobile/MobileMenu.index";

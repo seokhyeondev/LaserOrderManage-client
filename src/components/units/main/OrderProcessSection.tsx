@@ -71,7 +71,7 @@ const OrderProcessItem = ({ data }: IOrderProcessItemProps) => {
   return (
     <ItemWrapper>
       <ItemImg
-        src={`/images/order_process${data.id}.png`}
+        src={`/images/order_process${data.id}.webp`}
         alt={`order_process${data.id}`}
       />
       <ItemContentWrapper>

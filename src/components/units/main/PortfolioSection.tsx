@@ -27,22 +27,22 @@ const PORTFOLIO_ITEMS: IPortfolioItem[] = [
   {
     title: "로봇 용접기",
     content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다1.",
-    imgUrl: "/images/portfolio1.png",
+    imgUrl: "/images/portfolio1.webp",
   },
   {
     title: "파이프 레이저 장비",
     content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다2.",
-    imgUrl: "/images/portfolio2.png",
+    imgUrl: "/images/portfolio2.webp",
   },
   {
     title: "레이저가공기",
     content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다3.",
-    imgUrl: "/images/portfolio3.png",
+    imgUrl: "/images/portfolio3.webp",
   },
   {
     title: "절곡기",
     content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다3.",
-    imgUrl: "/images/portfolio4.png",
+    imgUrl: "/images/portfolio4.webp",
   },
 ];
 
@@ -61,7 +61,7 @@ const PortfolioSection = () => {
 
 const ManufacuringItem = ({ data }: IManufacturingItemProps) => {
   return (
-    <ItemWrapper url={`/images/manufacturing${data.id}.png`}>
+    <ItemWrapper url={`/images/manufacturing${data.id}.webp`}>
       <ItemOverlay />
       <ItemContentWrapper>
         <ItemTitle>{data.title}</ItemTitle>
@@ -95,12 +95,12 @@ const PortfolioItem = () => {
         </PortfolioContent>
         <PortfolioButtonsWrapper>
           <PortfolioButton
-            src="/images/arrow_left.png"
+            src="/images/arrow_left.webp"
             alt="arrow_left"
             onClick={onPrev}
           />
           <PortfolioButton
-            src="/images/arrow_right.png"
+            src="/images/arrow_right.webp"
             alt="arrow_right"
             onClick={onNext}
           />

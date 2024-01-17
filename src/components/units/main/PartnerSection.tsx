@@ -19,7 +19,7 @@ const PartnerSection = () => {
           {Array.from({ length: 7 }, (_, i) => i + 1).map((el) => (
             <Logo
               key={el}
-              src={`/images/partner_logo${el}.png`}
+              src={`/images/partner_logo${el}.webp`}
               alt={`partner_logo${el}`}
             />
           ))}

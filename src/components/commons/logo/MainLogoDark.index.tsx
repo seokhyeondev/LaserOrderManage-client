@@ -12,10 +12,10 @@ export default function MainLogoDark() {
           <Image
             width={161}
             height={31}
-            src="/images/mainLogoDark.png"
+            src="/images/mainLogoDark.webp"
             alt="메인 로고"
             placeholder="blur"
-            blurDataURL="/images/mainLogoDark.png"
+            blurDataURL="/images/mainLogoDark.webp"
           />
         </Link>
       </PcLogo>
@@ -24,10 +24,10 @@ export default function MainLogoDark() {
           <Image
             width={107}
             height={20}
-            src="/images/mainLogoDark.png"
+            src="/images/mainLogoDark.webp"
             alt="메인 로고"
             placeholder="blur"
-            blurDataURL="/images/mainLogoDark.png"
+            blurDataURL="/images/mainLogoDark.webp"
           />
         </Link>
       </MoblieLogo>

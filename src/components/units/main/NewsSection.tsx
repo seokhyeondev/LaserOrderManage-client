@@ -21,7 +21,7 @@ const NEWS_ITEMS: INews[] = [
       "뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다.",
     sort: "시사뉴스",
     createdAt: "2024-05-27",
-    imgUrl: "/images/order_process4.png",
+    imgUrl: "/images/order_process4.webp",
   },
   {
     id: 1,
@@ -31,7 +31,7 @@ const NEWS_ITEMS: INews[] = [
       "뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다.",
     sort: "시사뉴스",
     createdAt: "2024-05-27",
-    imgUrl: "/images/order_process4.png",
+    imgUrl: "/images/order_process4.webp",
   },
   {
     id: 2,
@@ -41,7 +41,7 @@ const NEWS_ITEMS: INews[] = [
       "뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다. 뉴스 내용글입니다. 내용 텍스트입니다.",
     sort: "시사뉴스",
     createdAt: "2024-05-27",
-    imgUrl: "/images/order_process4.png",
+    imgUrl: "/images/order_process4.webp",
   },
 ];
 

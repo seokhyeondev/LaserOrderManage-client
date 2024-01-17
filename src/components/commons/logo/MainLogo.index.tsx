@@ -18,12 +18,16 @@ export default function MainLogo({ transparent, onClick }: IMainLogoProps) {
             width={161}
             height={31}
             src={
-              transparent ? "/images/mainLogoGray.png" : "/images/mainLogo.png"
+              transparent
+                ? "/images/mainLogoGray.webp"
+                : "/images/mainLogo.webp"
             }
             alt="메인 로고"
             placeholder="blur"
             blurDataURL={
-              transparent ? "/images/mainLogoGray.png" : "/images/mainLogo.png"
+              transparent
+                ? "/images/mainLogoGray.webp"
+                : "/images/mainLogo.webp"
             }
           />
         </Link>
@@ -34,12 +38,16 @@ export default function MainLogo({ transparent, onClick }: IMainLogoProps) {
             width={107}
             height={20}
             src={
-              transparent ? "/images/mainLogoGray.png" : "/images/mainLogo.png"
+              transparent
+                ? "/images/mainLogoGray.webp"
+                : "/images/mainLogo.webp"
             }
             alt="메인 로고"
             placeholder="blur"
             blurDataURL={
-              transparent ? "/images/mainLogoGray.png" : "/images/mainLogo.png"
+              transparent
+                ? "/images/mainLogoGray.webp"
+                : "/images/mainLogo.webp"
             }
           />
         </Link>
