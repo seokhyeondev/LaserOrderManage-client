@@ -12,13 +12,10 @@ export default function MainLogoDark() {
         src={mainLogoDark}
         alt="메인 로고"
         Container={LogoContainer}
-        blur
       />
     </Link>
   );
 }
-
-const LogoWrapper = styled.div``;
 
 const LogoContainer = styled.div`
   width: 171px;

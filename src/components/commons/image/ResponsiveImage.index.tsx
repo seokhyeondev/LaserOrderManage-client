@@ -5,16 +5,14 @@ import Image from "next/image";
 import { ReactNode } from "react";
 
 interface IResponsiveImageProps {
-  src: string | StaticImport;
+  src: StaticImport;
   alt: string;
   priority?: boolean;
-  blur?: boolean;
+  position?: IResponsiveContainerPosition;
   Container: React.ComponentType<{ children: ReactNode }>;
 }
 
-const defaultContainerStyle = css`
-  position: relative;
-`;
+type IResponsiveContainerPosition = "relative" | "absolute";
 
 const StyledImage = styled(Image)`
   position: relative !important;
@@ -26,10 +24,10 @@ const ResponsiveImage = ({
   alt,
   Container,
   priority,
-  blur,
+  position = "relative",
 }: IResponsiveImageProps) => {
   const StyledContinaer = styled(Container)`
-    ${defaultContainerStyle}
+    position: ${position};
   `;
   return (
     <StyledContinaer>
@@ -38,7 +36,7 @@ const ResponsiveImage = ({
         alt={alt}
         fill
         priority={priority}
-        placeholder={blur ? "blur" : undefined}
+        placeholder="blur"
       />
     </StyledContinaer>
   );

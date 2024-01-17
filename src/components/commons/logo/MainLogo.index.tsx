@@ -20,7 +20,6 @@ export default function MainLogo({ transparent, onClick }: IMainLogoProps) {
           alt="메인 로고"
           Container={LogoContainer}
           priority
-          blur
         />
       </Link>
     </LogoWrapper>

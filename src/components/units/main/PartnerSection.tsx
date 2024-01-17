@@ -40,7 +40,6 @@ const PartnerSection = () => {
               src={el}
               alt={`partner_logo${idx}`}
               Container={LogoContainer}
-              blur
             />
           ))}
         </LogosWrapper>

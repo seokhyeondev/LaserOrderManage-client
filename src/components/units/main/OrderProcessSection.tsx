@@ -85,7 +85,6 @@ const OrderProcessItem = ({ data }: IOrderProcessItemProps) => {
         src={data.image}
         alt={`order_process${data.id}`}
         Container={ItemImgContainer}
-        blur
       />
       <ItemContentWrapper>
         <ItemTitle className="bold20">{data.title}</ItemTitle>
