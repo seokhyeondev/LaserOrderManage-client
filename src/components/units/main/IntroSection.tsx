@@ -43,7 +43,7 @@ const IntroSection = () => {
 const Wrapper = styled.section`
   width: 100%;
   height: 940px;
-  background-image: url("/images/introImage.png");
+  background-image: url("/images/introImage.webp");
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;

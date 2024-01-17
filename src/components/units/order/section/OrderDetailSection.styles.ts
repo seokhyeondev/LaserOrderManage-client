@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
+import Image from "next/image";
 
-export const Wrapper = styled.div``;
+export const Wrapper = styled.section``;
 
 export const TitleWrapper = styled.div`
   margin-bottom: 20px;
@@ -55,4 +56,22 @@ export const SideLabel = styled.p`
 export const SideContent = styled.p`
   width: 100%;
   text-align: end;
+`;
+
+export const SectionInnerWrapper = styled.div`
+  flex-grow: 1;
+`;
+
+export const ImageWrapper = styled.div`
+  position: relative;
+  width: 240px;
+  height: 120px;
+  margin-block: 20px;
+  border: 1px solid var(--color-mediumGray);
+  background-color: var(--color-lightGray);
+`;
+
+export const SignatureImage = styled(Image)`
+  position: relative !important;
+  height: unset !important;
 `;

@@ -7,6 +7,7 @@ export type IOrderDetailResponse = {
   order: IDetailOrder;
   quotation: IDetailQuotation | null;
   purchaseOrder: IDetailPurchaseOrder | null;
+  acquirer: IDetailAcquirer | null;
 };
 
 export type IDetailCustomer = {
@@ -59,6 +60,14 @@ export type IDetailPurchaseOrder = {
   inspectionCondition: string;
   paymentDate: any;
   createdAt: any;
+};
+
+export type IDetailAcquirer = {
+  id: number;
+  name: string;
+  phone: string;
+  signatureFileName: string;
+  signatureFileUrl: string;
 };
 
 export type IOrderCommentsResponse = IBaseListSimpleResponse<IOrderComment>;

@@ -19,6 +19,7 @@ import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 import { AppPages } from "@/src/lib/constants/appPages";
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 import KumohHead from "../../shared/layout/head/NextHead.index";
+import { getCustomerInfo, getPhoneNumber } from "@/src/lib/utils/utils";
 
 type Acquirer = {
   name: string;
@@ -43,9 +44,13 @@ export default function Acquirer() {
     isSigned &&
     !isSubmit;
 
-  const { data } = useQuery({
-    queryKey: [`order/${orderId}/purchase-order`],
-    queryFn: () => OrderApi.GET_PURCHASE_ORDER(String(orderId)),
+  const { data: customerData } = useQuery({
+    queryKey: [`order/${orderId}/customer`],
+    queryFn: () => OrderApi.GET_ORDER_CUSTOMER_INFO(String(orderId)),
+  });
+  const { data: fileData } = useQuery({
+    queryKey: [`order/${orderId}/file`],
+    queryFn: () => OrderApi.GET_PURCHASE_ORDER_FILE(String(orderId)),
   });
 
   const onResetSignature = () => {
@@ -103,24 +108,29 @@ export default function Acquirer() {
       <S.Wrapper>
         <S.Title className="bold24">인수자 서명하기</S.Title>
         <Spacer width="100%" height="64px" />
-        {data && (
+        {customerData && fileData && (
           <>
             <S.Label className="regular16">거래명</S.Label>
-            <S.Content className="medium20">
-              기계 시스템 제작 프로젝트
-            </S.Content>
+            <S.Content className="medium20">{customerData.orderName}</S.Content>
             <S.Label className="regular16">고객 정보</S.Label>
-            <S.Content className="medium20">김우리 · 우리 기술 (주)</S.Content>
+            <S.Content className="medium20">
+              {getCustomerInfo(
+                customerData.customer.name,
+                customerData.customer.company,
+              )}
+            </S.Content>
             <S.Label className="regular16">고객 휴대폰 번호</S.Label>
-            <S.Content className="medium20">010-1234-1234</S.Content>
+            <S.Content className="medium20">
+              {getPhoneNumber(customerData.customer.phone)}
+            </S.Content>
             <S.Label className="regular16">발주서 정보</S.Label>
             <S.FileName
               className="medium16 flex-column"
-              href={data.fileUrl}
+              href={fileData.fileUrl}
               download={true}
               target="_blank"
             >
-              {data.fileName}
+              {fileData.fileName}
             </S.FileName>
           </>
         )}
@@ -188,14 +198,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   setSsrAxiosHeader(cookies);
   await queryClient.prefetchQuery({
-    queryKey: [`order/${orderId}/purchase-order`],
-    queryFn: () => OrderApi.GET_PURCHASE_ORDER(String(orderId)),
+    queryKey: [`order/${orderId}/customer`],
+    queryFn: () => OrderApi.GET_ORDER_CUSTOMER_INFO(String(orderId)),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: [`order/${orderId}/file`],
+    queryFn: () => OrderApi.GET_PURCHASE_ORDER_FILE(String(orderId)),
   });
 
-  const queryState = queryClient.getQueryState([
-    `order/${orderId}/purchase-order`,
-  ]);
-  if (queryState?.status === "error") {
+  const queryState = queryClient.getQueryState([`order/${orderId}/customer`]);
+  const queryState2 = queryClient.getQueryState([`order/${orderId}/file`]);
+  if (queryState?.status === "error" || queryState2?.status === "error") {
     return {
       redirect: {
         destination: `${AppPages.LOGIN}?redirect=${encodeURIComponent(

@@ -2,7 +2,8 @@ import {
   ICustomerOrderResponse,
   IFactoryNewOrderResponse,
   IFactoryOrderResponse,
-  IPurchaseOrderResponse,
+  IOrderCustomerInfoResponse,
+  IPurchaseOrderFileResponse,
 } from "./Order.types";
 import { axiosPrivate } from "../axios";
 
@@ -57,8 +58,18 @@ export const OrderApi = {
     );
     return response.data;
   },
-  GET_PURCHASE_ORDER: async (id: string): Promise<IPurchaseOrderResponse> => {
-    const response = await axiosPrivate.get(`/order/${id}/purchase-order`);
+  GET_PURCHASE_ORDER_FILE: async (
+    id: string,
+  ): Promise<IPurchaseOrderFileResponse> => {
+    const response = await axiosPrivate.get(
+      `/factory/order/${id}/purchase-order/file`,
+    );
+    return response.data;
+  },
+  GET_ORDER_CUSTOMER_INFO: async (
+    id: string,
+  ): Promise<IOrderCustomerInfoResponse> => {
+    const response = await axiosPrivate.get(`/factory/order/${id}/customer`);
     return response.data;
   },
 };

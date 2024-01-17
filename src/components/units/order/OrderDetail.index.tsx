@@ -28,6 +28,7 @@ import { GetServerSideProps } from "next";
 import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 import { AppPages } from "@/src/lib/constants/appPages";
 import KumohHead from "../../shared/layout/head/NextHead.index";
+import AcquierInfoSection from "./section/AcquirerInfoSection.index";
 
 export default function OrderDetai() {
   const router = useRouter();
@@ -162,6 +163,12 @@ export default function OrderDetai() {
                   scrollArgs.scrollToSection(scrollArgs.quotationInfoRef)
                 }
               />
+              {status === "거래 완료" && data.acquirer && (
+                <>
+                  <Spacer width="100%" height="60px" />
+                  <AcquierInfoSection data={data.acquirer} />
+                </>
+              )}
             </>
           )}
         </S.BodyWrapper>
