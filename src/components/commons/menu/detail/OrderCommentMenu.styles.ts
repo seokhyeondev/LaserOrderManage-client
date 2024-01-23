@@ -65,6 +65,10 @@ export const CommentWrapper = styled.div`
   border-radius: var(--border-radius);
 `;
 
+export const CommentContent = styled.p`
+  white-space: pre-line;
+`;
+
 export const CommentDate = styled.p`
   width: 100%;
   margin-top: 14px;
