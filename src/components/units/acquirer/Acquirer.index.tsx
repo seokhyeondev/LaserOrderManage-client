@@ -65,7 +65,7 @@ export default function Acquirer() {
     const decodedURL = dataURL.replace(/^data:image\/\w+;base64,/, "");
     const buf = Buffer.from(decodedURL, "base64");
     const blob = new Blob([buf], { type: "image/png" });
-    return new File([blob], `${encodeURI(name)}.png`, { type: "image/png" });
+    return new File([blob], "signature.png", { type: "image/png" });
   };
 
   const createAcquirerBlob = () => {
@@ -79,7 +79,7 @@ export default function Acquirer() {
   };
 
   const { mutate } = useMutation({
-    mutationFn: OrderDetailApi.POST_ACCEPT_COMPLETED,
+    mutationFn: OrderDetailApi.ACCEPT_COMPLETED,
     onSuccess: () => {
       setSubmitClicked(false);
       setIsSubmit(true);
@@ -154,6 +154,7 @@ export default function Acquirer() {
           className="medium18"
           placeholder="휴대폰 번호를 입력하세요 (숫자만)"
           type="tel"
+          maxLength={11}
           value={phone}
           onChange={onChangePhone}
           disabled={isSubmit}

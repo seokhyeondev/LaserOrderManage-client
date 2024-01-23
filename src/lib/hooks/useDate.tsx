@@ -6,10 +6,16 @@ type DatePiece = Date | null;
 
 export type DateValue = DatePiece | [DatePiece, DatePiece];
 
-export const useOrderDate = (resetFilter: () => void) => {
+export const useOrderDate = (resetFilter: () => void, refetch: () => void) => {
   const [dateFilter, setDateFilter] = useState<IFilterItem>();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+
+  const checkRefetch = (d: IFilterItem | undefined, s: string, e: string) => {
+    if (d !== undefined && s !== "" && e !== "") {
+      refetch();
+    }
+  };
 
   const onResetFilterWithDate = () => {
     setDateFilter(undefined);
@@ -20,14 +26,25 @@ export const useOrderDate = (resetFilter: () => void) => {
 
   const onDateFilter = (filterItem: IFilterItem) => {
     setDateFilter(filterItem);
+    checkRefetch(filterItem, startDate, endDate);
   };
 
   const onStartDate = (selectedDate: DateValue) => {
     setStartDate(moment(selectedDate?.toString()).format("YY. MM. DD"));
+    checkRefetch(
+      dateFilter,
+      moment(selectedDate?.toString()).format("YY. MM. DD"),
+      endDate,
+    );
   };
 
   const onEndDate = (selectedDate: DateValue) => {
     setEndDate(moment(selectedDate?.toString()).format("YY. MM. DD"));
+    checkRefetch(
+      dateFilter,
+      startDate,
+      moment(selectedDate?.toString()).format("YY. MM. DD"),
+    );
   };
 
   return {

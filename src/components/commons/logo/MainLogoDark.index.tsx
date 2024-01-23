@@ -1,21 +1,20 @@
 import { AppPages } from "@/src/lib/constants/appPages";
 import { media } from "@/src/styles/theme";
 import styled from "@emotion/styled";
-import Link from "next/link";
-import ResponsiveImage from "../image/ResponsiveImage.index";
 import mainLogoDark from "@/public/images/mainLogoDark.webp";
+import { useRouter } from "next/router";
+import Image from "next/image";
 
 export default function MainLogoDark() {
+  const router = useRouter();
   return (
-    <Link href={AppPages.HOME}>
-      <ResponsiveImage
-        src={mainLogoDark}
-        alt="메인 로고"
-        Container={LogoContainer}
-      />
-    </Link>
+    <LogoWrapper onClick={() => router.push(AppPages.HOME)}>
+      <Image src={mainLogoDark} alt="메인 로고" />
+    </LogoWrapper>
   );
 }
+
+const LogoWrapper = styled.div``;
 
 const LogoContainer = styled.div`
   width: 171px;

@@ -7,6 +7,19 @@ export const AVAILABLE_FILE_TYPE = [
   ".jpeg",
 ];
 
+export const AVAILABLE_ORDER_FILE_TYPE = [
+  ".pdf",
+  ".hwp",
+  ".cell",
+  ".docx",
+  ".doc",
+  ".xlsx",
+  ".xls",
+  ".jpg",
+  ".jpeg",
+  ".png",
+];
+
 interface IIngredient {
   key: string;
 }

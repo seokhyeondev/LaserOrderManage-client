@@ -3,7 +3,6 @@ import SendIcon from "../../icons/SendIcon.index";
 import {
   IOrderComment,
   IOrderCommentRequest,
-  IOrderCommentsResponse,
 } from "@/src/lib/apis/order/detail/OrderDetail.types";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { useInputWithMaxLength } from "@/src/lib/hooks/useInput";
@@ -27,6 +26,7 @@ export default function OrderCommentMenu({
   const inputArgs = useInputWithMaxLength(200);
   const { setToast } = useToastify();
   const lastCommentRef = useRef<HTMLDivElement>(null);
+  const [sending, setSending] = useState(false);
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: [`orderDetailComments/${orderId}`],
@@ -42,10 +42,12 @@ export default function OrderCommentMenu({
   const { mutate } = useMutation({
     mutationFn: OrderDetailApi.POST_ORDER_COMMENT,
     onSuccess: () => {
+      setSending(false);
       inputArgs.setValue("");
       refetch();
     },
     onError: (error: AxiosError) => {
+      setSending(false);
       if (error.response) {
         const status = error.response.data as IHttpStatus;
         if (status.errorCode === "-302") {
@@ -56,7 +58,9 @@ export default function OrderCommentMenu({
   });
 
   const onSend = () => {
+    if (sending) return;
     if (inputArgs.value === "") return;
+    setSending(true);
     const payload: IOrderCommentRequest = {
       content: inputArgs.value,
     };
@@ -110,7 +114,9 @@ function OrderCommentItem({ data, itmeRef }: IOrderCommentItemProps) {
         {data.authorName}
       </S.CommentWritter>
       <S.CommentWrapper>
-        <p className="regular14">{data.content}</p>
+        <S.CommentContent className="regular14">
+          {data.content}
+        </S.CommentContent>
         <S.CommentDate className="regular10">
           {getDateTime(data.createdAt)}
         </S.CommentDate>

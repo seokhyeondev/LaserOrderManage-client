@@ -13,6 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import UploadIcon from "../../icons/UploadIcon.index";
+import { AVAILABLE_ORDER_FILE_TYPE } from "@/src/lib/constants/constant";
 
 type PurchaseOrder = {
   inspectionPeriod: any;
@@ -109,8 +110,12 @@ export default function PurchaseOrderModal({
           <S.Label className="regular14">발주서 업로드</S.Label>
           <S.Required className="regular14">*</S.Required>
         </S.LabelWrapper>
+        <S.Announce className="regular14">{`(${AVAILABLE_ORDER_FILE_TYPE.join(
+          ", ",
+        )})`}</S.Announce>
         <S.UploadInput
           type="file"
+          accept={AVAILABLE_ORDER_FILE_TYPE.join(",")}
           ref={hiddenFileInput}
           onChange={onUploadCallback}
         />

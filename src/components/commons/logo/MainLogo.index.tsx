@@ -1,10 +1,10 @@
 import { AppPages } from "@/src/lib/constants/appPages";
 import { media } from "@/src/styles/theme";
 import styled from "@emotion/styled";
-import Link from "next/link";
 import ResponsiveImage from "../image/ResponsiveImage.index";
 import mainLogo from "@/public/images/mainLogo.webp";
 import mainLogoGray from "@/public/images/mainLogoGray.webp";
+import { useRouter } from "next/router";
 
 interface IMainLogoProps {
   transparent: boolean;
@@ -12,16 +12,22 @@ interface IMainLogoProps {
 }
 
 export default function MainLogo({ transparent, onClick }: IMainLogoProps) {
+  const router = useRouter();
+  const onLogo = () => {
+    if (onClick) {
+      onClick();
+      return;
+    }
+    router.push(AppPages.HOME);
+  };
   return (
-    <LogoWrapper onClick={onClick}>
-      <Link href={AppPages.HOME}>
-        <ResponsiveImage
-          src={transparent ? mainLogoGray : mainLogo}
-          alt="메인 로고"
-          Container={LogoContainer}
-          priority
-        />
-      </Link>
+    <LogoWrapper onClick={onLogo}>
+      <ResponsiveImage
+        src={transparent ? mainLogoGray : mainLogo}
+        alt="메인 로고"
+        Container={LogoContainer}
+        priority
+      />
     </LogoWrapper>
   );
 }

@@ -29,7 +29,7 @@ export default function EditDrawingModal({
   const { setToast } = useToastify();
 
   const { mutate } = useMutation({
-    mutationFn: OrderDetailApi.PUT_ORDER_DRAWING,
+    mutationFn: OrderDetailApi.PATCH_ORDER_DRAWING,
     onSuccess: () => {
       callback({
         ...data,

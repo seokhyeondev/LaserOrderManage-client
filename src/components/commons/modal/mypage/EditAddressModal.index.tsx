@@ -73,6 +73,7 @@ export default function EditAddressModal({
         <S.Input
           placeholder="상세 주소를 입력하세요"
           value={detailAddress}
+          maxLength={30}
           onChange={onChangeDetailAddress}
         />
         <Spacer width="100%" height="30px" />

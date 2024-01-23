@@ -10,6 +10,6 @@ export const AppPages = {
   FACTORY_ORDER_LIST: "/factory/order",
   FACTORY_NEW_ORDER_LIST: "/factory/order/new",
   ORDER_DETAIL: "/order",
-  ACQUIRER: "/acquier",
+  ACQUIRER: "/acquirer",
   MY_PAGE: "/mypage",
 };

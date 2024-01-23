@@ -13,20 +13,20 @@ interface IMobileMenu {
 }
 
 const UNAUTHENTICATED_MENU = [
-  { name: "거래 목록", page: AppPages.LOGIN },
   { name: "견적 요청하기", page: AppPages.LOGIN },
+  { name: "거래 목록", page: AppPages.LOGIN },
   { name: "로그인", page: AppPages.LOGIN },
 ];
 
 const CUSTOMER_MENU = [
-  { name: "거래 목록", page: AppPages.CUSTOMER_ORDER_LIST },
   { name: "견적 요청하기", page: AppPages.CUSTOMER_CREATE_ORDER },
+  { name: "거래 목록", page: AppPages.CUSTOMER_ORDER_LIST },
   { name: "마이페이지", page: AppPages.MY_PAGE },
 ];
 
 const FACTORY_MENU = [
-  { name: "거래 내역", page: AppPages.FACTORY_ORDER_LIST },
   { name: "신규 거래 목록", page: AppPages.FACTORY_NEW_ORDER_LIST },
+  { name: "거래 내역", page: AppPages.FACTORY_ORDER_LIST },
   { name: "마이페이지", page: AppPages.MY_PAGE },
 ];
 

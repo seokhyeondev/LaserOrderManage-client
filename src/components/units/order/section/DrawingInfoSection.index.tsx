@@ -194,7 +194,7 @@ function DrawingInfoItem({
           <ItemMenuTitle
             className="regular14"
             href={data.fileUrl}
-            download={true}
+            download={data.fileName}
           >
             다운로드
           </ItemMenuTitle>

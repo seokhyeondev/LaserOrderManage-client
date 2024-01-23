@@ -34,7 +34,7 @@ export const OrderDetailApi = {
     const response = await axiosPrivate.post(`/order/${id}/comment`, paylod);
     return response.data;
   },
-  PUT_ORDER_URGENT: async ({
+  PATCH_ORDER_URGENT: async ({
     id,
     payload,
   }: {
@@ -47,7 +47,7 @@ export const OrderDetailApi = {
     );
     return response.data;
   },
-  PUT_ORDER_DELIVERY_ADDRESS: async ({
+  PATCH_ORDER_DELIVERY_ADDRESS: async ({
     id,
     payload,
   }: {
@@ -73,7 +73,7 @@ export const OrderDetailApi = {
     );
     return response.data;
   },
-  PUT_ORDER_DRAWING: async ({
+  PATCH_ORDER_DRAWING: async ({
     id,
     drawingId,
     payload,
@@ -107,15 +107,17 @@ export const OrderDetailApi = {
     id: string;
     payload: FormData;
   }): Promise<IDetailEditQuotationResponse> => {
-    const response = await axiosPrivate.patch(
+    const response = await axiosPrivate.put(
       `/factory/order/${id}/quotation`,
       payload,
       { headers: { "Content-Type": "multipart/form-data" } },
     );
     return response.data;
   },
-  PUT_ACCEPT_QUOTATION: async (id: string): Promise<null> => {
-    const response = await axiosPrivate.put(`/customer/order/${id}/quotation`);
+  ACCEPT_QUOTATION: async (id: string): Promise<null> => {
+    const response = await axiosPrivate.patch(
+      `/customer/order/${id}/quotation`,
+    );
     return response.data;
   },
   PUT_ORDER_PURCHASE_ORDER: async ({
@@ -125,26 +127,26 @@ export const OrderDetailApi = {
     id: string;
     payload: FormData;
   }): Promise<IDetailEditPurchaseOrderResponse> => {
-    const response = await axiosPrivate.patch(
+    const response = await axiosPrivate.put(
       `/customer/order/${id}/purchase-order`,
       payload,
       { headers: { "Content-Type": "multipart/form-data" } },
     );
     return response.data;
   },
-  PUT_ACCEPT_PURCHASE_ORDER: async (id: string): Promise<null> => {
-    const response = await axiosPrivate.put(
+  ACCEPT_PURCHASE_ORDER: async (id: string): Promise<null> => {
+    const response = await axiosPrivate.patch(
       `/factory/order/${id}/purchase-order`,
     );
     return response.data;
   },
-  PUT_ACCEPT_PRODUCTION_COMPLETED: async (id: string): Promise<null> => {
+  ACCEPT_PRODUCTION_COMPLETED: async (id: string): Promise<null> => {
     const resposne = await axiosPrivate.patch(
       `/factory/order/${id}/stage/production-completed`,
     );
     return resposne.data;
   },
-  POST_ACCEPT_COMPLETED: async ({
+  ACCEPT_COMPLETED: async ({
     id,
     payload,
   }: {

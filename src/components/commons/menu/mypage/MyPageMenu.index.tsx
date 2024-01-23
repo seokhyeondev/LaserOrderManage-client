@@ -10,6 +10,8 @@ import { myInfoState } from "@/src/store/myInfo";
 import { authState } from "@/src/store/auth";
 import { resetCredentials } from "@/src/lib/utils/setCredentials";
 import { useRouter } from "next/router";
+import { useMutation } from "@tanstack/react-query";
+import { UserApi } from "@/src/lib/apis/user/UserApi";
 
 export default function MyPageMenu({
   currentPage,
@@ -20,11 +22,14 @@ export default function MyPageMenu({
   const resetAuthState = useResetRecoilState(authState);
   const router = useRouter();
 
-  const signOut = () => {
-    resetAuthState();
-    resetCredentials();
-    router.replace("/");
-  };
+  const { mutate: signOutMutate } = useMutation({
+    mutationFn: UserApi.LOGOUT,
+    onSuccess: () => {
+      resetAuthState();
+      resetCredentials();
+      router.replace("/");
+    },
+  });
 
   return (
     <S.Wrapper className="flex-column">
@@ -64,7 +69,7 @@ export default function MyPageMenu({
           )}
         </div>
       </S.BodyWrapper>
-      <S.SignoutWrapper className="flex-center" onClick={signOut}>
+      <S.SignoutWrapper className="flex-center" onClick={() => signOutMutate()}>
         <div className="flex-row-align-center">
           <SignoutIcon size={24} />
           <Spacer width="6px" height="100%" />

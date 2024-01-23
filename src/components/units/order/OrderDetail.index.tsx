@@ -62,7 +62,7 @@ export default function OrderDetai() {
   };
 
   const { mutate: acceptQuotation } = useMutation({
-    mutationFn: OrderDetailApi.PUT_ACCEPT_QUOTATION,
+    mutationFn: OrderDetailApi.ACCEPT_QUOTATION,
     onSuccess: () => {
       onChangeStatus("견적 승인", "견적서를 승인했어요");
     },
@@ -72,7 +72,7 @@ export default function OrderDetai() {
   });
 
   const { mutate: acceptPurchaseOrder } = useMutation({
-    mutationFn: OrderDetailApi.PUT_ACCEPT_PURCHASE_ORDER,
+    mutationFn: OrderDetailApi.ACCEPT_PURCHASE_ORDER,
     onSuccess: () => {
       onChangeStatus("제작 중", "발주서를 승인했어요");
     },
@@ -82,7 +82,7 @@ export default function OrderDetai() {
   });
 
   const { mutate: acceptPrdouction } = useMutation({
-    mutationFn: OrderDetailApi.PUT_ACCEPT_PRODUCTION_COMPLETED,
+    mutationFn: OrderDetailApi.ACCEPT_PRODUCTION_COMPLETED,
     onSuccess: () => {
       onChangeStatus("제작 완료", "제작이 완료됐어요");
     },
@@ -221,7 +221,7 @@ export default function OrderDetai() {
         {/* 제작 완료, 회사가 제작을 마치고 클릭 -> 제작 중 -> 제작 완료 */}
         <OrderDetailBottombar
           showCondition={auth.role === "ROLE_FACTORY" && status === "제작 중"}
-          announce="제작이 끝났다면 배송을 시작해주세요"
+          announce="제작이 완료됐나요?"
           buttonText="제작 완료"
           onButton={() => acceptPrdouction(String(orderId))}
         />

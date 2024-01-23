@@ -20,7 +20,7 @@ export default function UrgentSection({
   const { setToast } = useToastify();
 
   const { mutate } = useMutation({
-    mutationFn: OrderDetailApi.PUT_ORDER_URGENT,
+    mutationFn: OrderDetailApi.PATCH_ORDER_URGENT,
     onError: () => {
       setToast({ comment: "거래 상태를 변경할 수 없어요" });
     },
