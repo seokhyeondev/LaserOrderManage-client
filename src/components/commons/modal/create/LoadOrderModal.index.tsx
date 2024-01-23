@@ -108,7 +108,6 @@ export default function LoadOrderModal(props: ILoadOrderModalProps) {
           <Spacer width="15px" height="100%" />
           <S.LoadButton
             className="bold20"
-            isActive={selectedId !== undefined}
             disabled={selectedId === undefined}
             onClick={onLoad}
           >

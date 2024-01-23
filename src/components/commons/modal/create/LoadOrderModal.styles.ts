@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 export const ModalWrapper = styled.div`
   width: 900px;
-  height: 900px;
+  height: 800px;
   background-color: var(--color-white);
   border-radius: var(--border-radius);
   padding: 50px 40px 40px 40px;
@@ -53,17 +53,15 @@ export const LoadOrderItemDate = styled.p`
   color: var(--color-darkGray);
 `;
 
-interface ILoadButtonProps {
-  isActive: boolean;
-}
-
-export const LoadButton = styled.button<ILoadButtonProps>`
+export const LoadButton = styled.button`
   width: 100%;
   height: 60px;
   color: var(--color-white);
-  background-color: ${(props) =>
-    props.isActive ? "var(--color-primary)" : "var(--color-mediumGray)"};
+  background-color: var(--color-primary);
   border-radius: var(--border-radius);
+  &:disabled {
+    background-color: var(--color-mediumGray);
+  }
 `;
 
 export const CancelButton = styled.button`
