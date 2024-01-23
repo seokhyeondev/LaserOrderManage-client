@@ -221,7 +221,7 @@ export default function OrderDetai() {
         {/* 제작 완료, 회사가 제작을 마치고 클릭 -> 제작 중 -> 제작 완료 */}
         <OrderDetailBottombar
           showCondition={auth.role === "ROLE_FACTORY" && status === "제작 중"}
-          announce="제작이 끝났다면 배송을 시작해주세요"
+          announce="제작이 완료됐나요?"
           buttonText="제작 완료"
           onButton={() => acceptPrdouction(String(orderId))}
         />
