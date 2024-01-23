@@ -171,6 +171,7 @@ export default function AddressModal({
         <S.Input
           placeholder="상세 주소"
           value={detailAddress}
+          maxLength={30}
           onChange={onChangeDetailAddress}
         />
         <Spacer width="100%" height="24px" />
@@ -182,6 +183,7 @@ export default function AddressModal({
         <S.Input
           placeholder="휴대폰 번호 (숫자만)"
           value={phone1}
+          maxLength={11}
           onChange={onChangePhone1}
         />
         <Spacer width="100%" height="24px" />
@@ -190,6 +192,7 @@ export default function AddressModal({
         <S.Input
           placeholder="휴대폰 번호 (숫자만)"
           value={phone2}
+          maxLength={11}
           onChange={onChangePhone2}
         />
         <Spacer width="100%" height="24px" />

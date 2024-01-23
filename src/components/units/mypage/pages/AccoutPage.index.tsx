@@ -303,6 +303,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
                 label="휴대폰 번호"
                 value={phone}
                 needEdit={true}
+                maxLength={11}
                 placeHolder="휴대폰 번호를 입력하세요"
                 onChange={onChangePhone}
                 onSubmit={() => onEditCustomerAccount("휴대폰 번호")}
@@ -351,6 +352,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
                 label="대표자 번호"
                 value={phone}
                 needEdit={true}
+                maxLength={11}
                 placeHolder="대표자 번호를 입력하세요"
                 onChange={onChangePhone}
                 onSubmit={() => onEditFactoryAccount("대표자 번호")}
@@ -360,6 +362,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
                 label="FAX 번호"
                 value={fax}
                 needEdit={true}
+                maxLength={11}
                 placeHolder="FAX 번호를 입력하세요"
                 onChange={onChangeFax}
                 onSubmit={() => onEditFactoryAccount("FAX 번호")}

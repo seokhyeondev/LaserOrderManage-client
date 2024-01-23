@@ -104,6 +104,7 @@ export default function ManagerModal({
         <S.Input
           placeholder="휴대폰 번호 (숫자만)"
           value={phone}
+          maxLength={11}
           onChange={onChangePhone}
           onKeyDown={(e) => {
             if (e.key === "Enter") onSubmit();

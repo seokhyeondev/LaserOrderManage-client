@@ -8,6 +8,7 @@ interface IInfoInputItemProps {
   needEdit: boolean;
   placeHolder?: string;
   hideInput?: boolean;
+  maxLength?: number;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onEdit?: () => void;
   onSubmit?: () => void;
@@ -41,6 +42,7 @@ export default function InfoInputItem(props: IInfoInputItemProps) {
           value={props.value}
           placeholder={props.placeHolder}
           type={props.hideInput ? "password" : "text"}
+          maxLength={props.maxLength}
           disabled={!editMode}
           readOnly={!props.needEdit}
           onChange={props.onChange}
