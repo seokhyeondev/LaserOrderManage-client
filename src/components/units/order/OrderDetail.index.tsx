@@ -62,7 +62,7 @@ export default function OrderDetai() {
   };
 
   const { mutate: acceptQuotation } = useMutation({
-    mutationFn: OrderDetailApi.PUT_ACCEPT_QUOTATION,
+    mutationFn: OrderDetailApi.ACCEPT_QUOTATION,
     onSuccess: () => {
       onChangeStatus("견적 승인", "견적서를 승인했어요");
     },
@@ -72,7 +72,7 @@ export default function OrderDetai() {
   });
 
   const { mutate: acceptPurchaseOrder } = useMutation({
-    mutationFn: OrderDetailApi.PUT_ACCEPT_PURCHASE_ORDER,
+    mutationFn: OrderDetailApi.ACCEPT_PURCHASE_ORDER,
     onSuccess: () => {
       onChangeStatus("제작 중", "발주서를 승인했어요");
     },
@@ -82,7 +82,7 @@ export default function OrderDetai() {
   });
 
   const { mutate: acceptPrdouction } = useMutation({
-    mutationFn: OrderDetailApi.PUT_ACCEPT_PRODUCTION_COMPLETED,
+    mutationFn: OrderDetailApi.ACCEPT_PRODUCTION_COMPLETED,
     onSuccess: () => {
       onChangeStatus("제작 완료", "제작이 완료됐어요");
     },

@@ -79,7 +79,7 @@ export default function Acquirer() {
   };
 
   const { mutate } = useMutation({
-    mutationFn: OrderDetailApi.POST_ACCEPT_COMPLETED,
+    mutationFn: OrderDetailApi.ACCEPT_COMPLETED,
     onSuccess: () => {
       setSubmitClicked(false);
       setIsSubmit(true);

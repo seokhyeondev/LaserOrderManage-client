@@ -29,7 +29,7 @@ export default function AddressModal({
   });
 
   const { mutate } = useMutation({
-    mutationFn: OrderDetailApi.PUT_ORDER_DELIVERY_ADDRESS,
+    mutationFn: OrderDetailApi.PATCH_ORDER_DELIVERY_ADDRESS,
     onSuccess: () => {
       callback(selectedAddress);
       setToast({ comment: "배송지를 변경했어요" });
