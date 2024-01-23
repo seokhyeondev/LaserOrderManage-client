@@ -20,7 +20,7 @@ import {
 export default function BasicInfo(props: ICreateOrderPageProps) {
   const [editMode, setEditMode] = useState(false);
   const [loadModalOpen, setLoadModalOpen] = useState(false);
-  const nameArgs = useInputWithMaxLength(30);
+  const nameArgs = useInputWithMaxLength(20);
   const manufacturingArgs = useSelect<Manufacturing>();
   const postProcessingArgs = useSelect<PostProcessing>();
   const nextStepAvailable =
@@ -89,12 +89,12 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
             className="medium18"
             placeholder="예) 부품 제작 프로젝트"
             value={nameArgs.value}
-            maxLength={30}
+            maxLength={20}
             onChange={nameArgs.onChange}
           />
           <Spacer width="100%" height="8px" />
           <S.FormInputLength className="regular14 flex-column-end">
-            {`${nameArgs.value.length}/30`}
+            {`${nameArgs.value.length}/20`}
           </S.FormInputLength>
           <Spacer width="100%" height="40px" />
           <div className="flex-row">
