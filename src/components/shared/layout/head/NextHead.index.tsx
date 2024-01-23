@@ -10,7 +10,7 @@ interface IKumohHeadProps {
 const KumohHead = ({ title, description, additional }: IKumohHeadProps) => {
   return (
     <Head>
-      <title>{title || "레이저가공 및 제작의 시작 - 금오거래센터"}</title>
+      <title>{title || "금오거래센터 - 레이저가공 & 제작의 시작"}</title>
       <meta
         name="description"
         content={
@@ -20,7 +20,7 @@ const KumohHead = ({ title, description, additional }: IKumohHeadProps) => {
       />
       <meta
         property="og:title"
-        content={title || "레이저가공 및 제작의 시작 - 금오 거래센터"}
+        content={title || "금오거래센터 - 레이저가공 & 제작의 시작"}
       />
       <meta
         property="og:description"
