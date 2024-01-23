@@ -1,5 +1,4 @@
 import {
-  useInput,
   useInputWithError,
   useInputWithMaxLength,
 } from "@/src/lib/hooks/useInput";
@@ -47,6 +46,7 @@ export default function SignUp() {
     (value: string) => passwordRegex.test(value),
     (value: string) => passwordRegex.test(value),
   );
+
   const rePasswordInputArgs = useInputWithError(
     "비밀번호가 일치하지 않습니다.",
     (value: string) => value === passwordInputArgs.value,
@@ -74,7 +74,9 @@ export default function SignUp() {
     (value: string) => value !== "",
     (value: string) => value !== "",
   );
-  const [detailAddress, onChangeDetailAddress] = useInput();
+
+  const detailAddressInputArgs = useInputWithMaxLength(30);
+
   const addressCallback = (data: Address) => {
     setZoneCode(data.zonecode);
     addressInputArgs.setValue(data.address);
@@ -202,15 +204,20 @@ export default function SignUp() {
       return;
     }
     const payload: IJoinRequest = {
-      email: emailInputArgs.value,
-      password: passwordInputArgs.value,
-      name: nameInputArgs.value,
+      email: emailInputArgs.value.trim(),
+      password: passwordInputArgs.value.trim(),
+      name: nameInputArgs.value.trim(),
       companyName:
-        companyInputArgs.value !== "" ? companyInputArgs.value : null,
-      phone: phoneInputArgs.value,
+        companyInputArgs.value.trim() !== ""
+          ? companyInputArgs.value.trim()
+          : null,
+      phone: phoneInputArgs.value.trim(),
       zipCode: zoneCode,
       address: addressInputArgs.value,
-      detailAddress: detailAddress !== "" ? detailAddress : null,
+      detailAddress:
+        detailAddressInputArgs.value.trim() !== ""
+          ? detailAddressInputArgs.value.trim()
+          : null,
     };
     joinMutate.mutate(payload);
   };
@@ -320,9 +327,11 @@ export default function SignUp() {
           />
           <SignUpInput
             placeHolder="상세 주소 (선택)"
+            value={detailAddressInputArgs.value}
             editable={true}
             needDefaultSpace={false}
-            onChange={onChangeDetailAddress}
+            maxLength={30}
+            onChange={detailAddressInputArgs.onChange}
           />
           <Spacer width="100%" height="100px" />
           <S.SignUpButton className="bold18" onClick={joinAccount}>
