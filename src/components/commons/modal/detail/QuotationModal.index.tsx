@@ -14,6 +14,7 @@ import { getParamDate } from "@/src/lib/utils/utils";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { useMutation } from "@tanstack/react-query";
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
+import { AVAILABLE_ORDER_FILE_TYPE } from "@/src/lib/constants/constant";
 
 type Quotation = {
   totalCost: string;
@@ -104,8 +105,12 @@ export default function QuotationModal({
           <S.Label className="regular14">견적서 업로드</S.Label>
           <S.Required className="regular14">*</S.Required>
         </S.LabelWrapper>
+        <S.Announce className="regular14">{`(${AVAILABLE_ORDER_FILE_TYPE.join(
+          ", ",
+        )})`}</S.Announce>
         <S.UploadInput
           type="file"
+          accept={AVAILABLE_ORDER_FILE_TYPE.join(",")}
           ref={hiddenFileInput}
           onChange={onUploadCallback}
         />

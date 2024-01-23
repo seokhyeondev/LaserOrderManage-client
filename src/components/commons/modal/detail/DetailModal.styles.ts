@@ -17,14 +17,17 @@ export const Title = styled.p`
   margin-bottom: 40px;
 `;
 
-export const LabelWrapper = styled.div`
-  margin-bottom: 16px;
-`;
+export const LabelWrapper = styled.div``;
 
 export const Label = styled.p``;
 export const Required = styled.p`
   color: var(--color-alert);
   margin-left: 3px;
+`;
+
+export const Announce = styled.p`
+  margin-top: 5px;
+  color: var(--color-normalGray);
 `;
 
 interface IInputWrapperProps {
@@ -34,6 +37,7 @@ interface IInputWrapperProps {
 export const InputWrapper = styled.div<IInputWrapperProps>`
   width: 100%;
   padding: 15px 14px;
+  margin-top: 16px;
   margin-bottom: 44px;
   border: 1px solid var(--color-mediumGray);
   border-radius: var(--border-radius);
@@ -98,6 +102,7 @@ export const SubmitButton = styled.button`
 export const TextArea = styled.textarea`
   width: 100%;
   height: 260px;
+  margin-top: 16px;
   padding: 15px 14px;
   border: 1px solid var(--color-mediumGray);
   border-radius: var(--border-radius);
