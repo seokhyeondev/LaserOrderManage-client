@@ -195,20 +195,24 @@ export default function AddressModal({
           maxLength={11}
           onChange={onChangePhone2}
         />
-        <Spacer width="100%" height="24px" />
-        <S.CheckArea
-          className="flex-row-align-center"
-          onClick={() => setDefaultCheck(!defaultCheck)}
-        >
-          <CheckIcon
-            isChecked={defaultCheck}
-            size={24}
-            defaultColor="var(--color-normalGray)"
-          />
-          <S.CheckLabel isChecked={defaultCheck} className="regular14">
-            기본 배송지로 설정
-          </S.CheckLabel>
-        </S.CheckArea>
+        {initData && !initData.isDefault && (
+          <>
+            <Spacer width="100%" height="24px" />
+            <S.CheckArea
+              className="flex-row-align-center"
+              onClick={() => setDefaultCheck(!defaultCheck)}
+            >
+              <CheckIcon
+                isChecked={defaultCheck}
+                size={24}
+                defaultColor="var(--color-normalGray)"
+              />
+              <S.CheckLabel isChecked={defaultCheck} className="regular14">
+                기본 배송지로 설정
+              </S.CheckLabel>
+            </S.CheckArea>
+          </>
+        )}
         <Spacer width="100%" height="30px" />
         <div className="flex-row">
           <S.CancelButton className="bold16" onClick={onClose}>
