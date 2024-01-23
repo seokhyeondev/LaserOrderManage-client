@@ -8,6 +8,7 @@ export default function OrderSearchbar(props: ISearchbarProps) {
       <SearchbarInput
         className="medium16"
         width="400px"
+        maxLength={20}
         placeholder={props.placeholder}
         onChange={props.onChangeSearchBar}
         onKeyDown={props.onActiveEnter}
