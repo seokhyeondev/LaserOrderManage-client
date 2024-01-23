@@ -28,7 +28,7 @@ export default function Order() {
   const [tab, onTabClick] = useOrderTab(ORDER_TAB[0]);
   const searchBarArgs = useSearchbar(() => refetch());
   const filterArgs = useOrderSelectFilter(() => refetch());
-  const dateArgs = useOrderDate(filterArgs.onResetFilter);
+  const dateArgs = useOrderDate(filterArgs.onResetFilter, () => refetch());
   const modalArgs = useOrderModal();
 
   const { data, refetch } = useQuery({

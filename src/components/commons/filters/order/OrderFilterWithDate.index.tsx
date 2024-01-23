@@ -1,6 +1,5 @@
 import OrderDateInput from "../../inputs/order/OrderDateInput.index";
 import * as S from "./OrderFilter.styles";
-import Image from "next/image";
 import { DATE_FILTER } from "./OrderFilterQueries";
 import { IOrderFilterWithDateProps } from "./OrderFilter.types";
 import RedoIcon from "../../icons/RedoIcon.index";
