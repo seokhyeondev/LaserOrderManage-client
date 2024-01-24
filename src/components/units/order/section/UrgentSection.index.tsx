@@ -18,23 +18,28 @@ export default function UrgentSection({
 }: IUrgentSectionProps) {
   const [selectStatus, setSelectStatus] = useState(isUrgent);
   const { setToast } = useToastify();
+  const [apiSending, setApiSending] = useState(false);
 
   const { mutate } = useMutation({
     mutationFn: OrderDetailApi.PATCH_ORDER_URGENT,
     onError: () => {
+      setApiSending(false);
       setToast({ comment: "거래 상태를 변경할 수 없어요" });
     },
   });
 
   const onSelect = (status: boolean) => {
+    if (apiSending) return;
     if (status !== selectStatus) {
       const payload: IDetailUrgentRequest = {
         isUrgent: status,
       };
+      setApiSending(true);
       mutate(
         { id: orderId, payload: payload },
         {
           onSuccess: () => {
+            setApiSending(false);
             setSelectStatus(status);
             setToast({
               comment: status

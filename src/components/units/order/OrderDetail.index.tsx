@@ -66,9 +66,6 @@ export default function OrderDetai() {
     onSuccess: () => {
       onChangeStatus("견적 승인", "견적서를 승인했어요");
     },
-    onError: () => {
-      setToast({ comment: "견적 승인하기에 실패했어요" });
-    },
   });
 
   const { mutate: acceptPurchaseOrder } = useMutation({
@@ -76,18 +73,12 @@ export default function OrderDetai() {
     onSuccess: () => {
       onChangeStatus("제작 중", "발주서를 승인했어요");
     },
-    onError: () => {
-      setToast({ comment: "발주 승인하기에 실패했어요" });
-    },
   });
 
   const { mutate: acceptPrdouction } = useMutation({
     mutationFn: OrderDetailApi.ACCEPT_PRODUCTION_COMPLETED,
     onSuccess: () => {
       onChangeStatus("제작 완료", "제작이 완료됐어요");
-    },
-    onError: () => {
-      setToast({ comment: "제작 완료하기에 실패했어요" });
     },
   });
 
@@ -97,15 +88,12 @@ export default function OrderDetai() {
       setSendMail(true);
       setToast({ comment: "링크를 메일로 전송했어요" });
     },
-    onError: () => {
-      setToast({ comment: "메일 전송에 실패했어요" });
-    },
   });
 
   return (
     <>
       <KumohHead title={data?.order.name} />
-      <S.Wrapper className="flex-row">
+      <S.Wrapper className="flex-row" ref={scrollArgs.pageRef}>
         <S.BodyWrapper>
           {data && (
             <>
@@ -175,6 +163,7 @@ export default function OrderDetai() {
         <S.MenuWrapper
           className="flex-column-start"
           expanded={scrollArgs.menuExpanded}
+          isBottom={scrollArgs.isBottom}
         >
           <OrderDetailMenu
             focusedSection={scrollArgs.focusedSection}
@@ -191,6 +180,7 @@ export default function OrderDetai() {
           <Spacer width="100%" height="10px" />
           <OrderCommentMenu
             expanded={scrollArgs.menuExpanded}
+            isBottom={scrollArgs.isBottom}
             orderId={String(orderId)}
           />
         </S.MenuWrapper>

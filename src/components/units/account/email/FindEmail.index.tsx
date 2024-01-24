@@ -33,7 +33,6 @@ export default function FindEmail() {
     onSuccess: (data) => {
       setResult(data);
     },
-    onError: () => {},
   });
 
   const findEmail = () => {

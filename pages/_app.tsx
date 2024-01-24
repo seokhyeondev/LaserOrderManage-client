@@ -2,7 +2,6 @@ import type { AppProps } from "next/app";
 import { Global } from "@emotion/react";
 import Layout from "@/src/components/shared/layout";
 import { globalStyles } from "@/src/styles/globalStyles";
-import { Roboto } from "next/font/google";
 import {
   HydrationBoundary,
   QueryClient,
@@ -13,15 +12,16 @@ import { useState } from "react";
 import AuthInitializer from "@/src/components/shared/auth/AuthInitializer.index";
 import * as gtag from "@/src/lib/constants/gtags";
 import Script from "next/script";
+import { useApiError } from "@/src/lib/hooks/useApiError";
 
-const roboto = Roboto({ weight: ["400", "500", "700"], subsets: ["latin"] });
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
+  const { handleError } = useApiError();
   queryClient.setDefaultOptions({
     queries: { retry: false },
-    mutations: { retry: false },
+    mutations: { retry: false, onError: (error: any) => handleError(error) },
   });
   gtag.useGtag();
 
@@ -55,7 +55,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <HydrationBoundary state={pageProps.dehydratedState}>
             <Global styles={globalStyles} />
             <AuthInitializer>
-              <Layout className={roboto.className}>
+              <Layout>
                 <Component {...pageProps} />
               </Layout>
             </AuthInitializer>

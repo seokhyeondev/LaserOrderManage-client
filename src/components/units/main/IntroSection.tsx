@@ -5,18 +5,12 @@ import { keyframes } from "@emotion/react";
 import ScrollDownIcon from "../../commons/icons/ScrollDownIcon.index";
 import { PORTFOLIO_LINK } from "@/src/lib/constants/constant";
 import introImg from "@/public/images/introImage.webp";
-import ResponsiveImage from "../../commons/image/ResponsiveImage.index";
+import Image from "next/image";
 
 const IntroSection = () => {
   return (
     <Wrapper>
-      <ResponsiveImage
-        src={introImg}
-        alt="introImg"
-        Container={BackgroundContinaer}
-        position="absolute"
-        priority
-      />
+      <Image src={introImg} alt="introImage" fill priority sizes="100%, 100%" />
       <Overlay />
       <LayoutHeader transparent />
       <IntroWapper>
@@ -53,12 +47,9 @@ const Wrapper = styled.section`
   width: 100%;
   height: 940px;
   position: relative;
-`;
-
-const BackgroundContinaer = styled.div`
-  width: 100%;
-  height: 100%;
-  z-index: 1;
+  ${media.mobile} {
+    height: 670px;
+  }
 `;
 
 const Overlay = styled.div`

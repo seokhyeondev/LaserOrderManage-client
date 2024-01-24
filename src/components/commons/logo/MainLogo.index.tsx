@@ -32,7 +32,9 @@ export default function MainLogo({ transparent, onClick }: IMainLogoProps) {
   );
 }
 
-const LogoWrapper = styled.div``;
+const LogoWrapper = styled.div`
+  cursor: pointer;
+`;
 
 const LogoContainer = styled.div`
   width: 171px;

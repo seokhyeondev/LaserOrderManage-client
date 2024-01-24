@@ -36,13 +36,16 @@ export default function AccountPage({ role }: IAccoutPageProps) {
   const companyArgs = useInputWithMaxLength(20);
   const [fax, onChangeFax, setFax] = useInputWithRegex(numberRegex, "");
   const [notify, setNotify] = useState(false);
-
   const setMyInfo = useSetRecoilState(myInfoState);
   const { setToast } = useToastify();
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
 
-  const { data: customerAccount, isSuccess: customerSuccess } = useQuery({
+  const {
+    data: customerAccount,
+    isFetching: customerFetching,
+    refetch: customerRefetch,
+  } = useQuery({
     queryKey: ["customerAccount"],
     queryFn: () => CustomerApi.GET_ACCOUNT_INFO(),
     enabled: role === "ROLE_CUSTOMER",
@@ -62,9 +65,13 @@ export default function AccountPage({ role }: IAccoutPageProps) {
         company: customerAccount.companyName,
       });
     }
-  }, [customerSuccess, customerAccount]);
+  }, [customerAccount, customerFetching]);
 
-  const { data: factoryAccount, isSuccess: factorySuccess } = useQuery({
+  const {
+    data: factoryAccount,
+    isFetching: factoryFetching,
+    refetch: factoryRefetch,
+  } = useQuery({
     queryKey: ["factoryAccount"],
     queryFn: () => FactoryApi.GET_ACCOUNT_INFO(),
     enabled: role === "ROLE_FACTORY",
@@ -85,7 +92,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
         company: factoryAccount.companyName,
       });
     }
-  }, [factorySuccess, factoryAccount]);
+  }, [factoryAccount, factoryFetching]);
 
   const { mutate: patchCustomerAccount } = useMutation({
     mutationFn: CustomerApi.EDIT_ACCOUNT_INFO,
@@ -96,7 +103,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
       phone: phone.trim(),
       zipCode: zoneCode,
       address: address,
-      detailAddress: detailAddress !== "" ? detailAddress.trim() : null,
+      detailAddress: detailAddress.trim() !== "" ? detailAddress.trim() : null,
     };
     const payload: IEditCustomerAccountRequest = {
       name: nameArgs.value.trim(),
@@ -113,13 +120,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
               ? `${label} 외 ${diffCnt - 1}개를 변경했어요`
               : `${label}을 변경했어요`,
         });
-        setZoneCode(payload.user.zipCode);
-        setAddress(payload.user.address);
-        setDetailAddress(payload.user.detailAddress ?? "");
-        setMyInfo({
-          name: payload.name,
-          company: payload.companyName,
-        });
+        customerRefetch();
       },
       onError: () => {
         setToast({
@@ -128,6 +129,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
               ? `${label} 외 ${diffCnt - 1}개 변경에 실패했어요`
               : `${label} 변경에 실패했어요`,
         });
+        customerRefetch();
       },
     });
   };
@@ -174,13 +176,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
               ? `${label} 외 ${diffCnt - 1}개를 변경했어요`
               : `${label}을 변경했어요`,
         });
-        setZoneCode(payload.user.zipCode);
-        setAddress(payload.user.address);
-        setDetailAddress(payload.user.detailAddress ?? "");
-        setMyInfo({
-          name: "관리자",
-          company: payload.companyName,
-        });
+        factoryRefetch();
       },
       onError: () => {
         setToast({
@@ -189,6 +185,7 @@ export default function AccountPage({ role }: IAccoutPageProps) {
               ? `${label} 외 ${diffCnt - 1}개 변경에 실패했어요`
               : `${label} 변경에 실패했어요`,
         });
+        factoryRefetch();
       },
     });
   };
@@ -233,17 +230,23 @@ export default function AccountPage({ role }: IAccoutPageProps) {
     }
   };
 
+  const [patchNotifySending, setPatchNotifySending] = useState(false);
+
   const { mutate: patchNotify } = useMutation({
     mutationFn: UserApi.PATCH_NOTIFICATION,
     onError: () => {
+      setPatchNotifySending(false);
       setToast({ comment: "알림 설정 변경에 실패했어요" });
     },
   });
 
   const toggleNotify = () => {
+    if (patchNotifySending) return;
     const newStatus = !notify;
+    setPatchNotifySending(true);
     patchNotify(newStatus, {
       onSuccess: () => {
+        setPatchNotifySending(false);
         setNotify(newStatus);
         setToast({
           comment: newStatus ? "알림을 설정했어요" : "알림을 해제했어요",

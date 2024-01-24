@@ -40,9 +40,6 @@ export default function EditDrawingModal({
       setToast({ comment: "도면을 수정했어요" });
       onClose();
     },
-    onError: () => {
-      setToast({ comment: "도면 수정을 실패했어요" });
-    },
   });
 
   const onSubmit = () => {

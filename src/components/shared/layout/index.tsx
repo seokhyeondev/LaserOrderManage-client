@@ -4,6 +4,13 @@ import { useToastify } from "@/src/lib/hooks/useToastify";
 import LayoutFooter from "./footer/LayoutFooter.index";
 import { useRouter } from "next/router";
 import { AppPages } from "@/src/lib/constants/appPages";
+import { Roboto } from "next/font/google";
+
+const roboto = Roboto({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 const Body = styled.main`
   display: flex;
@@ -13,17 +20,16 @@ const Body = styled.main`
 `;
 
 interface ILayoutProps {
-  className: string;
   children: React.JSX.Element;
 }
-export default function Layout(props: ILayoutProps) {
+export default function Layout({ children }: ILayoutProps) {
   const { Toast } = useToastify();
   const { asPath } = useRouter();
   return (
-    <div className={props.className}>
+    <div className={roboto.className}>
       <Toast />
       {asPath !== AppPages.HOME && <LayoutHeader transparent={false} />}
-      <Body>{props.children}</Body>
+      <Body>{children}</Body>
       <LayoutFooter />
     </div>
   );

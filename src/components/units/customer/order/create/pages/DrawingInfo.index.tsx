@@ -11,9 +11,9 @@ import { numberRegex } from "@/src/lib/constants/regex";
 import { OrderCreateApi } from "@/src/lib/apis/order/create/OrderCreateApi";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { IHttpStatus } from "@/src/lib/apis/axios";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import UploadFileIcon from "@/src/components/commons/icons/UploadFileIcon.index";
+import { useApiError } from "@/src/lib/hooks/useApiError";
 
 export default function DrawingInfo(props: ICreateOrderPageProps) {
   const hiddenFileInput = useRef<HTMLInputElement>(null);
@@ -30,6 +30,7 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
         drawing.isLoading === false,
     );
   const { setToast } = useToastify();
+  const { handleError } = useApiError();
 
   useEffect(() => {
     setDrawings(
@@ -126,22 +127,8 @@ export default function DrawingInfo(props: ICreateOrderPageProps) {
     payload.append("fileSize", String(file.size));
     mutate(payload, {
       onError: (error: AxiosError) => {
-        if (error.response) {
-          onDeleteDrawing(file.name);
-          const status = error.response.data as IHttpStatus;
-          if (status.errorCode === "-009") {
-            // 지원하지 않는 파일 형식
-            setToast({ comment: "지원하지 않는 파일 형식입니다" });
-            return;
-          }
-          if (status.errorCode === "-503") {
-            // 파일 업로드가 불가능
-            setToast({ comment: "업로드를 할 수 없어요" });
-            return;
-          }
-          //썸네일 추출이 불가능
-          setToast({ comment: "업로드에 실패했어요" });
-        }
+        onDeleteDrawing(file.name);
+        handleError(error);
       },
     });
   };

@@ -11,11 +11,12 @@ export const BodyWrapper = styled.div`
 
 interface IMenuWrapperProps {
   expanded: boolean;
+  isBottom: boolean;
 }
 
 export const MenuWrapper = styled.div<IMenuWrapperProps>`
   position: fixed;
-  top: ${(props) => (props.expanded ? "0px" : "auto")};
+  top: ${(props) => (props.expanded !== props.isBottom ? "0px" : "auto")};
   right: 0;
   width: 340px;
   padding: 10px;

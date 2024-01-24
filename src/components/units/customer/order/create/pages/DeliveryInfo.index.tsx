@@ -11,7 +11,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { CustomerApi } from "@/src/lib/apis/user/customer/CustomerApi";
 import { OrderCreateApi } from "@/src/lib/apis/order/create/OrderCreateApi";
 import { AxiosError } from "axios";
-import { IHttpStatus } from "@/src/lib/apis/axios";
 import {
   IOrderCreateRequest,
   IOrderDeliveryAddress,
@@ -19,6 +18,7 @@ import {
 import { useRouter } from "next/router";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { AppPages } from "@/src/lib/constants/appPages";
+import { useApiError } from "@/src/lib/hooks/useApiError";
 
 export default function DeliveryInfo(props: ICreateOrderPageProps) {
   const [addressModalOpen, setAddressModalOpen] = useState(false);
@@ -26,6 +26,8 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
   const resetOrderState = useResetRecoilState(createOrderState);
   const [selectedAddress, setSelectedAddress] =
     useState<IOrderDeliveryAddress | null>(null);
+  const [apiSending, setApiSending] = useState(false);
+  const { handleError } = useApiError();
 
   const { data, refetch } = useQuery({
     queryKey: ["deliveryAddress"],
@@ -37,20 +39,14 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
   const { mutate } = useMutation({
     mutationFn: OrderCreateApi.ORDER_CREATE,
     onSuccess: () => {
+      setApiSending(false);
       setToast({ comment: "새 거래를 생성했어요" });
       router.replace(AppPages.CUSTOMER_ORDER_LIST);
       resetOrderState();
     },
     onError: (error: AxiosError) => {
-      if (error.response) {
-        const status = error.response.data as IHttpStatus;
-        if (status.errorCode === "-009") {
-          //지원하지 않는 파일 형식
-        }
-        if (status.errorCode === "-010") {
-          //지원하지 않는 재료
-        }
-      }
+      setApiSending(false);
+      handleError(error);
     },
   });
 
@@ -69,10 +65,12 @@ export default function DeliveryInfo(props: ICreateOrderPageProps) {
   };
 
   const onSubmit = () => {
+    if (apiSending) return;
     const payload: IOrderCreateRequest = {
       ...orderState,
       deliveryAddress: selectedAddress!!,
     };
+    setApiSending(true);
     mutate(payload);
   };
 

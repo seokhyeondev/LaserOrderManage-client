@@ -18,11 +18,11 @@ import { useDaumPostPopup } from "@/src/lib/hooks/useDaumPostPopup";
 import { useMutation } from "@tanstack/react-query";
 import { UserApi } from "@/src/lib/apis/user/UserApi";
 import { AxiosError } from "axios";
-import { IHttpStatus } from "@/src/lib/apis/axios";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { IJoinRequest } from "@/src/lib/apis/user/User.types";
 import { AppPages } from "@/src/lib/constants/appPages";
 import KumohHead from "../../shared/layout/head/NextHead.index";
+import { errorCodeSpliter } from "@/src/lib/hooks/useApiError";
 
 export default function SignUp() {
   const [sendCode, setSendCode] = useState(false);
@@ -104,16 +104,9 @@ export default function SignUp() {
     },
     onError: (error: AxiosError) => {
       setCodeSending(false);
-      if (error.response) {
-        const status = error.response.data as IHttpStatus;
-        if (status.errorCode === "-005") {
-          //이메일 형식에 맞지 않을 때
-          emailInputArgs.showError(status.message);
-        }
-        if (status.errorCode === "-502") {
-          //이메일에 전송이 불가능할 때
-          emailInputArgs.showError("해당 메일로 전송이 불가능해요");
-        }
+      const { errorSort, status, errorNumber } = errorCodeSpliter(error);
+      if (errorSort === "COMMON" && status === 500 && errorNumber === 3) {
+        emailInputArgs.showError("메일 전송이 불가능해요");
       }
     },
   });
@@ -129,18 +122,13 @@ export default function SignUp() {
       }
     },
     onError: (error: AxiosError) => {
-      if (error.response) {
-        const status = error.response.data as IHttpStatus;
-        if (status.errorCode === "-107") {
-          // 코드가 잘못됐을 때,
+      const { errorSort, status, errorNumber } = errorCodeSpliter(error);
+      if (errorSort === "USER") {
+        if (status === 401 && errorNumber === 7) {
           codeInputArgs.showError();
         }
-        if (status.errorCode === "-401") {
-          //이메일에 해당하는 인증 코드가 없을때
+        if (status === 404 && errorNumber === 2) {
           codeInputArgs.showError("인증 코드를 재전송해주세요.");
-        }
-        if (status.errorCode === "-005") {
-          //이메일이나 인증코드 형식이 맞지 않을 때,
         }
       }
     },
@@ -152,13 +140,6 @@ export default function SignUp() {
       if (data.status === "003") {
         setToast({ comment: "회원가입을 완료했어요" });
         router.replace(AppPages.LOGIN);
-      }
-    },
-    onError: (error: AxiosError) => {
-      if (error.response) {
-        const status = error.response.data as IHttpStatus;
-        if (status.errorCode === "-005") {
-        } // 각종 실패
       }
     },
   });
@@ -230,9 +211,9 @@ export default function SignUp() {
           <S.Header className="bold28">회원가입</S.Header>
           <SignUpInput
             placeHolder="이메일"
+            needDefaultSpace={false}
             editable={!codeChecked && !codeSending}
             isError={emailInputArgs.error}
-            needDefaultSpace={false}
             errorMessage={emailInputArgs.errorMessage}
             tailButtonTitle={
               codeChecked ? "인증완료" : sendCode ? "재요청" : "인증요청"
@@ -247,10 +228,10 @@ export default function SignUp() {
           {sendCode && !codeChecked ? (
             <SignUpInput
               placeHolder="이메일 인증 코드"
-              hideInput={true}
+              needDefaultSpace
+              maxLength={6}
               editable={!codeChecked}
               isError={codeInputArgs.error}
-              needDefaultSpace={true}
               errorMessage={codeInputArgs.errorMessage}
               tailButtonTitle="확인"
               tailButtonValidate={codeInputArgs.isCorrect}
@@ -265,60 +246,60 @@ export default function SignUp() {
           )}
           <SignUpInput
             placeHolder="비밀번호"
-            hideInput={true}
-            editable={true}
+            hideInput
+            editable
             isError={
               passwordInputArgs.errorWithEmpty || passwordInputArgs.error
             }
             errorMessage={passwordInputArgs.errorMessage}
-            needDefaultSpace={true}
+            needDefaultSpace
             onChange={passwordInputArgs.onChange}
           />
           <SignUpInput
             placeHolder="비밀번호 확인"
-            hideInput={true}
-            editable={true}
+            hideInput
+            editable
+            needDefaultSpace
             isError={
               (passwordInputArgs.value !== "" &&
                 rePasswordInputArgs.errorWithEmpty) ||
               rePasswordInputArgs.error
             }
             errorMessage={rePasswordInputArgs.errorMessage}
-            needDefaultSpace={true}
             onChange={rePasswordInputArgs.onChange}
           />
           <SignUpInput
             placeHolder="이름"
-            editable={true}
+            editable
+            needDefaultSpace
             value={nameInputArgs.value}
             isError={nameInputArgs.error}
             errorMessage={nameInputArgs.errorMessage}
-            needDefaultSpace={true}
             maxLength={10}
             onChange={nameInputArgs.onChange}
           />
           <SignUpInput
             placeHolder="휴대폰 번호 (숫자만 입력해주세요)"
+            editable
+            needDefaultSpace
             value={phoneInputArgs.value}
-            editable={true}
             isError={phoneInputArgs.error}
             errorMessage={phoneInputArgs.errorMessage}
-            needDefaultSpace={true}
             onChange={phoneInputArgs.onChange}
           />
           <SignUpInput
             placeHolder="업체명 (선택)"
+            editable
+            needDefaultSpace
             value={companyInputArgs.value}
-            editable={true}
-            needDefaultSpace={true}
             maxLength={20}
             onChange={companyInputArgs.onChange}
           />
           <SignUpInput
             placeHolder="주소 (배송지)"
             value={addressInputArgs.value}
-            editable={true}
-            readonly={true}
+            editable
+            readonly
             tailButtonTitle="검색하기"
             isError={addressInputArgs.error}
             errorMessage={addressInputArgs.errorMessage}
@@ -328,7 +309,7 @@ export default function SignUp() {
           <SignUpInput
             placeHolder="상세 주소 (선택)"
             value={detailAddressInputArgs.value}
-            editable={true}
+            editable
             needDefaultSpace={false}
             maxLength={30}
             onChange={detailAddressInputArgs.onChange}
