@@ -3,7 +3,6 @@ import { useState, KeyboardEvent } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { UserApi } from "@/src/lib/apis/user/UserApi";
 import { AxiosError } from "axios";
-import { IHttpStatus } from "@/src/lib/apis/axios";
 import { useSetRecoilState } from "recoil";
 import { authState } from "@/src/store/auth";
 import { setCredentials } from "@/src/lib/utils/setCredentials";

@@ -59,7 +59,7 @@ axiosPrivate.interceptors.response.use(
   },
 );
 
-export const makeCookieString = (token: IToken) => {
+const makeCookieString = (token: IToken) => {
   return `refreshToken=${token.refreshToken}; Path=/; domain:.kumoh.org; max-age=${token.refreshToken}; secure=true; SameSite=None`;
 };
 
