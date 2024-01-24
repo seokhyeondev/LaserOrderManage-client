@@ -14,11 +14,13 @@ import { useApiError } from "@/src/lib/hooks/useApiError";
 
 interface IOrderCommentMenuProps {
   expanded: boolean;
+  isBottom: boolean;
   orderId: string;
 }
 
 export default function OrderCommentMenu({
   expanded,
+  isBottom,
   orderId,
 }: IOrderCommentMenuProps) {
   const [inputFocus, setInputFocus] = useState(false);
@@ -62,7 +64,11 @@ export default function OrderCommentMenu({
   };
 
   return (
-    <S.Wrapper className="flex-column-start" expanded={expanded}>
+    <S.Wrapper
+      className="flex-column-start"
+      expanded={expanded}
+      isBottom={isBottom}
+    >
       <S.Label className="bold20">댓글</S.Label>
       <S.CommentsWrapper>
         {data?.totalElements == 0 && (

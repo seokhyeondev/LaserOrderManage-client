@@ -93,7 +93,7 @@ export default function OrderDetai() {
   return (
     <>
       <KumohHead title={data?.order.name} />
-      <S.Wrapper className="flex-row">
+      <S.Wrapper className="flex-row" ref={scrollArgs.pageRef}>
         <S.BodyWrapper>
           {data && (
             <>
@@ -163,6 +163,7 @@ export default function OrderDetai() {
         <S.MenuWrapper
           className="flex-column-start"
           expanded={scrollArgs.menuExpanded}
+          isBottom={scrollArgs.isBottom}
         >
           <OrderDetailMenu
             focusedSection={scrollArgs.focusedSection}
@@ -179,6 +180,7 @@ export default function OrderDetai() {
           <Spacer width="100%" height="10px" />
           <OrderCommentMenu
             expanded={scrollArgs.menuExpanded}
+            isBottom={scrollArgs.isBottom}
             orderId={String(orderId)}
           />
         </S.MenuWrapper>

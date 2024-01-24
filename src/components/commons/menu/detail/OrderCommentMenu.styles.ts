@@ -2,11 +2,17 @@ import styled from "@emotion/styled";
 
 interface IWrapperProps {
   expanded: boolean;
+  isBottom: boolean;
 }
 
 export const Wrapper = styled.div<IWrapperProps>`
   width: 100%;
-  height: ${(props) => (props.expanded ? "100%" : "calc(100% - 380px)")};
+  height: ${(props) =>
+    props.expanded
+      ? "100%"
+      : props.isBottom
+      ? "calc(100% - 500px)"
+      : "calc(100% - 400px)"};
   padding: 30px 15px 18px 15px;
   border: 2px solid var(--color-mediumGray);
   border-radius: var(--border-radius);
