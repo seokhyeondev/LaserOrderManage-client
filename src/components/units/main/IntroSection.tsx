@@ -10,7 +10,14 @@ import Image from "next/image";
 const IntroSection = () => {
   return (
     <Wrapper>
-      <Image src={introImg} alt="introImage" fill priority sizes="100%, 100%" />
+      <Image
+        src={introImg}
+        fill
+        priority
+        alt="introImage"
+        sizes="100%, 100%"
+        placeholder="blur"
+      />
       <Overlay />
       <LayoutHeader transparent />
       <IntroWapper>

@@ -322,7 +322,8 @@ const PortfolioExplain = styled.p`
   white-space: pre-line;
   color: rgba(255, 255, 255, 0.7);
   ${media.mobile} {
-    font-size: 24px;
+    font-size: 20px;
+    margin-top: 100px;
   }
 `;
 
@@ -405,8 +406,9 @@ const ContentItemContent = styled.p`
   white-space: pre-line;
   color: var(--color-white);
   ${media.mobile} {
-    font-size: 36px;
+    font-size: 24px;
     line-height: 36px;
+    margin-top: 20px;
   }
 `;
 
