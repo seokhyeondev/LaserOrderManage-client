@@ -4,10 +4,6 @@ import { useState } from "react";
 import manufacturingImg1 from "@/public/images/manufacturing1.webp";
 import manufacturingImg2 from "@/public/images/manufacturing2.webp";
 import manufacturingImg3 from "@/public/images/manufacturing3.webp";
-import portfolioImg1 from "@/public/images/portfolio1.webp";
-import portfolioImg2 from "@/public/images/portfolio2.webp";
-import portfolioImg3 from "@/public/images/portfolio3.webp";
-import portfolioImg4 from "@/public/images/portfolio4.webp";
 import { StaticImageData } from "next/image";
 import ResponsiveImage from "../../commons/image/ResponsiveImage.index";
 
@@ -37,24 +33,41 @@ const MANUFACTURING_ITEMS: IManufacturingItem[] = [
 
 const PORTFOLIO_ITEMS: IPortfolioItem[] = [
   {
-    title: "로봇 용접기",
-    content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다1.",
-    image: "/images/portfolio1.webp",
-  },
-  {
-    title: "파이프 레이저 장비",
-    content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다2.",
-    image: "/images/portfolio2.webp",
-  },
-  {
-    title: "레이저가공기",
-    content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다3.",
+    title: "레이저",
     image: "/images/portfolio3.webp",
+    contents: [
+      { name: "보유", content: "3대" },
+      { name: "SS가공", content: "20T" },
+      { name: "STS가공", content: "16T" },
+      { name: "작업반경", content: "1500 x 3000" },
+    ],
+  },
+  {
+    title: "파이프 레이저",
+    image: "/images/portfolio2.webp",
+    contents: [
+      { name: "SS가공", content: "250T" },
+      { name: "STS가공", content: "12T" },
+      { name: "원형", content: "200Ø" },
+      { name: "사각형", content: "150 x 150" },
+    ],
   },
   {
     title: "절곡기",
-    content: "원하는 파트너를 직접 찾아\n상담 및 견적을 요청할 수 있습니다3.",
     image: "/images/portfolio4.webp",
+    contents: [
+      { name: "보유", content: "4대" },
+      { name: "SS가공", content: "250T" },
+      { name: "STS가공", content: "12T" },
+      { name: "작업반경", content: "3000" },
+    ],
+  },
+  {
+    title: "로봇 용접기",
+    image: "/images/portfolio1.webp",
+    contents: [],
+    explain:
+      "섬세하고 높은 퍼포먼스를 보여주는\n로봇 용접기와 금오만의 용접기술로\n최고의 제품을 제공해 드립니다.",
   },
 ];
 
@@ -104,13 +117,23 @@ const PortfolioItem = () => {
 
   return (
     <PortfolioWrapper>
-      <PortfolioContentWrapper background="var(--color-black)">
+      <PortfolioInnerWrapper background="var(--color-black)">
         <PortfolioTitle key={`title-${index}`}>
           {PORTFOLIO_ITEMS[index].title}
         </PortfolioTitle>
-        <PortfolioContent key={`content-${index}`}>
-          {PORTFOLIO_ITEMS[index].content}
-        </PortfolioContent>
+        {PORTFOLIO_ITEMS[index].explain && (
+          <PortfolioExplain key={`explain-${index}`}>
+            {PORTFOLIO_ITEMS[index].explain}
+          </PortfolioExplain>
+        )}
+        <PortfolioContentsWrapper
+          key={`contents-${index}`}
+          className="flex-row"
+        >
+          {PORTFOLIO_ITEMS[index].contents.map((el) => (
+            <PortfolioContentItem key={el.name} data={el} />
+          ))}
+        </PortfolioContentsWrapper>
         <PortfolioButtonsWrapper>
           <PortfolioButton
             src="/images/arrow_left.webp"
@@ -123,15 +146,24 @@ const PortfolioItem = () => {
             onClick={onNext}
           />
         </PortfolioButtonsWrapper>
-      </PortfolioContentWrapper>
-      <PortfolioContentWrapper background="#f9f9f9">
+      </PortfolioInnerWrapper>
+      <PortfolioInnerWrapper background="#f9f9f9">
         <PortfolioImg
           key={`img-${index}`}
           src={PORTFOLIO_ITEMS[index].image}
           alt={`portfolio-${index}`}
         />
-      </PortfolioContentWrapper>
+      </PortfolioInnerWrapper>
     </PortfolioWrapper>
+  );
+};
+
+const PortfolioContentItem = ({ data }: IPortfolioContentItemProps) => {
+  return (
+    <ContentItemWrapper>
+      <ContentItemName>{data.name}</ContentItemName>
+      <ContentItemContent>{data.content}</ContentItemContent>
+    </ContentItemWrapper>
   );
 };
 
@@ -148,9 +180,19 @@ interface IManufacturingItemProps {
 
 type IPortfolioItem = {
   title: string;
-  content: string;
   image: string;
+  contents: IPortfolioContent[];
+  explain?: string;
 };
+
+type IPortfolioContent = {
+  name: string;
+  content: string;
+};
+
+interface IPortfolioContentItemProps {
+  data: IPortfolioContent;
+}
 
 const Wrapper = styled.section`
   width: 100%;
@@ -244,44 +286,43 @@ interface IContentWrapperProps {
   background: string;
 }
 
-const PortfolioContentWrapper = styled.div<IContentWrapperProps>`
+const PortfolioInnerWrapper = styled.div<IContentWrapperProps>`
   position: relative;
   flex: 1;
   height: 750px;
-  padding-block: 322px;
-  padding-left: 120px;
+  padding-block: 110px 240px;
+  padding-inline: 40px;
   background-color: ${(props) => props.background};
   ${media.tablet} {
     flex: none;
     width: 100%;
+    padding-bottom: 200px;
   }
   ${media.mobile} {
     height: 550px;
-    padding-block: 224px;
-    padding-left: 52px;
+    padding-top: 80px;
+    padding-bottom: 180px;
   }
 `;
 
 const PortfolioTitle = styled.h3`
-  font-size: 32px;
+  font-size: 40px;
   line-height: 24px;
-  margin-bottom: 24px;
   color: var(--color-white);
   ${media.mobile} {
-    font-size: 24px;
+    font-size: 32px;
     line-height: 28px;
   }
 `;
 
-const PortfolioContent = styled.p`
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 28px;
+const PortfolioExplain = styled.p`
+  font-size: 32px;
+  line-height: 60px;
+  margin-top: 120px;
   white-space: pre-line;
   color: rgba(255, 255, 255, 0.7);
   ${media.mobile} {
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 24px;
   }
 `;
 
@@ -325,6 +366,48 @@ const PortfolioImg = styled.img`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+`;
+
+const PortfolioContentsWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+  margin-top: 100px;
+  ${media.tablet} {
+    margin-top: 120px;
+  }
+  ${media.mobile} {
+    margin-top: 90px;
+  }
+`;
+
+const ContentItemWrapper = styled.div`
+  flex-basis: 50%;
+`;
+
+const ContentItemName = styled.p`
+  font-size: 20px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  ${media.mobile} {
+    font-size: 16px;
+  }
+`;
+
+const ContentItemContent = styled.p`
+  font-size: 60px;
+  line-height: 60px;
+  font-weight: 700;
+  margin-top: 40px;
+  width: fit-content;
+  text-align: center;
+  white-space: pre-line;
+  color: var(--color-white);
+  ${media.mobile} {
+    font-size: 36px;
+    line-height: 36px;
+  }
 `;
 
 export default PortfolioSection;
