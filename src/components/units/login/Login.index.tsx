@@ -12,6 +12,7 @@ import { useInput } from "@/src/lib/hooks/useInput";
 import { emailRegex, passwordRegex } from "@/src/lib/constants/regex";
 import { AppPages } from "@/src/lib/constants/appPages";
 import KumohHead from "../../shared/layout/head/NextHead.index";
+import { errorCodeSpliter } from "@/src/lib/hooks/useApiError";
 
 export default function Login() {
   const [email, onChangeEmail] = useInput();
@@ -20,23 +21,28 @@ export default function Login() {
   const setAuth = useSetRecoilState(authState);
   const router = useRouter();
   const { redirect } = router.query;
+  const [apiSending, setApiSending] = useState(false);
 
   const { mutate } = useMutation({
     mutationFn: UserApi.LOGIN,
     onSuccess: (data) => {
+      setApiSending(false);
       setCredentials(data);
       setAuth({ isAuthenticated: true, ...data });
       router.replace(redirect ? String(redirect) : AppPages.HOME);
     },
     onError: (error: AxiosError) => {
-      if (error.response) {
-        const status = error.response.data as IHttpStatus;
-        setErrorMsg(status.message);
+      setApiSending(false);
+      const { errorSort, status, errorNumber, message } =
+        errorCodeSpliter(error);
+      if (errorSort === "USER" && status === 400 && errorNumber === 2) {
+        setErrorMsg(message);
       }
     },
   });
 
   const onClickLogin = () => {
+    if (apiSending) return;
     if (email === "") {
       setErrorMsg("이메일을 입력해주세요.");
       return;
@@ -53,6 +59,7 @@ export default function Login() {
       setErrorMsg("비밀번호는 8자리 이상 영문, 숫자, 특수문자를 사용하세요.");
       return;
     }
+    setApiSending(true);
     mutate({ email, password });
   };
 

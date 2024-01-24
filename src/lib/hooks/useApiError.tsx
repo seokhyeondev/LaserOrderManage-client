@@ -14,12 +14,13 @@ export interface ICustomErrorResponse {
 
 const ErrorSort = ["COMMON", "USER", "ORDER", "CUSTOMER", "FACTORY"];
 
-export const errorCodeSpliter = (errorResponse: ICustomErrorResponse) => {
+export const errorCodeSpliter = (error: AxiosError) => {
+  const errorResponse = error.response?.data as ICustomErrorResponse;
   const { errorCode, message } = errorResponse;
   const codeInfo = errorCode.split("_");
   const errorSort = codeInfo[0] as ErrorSetTypeKey;
   const status = Number(codeInfo[1]) as DomainErrorSetTypeKey;
-  const errorNumber = codeInfo[2];
+  const errorNumber = Number(codeInfo[2]);
   return { errorSort, status, errorNumber, message };
 };
 
@@ -28,9 +29,7 @@ export const useApiError = () => {
   const router = useRouter();
 
   const handleError = useCallback((error: AxiosError) => {
-    const errorResponse = error.response?.data as ICustomErrorResponse;
-    const { errorSort, status, errorNumber, message } =
-      errorCodeSpliter(errorResponse);
+    const { errorSort, status, errorNumber, message } = errorCodeSpliter(error);
 
     if (ErrorSort.includes(errorSort)) {
       switch (status) {
@@ -43,7 +42,7 @@ export const useApiError = () => {
           break;
 
         case 401:
-          if (!(errorSort === "USER" && errorNumber === "02")) {
+          if (!(errorSort === "USER" && errorNumber === 2)) {
             router.push(AppPages.LOGIN);
           }
           break;
@@ -65,7 +64,7 @@ export const useApiError = () => {
 
         case 500:
           let comment = message;
-          if (errorNumber === "04") comment = "업로드가 불가능합니다.";
+          if (errorNumber === 4) comment = "업로드가 불가능합니다.";
           setToast({ comment: comment });
           break;
 
