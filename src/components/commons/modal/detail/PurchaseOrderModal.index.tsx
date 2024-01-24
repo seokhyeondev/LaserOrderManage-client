@@ -14,6 +14,8 @@ import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import UploadIcon from "../../icons/UploadIcon.index";
 import { AVAILABLE_ORDER_FILE_TYPE } from "@/src/lib/constants/constant";
+import { useApiError } from "@/src/lib/hooks/useApiError";
+import { AxiosError } from "axios";
 
 type PurchaseOrder = {
   inspectionPeriod: any;
@@ -35,7 +37,9 @@ export default function PurchaseOrderModal({
   const inspectionDateArgs = useCalendar();
   const [condition, onChangeCondition, setCondition] = useInput();
   const hiddenFileInput = useRef<HTMLInputElement>(null);
+  const [apiSending, setApiSending] = useState(false);
   const { setToast } = useToastify();
+  const { handleError } = useApiError();
 
   useEffect(() => {
     if (isOpen) {
@@ -63,12 +67,14 @@ export default function PurchaseOrderModal({
 
   const { mutate } = useMutation({
     mutationFn: OrderDetailApi.PUT_ORDER_PURCHASE_ORDER,
-    onError: () => {
-      setToast({ comment: "발주서 등록에 실패했어요" });
+    onError: (error: AxiosError) => {
+      setApiSending(false);
+      handleError(error);
     },
   });
 
   const onSubmit = () => {
+    if (apiSending) return;
     const payload = new FormData();
     if (file) payload.append("file", file);
     const purchaseOrder: PurchaseOrder = {
@@ -80,10 +86,12 @@ export default function PurchaseOrderModal({
       type: "application/json",
     });
     payload.append("purchaseOrder", blob);
+    setApiSending(true);
     mutate(
       { id: orderId, payload: payload },
       {
         onSuccess: (res) => {
+          setApiSending(false);
           callback({
             id: res.id,
             fileName: res.fileName,

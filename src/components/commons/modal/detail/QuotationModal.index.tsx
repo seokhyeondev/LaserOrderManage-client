@@ -15,6 +15,8 @@ import { useToastify } from "@/src/lib/hooks/useToastify";
 import { useMutation } from "@tanstack/react-query";
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 import { AVAILABLE_ORDER_FILE_TYPE } from "@/src/lib/constants/constant";
+import { AxiosError } from "axios";
+import { useApiError } from "@/src/lib/hooks/useApiError";
 
 type Quotation = {
   totalCost: string;
@@ -33,7 +35,9 @@ export default function QuotationModal({
   const [cost, onChangeCost, setCost] = useInputWithRegex(numberRegex, "");
   const dateArgs = useCalendar();
   const hiddenFileInput = useRef<HTMLInputElement>(null);
+  const [apiSending, setApiSending] = useState(false);
   const { setToast } = useToastify();
+  const { handleError } = useApiError();
 
   useEffect(() => {
     if (isOpen) {
@@ -60,12 +64,14 @@ export default function QuotationModal({
 
   const { mutate } = useMutation({
     mutationFn: OrderDetailApi.PUT_ORDER_QUOTATION,
-    onError: () => {
-      setToast({ comment: "견적서 등록에 실패했어요" });
+    onError: (error: AxiosError) => {
+      setApiSending(false);
+      handleError(error);
     },
   });
 
   const onSubmit = () => {
+    if (apiSending) return;
     const payload = new FormData();
     if (file) payload.append("file", file);
     const quotation: Quotation = {
@@ -76,10 +82,12 @@ export default function QuotationModal({
       type: "application/json",
     });
     payload.append("quotation", blob);
+    setApiSending(true);
     mutate(
       { id: orderId, payload: payload },
       {
         onSuccess: (res) => {
+          setApiSending(false);
           callback({
             id: res.id,
             fileName: res.fileName,

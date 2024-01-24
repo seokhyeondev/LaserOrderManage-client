@@ -33,7 +33,7 @@ export default function Acquirer() {
   const [phone, onChangePhone] = useInputWithRegex(numberRegex, "");
   const canvasRef = useRef<any>(null);
   const [isSigned, setIsSign] = useState(false);
-  const [submitClicked, setSubmitClicked] = useState(false);
+  const [apiSending, setApiSending] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const { setToast } = useToastify();
   const isSubmitAvailable =
@@ -81,25 +81,24 @@ export default function Acquirer() {
   const { mutate } = useMutation({
     mutationFn: OrderDetailApi.ACCEPT_COMPLETED,
     onSuccess: () => {
-      setSubmitClicked(false);
+      setApiSending(false);
       setIsSubmit(true);
       canvasRef.current.off();
       setToast({ comment: "서명을 완료했어요" });
     },
     onError: () => {
-      setSubmitClicked(false);
+      setApiSending(false);
       setToast({ comment: "서명에 실패했어요" });
     },
   });
 
   const onSubmit = () => {
-    if (!submitClicked) {
-      setSubmitClicked(true);
-      const payload = new FormData();
-      payload.append("file", createSignatureFile());
-      payload.append("acquirer", createAcquirerBlob());
-      mutate({ id: String(orderId), payload: payload });
-    }
+    if (apiSending) return;
+    setApiSending(true);
+    const payload = new FormData();
+    payload.append("file", createSignatureFile());
+    payload.append("acquirer", createAcquirerBlob());
+    mutate({ id: String(orderId), payload: payload });
   };
 
   return (
