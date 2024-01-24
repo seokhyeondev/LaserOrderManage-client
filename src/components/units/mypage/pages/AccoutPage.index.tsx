@@ -233,17 +233,23 @@ export default function AccountPage({ role }: IAccoutPageProps) {
     }
   };
 
+  const [patchNotifySending, setPatchNotifySending] = useState(false);
+
   const { mutate: patchNotify } = useMutation({
     mutationFn: UserApi.PATCH_NOTIFICATION,
     onError: () => {
+      setPatchNotifySending(false);
       setToast({ comment: "알림 설정 변경에 실패했어요" });
     },
   });
 
   const toggleNotify = () => {
+    if (patchNotifySending) return;
     const newStatus = !notify;
+    setPatchNotifySending(true);
     patchNotify(newStatus, {
       onSuccess: () => {
+        setPatchNotifySending(false);
         setNotify(newStatus);
         setToast({
           comment: newStatus ? "알림을 설정했어요" : "알림을 해제했어요",
