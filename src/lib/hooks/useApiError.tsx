@@ -64,7 +64,7 @@ export const useApiError = () => {
 
         case 500:
           let comment = message;
-          if (errorNumber === 4) comment = "업로드가 불가능합니다.";
+          if (errorNumber === 4) comment = "업로드를 할 수 없어요";
           setToast({ comment: comment });
           break;
 
