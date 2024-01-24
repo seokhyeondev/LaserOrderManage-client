@@ -10,8 +10,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 import { getDateTime } from "@/src/lib/utils/utils";
 import { AxiosError } from "axios";
-import { IHttpStatus } from "@/src/lib/apis/axios";
-import { useToastify } from "@/src/lib/hooks/useToastify";
+import { useApiError } from "@/src/lib/hooks/useApiError";
 
 interface IOrderCommentMenuProps {
   expanded: boolean;
@@ -24,9 +23,9 @@ export default function OrderCommentMenu({
 }: IOrderCommentMenuProps) {
   const [inputFocus, setInputFocus] = useState(false);
   const inputArgs = useInputWithMaxLength(200);
-  const { setToast } = useToastify();
   const lastCommentRef = useRef<HTMLDivElement>(null);
   const [sending, setSending] = useState(false);
+  const { handleError } = useApiError();
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: [`orderDetailComments/${orderId}`],
@@ -48,12 +47,7 @@ export default function OrderCommentMenu({
     },
     onError: (error: AxiosError) => {
       setSending(false);
-      if (error.response) {
-        const status = error.response.data as IHttpStatus;
-        if (status.errorCode === "-302") {
-          setToast({ comment: "댓글 작성 권한이 없어요" });
-        }
-      }
+      handleError(error);
     },
   });
 

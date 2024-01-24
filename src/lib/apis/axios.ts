@@ -62,9 +62,3 @@ axiosPrivate.interceptors.response.use(
 const makeCookieString = (token: IToken) => {
   return `refreshToken=${token.refreshToken}; Path=/; domain:.kumoh.org; max-age=${token.refreshToken}; secure=true; SameSite=None`;
 };
-
-export interface IHttpStatus {
-  errorCode: string;
-  httpStatus: string;
-  message: string;
-}

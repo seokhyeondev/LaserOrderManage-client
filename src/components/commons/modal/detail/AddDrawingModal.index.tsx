@@ -13,9 +13,9 @@ import { IDetailAddDrawingRequest } from "@/src/lib/apis/order/detail/OrderDetai
 import { useMutation } from "@tanstack/react-query";
 import { OrderCreateApi } from "@/src/lib/apis/order/create/OrderCreateApi";
 import { AxiosError } from "axios";
-import { IHttpStatus } from "@/src/lib/apis/axios";
 import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 import UploadFileIcon from "../../icons/UploadFileIcon.index";
+import { useApiError } from "@/src/lib/hooks/useApiError";
 
 export default function AddDrawingModal({
   isOpen,
@@ -26,6 +26,7 @@ export default function AddDrawingModal({
   const [drawing, setDrawing] = useState<IDrawingItem>();
   const hiddenFileInput = useRef<HTMLInputElement>(null);
   const { setToast } = useToastify();
+  const { handleError } = useApiError();
 
   const onUpload = () => {
     hiddenFileInput?.current?.click();
@@ -103,22 +104,8 @@ export default function AddDrawingModal({
       }
     },
     onError: (error: AxiosError) => {
-      if (error.response) {
-        onDeleteDrawing("");
-        const status = error.response.data as IHttpStatus;
-        if (status.errorCode === "-009") {
-          // 지원하지 않는 파일 형식
-          setToast({ comment: "지원하지 않는 파일 형식입니다" });
-          return;
-        }
-        if (status.errorCode === "-503") {
-          // 파일 업로드가 불가능
-          setToast({ comment: "업로드를 할 수 없어요" });
-          return;
-        }
-        //썸네일 추출이 불가능
-        setToast({ comment: "업로드에 실패했어요" });
-      }
+      onDeleteDrawing("");
+      handleError(error);
     },
   });
 
