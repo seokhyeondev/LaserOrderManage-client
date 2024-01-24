@@ -2,11 +2,11 @@ import AccountInput from "@/src/components/commons/inputs/account/AccountInput.i
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import KumohHead from "@/src/components/shared/layout/head/NextHead.index";
 import * as S from "@/src/components/units/account/Accout.styles";
-import { IHttpStatus } from "@/src/lib/apis/axios";
 import { UserApi } from "@/src/lib/apis/user/UserApi";
 import { AppPages } from "@/src/lib/constants/appPages";
 import { WEB_URL } from "@/src/lib/constants/constant";
 import { emailRegex } from "@/src/lib/constants/regex";
+import { errorCodeSpliter } from "@/src/lib/hooks/useApiError";
 import { useInputWithError } from "@/src/lib/hooks/useInput";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { useMutation } from "@tanstack/react-query";
@@ -33,21 +33,19 @@ export default function FindPassword() {
       setCodeSending(false);
     },
     onError: (error: AxiosError) => {
-      if (error.response) {
-        const status = error.response.data as IHttpStatus;
-        if (status.errorCode === "-402") {
-          emailInputArgs.showError("존재하지 않은 회원입니다.");
-          return;
-        }
-        if (status.errorCode === "-502") {
-          setToast({ comment: "메일 전송이 불가능해요" });
-          return;
-        }
+      setCodeSending(false);
+      const { errorSort, status, errorNumber } = errorCodeSpliter(error);
+      if (errorSort === "USER" && status === 404 && errorNumber === 1) {
+        emailInputArgs.showError("존재하지 않은 회원입니다.");
+      }
+      if (errorSort === "COMMON" && status === 500 && errorNumber === 3) {
+        setToast({ comment: "메일 전송이 불가능해요" });
       }
     },
   });
 
   const sendCodeToEmail = () => {
+    if (codeSending) return;
     setCodeSending(true);
     mutate({
       email: emailInputArgs.value.trim(),

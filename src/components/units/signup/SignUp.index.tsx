@@ -18,7 +18,6 @@ import { useDaumPostPopup } from "@/src/lib/hooks/useDaumPostPopup";
 import { useMutation } from "@tanstack/react-query";
 import { UserApi } from "@/src/lib/apis/user/UserApi";
 import { AxiosError } from "axios";
-import { IHttpStatus } from "@/src/lib/apis/axios";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { IJoinRequest } from "@/src/lib/apis/user/User.types";
 import { AppPages } from "@/src/lib/constants/appPages";
