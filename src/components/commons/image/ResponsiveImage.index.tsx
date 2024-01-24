@@ -39,9 +39,10 @@ const ResponsiveImage = ({
       <StyledImage
         src={src}
         alt={alt}
-        fill
         priority={priority}
         placeholder={placeholder}
+        sizes="100%, 100%"
+        fill
       />
     </StyledContinaer>
   );
