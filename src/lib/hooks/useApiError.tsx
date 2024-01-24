@@ -3,7 +3,7 @@ import { ErrorSetTypeKey } from "../error/ErrorSet";
 import { useToastify } from "./useToastify";
 import { AxiosError } from "axios";
 import { DomainErrorSetTypeKey } from "../error/DomainErrorSetType";
-import { notificationToAdmin, unknownError } from "../error/commonComment";
+import { notificationToAdmin, unknownError } from "../error/CommonComments";
 import { useRouter } from "next/router";
 import { AppPages } from "../constants/appPages";
 
