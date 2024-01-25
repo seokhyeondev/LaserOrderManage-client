@@ -1,6 +1,7 @@
 import OrderSearchbar from "@/src/components/commons/searchbars/order/OrderSearchbar.index";
 import {
   BodyWrapper,
+  FlexGrow,
   PageTitle,
 } from "@/src/components/commons/wrapper/BodyWrapper.styles";
 import CustomerOrderList from "./List/OrderList.index";
@@ -89,6 +90,7 @@ export default function Order() {
             onOpenModal={orderModalArgs.onOpenWithContent}
           />
         )}
+        <FlexGrow />
         <OrderPagination {...paginationArgs} />
       </BodyWrapper>
       <OrderModal {...orderModalArgs} />

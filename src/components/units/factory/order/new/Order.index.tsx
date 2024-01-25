@@ -1,6 +1,7 @@
 import OrderTab from "@/src/components/commons/tabs/order/OrderTab.index";
 import {
   BodyWrapper,
+  FlexGrow,
   PageTitle,
 } from "@/src/components/commons/wrapper/BodyWrapper.styles";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
@@ -101,6 +102,7 @@ export default function Order() {
             onOpenModal={modalArgs.onOpenWithContent}
           />
         )}
+        <FlexGrow />
         <OrderPagination {...paginationArgs} />
       </BodyWrapper>
       <OrderModal {...modalArgs} />

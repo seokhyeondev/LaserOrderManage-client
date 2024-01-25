@@ -46,8 +46,8 @@ export const OrderApi = {
   GET_FACTORY_ORDER: async (
     page: number,
     size: number,
-    isCompleted: string,
-    isUrgent: string,
+    isCompleted: boolean,
+    isUrgent: string | boolean,
     dateCriterion: string,
     startDate: string,
     endDate: string,

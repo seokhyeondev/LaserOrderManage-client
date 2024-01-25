@@ -1,4 +1,3 @@
-import { IFilterItem } from "@/src/components/commons/filters/OrderFilter.types";
 import moment from "moment";
 import { useState } from "react";
 
@@ -6,33 +5,30 @@ type DatePiece = Date | null;
 
 export type DateValue = DatePiece | [DatePiece, DatePiece];
 
-export const useOrderDate = (resetFilter: () => void, refetch: () => void) => {
-  const [dateFilter, setDateFilter] = useState<IFilterItem>();
+export const useOrderDate = (refetch: () => void) => {
+  const [dateType, setDateType] = useState<string>("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
-  const checkRefetch = (d: IFilterItem | undefined, s: string, e: string) => {
-    if (d !== undefined && s !== "" && e !== "") {
+  const checkRefetch = (
+    type: string | undefined,
+    start: string,
+    end: string,
+  ) => {
+    if (type !== "" && start !== "" && end !== "") {
       refetch();
     }
   };
 
-  const onResetFilterWithDate = () => {
-    setDateFilter(undefined);
-    setStartDate("");
-    setEndDate("");
-    resetFilter();
-  };
-
-  const onDateFilter = (filterItem: IFilterItem) => {
-    setDateFilter(filterItem);
-    checkRefetch(filterItem, startDate, endDate);
+  const onDateType = (type: string) => {
+    setDateType(type);
+    checkRefetch(type, startDate, endDate);
   };
 
   const onStartDate = (selectedDate: DateValue) => {
     setStartDate(moment(selectedDate?.toString()).format("YY. MM. DD"));
     checkRefetch(
-      dateFilter,
+      dateType,
       moment(selectedDate?.toString()).format("YY. MM. DD"),
       endDate,
     );
@@ -41,20 +37,26 @@ export const useOrderDate = (resetFilter: () => void, refetch: () => void) => {
   const onEndDate = (selectedDate: DateValue) => {
     setEndDate(moment(selectedDate?.toString()).format("YY. MM. DD"));
     checkRefetch(
-      dateFilter,
+      dateType,
       startDate,
       moment(selectedDate?.toString()).format("YY. MM. DD"),
     );
   };
 
+  const onResetDate = () => {
+    setDateType("");
+    setStartDate("");
+    setEndDate("");
+  };
+
   return {
-    dateFilter,
+    dateType,
     startDate,
     endDate,
-    onResetFilterWithDate,
-    onDateFilter,
+    onDateType,
     onStartDate,
     onEndDate,
+    onResetDate,
   };
 };
 

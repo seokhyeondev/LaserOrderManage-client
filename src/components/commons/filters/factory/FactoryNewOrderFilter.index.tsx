@@ -7,8 +7,10 @@ import {
   ORDER_QUOTAITON_TYPE,
   ORDER_TYPE,
 } from "./FactoryOrderFilter.queries";
+import { OrderTab } from "../../tabs/order/OrderTab.types";
 
 interface IFactoryNewOrderFilterProps extends IFOrderFilterProps {
+  tab: OrderTab;
   customerType: boolean | null;
   quotationType: boolean | null;
   onCustomerType: (type: boolean) => void;
