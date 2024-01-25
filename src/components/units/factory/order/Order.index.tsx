@@ -12,7 +12,6 @@ import { useSearchbar } from "@/src/lib/hooks/useSearchBar";
 import { useOrderModal } from "@/src/lib/hooks/useModal";
 import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import { OrderApi } from "@/src/lib/apis/order/OrderApi";
-import { useOrderDate } from "@/src/lib/hooks/useDate";
 import { getParamDate } from "@/src/lib/utils/utils";
 import { usePagination } from "@/src/lib/hooks/usePagination";
 import OrderPagination from "@/src/components/commons/paginations/order/OrderPagination.index";
@@ -20,39 +19,26 @@ import { GetServerSideProps } from "next";
 import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 import { AppPages } from "@/src/lib/constants/appPages";
 import KumohHead from "@/src/components/shared/layout/head/NextHead.index";
-import { useState } from "react";
 import FactoryOrderFilter from "@/src/components/commons/filters/factory/FactoryOrderFilter.index";
+import { useFactoryOrderFilter } from "@/src/lib/hooks/useFilter";
 
 export default function Order() {
-  const [orderType, setOrderType] = useState<boolean | null>(null);
   const searchBarArgs = useSearchbar(() => refetch());
-  const dateArgs = useOrderDate(() => refetch());
+  const filterArgs = useFactoryOrderFilter(() => refetch());
   const modalArgs = useOrderModal();
-
-  const onOrderType = (type: boolean) => {
-    if (type !== orderType) {
-      setOrderType(type);
-    }
-  };
-
-  const onResetFilter = () => {
-    setOrderType(null);
-    dateArgs.onResetDate();
-  };
-
-  const [tab, onTabClick] = useOrderTab("진행중", onResetFilter);
+  const [tab, onTabClick] = useOrderTab("진행중", filterArgs.onResetFilter);
 
   const { data, refetch } = useQuery({
-    queryKey: ["factoryOrder", tab, orderType],
+    queryKey: ["factoryOrder", tab, filterArgs.orderType],
     queryFn: () =>
       OrderApi.GET_FACTORY_ORDER(
         paginationArgs.activedPage,
         5,
         tab === "완료",
-        orderType ?? "",
-        dateArgs.dateType,
-        getParamDate(dateArgs.startDate),
-        getParamDate(dateArgs.endDate),
+        filterArgs.orderType ?? "",
+        filterArgs.dateType ?? "",
+        getParamDate(filterArgs.startDate),
+        getParamDate(filterArgs.endDate),
         searchBarArgs.keyword,
       ),
   });
@@ -75,17 +61,7 @@ export default function Order() {
           placeholder="업체, 담당자, 거래 이름으로 검색하기"
           {...searchBarArgs}
         />
-        <FactoryOrderFilter
-          orderType={orderType}
-          dateType={dateArgs.dateType}
-          startDate={dateArgs.startDate}
-          endDate={dateArgs.endDate}
-          onOrderType={onOrderType}
-          onDateType={dateArgs.onDateType}
-          onStartDate={dateArgs.onStartDate}
-          onEndDate={dateArgs.onEndDate}
-          onResetFilter={onResetFilter}
-        />
+        <FactoryOrderFilter {...filterArgs} />
         {data && (
           <FactoryOrderList
             data={data}
@@ -106,11 +82,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   setSsrAxiosHeader(cookies);
   await queryClient.prefetchQuery({
-    queryKey: ["factoryOrder", "진행중", false],
+    queryKey: ["factoryOrder", "진행중", null],
     queryFn: () => OrderApi.GET_FACTORY_ORDER(1, 5, false, "", "", "", "", ""),
   });
 
-  const queryState = queryClient.getQueryState(["factoryOrder", "false"]);
+  const queryState = queryClient.getQueryState([
+    "factoryOrder",
+    "진행중",
+    null,
+  ]);
   if (queryState?.status === "error") {
     return {
       redirect: {

@@ -7,7 +7,7 @@ import { ORDER_DATE_TYPE, ORDER_TYPE } from "./FactoryOrderFilter.queries";
 import OrderDateInput from "../../inputs/order/OrderDateInput.index";
 
 interface IFactoryOrderFilterProps extends IFOrderFilterProps {
-  dateType: string;
+  dateType: string | null;
   startDate: string;
   endDate: string;
   onDateType: (type: string) => void;

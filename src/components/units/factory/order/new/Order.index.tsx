@@ -16,59 +16,38 @@ import { GetServerSideProps } from "next";
 import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 import { AppPages } from "@/src/lib/constants/appPages";
 import KumohHead from "@/src/components/shared/layout/head/NextHead.index";
-import { useState } from "react";
 import FactoryNewOrderFilter from "@/src/components/commons/filters/factory/FactoryNewOrderFilter.index";
+import { useFactoryNewOrderFilter } from "@/src/lib/hooks/useFilter";
 
 export default function Order() {
   const modalArgs = useOrderModal();
-  const [quotationType, setQuotationType] = useState<boolean | null>(null);
-  const [customerType, setCustomerType] = useState<boolean | null>(null);
-  const [orderType, setOrderType] = useState<boolean | null>(null);
-
-  const onQuotationType = (type: boolean) => {
-    if (type !== quotationType) {
-      setQuotationType(type);
-    }
-  };
-
-  const onCustomerType = (type: boolean) => {
-    if (type !== customerType) {
-      setCustomerType(type);
-    }
-  };
-
-  const onOrderType = (type: boolean) => {
-    if (type !== orderType) {
-      setOrderType(type);
-    }
-  };
-
-  const onResetFilter = () => {
-    setQuotationType(null);
-    setCustomerType(null);
-    setOrderType(null);
-  };
-
-  const [tab, onTabClick] = useOrderTab("신규 발행", onResetFilter);
+  const filterArgs = useFactoryNewOrderFilter();
+  const [tab, onTabClick] = useOrderTab("신규 발행", filterArgs.onResetFilter);
 
   const { data, refetch } = useQuery({
-    queryKey: ["factoryNewOrder", tab, quotationType, customerType, orderType],
+    queryKey: [
+      "factoryNewOrder",
+      tab,
+      filterArgs.quotationType,
+      filterArgs.customerType,
+      filterArgs.orderType,
+    ],
     queryFn:
       tab === "신규 발행"
         ? () =>
             OrderApi.GET_FACTORY_NEWISSUE_ORDER(
               paginationArgs.activedPage,
               5,
-              quotationType ?? "",
-              customerType ?? "",
-              orderType ?? "",
+              filterArgs.quotationType ?? "",
+              filterArgs.customerType ?? "",
+              filterArgs.orderType ?? "",
             )
         : () =>
             OrderApi.GET_FACTORY_REISSUE_ORDER(
               paginationArgs.activedPage,
               5,
-              quotationType ?? "",
-              orderType ?? "",
+              filterArgs.quotationType ?? "",
+              filterArgs.orderType ?? "",
             ),
   });
   const paginationArgs = usePagination({
@@ -86,16 +65,7 @@ export default function Order() {
           selectedTab={tab}
           onTabClick={onTabClick}
         />
-        <FactoryNewOrderFilter
-          tab={tab}
-          quotationType={quotationType}
-          customerType={customerType}
-          orderType={orderType}
-          onQuotationType={onQuotationType}
-          onCustomerType={onCustomerType}
-          onOrderType={onOrderType}
-          onResetFilter={onResetFilter}
-        />
+        <FactoryNewOrderFilter tab={tab} {...filterArgs} />
         {data && (
           <FactoryNewOrderList
             data={data}
@@ -116,13 +86,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   setSsrAxiosHeader(cookies);
   await queryClient.prefetchQuery({
-    queryKey: ["factoryNewOrder", "신규 발행", "", "", ""],
+    queryKey: ["factoryNewOrder", "신규 발행", null, null, null],
     queryFn: () => OrderApi.GET_FACTORY_NEWISSUE_ORDER(1, 5, "", "", ""),
   });
 
   const queryState = queryClient.getQueryState([
     "factoryNewOrder",
-    "new-issue",
+    "신규 발행",
+    null,
+    null,
+    null,
   ]);
   if (queryState?.status === "error") {
     return {
