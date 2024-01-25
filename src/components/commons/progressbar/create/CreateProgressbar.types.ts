@@ -1,3 +1,5 @@
+import { CArray } from "@/src/lib/utils/extensions";
+
 export type MenuStatus = "DONE" | "PROGRESS" | "PENDING";
 
 export interface IMenuProp {
@@ -10,13 +12,17 @@ export interface ICreateProgressBarProps {
   currentSubPageId: number;
 }
 
+type CreateProgess = "기본 정보" | "상세 정보" | "배송 정보";
+
+type CreateSubProgress = "도면 업로드" | "요청사항";
+
 export interface ICreateProgressBar {
   id: number;
-  title: string;
-  subMenus?: ISubCreateProgressBar[];
+  menu: CreateProgess;
+  subMenus: CArray<ISubCreateProgressBar>;
 }
 
 export interface ISubCreateProgressBar {
   id: number;
-  title: string;
+  menu: CreateSubProgress;
 }
