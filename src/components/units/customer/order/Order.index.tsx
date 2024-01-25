@@ -1,4 +1,3 @@
-import OrderFilter from "@/src/components/commons/filters/order/OrderFilter.index";
 import OrderSearchbar from "@/src/components/commons/searchbars/order/OrderSearchbar.index";
 import {
   BodyWrapper,
@@ -6,11 +5,6 @@ import {
 } from "@/src/components/commons/wrapper/BodyWrapper.styles";
 import CustomerOrderList from "./List/OrderList.index";
 import OrderModal from "@/src/components/commons/modal/order/OrderModal.index";
-import {
-  MANUFACTURING,
-  STAGE,
-} from "@/src/components/commons/filters/order/OrderFilterQueries";
-import { useOrderFilter } from "@/src/lib/hooks/useFilter";
 import OrderPagination from "@/src/components/commons/paginations/order/OrderPagination.index";
 import { useSearchbar } from "@/src/lib/hooks/useSearchBar";
 import { useOrderModal } from "@/src/lib/hooks/useModal";
@@ -21,23 +15,53 @@ import { GetServerSideProps } from "next";
 import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 import { AppPages } from "@/src/lib/constants/appPages";
 import KumohHead from "@/src/components/shared/layout/head/NextHead.index";
+import { useState } from "react";
+import { Manufacturing, OrderStage } from "@/src/lib/apis/order/Order.types";
+import CustomerOrderFilter from "@/src/components/commons/filters/customer/CustomerOrderFilter.index";
 
 export default function Order() {
   const searchBarArgs = useSearchbar(() => refetch());
-  const filterArgs = useOrderFilter(() => refetch());
   const orderModalArgs = useOrderModal();
+  const [stageFilters, setStageFilters] = useState<OrderStage[]>([]);
+  const [manuFilters, setManuFilters] = useState<Manufacturing[]>([]);
+
+  const onStageFilter = (stage: OrderStage) => {
+    setStageFilters((prev) => {
+      if (prev.includes(stage)) {
+        return prev.filter((el) => el !== stage);
+      } else {
+        return [...prev, stage];
+      }
+    });
+  };
+
+  const onManufacturingFilter = (manufactruing: Manufacturing) => {
+    setManuFilters((prev) => {
+      if (prev.includes(manufactruing)) {
+        return prev.filter((el) => el !== manufactruing);
+      } else {
+        return [...prev, manufactruing];
+      }
+    });
+  };
+
+  const onResetFilter = () => {
+    setStageFilters([]);
+    setManuFilters([]);
+  };
 
   const { data, refetch } = useQuery({
-    queryKey: ["customerOrder"],
+    queryKey: ["customerOrder", stageFilters, manuFilters],
     queryFn: () =>
       OrderApi.GET_CUSTOMER_ORDER(
         paginationArgs.activedPage,
         5,
-        filterArgs.filterMap.get(STAGE.key)?.join(",") ?? "",
-        filterArgs.filterMap.get(MANUFACTURING.key)?.join(",") ?? "",
+        stageFilters.join(","),
+        manuFilters.join(","),
         searchBarArgs.keyword,
       ),
   });
+
   const paginationArgs = usePagination({
     totalPage: data?.totalPages,
     refetch: () => refetch(),
@@ -52,7 +76,13 @@ export default function Order() {
           placeholder="거래 이름으로 검색하기"
           {...searchBarArgs}
         />
-        <OrderFilter filterGroups={[STAGE, MANUFACTURING]} {...filterArgs} />
+        <CustomerOrderFilter
+          stageFilters={stageFilters}
+          manuFilters={manuFilters}
+          onStageFilter={onStageFilter}
+          onManufacturingFilter={onManufacturingFilter}
+          onResetFilter={onResetFilter}
+        />
         {data && (
           <CustomerOrderList
             data={data}
@@ -72,7 +102,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   setSsrAxiosHeader(cookies);
   await queryClient.prefetchQuery({
-    queryKey: ["customerOrder"],
+    queryKey: ["customerOrder", [], []],
     queryFn: () => OrderApi.GET_CUSTOMER_ORDER(1, 5, "", "", ""),
   });
 

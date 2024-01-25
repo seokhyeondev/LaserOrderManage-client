@@ -3,7 +3,6 @@ import { media } from "@/src/styles/theme";
 import styled from "@emotion/styled";
 import mainLogoDark from "@/public/images/mainLogoDark.webp";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import ResponsiveImage from "../image/ResponsiveImage.index";
 
 export default function MainLogoDark() {

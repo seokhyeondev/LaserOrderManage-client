@@ -1,4 +1,4 @@
-import { IFilterItem } from "@/src/components/commons/filters/order/OrderFilter.types";
+import { IFilterItem } from "@/src/components/commons/filters/OrderFilter.types";
 import moment from "moment";
 import { useState } from "react";
 

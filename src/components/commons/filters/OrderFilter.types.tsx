@@ -5,10 +5,7 @@ export interface IFilterProps {
 }
 
 export interface IOrderFilterProps {
-  filterMap: Map<string, string[]>;
-  filterGroups: IFilterGroup[];
   onResetFilter: () => void;
-  onFilterClick: (key: string, value: string) => void;
 }
 
 export interface IOrderFilterWithDateProps extends IOrderFilterProps {

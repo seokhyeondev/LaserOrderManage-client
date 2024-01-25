@@ -1,5 +1,5 @@
-import * as S from "./OrderFilter.styles";
-import { IOrderFilterProps } from "./OrderFilter.types";
+import * as S from "../OrderFilter.styles";
+import { IOrderFilterProps } from "../OrderFilter.types";
 import RedoIcon from "../../icons/RedoIcon.index";
 import Spacer from "../../spacer/Spacer.index";
 

@@ -1,5 +1,7 @@
+import { OrderStatus } from "@/src/lib/apis/order/Order.types";
+
 export interface IOrderProgressbarProps {
-  stage: string;
+  stage: OrderStatus;
 }
 
 export interface IProgressProps {
@@ -7,5 +9,5 @@ export interface IProgressProps {
 }
 
 export interface IActiveBarProps {
-  percentage: string;
+  percentage: number;
 }

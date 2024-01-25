@@ -45,12 +45,12 @@ export const Bar = styled.div`
 `;
 
 export const ActiveBar = styled.div`
-  width: ${(props: IActiveBarProps) => props.percentage};
+  width: ${(props: IActiveBarProps) => `${props.percentage}%`};
   height: 16px;
   position: absolute;
   background-color: var(--color-primary);
   border-radius: ${(props: IActiveBarProps) =>
-    props.percentage === "100%" ? "8px" : "8px 0 0 8px"};
+    props.percentage === 100 ? "8px" : "8px 0 0 8px"};
 `;
 
 export const CircleWrapper = styled.div`

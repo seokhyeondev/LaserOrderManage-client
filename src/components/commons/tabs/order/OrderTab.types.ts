@@ -1,4 +1,4 @@
-import { IFilterGroup } from "../../filters/order/OrderFilter.types";
+import { IFilterGroup } from "../../filters/OrderFilter.types";
 
 export interface IOrderTabProps {
   tabs: IOrderTab[];

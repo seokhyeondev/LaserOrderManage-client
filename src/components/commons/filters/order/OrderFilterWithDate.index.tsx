@@ -1,7 +1,7 @@
 import OrderDateInput from "../../inputs/order/OrderDateInput.index";
-import * as S from "./OrderFilter.styles";
+import * as S from "../OrderFilter.styles";
 import { DATE_FILTER } from "./OrderFilterQueries";
-import { IOrderFilterWithDateProps } from "./OrderFilter.types";
+import { IOrderFilterWithDateProps } from "../OrderFilter.types";
 import RedoIcon from "../../icons/RedoIcon.index";
 import Spacer from "../../spacer/Spacer.index";
 

@@ -17,6 +17,8 @@ export type OrderStage =
   | "completed"
   | "";
 
+export type ManufacturingName = "레이저 가공" | "절곡" | "용접";
+
 export type Manufacturing = "laser-cutting" | "bending" | "welding-fabrication";
 
 export type PostProcessing = "painting" | "plating";

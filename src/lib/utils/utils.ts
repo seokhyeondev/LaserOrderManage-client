@@ -1,4 +1,10 @@
-import { Manufacturing, PostProcessing } from "../apis/order/Order.types";
+import {
+  Manufacturing,
+  ManufacturingName,
+  OrderStage,
+  OrderStatus,
+  PostProcessing,
+} from "../apis/order/Order.types";
 
 export const getDate = (value: any) => {
   const date = new Date(value);
@@ -97,7 +103,15 @@ export const getFileSize = (fileSize: number): string => {
   } else return `${(fileSize / (1024 * 1024)).toFixed(2)} MB`;
 };
 
-const ManufacturingMap = new Map<Manufacturing, string>([
+const OrderStageMap = new Map<OrderStage, OrderStatus>([
+  ["new", "견적 대기"],
+  ["quote-approval", "견적 승인"],
+  ["in-production", "제작 중"],
+  ["production-completed", "제작 완료"],
+  ["completed", "거래 완료"],
+]);
+
+const ManufacturingMap = new Map<Manufacturing, ManufacturingName>([
   ["laser-cutting", "레이저 가공"],
   ["bending", "절곡"],
   ["welding-fabrication", "용접"],
@@ -108,7 +122,10 @@ const PostprocessingMap = new Map<PostProcessing, string>([
   ["plating", "도금"],
 ]);
 
-const getManufacuring = (key: Manufacturing) => ManufacturingMap.get(key)!!;
+export const getOrderStatus = (key: OrderStage) => OrderStageMap.get(key);
+
+export const getManufacuring = (key: Manufacturing) =>
+  ManufacturingMap.get(key)!!;
 
 const getPostprocessing = (key: PostProcessing) => PostprocessingMap.get(key)!!;
 

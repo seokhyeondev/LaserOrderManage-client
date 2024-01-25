@@ -51,7 +51,7 @@ export default function DeliveryPage() {
   return (
     <>
       <S.Wrapper>
-        <S.Title className="bold24">배송지 설정</S.Title>
+        <S.Title className="bold24">배송지 관리</S.Title>
         <S.BodyWrapper>
           <div>
             {data?.contents.map((el) => (
