@@ -62,7 +62,7 @@ export type IFactoryOrder = {
   customer: string;
   company: string | null;
   imgUrl: string;
-  stage: string;
+  stage: OrderStatus;
   isUrgent: string;
   manufacturingList: Manufacturing[];
   createdAt: string;
