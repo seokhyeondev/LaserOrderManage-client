@@ -9,6 +9,7 @@ import { setCredentials } from "../utils/setCredentials";
 import { IToken } from "./user/User.types";
 import { getCookie } from "cookies-next";
 import { BASE_URL } from "../constants/constant";
+import { errorCodeSpliter } from "../hooks/useApiError";
 
 export const axiosPublic = axios.create({
   baseURL: BASE_URL,
@@ -39,9 +40,9 @@ axiosPrivate.interceptors.response.use(
     }
 
     const origin = error.config as AxiosRequestConfig;
-    const status = Number(error.response?.status);
+    const { errorSort, status, errorNumber } = errorCodeSpliter(error);
 
-    if (status === 401) {
+    if (errorSort === "USER" && status === 401 && errorNumber === 2) {
       const newToken = await UserApi.REISSUE();
       setCredentials(newToken);
       const cookieString = makeCookieString(newToken);

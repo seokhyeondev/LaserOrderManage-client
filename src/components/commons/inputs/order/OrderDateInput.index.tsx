@@ -6,15 +6,14 @@ import { IOrderDateInputProps } from "./OrderDateInput.types";
 import { DateValue } from "@/src/lib/hooks/useDate";
 import CalendarIcon from "../../icons/CalendarIcon.index";
 
-export default function OrderDateInput(props: IOrderDateInputProps) {
+export default function OrderDateInput({
+  date,
+  setDate,
+}: IOrderDateInputProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleCalender = () => {
-    setIsOpen(!isOpen);
-  };
-
   const handleDateChange = (selectedDate: DateValue) => {
-    props.setDate(selectedDate);
+    setDate(selectedDate);
     setIsOpen(false);
   };
 
@@ -22,12 +21,12 @@ export default function OrderDateInput(props: IOrderDateInputProps) {
     <S.Wrapper>
       <S.InputWrapper
         className="flex-row-between-center"
-        onClick={toggleCalender}
+        onClick={() => setIsOpen(!isOpen)}
       >
         <S.DateInput
           className="regular14"
           placeholder="연도. 월. 일"
-          value={props.date}
+          value={date}
           readOnly
         />
         <CalendarIcon size={16} />

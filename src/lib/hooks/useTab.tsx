@@ -1,16 +1,18 @@
-import { IOrderTab } from "@/src/components/commons/tabs/order/OrderTab.types";
-import { useEffect, useState } from "react";
+import { OrderTab } from "@/src/components/commons/tabs/order/OrderTab.types";
+import { useState } from "react";
 
 export const useOrderTab = (
-  defaultTab: IOrderTab,
-): [IOrderTab, (tab: IOrderTab) => void] => {
+  defaultTab: OrderTab,
+  onResetFilter: () => void,
+) => {
   const [tab, setTab] = useState(defaultTab);
 
-  const onTabClick = (tabItem: IOrderTab) => {
+  const onTabClick = (tabItem: OrderTab) => {
     if (tab !== tabItem) {
       setTab(tabItem);
+      onResetFilter();
     }
   };
 
-  return [tab, onTabClick];
+  return [tab, onTabClick] as const;
 };

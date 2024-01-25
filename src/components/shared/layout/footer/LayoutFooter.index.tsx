@@ -10,11 +10,17 @@ export default function LayoutFooter() {
       </S.LogoWrapper>
       <S.InfoWrapper>
         <div className="flex-row">
-          <S.WebLink href="https://www.naver.com" target="_blank">
+          <S.WebLink
+            href="https://drive.google.com/file/d/1fTCfJMwPEXhWmRf-lhUmWExlrxlAZ1D9/view?usp=sharing"
+            target="_blank"
+          >
             개인정보 취급방침
           </S.WebLink>
           <Spacer width="30px" height="100%" />
-          <S.WebLink href="https://www.naver.com" target="_blank">
+          <S.WebLink
+            href="https://drive.google.com/file/d/1KGf5yvkrAbbKLK3tFZhZ-CSakkOXrsIR/view?usp=sharing"
+            target="_blank"
+          >
             이메일주소 무단수집거부
           </S.WebLink>
         </div>

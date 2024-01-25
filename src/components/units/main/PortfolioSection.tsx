@@ -316,13 +316,17 @@ const PortfolioTitle = styled.h3`
 `;
 
 const PortfolioExplain = styled.p`
-  font-size: 32px;
+  font-size: 24px;
   line-height: 60px;
   margin-top: 120px;
   white-space: pre-line;
   color: rgba(255, 255, 255, 0.7);
+  ${media.tablet} {
+    font-size: 32px;
+  }
   ${media.mobile} {
-    font-size: 24px;
+    font-size: 20px;
+    margin-top: 100px;
   }
 `;
 
@@ -396,17 +400,22 @@ const ContentItemName = styled.p`
 `;
 
 const ContentItemContent = styled.p`
-  font-size: 60px;
-  line-height: 60px;
+  font-size: 36px;
+  line-height: 48px;
   font-weight: 700;
   margin-top: 40px;
   width: fit-content;
   text-align: center;
   white-space: pre-line;
   color: var(--color-white);
+  ${media.tablet} {
+    font-size: 60px;
+    line-height: 90px;
+  }
   ${media.mobile} {
-    font-size: 36px;
+    font-size: 24px;
     line-height: 36px;
+    margin-top: 20px;
   }
 `;
 
