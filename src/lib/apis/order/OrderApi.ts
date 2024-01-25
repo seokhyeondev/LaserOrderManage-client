@@ -23,8 +23,8 @@ export const OrderApi = {
   GET_FACTORY_REISSUE_ORDER: async (
     page: number,
     size: number,
-    hasQuotation: string,
-    isUrgent: string,
+    hasQuotation: string | boolean,
+    isUrgent: string | boolean,
   ): Promise<IFactoryNewOrderResponse> => {
     const response = await axiosPrivate.get(
       `/factory/order/new/re-issue?page=${page}&size=${size}&has-quotation=${hasQuotation}&is-urgent=${isUrgent}`,
@@ -34,9 +34,9 @@ export const OrderApi = {
   GET_FACTORY_NEWISSUE_ORDER: async (
     page: number,
     size: number,
-    hasQuotation: string,
-    isNew: string,
-    isUrgent: string,
+    hasQuotation: string | boolean,
+    isNew: string | boolean,
+    isUrgent: string | boolean,
   ): Promise<IFactoryNewOrderResponse> => {
     const response = await axiosPrivate.get(
       `/factory/order/new/new-issue?page=${page}&size=${size}&has-quotation=${hasQuotation}&is-new-customer=${isNew}&is-urgent=${isUrgent}`,

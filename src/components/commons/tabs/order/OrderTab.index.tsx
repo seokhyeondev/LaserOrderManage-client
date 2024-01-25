@@ -1,17 +1,21 @@
 import * as S from "./OrderTab.styles";
 import { IOrderTabProps } from "./OrderTab.types";
 
-export default function OrderTab(props: IOrderTabProps) {
+export default function OrderTab({
+  tabs,
+  selectedTab,
+  onTabClick,
+}: IOrderTabProps) {
   return (
     <S.Wrapper className="flex-center">
-      {props.tabs.map((el) => (
+      {tabs.map((el) => (
         <S.TabItem
           className="bold20"
-          key={el.value}
-          isSelect={el === props.selectedTab}
-          onClick={() => props.onTabClick(el)}
+          key={el}
+          isSelect={el === selectedTab}
+          onClick={() => onTabClick(el)}
         >
-          {el.name}
+          {el}
         </S.TabItem>
       ))}
     </S.Wrapper>

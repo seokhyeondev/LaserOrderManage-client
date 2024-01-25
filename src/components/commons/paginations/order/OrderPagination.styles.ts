@@ -2,8 +2,9 @@ import styled from "@emotion/styled";
 import { IPageProps } from "../Pagination.types";
 
 export const Wrapper = styled.div`
+  position: absolute;
   width: 100%;
-  margin-top: 200px;
+  bottom: 40px;
 `;
 
 export const Page = styled.span`

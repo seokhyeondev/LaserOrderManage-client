@@ -1,13 +1,7 @@
-import { IFilterGroup } from "../../filters/OrderFilter.types";
-
 export interface IOrderTabProps {
-  tabs: IOrderTab[];
-  selectedTab: IOrderTab;
-  onTabClick: (value: IOrderTab) => void;
+  tabs: OrderTab[];
+  selectedTab: OrderTab;
+  onTabClick: (tab: OrderTab) => void;
 }
 
-export interface IOrderTab {
-  name: string;
-  value: string;
-  filterGroups: IFilterGroup[];
-}
+export type OrderTab = "재발행" | "신규 발행" | "진행중" | "완료";
