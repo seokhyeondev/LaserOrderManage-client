@@ -24,12 +24,17 @@ import { useFactoryOrderFilter } from "@/src/lib/hooks/useFilter";
 
 export default function Order() {
   const searchBarArgs = useSearchbar(() => refetch());
-  const filterArgs = useFactoryOrderFilter(() => refetch());
+  const filterArgs = useFactoryOrderFilter();
   const modalArgs = useOrderModal();
   const [tab, onTabClick] = useOrderTab("진행중", filterArgs.onResetFilter);
 
   const { data, refetch } = useQuery({
-    queryKey: ["factoryOrder", tab, filterArgs.orderType],
+    queryKey: [
+      "factoryOrder",
+      tab,
+      filterArgs.orderType,
+      filterArgs.dateFieldChanged && filterArgs.dateFieldFilled === 3,
+    ],
     queryFn: () =>
       OrderApi.GET_FACTORY_ORDER(
         paginationArgs.activedPage,
@@ -82,7 +87,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   setSsrAxiosHeader(cookies);
   await queryClient.prefetchQuery({
-    queryKey: ["factoryOrder", "진행중", null],
+    queryKey: ["factoryOrder", "진행중", null, false],
     queryFn: () => OrderApi.GET_FACTORY_ORDER(1, 5, false, "", "", "", "", ""),
   });
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Manufacturing, OrderStage } from "../apis/order/Order.types";
 import moment from "moment";
 import { DateValue } from "./useDate";
@@ -41,11 +41,13 @@ export const useCustomerOrderFilter = () => {
   } as const;
 };
 
-export const useFactoryOrderFilter = (refetch: () => void) => {
+export const useFactoryOrderFilter = () => {
   const [orderType, setOrderType] = useState<boolean | null>(null);
   const [dateType, setDateType] = useState<string | null>(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [dateFieldChanged, setDateFieldChanged] = useState(false);
+  const [dateFieldFilled, setDateFieldFilled] = useState(0);
 
   const onOrderType = (type: boolean) => {
     if (type === orderType) {
@@ -55,37 +57,29 @@ export const useFactoryOrderFilter = (refetch: () => void) => {
     }
   };
 
-  const checkRefetch = (type: string | null, start: string, end: string) => {
-    if (type && start !== "" && end !== "") {
-      refetch();
-    }
-  };
-
   const onDateType = (type: string) => {
     if (type === dateType) {
       setDateType(null);
+      setDateFieldFilled((prev) => prev - 1);
     } else {
       setDateType(type);
-      checkRefetch(type, startDate, endDate);
+      setDateFieldFilled((prev) => (prev === 3 ? 3 : prev + 1));
     }
+    setDateFieldChanged(!dateFieldChanged);
   };
 
   const onStartDate = (selectedDate: DateValue) => {
-    setStartDate(moment(selectedDate?.toString()).format("YY. MM. DD"));
-    checkRefetch(
-      dateType,
-      moment(selectedDate?.toString()).format("YY. MM. DD"),
-      endDate,
-    );
+    const date = moment(selectedDate?.toString()).format("YY. MM. DD");
+    setStartDate(date);
+    setDateFieldFilled((prev) => (prev === 3 ? 3 : prev + 1));
+    setDateFieldChanged(!dateFieldChanged);
   };
 
   const onEndDate = (selectedDate: DateValue) => {
-    setEndDate(moment(selectedDate?.toString()).format("YY. MM. DD"));
-    checkRefetch(
-      dateType,
-      startDate,
-      moment(selectedDate?.toString()).format("YY. MM. DD"),
-    );
+    const date = moment(selectedDate?.toString()).format("YY. MM. DD");
+    setEndDate(date);
+    setDateFieldFilled((prev) => (prev === 3 ? 3 : prev + 1));
+    setDateFieldChanged(!dateFieldChanged);
   };
 
   const onResetFilter = () => {
@@ -93,6 +87,7 @@ export const useFactoryOrderFilter = (refetch: () => void) => {
     setDateType("");
     setStartDate("");
     setEndDate("");
+    setDateFieldFilled(0);
   };
 
   return {
@@ -100,6 +95,8 @@ export const useFactoryOrderFilter = (refetch: () => void) => {
     dateType,
     startDate,
     endDate,
+    dateFieldFilled,
+    dateFieldChanged,
     onOrderType,
     onDateType,
     onStartDate,

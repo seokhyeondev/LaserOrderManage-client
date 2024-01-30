@@ -41,7 +41,7 @@ export const UserApi = {
     return response.data;
   },
   JOIN: async (payload: IJoinRequest): Promise<IJoinResponse> => {
-    const response = await axiosPublic.post("/user/join/customer", payload);
+    const response = await axiosPublic.post("/user/customer", payload);
     return response.data;
   },
   FIND_EMAIL: async (
@@ -82,6 +82,10 @@ export const UserApi = {
     const response = await axiosPrivate.patch(
       `/user/email-notification?is-activate=${isActive}`,
     );
+    return response.data;
+  },
+  WITHDRAWAL: async (): Promise<null> => {
+    const response = await axiosPrivate.delete("/customer/user");
     return response.data;
   },
 };

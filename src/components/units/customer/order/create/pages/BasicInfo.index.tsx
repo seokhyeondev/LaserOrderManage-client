@@ -114,7 +114,7 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
               </S.FormSelect>
             ))}
           </div>
-          <Spacer width="100%" height="40px" />
+          {/* <Spacer width="100%" height="40px" />
           <S.FormLabel className="medium20">후처리 서비스</S.FormLabel>
           <Spacer width="100%" height="20px" />
           <div className="flex-row">
@@ -128,7 +128,7 @@ export default function BasicInfo(props: ICreateOrderPageProps) {
                 {el.name}
               </S.FormSelect>
             ))}
-          </div>
+          </div> */}
         </S.FormBodyWrapper>
         <S.FormButtonWrapper className="flex-column-end">
           <S.NextButton

@@ -1,6 +1,8 @@
 import {
   Manufacturing,
+  ManufacturingName,
   PostProcessing,
+  PostProcessingName,
 } from "@/src/lib/apis/order/Order.types";
 
 export interface ICreateOrderPageProps {
@@ -13,19 +15,19 @@ export interface IFormSelectProps {
 }
 
 export interface IManufacturingSelect {
-  name: string;
+  name: ManufacturingName;
   key: Manufacturing;
 }
 
 export interface IPostProcessingSelect {
-  name: string;
+  name: PostProcessingName;
   key: PostProcessing;
 }
 
 export const MANUFACTURE_SERVICES: IManufacturingSelect[] = [
   { name: "레이저 가공", key: "laser-cutting" },
   { name: "절곡", key: "bending" },
-  { name: "용접 및 제작", key: "welding-fabrication" },
+  { name: "용접", key: "welding" },
 ];
 
 export const POST_PROCESSING: IPostProcessingSelect[] = [

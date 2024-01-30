@@ -3,7 +3,7 @@ import { Manufacturing, OrderStatus, PostProcessing } from "../Order.types";
 import { IBaseListSimpleResponse } from "@/src/lib/apis/base/base.types";
 
 export type IOrderDetailResponse = {
-  customer: IDetailCustomer;
+  customer: IDetailCustomer | null;
   order: IDetailOrder;
   quotation: IDetailQuotation | null;
   purchaseOrder: IDetailPurchaseOrder | null;
@@ -74,7 +74,7 @@ export type IOrderCommentsResponse = IBaseListSimpleResponse<IOrderComment>;
 
 export type IOrderComment = {
   id: number;
-  authorName: string;
+  authorName: string | null;
   content: string;
   createdAt: any;
 };

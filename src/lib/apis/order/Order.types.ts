@@ -19,7 +19,9 @@ export type OrderStage =
 
 export type ManufacturingName = "레이저 가공" | "절곡" | "용접";
 
-export type Manufacturing = "laser-cutting" | "bending" | "welding-fabrication";
+export type Manufacturing = "laser-cutting" | "bending" | "welding";
+
+export type PostProcessingName = "도금" | "도색";
 
 export type PostProcessing = "painting" | "plating";
 
@@ -59,7 +61,7 @@ export type IFactoryOrderResponse = IBaseListResponse<IFactoryOrder>;
 export type IFactoryOrder = {
   id: number;
   name: string;
-  customer: string;
+  customer: string | null;
   company: string | null;
   imgUrl: string;
   stage: OrderStatus;

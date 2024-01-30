@@ -2,7 +2,6 @@ import Spacer from "@/src/components/commons/spacer/Spacer.index";
 import * as S from "./OrderDetailSection.styles";
 import { IAcquirerInfoSectionProps } from "./OrderDetailSection.types";
 import { getPhoneNumber } from "@/src/lib/utils/utils";
-import Image from "next/image";
 import { BLUR_URL_2_1 } from "@/src/lib/constants/constant";
 
 export default function AcquierInfoSection({

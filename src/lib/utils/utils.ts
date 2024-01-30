@@ -4,6 +4,7 @@ import {
   OrderStage,
   OrderStatus,
   PostProcessing,
+  PostProcessingName,
 } from "../apis/order/Order.types";
 
 export const getDate = (value: any) => {
@@ -51,10 +52,13 @@ export const getCost = (value: number) => {
 };
 
 export const getCustomerInfo = (
-  name: string,
+  name: string | null,
   company: string | null,
   isNew?: boolean | undefined,
 ): string => {
+  if (name === null) {
+    return "회원탈퇴 고객";
+  }
   const infos: string[] = [];
   infos.push(name);
   if (company) {
@@ -114,10 +118,10 @@ const OrderStageMap = new Map<OrderStage, OrderStatus>([
 const ManufacturingMap = new Map<Manufacturing, ManufacturingName>([
   ["laser-cutting", "레이저 가공"],
   ["bending", "절곡"],
-  ["welding-fabrication", "용접"],
+  ["welding", "용접"],
 ]);
 
-const PostprocessingMap = new Map<PostProcessing, string>([
+const PostprocessingMap = new Map<PostProcessing, PostProcessingName>([
   ["painting", "도색"],
   ["plating", "도금"],
 ]);

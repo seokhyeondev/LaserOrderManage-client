@@ -29,6 +29,7 @@ import { setSsrAxiosHeader } from "@/src/lib/utils/setSsrAxiosHeader";
 import { AppPages } from "@/src/lib/constants/appPages";
 import KumohHead from "../../shared/layout/head/NextHead.index";
 import AcquierInfoSection from "./section/AcquirerInfoSection.index";
+import DeleteOrderSection from "./section/DeleteOrderSection.index";
 
 export default function OrderDetai() {
   const router = useRouter();
@@ -111,8 +112,12 @@ export default function OrderDetai() {
                   />
                 </>
               )}
-              <Spacer width="100%" height="60px" />
-              <CustomerInfoSection data={data.customer} />
+              {data.customer && (
+                <>
+                  <Spacer width="100%" height="60px" />
+                  <CustomerInfoSection data={data.customer} />
+                </>
+              )}
               <Spacer width="100%" height="60px" />
               <DeliveryInfoSection
                 data={data.order.deliveryAddress}
@@ -142,7 +147,7 @@ export default function OrderDetai() {
               <Spacer width="100%" height="60px" />
               <PurchaseOrderInfoSection
                 data={data.purchaseOrder}
-                name={data.customer.name}
+                name={data.customer?.name ?? null}
                 role={auth.role}
                 status={status}
                 orderId={String(orderId)}
@@ -155,6 +160,15 @@ export default function OrderDetai() {
                 <>
                   <Spacer width="100%" height="60px" />
                   <AcquierInfoSection data={data.acquirer} />
+                </>
+              )}
+              {(status === "견적 대기" || status === "견적 승인") && (
+                <>
+                  <Spacer width="100%" height="60px" />
+                  <DeleteOrderSection
+                    orderName={data.order.name}
+                    orderId={String(orderId)}
+                  />
                 </>
               )}
             </>

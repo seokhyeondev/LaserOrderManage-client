@@ -65,3 +65,12 @@ export const AddWrapper = styled.p`
   color: var(--color-darkGray);
   cursor: pointer;
 `;
+
+export const WithDrawButton = styled.button`
+  width: 60px;
+  height: 30px;
+  color: var(--color-alert);
+  background-color: var(--color-lightGray);
+  border: 1px solid var(--color-mediumGray);
+  border-radius: var(--border-radius);
+`;
