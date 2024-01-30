@@ -11,5 +11,5 @@ export const ORDER_STAGES: OrderStage[] = [
 export const MANUFACTURINGS: Manufacturing[] = [
   "laser-cutting",
   "bending",
-  "welding-fabrication",
+  "welding",
 ];
