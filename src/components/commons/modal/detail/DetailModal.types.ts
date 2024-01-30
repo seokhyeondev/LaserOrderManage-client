@@ -35,3 +35,8 @@ export interface IAddDrawingModalProps extends IModalProps {
   orderId: string;
   callback: (newDrawing: IDetailDrawing) => void;
 }
+
+export interface IDeleteOrderModalProps extends IModalProps {
+  orderName: string;
+  orderId: string;
+}

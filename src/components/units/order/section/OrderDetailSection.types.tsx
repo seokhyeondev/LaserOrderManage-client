@@ -67,3 +67,8 @@ export interface IPurchaseOrderInfoSectionProps extends IDetailSectionProps {
 export interface IAcquirerInfoSectionProps {
   data: IDetailAcquirer;
 }
+
+export interface IDeleteOrderSectionProps {
+  orderName: string;
+  orderId: string;
+}

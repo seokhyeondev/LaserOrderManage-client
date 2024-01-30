@@ -20,7 +20,7 @@ export default function WithDrawModal({ isOpen, onClose }: IModalProps) {
     onSuccess: () => {
       resetCredentials();
       resetAuthState();
-      setToast({ comment: "회원 탈퇴돼었습니다" });
+      setToast({ comment: "회원 탈퇴되었습니다" });
       router.replace(AppPages.HOME);
     },
     onError: () => {
