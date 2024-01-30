@@ -59,7 +59,7 @@ export interface IQuotationInfoSectionProps extends IDetailSectionProps {
 
 export interface IPurchaseOrderInfoSectionProps extends IDetailSectionProps {
   data: IDetailPurchaseOrder | null;
-  name: string;
+  name: string | null;
   minDate: string | null;
   scrollPage: () => void;
 }

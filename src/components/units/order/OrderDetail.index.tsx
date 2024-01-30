@@ -111,8 +111,12 @@ export default function OrderDetai() {
                   />
                 </>
               )}
-              <Spacer width="100%" height="60px" />
-              <CustomerInfoSection data={data.customer} />
+              {data.customer && (
+                <>
+                  <Spacer width="100%" height="60px" />
+                  <CustomerInfoSection data={data.customer} />
+                </>
+              )}
               <Spacer width="100%" height="60px" />
               <DeliveryInfoSection
                 data={data.order.deliveryAddress}
@@ -142,7 +146,7 @@ export default function OrderDetai() {
               <Spacer width="100%" height="60px" />
               <PurchaseOrderInfoSection
                 data={data.purchaseOrder}
-                name={data.customer.name}
+                name={data.customer?.name ?? null}
                 role={auth.role}
                 status={status}
                 orderId={String(orderId)}
