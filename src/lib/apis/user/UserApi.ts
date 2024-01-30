@@ -41,7 +41,7 @@ export const UserApi = {
     return response.data;
   },
   JOIN: async (payload: IJoinRequest): Promise<IJoinResponse> => {
-    const response = await axiosPublic.post("/user/join/customer", payload);
+    const response = await axiosPublic.post("/user/customer", payload);
     return response.data;
   },
   FIND_EMAIL: async (
