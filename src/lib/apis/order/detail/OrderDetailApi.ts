@@ -166,4 +166,8 @@ export const OrderDetailApi = {
     );
     return response.data;
   },
+  DELETE_ORDER: async (id: string): Promise<null> => {
+    const response = await axiosPrivate.delete(`/order/${id}`);
+    return response.data;
+  },
 };
