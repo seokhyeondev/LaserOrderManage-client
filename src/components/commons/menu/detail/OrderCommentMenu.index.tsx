@@ -111,7 +111,7 @@ function OrderCommentItem({ data, itmeRef }: IOrderCommentItemProps) {
   return (
     <S.CommentItemWrapper ref={itmeRef}>
       <S.CommentWritter className="regular12">
-        {data.authorName}
+        {data.authorName ?? "고객"}
       </S.CommentWritter>
       <S.CommentWrapper>
         <S.CommentContent className="regular14">

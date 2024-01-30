@@ -74,7 +74,7 @@ export type IOrderCommentsResponse = IBaseListSimpleResponse<IOrderComment>;
 
 export type IOrderComment = {
   id: number;
-  authorName: string;
+  authorName: string | null;
   content: string;
   createdAt: any;
 };
