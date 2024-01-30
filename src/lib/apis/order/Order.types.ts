@@ -59,7 +59,7 @@ export type IFactoryOrderResponse = IBaseListResponse<IFactoryOrder>;
 export type IFactoryOrder = {
   id: number;
   name: string;
-  customer: string;
+  customer: string | null;
   company: string | null;
   imgUrl: string;
   stage: OrderStatus;

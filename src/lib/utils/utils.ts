@@ -51,10 +51,13 @@ export const getCost = (value: number) => {
 };
 
 export const getCustomerInfo = (
-  name: string,
+  name: string | null,
   company: string | null,
   isNew?: boolean | undefined,
 ): string => {
+  if (name === null) {
+    return "회원탈퇴 고객";
+  }
   const infos: string[] = [];
   infos.push(name);
   if (company) {
