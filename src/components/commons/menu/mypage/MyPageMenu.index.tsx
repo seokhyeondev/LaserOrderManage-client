@@ -12,6 +12,7 @@ import { resetCredentials } from "@/src/lib/utils/setCredentials";
 import { useRouter } from "next/router";
 import { useMutation } from "@tanstack/react-query";
 import { UserApi } from "@/src/lib/apis/user/UserApi";
+import { AppPages } from "@/src/lib/constants/appPages";
 
 export default function MyPageMenu({
   currentPage,
@@ -27,7 +28,7 @@ export default function MyPageMenu({
     onSuccess: () => {
       resetAuthState();
       resetCredentials();
-      router.replace("/");
+      router.replace(AppPages.HOME);
     },
   });
 

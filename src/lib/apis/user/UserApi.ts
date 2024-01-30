@@ -84,4 +84,8 @@ export const UserApi = {
     );
     return response.data;
   },
+  WITHDRAWAL: async (): Promise<null> => {
+    const response = await axiosPrivate.delete("/customer/user");
+    return response.data;
+  },
 };

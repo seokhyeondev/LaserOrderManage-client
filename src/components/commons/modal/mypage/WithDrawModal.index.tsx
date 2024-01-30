@@ -1,9 +1,32 @@
+import { useMutation } from "@tanstack/react-query";
 import Spacer from "../../spacer/Spacer.index";
 import Modal, { IModalProps } from "../Modal.index";
 import * as S from "./MypageModal.styles";
+import { UserApi } from "@/src/lib/apis/user/UserApi";
+import { useToastify } from "@/src/lib/hooks/useToastify";
+import { useResetRecoilState } from "recoil";
+import { authState } from "@/src/store/auth";
+import { resetCredentials } from "@/src/lib/utils/setCredentials";
+import { useRouter } from "next/router";
+import { AppPages } from "@/src/lib/constants/appPages";
 
 export default function WithDrawModal({ isOpen, onClose }: IModalProps) {
-  const onSubmit = () => {};
+  const resetAuthState = useResetRecoilState(authState);
+  const router = useRouter();
+  const { setToast } = useToastify();
+
+  const { mutate } = useMutation({
+    mutationFn: UserApi.WITHDRAWAL,
+    onSuccess: () => {
+      resetCredentials();
+      resetAuthState();
+      setToast({ comment: "회원 탈퇴돼었습니다" });
+      router.replace(AppPages.HOME);
+    },
+    onError: () => {
+      setToast({ comment: "회원 탈퇴에 실패했어요" });
+    },
+  });
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -20,7 +43,7 @@ export default function WithDrawModal({ isOpen, onClose }: IModalProps) {
             취소
           </S.CancelButton>
           <Spacer width="10px" height="100%" />
-          <S.SubmitButton className="bold16" onClick={onSubmit}>
+          <S.SubmitButton className="bold16" onClick={() => mutate()}>
             탈퇴하기
           </S.SubmitButton>
         </div>
