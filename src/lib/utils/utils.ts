@@ -5,6 +5,7 @@ import {
   OrderStatus,
   PostProcessing,
 } from "../apis/order/Order.types";
+import { Unit, UnitName } from "../apis/stock/Stock.types";
 
 export const getDate = (value: any) => {
   const date = new Date(value);
@@ -122,10 +123,17 @@ const PostprocessingMap = new Map<PostProcessing, string>([
   ["plating", "도금"],
 ]);
 
+const UnitMap = new Map<Unit, UnitName>([
+  ["count", "수량"],
+  ["weight", "무게"],
+]);
+
 export const getOrderStatus = (key: OrderStage) => OrderStageMap.get(key);
 
 export const getManufacuring = (key: Manufacturing) =>
   ManufacturingMap.get(key)!!;
+
+export const getUnits = (key: Unit) => UnitMap.get(key)!!;
 
 const getPostprocessing = (key: PostProcessing) => PostprocessingMap.get(key)!!;
 
