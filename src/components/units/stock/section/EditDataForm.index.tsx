@@ -1,13 +1,7 @@
-import { useEffect, useState } from "react";
-import * as S from "./DataForm.styls";
-import { useRecoilValue } from "recoil";
-import { authState } from "@/src/store/auth";
+import * as S from "./EditDataForm.styls";
 import { useOrderDetailScroll } from "@/src/lib/hooks/useScroll";
-import { OrderStatus } from "@/src/lib/apis/order/Order.types";
 import { useToastify } from "@/src/lib/hooks/useToastify";
 import { useRouter } from "next/router";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { OrderDetailApi } from "@/src/lib/apis/order/detail/OrderDetailApi";
 import TrashIcon from "@/src/components/commons/icons/TrashIcon.index";
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
 
@@ -16,7 +10,7 @@ interface IStockProps {
   onClose: () => void;
 }
 
-export default function DataFormModal(props: IStockProps) {
+export default function EditDataForm(props: IStockProps) {
   const router = useRouter();
   const scrollArgs = useOrderDetailScroll();
   const { setToast } = useToastify();
@@ -24,7 +18,7 @@ export default function DataFormModal(props: IStockProps) {
   return (
     <S.Wrapper>
       <S.Header>
-        <h2>{props.orderId ? "SS 400 - 5.0T" : "추가하기"}</h2>
+        <h2>{"SS 400 - 5.0T"}</h2>
         <a className="flex-row-center">
           <TrashIcon size={16} onClick={() => {}} />
           <Spacer width="5px" height="100%" />
@@ -38,10 +32,10 @@ export default function DataFormModal(props: IStockProps) {
             <S.ItemBody>
               <S.Item>
                 <div>전일 재고</div>
-                <div>
+                <S.LabelWrapper>
                   <span>100</span>
                   <span>개</span>
-                </div>
+                </S.LabelWrapper>
               </S.Item>
               <S.Item>
                 <div>입고</div>
@@ -52,10 +46,10 @@ export default function DataFormModal(props: IStockProps) {
               </S.Item>
               <S.Item>
                 <div>생산</div>
-                <div>
+                <S.LabelWrapper>
                   <span>100</span>
                   <span>개</span>
-                </div>
+                </S.LabelWrapper>
               </S.Item>
               <S.Item>
                 <div>당일 재고</div>

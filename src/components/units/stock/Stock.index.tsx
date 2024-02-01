@@ -11,6 +11,7 @@ import KumohHead from "../../shared/layout/head/NextHead.index";
 import StockStatus from "./section/Status.index";
 import StockAnalyzeFilter from "../../commons/filters/stock/StockAnalyze.index";
 import StockAnalyze from "./section/Analyze.index";
+import { BodyWrapper } from "../../commons/wrapper/BodyWrapper.styles";
 
 const TABS = ["status", "analyze"] as const;
 export default function Stock() {
@@ -29,23 +30,26 @@ export default function Stock() {
   return (
     <>
       <KumohHead title={""} />
-      <S.Wrapper ref={scrollArgs.pageRef}>
-        <S.HeaderWrapper>
-          <h1>자제 재고 관리</h1>
-          <S.TabWrapper>
-            {TABS.map((tab) => (
-              <S.Tab
-                key={tab}
-                isActived={currentTab === tab}
-                onClick={() => setCurrentTab(tab)}
-              >
-                {tab === "status" ? "재고 현황" : "재고 분석"}
-              </S.Tab>
-            ))}
-          </S.TabWrapper>
-        </S.HeaderWrapper>
-        {currentTab === "status" ? <StockStatus /> : <StockAnalyze />}
-      </S.Wrapper>
+
+      <BodyWrapper className="flex-column-center">
+        <S.Wrapper ref={scrollArgs.pageRef}>
+          <S.HeaderWrapper>
+            <h1>자제 재고 관리</h1>
+            <S.TabWrapper>
+              {TABS.map((tab) => (
+                <S.Tab
+                  key={tab}
+                  isActived={currentTab === tab}
+                  onClick={() => setCurrentTab(tab)}
+                >
+                  {tab === "status" ? "재고 현황" : "재고 분석"}
+                </S.Tab>
+              ))}
+            </S.TabWrapper>
+          </S.HeaderWrapper>
+          {currentTab === "status" ? <StockStatus /> : <StockAnalyze />}
+        </S.Wrapper>
+      </BodyWrapper>
     </>
   );
 }

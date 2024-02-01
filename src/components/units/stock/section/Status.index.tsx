@@ -1,16 +1,18 @@
 import { useState } from "react";
 import * as S from "./Status.style";
-import DataFormModal from "./DataForm.index";
 import EditIcon from "@/src/components/commons/icons/EditIcon.index";
 import StockDashboard from "@/src/components/commons/filters/stock/StockDashboard.index";
 import StockFilter from "@/src/components/commons/filters/stock/StockFilter.index";
 import Spacer from "@/src/components/commons/spacer/Spacer.index";
+import EditDataForm from "./EditDataForm.index";
+import AddDataForm from "./AddDataForm.index";
 
 export default function StockStatus() {
   const [currentOrderId, setCurrentOrderId] = useState<
     string | null | undefined
   >(undefined);
 
+  console.info("currentOrderId", currentOrderId);
   return (
     <>
       <S.BodyWrapper>
@@ -58,12 +60,14 @@ export default function StockStatus() {
           </S.Table>
         </div>
       </S.BodyWrapper>
-      {currentOrderId !== undefined && (
-        <DataFormModal
+      {currentOrderId ? (
+        <EditDataForm
           orderId={currentOrderId}
           onClose={() => setCurrentOrderId(undefined)}
         />
-      )}
+      ) : currentOrderId !== undefined ? (
+        <AddDataForm onClose={() => setCurrentOrderId(undefined)} />
+      ) : null}
     </>
   );
 }
